@@ -1,0 +1,29 @@
+.bubble-container {
+  background-color: transparent !important;
+  border-radius: 1px solid;
+
+  .bubble-container .input-wrap textarea {
+    margin: 0;
+    width: calc(100% - 30px);
+  }
+
+  .say {
+    background-color: #364053;
+    color: #FFF;
+    border-radius: 18px 18px 18px 0;
+    padding: 20px;
+  }
+
+  .bubble.reply .bubble-content .bubble-button {
+    background-color: #dfeaef !important;
+    color: #364053;
+    border-radius: 18px 18px 0 18px !important;
+    padding: 20px;
+
+    &:hover {
+      color: #fff;
+      background-color: #64aab5 !important;
+      padding: 20px !important;
+    }
+  }
+}
