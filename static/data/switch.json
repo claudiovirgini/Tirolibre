@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "title": "Spain",
+    "img": "http://newacttravel.com/wp-content/uploads/2017/08/barcelona.jpg",
+  },
+  {
+    "id": 2,
+    "title": "London",
+    "src": "http://www.eventsinthesky.co.uk/wp-content/uploads/2015/07/londonoptimised.jpg",
+    "tag": "other",
+    "tag02": "laze",
+    "tag03": "city",
+    "iframeUrl": "http://www.google.com",
+    "flex": 6
+  },
+  {
+    "id": 3,
+    "title": "Lisbon",
+    "src": "http://www.vortexmag.net/wp-content/uploads/2015/08/2048-16.jpg",
+    "tag": "sea",
+    "tag02": "laze",
+    "tag03": "city",
+    "iframeUrl": "http://www.google.com",
+    "flex": 6
+  },
+  {
+    "id": 4,
+    "title": "Iceland",
+    "src": "http://cdn-image.travelandleisure.com/sites/default/files/styles/1600x1000/public/1496156708/northern-lights-waterfall-iceland-ICELANDHOT0517.jpg?itok=20DPvEd0",
+    "tag": "mountain",
+    "tag02": "adventure",
+    "tag03": "nature",
+    "iframeUrl": "https://uploads.knightlab.com/storymapjs/fce83aeb432c4c4694535196ffd086bb/iceland/index.html",
+    "flex": 12
+  },
+  {
+    "id": 4,
+    "title": "Patagonia",
+    "src": "https://www.boscolo.com/it/viaggi/files/it_viaggi/styles/bootstrap_header/public/Argentina-il-fascino-della-Patagonia-e-della-Terra-del-Fuoco_TESTATA.jpg?itok=u9HmWiVD",
+    "tag": "mountain",
+    "tag02": "adventure",
+    "tag03": "nature",
+    "iframeUrl": "http://www.google.com",
+    "flex": 6
+  }
+]

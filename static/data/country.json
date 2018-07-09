@@ -1,0 +1,35 @@
+[
+  {
+    "id": 1,
+    "name": "Squadra1",
+    "fullpath": "http://www.giallorossi.net/wp-content/uploads/2013/09/asroma-1024x576.jpg",
+    "profile": "Team",
+    "fulladdress": "Lazio",
+    "level": "SerieA"
+  },
+  {
+    "id": 2,
+    "name": "Calciatore1",
+    "fullpath": "http://www.giallorossi.net/wp-content/uploads/2013/09/asroma-1024x576.jpg",
+    "profile": "Calciatore",
+    "fulladdress": "Lombardia",
+    "role": "Attaccante",
+    "age": 20
+  },
+  {
+    "id": 3,
+    "name": "Coach",
+    "fullpath": "http://www.giallorossi.net/wp-content/uploads/2013/09/asroma-1024x576.jpg",
+    "profile": "Coach",
+    "fulladdress": "Toscana"
+  },
+  {
+    "id": 4,
+    "name": "Calciatore2",
+    "fullpath": "http://www.giallorossi.net/wp-content/uploads/2013/09/asroma-1024x576.jpg",
+    "profile": "Calciatore",
+    "fulladdress": "Toscana",
+    "role": "Difensore",
+    "age": 16
+  }
+]
