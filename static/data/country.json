@@ -1,17 +1,17 @@
 [
   {
     "id": 1,
-    "name": "Squadra1",
-    "fullpath": "http://www.giallorossi.net/wp-content/uploads/2013/09/asroma-1024x576.jpg",
-    "profile": "Team",
-    "fulladdress": "Lazio",
-    "level": "SerieA"
+    "name": "A.S.D. Cassino Calcio",
+    "fullpath": "/static/images/team.png",
+    "profile": "team",
+    "fulladdress": "Cassino",
+    "level": "SerieD"
   },
   {
     "id": 2,
     "name": "Calciatore1",
     "fullpath": "http://www.giallorossi.net/wp-content/uploads/2013/09/asroma-1024x576.jpg",
-    "profile": "Calciatore",
+    "profile": "calciatore",
     "fulladdress": "Lombardia",
     "role": "Attaccante",
     "age": 20
@@ -20,16 +20,32 @@
     "id": 3,
     "name": "Coach",
     "fullpath": "http://www.giallorossi.net/wp-content/uploads/2013/09/asroma-1024x576.jpg",
-    "profile": "Coach",
+    "profile": "coach",
     "fulladdress": "Toscana"
   },
   {
     "id": 4,
     "name": "Calciatore2",
     "fullpath": "http://www.giallorossi.net/wp-content/uploads/2013/09/asroma-1024x576.jpg",
-    "profile": "Calciatore",
+    "profile": "calciatore",
     "fulladdress": "Toscana",
     "role": "Difensore",
     "age": 16
+  },
+  {
+    "id": 5,
+    "name": "Uni Pomezia",
+    "fullpath": "/static/images/team2.png",
+    "profile": "team",
+    "fulladdress": "Pomezia",
+    "level": "Eccellenza"
+  },
+  {
+    "id": 5,
+    "name": "A.S.D Atletico Morena",
+    "fullpath": "/static/images/team3.png",
+    "profile": "team",
+    "fulladdress": "Roma",
+    "level": "Promozione"
   }
 ]

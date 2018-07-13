@@ -10,8 +10,17 @@
   <nav class="main-nav">
     <ul>
       <!-- inser more links here -->
-      <li><a class="cd-signin" href="#0">Sign in</a></li>
-      <li><a class="cd-signup" href="#0">Sign up</a></li>
+      <li><a class="cd-signin" href="#">Login</a></li>
+      <!-- <li><a class="cd-signup" href="#0">Sign up</a></li> -->
+      <!-- <li>
+        <button class="cd-signin btn btn-menu box btn-signin" type="button">
+            <span class="box__content-wrap">
+                <span class="box__content">
+                    Login
+                </span>
+            </span>
+        </button>
+      </li> -->
     </ul>
   </nav>
 
@@ -21,8 +30,8 @@
     <div class="cd-user-modal-container">
       <!-- this is the container wrapper -->
       <ul class="cd-switcher">
-        <li><a href="#0">Sign in</a></li>
-        <li><a href="#0">New account</a></li>
+        <li><a href="#0">Login</a></li>
+        <li><a href="#0">Registrati</a></li>
       </ul>
 
       <div id="cd-login">
@@ -43,7 +52,7 @@
 
           <p class="fieldset">
             <input type="checkbox" id="remember-me" checked>
-            <label for="remember-me">Remember me</label>
+            <label for="remember-me">Ricordami</label>
           </p>
 
           <p class="fieldset">
@@ -51,7 +60,7 @@
           </p>
         </form>
 
-        <p class="cd-form-bottom-message"><a href="#0">Forgot your password?</a></p>
+        <p class="cd-form-bottom-message"><a href="#0">Dimenticato la password?</a></p>
         <!-- <a href="#0" class="cd-close-form">Close</a> -->
       </div>
       <!-- cd-login -->
@@ -84,7 +93,7 @@
           </p>
 
           <p class="fieldset">
-            <input class="full-width has-padding" type="submit" value="Create account">
+            <input class="full-width has-padding" type="submit" value="Crea account">
           </p>
         </form>
 
@@ -599,7 +608,7 @@ xsigin/signup popup
     position: absolute;
     width: 100%;
     left: 0;
-    bottom: -30px;
+    // bottom: -30px;
     text-align: center;
     font-size: 14px;
     font-size: 0.875rem;
@@ -640,4 +649,117 @@ xsigin/signup popup
 #cd-signup.is-selected {
     display: block;
 }
+
+/*login btn*/
+
+button {
+    border: none;
+}
+.btn-signin {
+    background-color: #00852f !important;
+    width: 120px;
+    height: 40px;
+}
+
+.box {
+    background-color: inherit;
+    border-radius: 0.2em;
+    cursor: pointer;
+    color: white;
+    display: inline-block;
+    padding: 10px;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.box:hover {
+    color: #FFF;
+}
+
+.login-btn-black .box:hover {
+    color: #000;
+}
+
+.login-btn-black .box {
+    color: #000;
+}
+
+.box::after,
+.box::before {
+    background-color: #afeb61;
+    content: "";
+    position: absolute;
+    transform: translate3D(0, 100%, 0);
+    transition: transform 200ms linear;
+    transition-delay: 200ms;
+    width: 2px;
+    height: 100%;
+    bottom: 0;
+}
+
+.box::before {
+    right: 0;
+    left: auto;
+}
+
+.box::after {
+    left: 0;
+}
+
+.box__content::after {
+    content: "";
+    height: 2px;
+    border-bottom: 2px solid #afeb61;
+    bottom: 0;
+    position: absolute;
+    right: 30%;
+    left: 30%;
+    transition: left 200ms linear, right 200ms linear;
+    /* double delayed time for transition */
+    transition-delay: 400ms;
+}
+
+.box__content-wrap::after,
+.box__content-wrap::before {
+    border-top: 2px solid #afeb61;
+    content: "";
+    position: absolute;
+    top: 0;
+    transition: transform 200ms linear;
+    width: 50%;
+}
+
+.box__content-wrap::before {
+    left: 0;
+    transform: translate3D(-101%, 0, 0);
+}
+
+.box__content-wrap::after {
+    right: 0;
+    transform: translate3D(101%, 0, 0);
+}
+
+.box:hover::after,
+.box:hover::before {
+    transform: translate3D(0, 0, 0);
+    transition: transform 200ms linear;
+    transition-delay: 200ms;
+}
+
+.box:hover .box__content::after {
+    right: 1%;
+    left: 1%;
+    transition: left 200ms linear, right 200ms linear;
+}
+
+.box:hover .box__content-wrap::after,
+.box:hover .box__content-wrap::before {
+    transform: translate3D(0, 0, 0);
+    transition: transform 200ms linear;
+    /* double delayed time for transition */
+    transition-delay: 400ms;
+}
+
+/* /login btn*/
 </style>

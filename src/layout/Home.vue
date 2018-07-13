@@ -4,13 +4,25 @@
     <section class="hero-section hero-section-home">
       <div class="container">
         <div class="row">
-          <div class="col-md-6">
-            <!-- container element for chat window -->
-            <div id="chat"></div>
+          <div class="col-md-12">
+            <a class="link link--nukun" href="#">Tir<span>O</span>Libre</a>
+              <h1 class="display-4">il contatto diretto con <span>squadre</span> e <span>calciatori</span></h1>
+            <div class="col-md-6">
+            </div>
           </div>
-          <!-- <div class="col-md-6">
-            <img src="assets/images/icoTiroLibre.png" class="" alt="TiroLibre">
-          </div> -->
+          <div class="col-md-12">
+            <!-- container element for chat window -->
+            <!-- <div id="chat"></div> -->
+            <BotUI class="col-md-6"></BotUI>
+          </div>
+          <!-- <div class="col-md-6"> -->
+
+            <!-- <h1 v-on:click="changeTitle">TEST: {{ title }}</h1> -->
+            <!-- <img src="../assets/images/01.jpg" class="float-left m-3" alt="TiroLibre" width="250px">
+                            <img src="../assets/images/02.png" class="float-right m-3" alt="TiroLibre" width="250px">
+                <img src="../assets/images/05.jpg" class="float-left m-3" alt="TiroLibre" width="250px"> -->
+            <!-- <img src="../assets/images/icoTiroLibre.png" class="" alt="TiroLibre"> -->
+          <!-- </div> -->
         </div>
       </div>
     </section>
@@ -23,7 +35,11 @@
 </template>
 
 <script>
+import {
+  EventBus
+} from '../event-bus'
 import Header from '@/components/Header'
+import BotUI from '@/components/BotUI'
 // import Process from '@/components/Process'
 // import Fact from '@/components/Fact'
 // import Review from '@/components/Review'
@@ -32,7 +48,8 @@ import Header from '@/components/Header'
 export default {
   name: 'Home',
   components: {
-    Header
+    Header,
+    BotUI
     // Process,
     // Fact,
     // Review,
@@ -40,19 +57,118 @@ export default {
   },
   data() {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to Your Vue.js App',
+      q1: '',
+      q2: '',
+      title: ''
     }
+  },
+  created() {
+    // bus.$on('titleChanged', (data) => {
+    //   this.title = data;
+    // })
+    // Listen for the i-got-clicked event and its payload.
+    EventBus.$on('i-got-clicked', clickCount => {
+      console.log(`Oh, that's nice. It's gotten ${clickCount} clicks! :)`)
+    });
   }
+  // methods: {
+  //   changeTitle: function() {
+  //     // this.$emit('changeTitle', 'Vue Wizards');
+  //     // this.title = 'Vue Wizards';
+  //     bus.$emit('titleChanged');
+  //   }
+  // }
+
+
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+.link--nukun {
+    color: #E3E8DC;
+    font-weight: 900;
+    text-transform: uppercase;
+    overflow: hidden;
+    padding: 10px 0;
+    -webkit-transition: color 0.3s;
+    transition: color 0.3s;
+}
+
+.link {
+    outline: none;
+    text-decoration: none;
+    position: relative;
+    font-size: 8em;
+    line-height: 1;
+    color: #9e9ba4;
+    display: inline-block;
+}
+.link--nukun::after,
+.link--nukun::before {
+    content: '';
+    position: absolute;
+    width: 30%;
+    height: 5px;
+    background: #E3E8DC;
+    bottom: 0;
+    left: 35%;
+    -webkit-transition: -webkit-transform 0.5s;
+    transition: transform 0.5s;
+    -webkit-transition-timing-function: cubic-bezier(0.2,1,0.3,1);
+    transition-timing-function: cubic-bezier(0.2,1,0.3,1);
+}
+.link--nukun span {
+    color: #E3E8DC;
+    display: inline-block;
+    position: relative;
+    -webkit-transform: perspective(1000px) rotate3d(0,1,0,0deg);
+    transform: perspective(1000px) rotate3d(0,1,0,0deg);
+    -webkit-transition: -webkit-transform 0.5s, color 0.5s;
+    transition: transform 0.5s, color 0.5s;
+    -webkit-transition-timing-function: cubic-bezier(0.2,1,0.3,1);
+    transition-timing-function: cubic-bezier(0.2,1,0.3,1);
+}
+.link--nukun::after {
+    background: #ACD07A;
+    -webkit-transform: translate3d(-300%,0,0) scale3d(0,1,1);
+    transform: translate3d(-300%,0,0) scale3d(0,1,1);
+}
+.link--nukun:hover {
+    color: #1e1a1b;
+}
+.link--nukun:hover::before {
+    -webkit-transform: translate3d(300%,0,0) scale3d(0,1,1);
+    transform: translate3d(300%,0,0) scale3d(0,1,1);
+}
+.link--nukun:hover span {
+    background-image: url("/static/img/icoTiroLibre.8ba6833.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    color: transparent;
+    -webkit-transform: perspective(1000px) rotate3d(0,1,0,360deg);
+    transform: perspective(1000px) rotate3d(0,1,0,360deg);
+}
+.link--nukun:hover::after {
+    -webkit-transform: translate3d(0,0,0) scale3d(1,1,1);
+    transform: translate3d(0,0,0) scale3d(1,1,1);
+}
+h1 {
+    text-transform: uppercase;
+    font-size: 2.5rem;
+    color: #374052;
+    span {
+        // color: #acd07a;
+        color: #FFF;
+        font-weight: bold;
+    }
+}
 .hero-section {
     min-height: 900px;
-    padding-top: 160px;
+    padding-top: 30px;
     display: block;
-    background-image: url("../assets/images/hero-bg.png");
+    background-image: url("../assets/images/home4-bg.png");
     background-size: cover;
     // background-color: #f3f7f9;
     background-position: right top;
@@ -245,6 +361,14 @@ export default {
 }
 /* Large Mobile :480px. */
 @media only screen and (max-width: 767px) {
+    h1 {
+        span {
+            color: #acd07a;
+        }
+    }
+    .link {
+        font-size: 2em;
+    }
     .header-section {
         padding: 30px 0;
         background: #fff;
@@ -301,7 +425,7 @@ export default {
     .hero-section {
         height: auto;
         padding-bottom: 100px;
-        padding-top: 160px;
+        padding-top: 60px;
         background-position: right 50% top;
     }
 
@@ -319,6 +443,5 @@ export default {
 
 }
 /* small Mobile :320px. */
-@media only screen and (max-width: 479px) {
-    }
+@media only screen and (max-width: 479px) {}
 </style>

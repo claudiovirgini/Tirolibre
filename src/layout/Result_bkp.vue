@@ -5,18 +5,15 @@
         <div class="container">
           <div class="row">
             <div class="col-md-12">
-              <!-- <h1>AO: {{ greeting }}</h1> -->
-                <a class="link link--nukun" href="#">Tir<span>O</span>Libre</a>
-                <h1 class="display-4">il contatto diretto con <span>squadre</span> e <span>calciatori</span></h1>
+              <h1>AO: {{ greeting }}</h1>
+
               <form>
                 <div class="col-md-6">
                   <label>Cosa cerchi
                     <select tabindex="1" v-model="what">
-                      <option>calciatore</option>
                       <option>team</option>
-                      <option>agente</option>
-                      <option>ds</option>
-                      <option>allenatore</option>
+                      <option>calciatore</option>
+                      <option>coach</option>
                     </select>
                   </label>
                 </div>
@@ -62,9 +59,6 @@
 
 
 <script>
-import {
-  bus
-} from '../event-bus'
 import axios from 'axios'
 
 import Header from '@/components/Header'
@@ -80,18 +74,13 @@ export default {
       countries: []
     }
   },
-  created() {
-    // bus.$on('titleChanged', (data) => {
-    //   this.title = "data";
-    // })
-  },
   props: ['what', 'where', 'to'],
   methods: {
     userList: function() {
       this.error = null;
       // ../static/data/country.json
       // http://35.193.9.82:121/api/Search/FindUser
-      axios.get('../static/data/country.json', {})
+      axios.get(' ../static/data/country.json', {})
         .then(response => {
           console.log('userList Response:', response)
           console.log('querystring:', this.to)
@@ -115,8 +104,7 @@ export default {
         where
       } = this;
       return this.countries
-        .filter(card => card.profile === what)
-      // || card.where === where
+        .filter(card => card.profile === what || card.where === where)
     }
   },
   mounted() {
@@ -129,88 +117,12 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style scoped lang="scss">
-.link--nukun {
-    color: #E3E8DC;
-    font-weight: 900;
-    text-transform: uppercase;
-    overflow: hidden;
-    padding: 10px 0;
-    -webkit-transition: color 0.3s;
-    transition: color 0.3s;
-}
-
-.link {
-    outline: none;
-    text-decoration: none;
-    position: relative;
-    font-size: 8em;
-    line-height: 1;
-    color: #9e9ba4;
-    display: inline-block;
-}
-.link--nukun::after,
-.link--nukun::before {
-    content: '';
-    position: absolute;
-    width: 30%;
-    height: 5px;
-    background: #E3E8DC;
-    bottom: 0;
-    left: 35%;
-    -webkit-transition: -webkit-transform 0.5s;
-    transition: transform 0.5s;
-    -webkit-transition-timing-function: cubic-bezier(0.2,1,0.3,1);
-    transition-timing-function: cubic-bezier(0.2,1,0.3,1);
-}
-.link--nukun span {
-    color: #E3E8DC;
-    display: inline-block;
-    position: relative;
-    -webkit-transform: perspective(1000px) rotate3d(0,1,0,0deg);
-    transform: perspective(1000px) rotate3d(0,1,0,0deg);
-    -webkit-transition: -webkit-transform 0.5s, color 0.5s;
-    transition: transform 0.5s, color 0.5s;
-    -webkit-transition-timing-function: cubic-bezier(0.2,1,0.3,1);
-    transition-timing-function: cubic-bezier(0.2,1,0.3,1);
-}
-.link--nukun::after {
-    background: #ACD07A;
-    -webkit-transform: translate3d(-300%,0,0) scale3d(0,1,1);
-    transform: translate3d(-300%,0,0) scale3d(0,1,1);
-}
-.link--nukun:hover {
-    color: #1e1a1b;
-}
-.link--nukun:hover::before {
-    -webkit-transform: translate3d(300%,0,0) scale3d(0,1,1);
-    transform: translate3d(300%,0,0) scale3d(0,1,1);
-}
-.link--nukun:hover span {
-    background-image: url("/static/img/icoTiroLibre.8ba6833.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-    color: transparent;
-    -webkit-transform: perspective(1000px) rotate3d(0,1,0,360deg);
-    transform: perspective(1000px) rotate3d(0,1,0,360deg);
-}
-.link--nukun:hover::after {
-    -webkit-transform: translate3d(0,0,0) scale3d(1,1,1);
-    transform: translate3d(0,0,0) scale3d(1,1,1);
-}
-h1 {
-    text-transform: uppercase;
-    font-size: 2.5rem;
-    span {
-        // color: #088039;
-        color: #FFF;
-    }
-}
 .hero-section {
     min-height: 900px;
-    padding-top: 30px;
+    padding-top: 160px;
     display: block;
-    background-image: url("../assets/images/home4-bg.png");
-    // background-size: cover;
+    background-image: url("../assets/images/hero-bg.png");
+    background-size: cover;
     // background-color: #f3f7f9;
     background-position: right top;
     background-repeat: no-repeat;
@@ -219,7 +131,7 @@ h1 {
 
     form {
         display: block;
-        margin: 30px auto;
+        margin: 100px auto;
         // width: 950px;
         overflow: hidden;
         background: #FFF;
@@ -235,7 +147,7 @@ h1 {
 
     form > div > label {
         display: block;
-        padding: 10px 20px;
+        padding: 20px 20px 10px;
         vertical-align: top;
         font-family: Source Sans Pro, Arial, sans-serif;
         font-size: 14px;

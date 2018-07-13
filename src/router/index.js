@@ -10,12 +10,19 @@ export default new Router({
     {
       path: '/',
       name: 'Home',
-      component: HomeView
+      component: HomeView,
+      // Inject  props based on route.query values (our query parameters!)
+        props: (route) => ({
+            to: route.query.to
+        })
     },
-      {
-        path: '/result',
-        name: 'Result',
-        component: ResultView
-      }
+    {
+      path: '/result',
+      name: 'Result',
+      component: ResultView,
+        props: (route) => ({
+            to: route.query.to
+        })
+    }
   ]
 })
