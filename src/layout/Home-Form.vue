@@ -5,16 +5,83 @@
       <div class="container">
         <div class="row">
           <Logo />
-          <div class="col-md-12">
+          <div class="col-md-7">
+            <div class="type">
+                <!-- I'm a ... -->
+                <div class="buttons">
+                  <!-- <form class="form"> -->
+                    <div class="switch-field">
+                      <div class="switch-title">-Io sono-</div>
+                      <div class="switch-content">
+                        <input type="radio" id="switch_3_left" name="who" value="who-calciatore" checked/>
+                        <label for="switch_3_left" class="calciatore">calciatore</label>
+                        <input type="radio" id="switch_3_center" name="who" value="who-team"  />
+                        <label for="switch_3_center" class="calciatore">team</label>
+                  			<input type="radio" id="switch_3_right" name="who" value="who-agente"  />
+                        <label for="switch_3_right" class="calciatore">agente</label>
+                      </div>
+                    </div>
+                <!-- </form> -->
+                </div>
+              </div>
+              <div class="what">
+                <div class="buttons">
+                  <div class="switch-field">
+                    <div class="switch-title">-cerco-</div>
+                    <div class="switch-content">
+                      <input type="radio" id="switch_4_left" name="what" value="calciatore" v-model="what" checked/>
+                      <label for="switch_4_left">calciatore</label>
+                      <input type="radio" id="switch_4_center" name="what" value="team" v-model="what" />
+                      <label for="switch_4_center">team</label>
+                      <input type="radio" id="switch_4_right" name="what" value="agente" v-model="what" />
+                      <label for="switch_4_right">agente</label>
+                  </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="where">
+                <div class="buttons">
+                  <div class="switch-field">
+                    <div class="switch-title">a ...</div>
+                    <!-- <input type="text" name="where" v-model="where" placeholder="Roma"> -->
+                    <select v-model="where" class="float-left">
+                      <option disabled value="">Please select one</option>
+                      <option>roma</option>
+                      <option>milano</option>
+                      <option>firenze</option>
+                    </select>
+
+                    <!-- <input type="radio" id="switch_5_left" name="where" value="roma" v-model="where" checked/>
+                    <label for="switch_5_left">roma</label>
+                    <input type="radio" id="switch_5_center" name="where" value="milano" v-model="where" />
+                    <label for="switch_5_center">milano</label>
+                    <input type="radio" id="switch_5_right" name="where" value="firenze" v-model="where" />
+                    <label for="switch_5_right">firenze</label> -->
+                  </div>
+                </div>
+              </div>
+            <div class="switch-field">
+              <button type="button" @click="userList" class="btn btn-outline-success btn-lg float-left">GO!</button>
+            </div>
+            <hr>
             <!-- container element for chat window -->
             <!-- <div id="chat"></div> -->
-            <BotUI class="col-md-6"></BotUI>
+            <!-- <BotUI class="col-md-6"></BotUI> -->
             <!-- <input type="radio" id="one" name="what" value="calciatore" v-model="what">
             <label for="one">calciatore</label>
             <br>
             <input type="radio" id="two" name="what" value="team" v-model="what">
             <label for="two">team</label>
             <br> -->
+            <span>Picked: {{ what }} // {{ where }}</span>
+
+
+            <hr>
+            Vuex store value: {{ $store.state.what }} // {{ $store.state.where }}
+            <br>
+            Computed property value: {{ what }} // {{ where }}
+
           </div>
           <!-- <div class="col-md-6"> -->
 
@@ -34,7 +101,7 @@
     <Footer /> -->
 
   <!-- result -->
-  <result v-if="cardResult" :what="what" />
+  <result v-if="cardResult" :what="what" :where="where" />
   <!-- /.result -->
 </div>
 </template>
@@ -85,12 +152,20 @@ export default {
         this.$store.commit("SET_WHAT", value);
       }
     },
+    where: {
+      get() {
+        return this.$store.state.where;
+      },
+      set(value) {
+        this.$store.commit("SET_WHERE", value);
+      }
+    },
     filteredCustomers: function() {
       const {
         // what,
         where
       } = this;
-      return this.countries
+      return this.users
         .filter(card => card.profile === what)
       // || card.where === where
     }
@@ -99,12 +174,13 @@ export default {
     userList: function() {
       console.log("userList");
       console.log("store: " + this.$store.state.what);
+      console.log("store: " + this.$store.state.where);
       this.error = null
       this.filter = false
       this.cardResult = true
       // ../static/data/country.json
       // http://35.193.9.82:121/api/Search/FindUser
-      axios.get('http://35.193.9.82:121/api/Search/FindUser', {})
+      axios.get('../static/data/country.json', {})
         .then(response => {
           console.log('userList Response:', response)
           console.log('querystring:', this.to)
@@ -112,7 +188,7 @@ export default {
             this.error = response.statusText
             return
           }
-          this.countries = response.data
+          this.users = response.data
         })
         .catch(error => {
           // Request failed.
@@ -126,15 +202,106 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+.switch-field input:checked+label {
+    position: relative;
+}
+.switch-field input:checked+label:before {
+    content: '';
+    width: 100%;
+    height: 100px;
+    left: 0;
+    right: 0;
+    position: absolute;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    bottom: 40px;
+}
+
+.switch-content {
+    height: 20px;
+    margin-bottom: 50px;
+    margin-top: 80px;
+    padding-bottom: 0;
+    padding-top: 40px;
+    border-radius: 5px;
+}
+
 .switch-field {
     font-family: "Lucida Grande", Tahoma, Verdana, sans-serif;
     padding: 40px;
     overflow: hidden;
+    label {
+        margin: 15px 30px;
+    }
 }
 
 .switch-title {
-    text-align: left;
+    text-align: center;
     margin-bottom: 6px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.type {
+    .switch-content {
+        background: #c0d6bb;
+    }
+    .switch-title {
+        color: #168600;
+    }
+    .switch-field {
+        label {
+            background-color: #168600;
+            color: #FFF;
+            text-transform: uppercase;
+            min-width: 120px;
+            &:first-of-type {
+                &:before {
+                    background-image: url("../assets/images/player.png");
+                    background-color: #FFF;
+                    padding: 5px;
+                    border-radius: 10px;
+                    border: 3px solid #168600;
+                }
+            }
+            &:last-of-type {
+                &:before {
+                    background-image: url("../assets/images/agent.png");
+                    background-color: #FFF;
+                    padding: 5px;
+                    border-radius: 10px;
+                    border: 3px solid #168600;
+                }
+            }
+            &:before {
+                background-image: url("../assets/images/club.png");
+                background-color: #FFF;
+                padding: 5px;
+                border-radius: 10px;
+                border: 3px solid #168600;
+            }
+        }
+    }
+}
+.what {
+    .switch-content {
+        background: #bcd0e5;
+    }
+    .switch-title {
+        color: #1057a0;
+    }
+    .switch-field {
+        label {
+            background-color: #1057a0;
+            color: #FFF;
+            text-transform: uppercase;
+            &:first-of-type {
+                &:before {
+                    background-image: url("https://banner2.kisspng.com/20180222/bgw/kisspng-a-s-roma-football-player-playmaker-illustration-cartoon-footballer-avatar-5a8eb3be6a47f2.5314331915193015664353.jpg");
+                }
+            }
+        }
+    }
 }
 
 .switch-field input {

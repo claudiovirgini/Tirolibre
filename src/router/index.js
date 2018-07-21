@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import HomeView from '@/layout/Home'
 import ResultView from '@/layout/Result'
+import HomeFormView from '@/layout/Home-Form'
+import PlayerView from '@/layout/Player'
 
 Vue.use(Router)
 
@@ -10,19 +12,31 @@ export default new Router({
     {
       path: '/',
       name: 'Home',
-      component: HomeView,
-      // Inject  props based on route.query values (our query parameters!)
-        props: (route) => ({
-            to: route.query.to
-        })
+      component: HomeView
     },
     {
       path: '/result',
       name: 'Result',
       component: ResultView,
-        props: (route) => ({
-            to: route.query.to
-        })
+      // Inject  props based on route.query values (our query parameters!)
+      props: (route) => ({
+          player: route.query.name
+      })
+    },
+    {
+      path: '/home-form',
+      name: 'HomeForm',
+      component: HomeFormView
+    },
+    {
+      path: '/player',
+      name: 'Player',
+      component: PlayerView,
+      // Inject  props based on route.query values (our query parameters!)
+      props: (route) => ({
+          player: route.query.name
+      })
     }
   ]
+  // mode: 'history'
 })

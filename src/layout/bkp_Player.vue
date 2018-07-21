@@ -1,36 +1,18 @@
 <template lang="html">
   <div>
-      <section class="hero-section" v-if="cardResult">
+      <section class="hero-section">
         <div class="container">
           <div class="row">
             <Logo />
             <div class="col-md-12">
                 <p style="color: #000;">What is: {{ what }}</p>
-                <p style="color: #000;">Where is: {{ where }}</p>
-              <form class="shadow-lg">
-                <div class="col-md-6">
-                  <label>Cosa cerchi
-                    <select tabindex="1" v-model="what">
-                      <option>calciatore</option>
-                      <option>team</option>
-                      <option>agente</option>
-                      <option>ds</option>
-                      <option>allenatore</option>
-                    </select>
-                  </label>
-                </div>
-                <div class="col-md-6">
-                  <label>Dove cerchi
-                  <input placeholder="Dove cerchi?" tabindex="2" v-model="where" />
-                </label>
-                </div>
-              </form>
+                <p style="color: #000;">Player is:  {{ this.$route.query.player }}</p>
+                <p style="color: #000;">Player is [vuex]: {{ $store.state.player }}</p>
             </div>
           </div>
           <div class="row">
-
               <!-- <Card /> -->
-            <div class="col-md-4 mt-4" v-for="card in filteredCustomers" :key="card.name" @click="playerProfile(card.name)">
+            <div class="col-md-4 mt-4" v-for="card in filteredCustomers" :key="card.name" >
               <div class="card profile-card-5">
                 <div class="card-img-block">
                   <img class="card-img-top" :src="card.fullpath" alt="Card image cap">
@@ -44,10 +26,6 @@
                   <p class="card-text" v-if="card.profile === 'team'">
                     {{ card.fulladdress }} | {{ card.level }}
                   </p>
-                  <router-link class="total-btn" tag="button" :to="{ name: 'Player', params: { id: $route.params.id }, query: {user: card.name}}">
-                    <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
-                    Apri profilo
-                  </router-link>
 
                 </div>
               </div>
@@ -61,37 +39,26 @@
 
 
     <!-- <Footer /> -->
-
-      <!-- player -->
-      <player v-if="userProfile" :player="player" />
-      <!-- /.player -->
 </div>
 </template>
 
 
 <script>
-import {
-  bus
-} from '../event-bus'
 import axios from 'axios'
 
 import Header from '@/components/Header'
 import Logo from '@/components/Logo'
-import Player from './Player'
 // import Footer from '@/components/Footer'
 export default {
-  name: 'Result',
+  name: 'Player',
   components: {
     Header,
-    Logo,
-    Player
+    Logo
     // Footer
   },
   data() {
     return {
-      countries: [],
-      userProfile: false,
-      cardResult: true,
+      countries: []
     }
   },
   // props: ['what', 'where', 'to'],
@@ -103,6 +70,7 @@ export default {
       axios.get('http://35.193.9.82:121/api/Search/FindUser', {})
         .then(response => {
           console.log('userList Response:', response)
+          console.log('querystring:', $route.params.id)
           if (response.status !== 200) {
             this.error = response.statusText
             return
@@ -114,11 +82,6 @@ export default {
           console.log('error', error.response)
           this.error = error.response
         })
-    },
-    playerProfile: function() {
-      this.cardResult = false
-      this.userProfile = true
-      console.log("player " + this.$store.state.id)
     }
   },
   computed: {
@@ -128,14 +91,6 @@ export default {
       },
       set(value) {
         this.$store.commit("SET_WHAT", value);
-      }
-    },
-    where: {
-      get() {
-        return this.$store.state.where;
-      },
-      set(value) {
-        this.$store.commit("SET_WHERE", value);
       }
     },
     player: {
@@ -158,10 +113,8 @@ export default {
   },
   mounted() {
     //from your component
-
-    // console.log("store player:" + this.$route.query.player)
-    // console.log("store player id:" + this.$route.query.id)
-    // console.log("query player:" + $route.params.id)
+    // console.log("query ID:" + this.$route.query.id)
+    console.log("query player:" + this.$route.query.player)
     this.userList()
   }
 }

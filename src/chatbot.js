@@ -312,7 +312,7 @@ export default function initBotApp () {
     homeBot.message.add({
       delay: 1000,
       loading: true,
-      content: '!(link) Vai alla nostra pagina risultati [tirolibre.it](http://localhost:8080/#/result)'
+      content: '!(link) Vai alla nostra pagina risultati [tirolibre.it](http://www.tirolibre.it)'
     });
   };
 

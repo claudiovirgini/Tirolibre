@@ -4,55 +4,33 @@
         <div class="container">
           <div class="row">
             <Logo />
-            <div class="col-md-12">
-                <p style="color: #000;">What is: {{ what }}</p>
-                <p style="color: #000;">Where is: {{ where }}</p>
-              <form class="shadow-lg">
-                <div class="col-md-6">
-                  <label>Cosa cerchi
-                    <select tabindex="1" v-model="what">
-                      <option>calciatore</option>
-                      <option>team</option>
-                      <option>agente</option>
-                      <option>ds</option>
-                      <option>allenatore</option>
-                    </select>
-                  </label>
-                </div>
-                <div class="col-md-6">
-                  <label>Dove cerchi
-                  <input placeholder="Dove cerchi?" tabindex="2" v-model="where" />
-                </label>
-                </div>
-              </form>
-            </div>
           </div>
           <div class="row">
 
+            <!-- <p style="color: #000;">Player is:  {{ this.$route.query.user }}</p> -->
+            <!-- <p style="color: #000;">Player is:  {{ $route.query.user }}</p> -->
+
               <!-- <Card /> -->
-            <div class="col-md-4 mt-4" v-for="card in filteredCustomers" :key="card.name" @click="playerProfile(card.name)">
-              <div class="card profile-card-5">
-                <div class="card-img-block">
-                  <img class="card-img-top" :src="card.fullpath" alt="Card image cap">
-                </div>
-                <div class="card-body pt-0">
-                  <h5 class="card-title">{{ card.name }}</h5>
-                  <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
-                  <p class="card-text" v-if="card.profile === 'calciatore'">
-                    {{ card.role }} | {{ card.age }}
-                  </p>
-                  <p class="card-text" v-if="card.profile === 'team'">
-                    {{ card.fulladdress }} | {{ card.level }}
-                  </p>
-                  <router-link class="total-btn" tag="button" :to="{ name: 'Player', params: { id: $route.params.id }, query: {user: card.name}}">
-                    <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
-                    Apri profilo
-                  </router-link>
-
-                </div>
-              </div>
+              <!-- v-if="card.name === this.$route.query.user" -->
+            <div class="col-md-4 mt-4" v-for="card in users" :key="card.name" v-if="card.name === $route.query.user">
+              <ul>
+                <li>Nome: {{ card.name }}</li>
+                <li>Cognome: </li>
+                <li>Classe: {{ card.age }}</li>
+                <li>Nazionalità: </li>
+                <li>Ruolo: {{ card.role }}</li>
+                <li>Status Contrattuale: </li>
+                <li>Dove ti trovi: </li>
+                <li>Dove cerchi: </li>
+                <li>Numero di telefono: </li>
+                <li>Peso: </li>
+                <li>Altezza: </li>
+                <li>Ultimi 3 Campionati: </li>
+                <hr>
+                <li>Foto</li>
+                <li>Video</li>
+              </ul>
             </div>
-
           </div>
 
 
@@ -89,7 +67,7 @@ export default {
   },
   data() {
     return {
-      countries: [],
+      users: [],
       userProfile: false,
       cardResult: true,
     }
@@ -107,7 +85,7 @@ export default {
             this.error = response.statusText
             return
           }
-          this.countries = response.data
+          this.users = response.data
         })
         .catch(error => {
           // Request failed.
@@ -130,14 +108,6 @@ export default {
         this.$store.commit("SET_WHAT", value);
       }
     },
-    where: {
-      get() {
-        return this.$store.state.where;
-      },
-      set(value) {
-        this.$store.commit("SET_WHERE", value);
-      }
-    },
     player: {
       get() {
         return this.$store.state.player;
@@ -145,22 +115,13 @@ export default {
       set(value) {
         this.$store.commit("SET_PLAYER", value);
       }
-    },
-    filteredCustomers: function() {
-      const {
-        what,
-        where
-      } = this;
-      return this.countries
-        .filter(card => card.profile === what)
-      // || card.where === where
     }
   },
   mounted() {
     //from your component
 
     // console.log("store player:" + this.$route.query.player)
-    // console.log("store player id:" + this.$route.query.id)
+    console.log("store player id:" + this.$route.query.player)
     // console.log("query player:" + $route.params.id)
     this.userList()
   }
@@ -170,6 +131,9 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style scoped lang="scss">
+li {
+    list-style: none;
+}
 h1 {
     text-transform: uppercase;
     font-size: 2.5rem;
