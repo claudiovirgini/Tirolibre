@@ -39,13 +39,13 @@
         <form class="cd-form">
           <p class="fieldset">
             <label class="image-replace cd-email" for="signin-email">E-mail</label>
-            <input class="full-width has-padding has-border" id="signin-email" type="email" placeholder="E-mail">
-            <span class="cd-error-message">Error message here!</span>
+            <input class="full-width has-padding has-border" id="signin-email" type="email"  v-model="userLoginEmail" placeholder="E-mail">
+            <!--<span class="cd-error-message">Error message here!</span>-->
           </p>
 
           <p class="fieldset">
             <label class="image-replace cd-password" for="signin-password">Password</label>
-            <input class="full-width has-padding has-border" id="signin-password" type="text" placeholder="Password">
+            <input class="full-width has-padding has-border" id="signin-password" type="text" v-model="userLoginPWD" placeholder="Password">
             <a href="#0" class="hide-password">Hide</a>
             <span class="cd-error-message">Error message here!</span>
           </p>
@@ -56,7 +56,7 @@
           </p>
 
           <p class="fieldset">
-            <input class="full-width" type="submit" value="Login">
+            <input class="full-width" type="submit" value="Login" @click="login(userLoginEmail,userLoginPWD)">
           </p>
         </form>
 
@@ -129,8 +129,47 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import VueAxios from 'vue-axios'
+import VueAuthenticate from 'vue-authenticate'
+import axios from 'axios'
+
+  Vue.use(VueAxios, axios)
+  Vue.use(VueAuthenticate, {
+    baseUrl: 'http://35.193.9.82:121', // Your API domain
+
+    providers: {
+      github: {
+        clientId: '',
+        redirectUri: 'http://localhost:8080/auth/callback' // Your client app URL
+      }
+    }
+  })
 export default {
-  name: 'Header'
+    name: 'Header',
+    data: {
+      userLoginEmail: '',
+      userLoginPWD : ''
+    },
+    methods: {
+      login: function (email,pwd) {
+        this.error = null;
+        var data = "grant_type=password&userName=" + email + "&password=" + pwd;
+        this.$auth.login(data)
+          .then(response => {
+            alert(response.data.access_token)
+          })
+          .catch(error => {
+            alert(JSON.stringify(error.response.data.error_description))
+          })
+      },
+      register: function (name, email, password) {
+        this.$auth.register({ name, email, password }).then(function () {
+          // Execute application logic after successful registration
+        })
+      }
+
+    }
 }
 </script>
 

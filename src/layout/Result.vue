@@ -87,7 +87,8 @@ export default {
     Player
     // Footer
   },
-  data() {
+ data() {
+  
     return {
       countries: [],
       userProfile: false,
