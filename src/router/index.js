@@ -4,6 +4,7 @@ import HomeView from '@/layout/Home'
 import ResultView from '@/layout/Result'
 import HomeFormView from '@/layout/Home-Form'
 import PlayerView from '@/layout/Player'
+import WelcomeView from '@/layout/Welcome'
 
 Vue.use(Router)
 
@@ -13,6 +14,11 @@ export default new Router({
       path: '/',
       name: 'Home',
       component: HomeView
+    },
+    {
+      path: '/welcome',
+      name: 'Welcome',
+      component: WelcomeView
     },
     {
       path: '/result',

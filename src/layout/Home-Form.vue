@@ -1,24 +1,31 @@
 <template lang="html">
   <div>
     <!-- <Header /> -->
-    <section class="hero-section hero-section-home" v-if="filter">
+    <!-- <section class="hero-section hero-section-home pusher" v-if="filter"> -->
+    <section class="pusher" v-if="filter">
+      <div class="main-header">
+
       <div class="container">
         <div class="row">
           <Logo />
-          <div class="col-md-7">
+          <div class="col-md-12 text-center">
             <div class="type">
                 <!-- I'm a ... -->
                 <div class="buttons">
                   <!-- <form class="form"> -->
                     <div class="switch-field">
                       <div class="switch-title">-Io sono-</div>
-                      <div class="switch-content">
-                        <input type="radio" id="switch_3_left" name="who" value="who-calciatore" checked/>
-                        <label for="switch_3_left" class="calciatore">calciatore</label>
-                        <input type="radio" id="switch_3_center" name="who" value="who-team"  />
-                        <label for="switch_3_center" class="calciatore">team</label>
-                  			<input type="radio" id="switch_3_right" name="who" value="who-agente"  />
-                        <label for="switch_3_right" class="calciatore">agente</label>
+                      <div class="switch-content player form-check form-check-inline">
+                          <input type="radio" id="switch_3_left" name="who" value="who-calciatore" class="form-check-input" checked/>
+                          <label for="switch_3_left" class="calciatore form-check-label">calciatore</label>
+                      </div>
+                      <div class="switch-content club form-check form-check-inline">
+                        <input type="radio" id="switch_3_center" name="who" value="who-team" class="form-check-input" />
+                        <label for="switch_3_center" class="calciatore form-check-label">team</label>
+                      </div>
+                      <div class="switch-content agent form-check form-check-inline">
+                  			<input type="radio" id="switch_3_right" name="who" value="who-agente" class="form-check-input" />
+                        <label for="switch_3_right" class="calciatore form-check-label">agente</label>
                       </div>
                     </div>
                 <!-- </form> -->
@@ -28,43 +35,40 @@
                 <div class="buttons">
                   <div class="switch-field">
                     <div class="switch-title">-cerco-</div>
-                    <div class="switch-content">
-                      <input type="radio" id="switch_4_left" name="what" value="calciatore" v-model="what" checked/>
+                    <div class="switch-content player form-check form-check-inline">
+                      <input type="radio" id="switch_4_left" name="what" value="calciatore" class="form-check-input" v-model="what" checked/>
                       <label for="switch_4_left">calciatore</label>
-                      <input type="radio" id="switch_4_center" name="what" value="team" v-model="what" />
+                    </div>
+                    <div class="switch-content club form-check form-check-inline">
+                      <input type="radio" id="switch_4_center" name="what" value="team" class="form-check-input" v-model="what" />
                       <label for="switch_4_center">team</label>
-                      <input type="radio" id="switch_4_right" name="what" value="agente" v-model="what" />
+                    </div>
+                    <div class="switch-content agent form-check form-check-inline">
+                      <input type="radio" id="switch_4_right" name="what" value="agente" class="form-check-input"  v-model="what" />
                       <label for="switch_4_right">agente</label>
-                  </div>
+                    </div>
                   </div>
                 </div>
               </div>
 
               <div class="where">
                 <div class="buttons">
-                  <div class="switch-field">
-                    <div class="switch-title">a ...</div>
-                    <!-- <input type="text" name="where" v-model="where" placeholder="Roma"> -->
-                    <select v-model="where" class="float-left">
-                      <option disabled value="">Please select one</option>
-                      <option>roma</option>
-                      <option>milano</option>
-                      <option>firenze</option>
-                    </select>
-
-                    <!-- <input type="radio" id="switch_5_left" name="where" value="roma" v-model="where" checked/>
-                    <label for="switch_5_left">roma</label>
-                    <input type="radio" id="switch_5_center" name="where" value="milano" v-model="where" />
-                    <label for="switch_5_center">milano</label>
-                    <input type="radio" id="switch_5_right" name="where" value="firenze" v-model="where" />
-                    <label for="switch_5_right">firenze</label> -->
+                  <div class="switch-field-input">
+                    <!-- <div class="switch-title">-dove sto cercando-</div> -->
+                    <div class="switch-content-input form-group">
+                      <label for="where" class="sr-only">Password</label>
+                      <input type="text" name="where" id="where" class="form-control mx-auto" v-model="where" placeholder="dove sto cercando">
+                    </div>
                   </div>
                 </div>
               </div>
-            <div class="switch-field">
-              <button type="button" @click="userList" class="btn btn-outline-success btn-lg float-left">GO!</button>
-            </div>
             <hr>
+            <div class="form-group">
+              <div class="col-md-6 mx-auto">
+                <button type="button" @click="userList" class="btn btn-outline-success btn-lg btn-block">Inizia <i class="fas fa-chevron-circle-right"></i></button>
+                  <!-- <a href="http://www.tirolibre.it" class="btn btn-outline-success btn-lg btn-block">Inizia <i class="fas fa-chevron-circle-right"></i></a> -->
+              </div>
+            </div>
             <!-- container element for chat window -->
             <!-- <div id="chat"></div> -->
             <!-- <BotUI class="col-md-6"></BotUI> -->
@@ -74,13 +78,13 @@
             <input type="radio" id="two" name="what" value="team" v-model="what">
             <label for="two">team</label>
             <br> -->
-            <span>Picked: {{ what }} // {{ where }}</span>
+            <!-- <span>Picked: {{ what }} // {{ where }}</span>
 
 
             <hr>
             Vuex store value: {{ $store.state.what }} // {{ $store.state.where }}
             <br>
-            Computed property value: {{ what }} // {{ where }}
+            Computed property value: {{ what }} // {{ where }} -->
 
           </div>
           <!-- <div class="col-md-6"> -->
@@ -93,6 +97,8 @@
           <!-- </div> -->
         </div>
       </div>
+
+    </div>
     </section>
 
     <!-- <Process />
@@ -202,10 +208,33 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-.switch-field input:checked+label {
+.pusher {
+    background-image: url("../assets/images/bg-footer.jpg");
+    background-repeat: no-repeat;
+    background-position: 50% 300px;
+    background-size: cover;
+    min-height: 100vh;
+}
+.main-header {
+    // background-color: #d7e5e8;
+    background-color: #FFF;
+    // background-image: url("https://www.higuests.com/assets/images/alfred_001.png");
+    background-image: url("../assets/images/logo-footer.png");
+    background-repeat: no-repeat;
+    background-position: 50% 110%;
+    background-size: 200px auto;
+    padding-bottom: 220px;
+    border-radius: 0 0 9000px 6000px /1500px;
+    min-height: 600px;
+    overflow: hidden;
+    box-shadow: 0 1rem 3rem rgba(0,0,0,.175);
+}
+// .switch-field input:checked+label {
+.switch-field label {
     position: relative;
 }
-.switch-field input:checked+label:before {
+// .switch-field input:checked+label:before {
+.switch-field label:before {
     content: '';
     width: 100%;
     height: 100px;
@@ -225,82 +254,196 @@ export default {
     padding-bottom: 0;
     padding-top: 40px;
     border-radius: 5px;
+    box-shadow: 0 1rem 3rem rgba(0,0,0,.175);
 }
 
-.switch-field {
-    font-family: "Lucida Grande", Tahoma, Verdana, sans-serif;
-    padding: 40px;
+.switch-field,
+.switch-field-input {
+    padding: 10px 0;
     overflow: hidden;
     label {
         margin: 15px 30px;
     }
 }
 
+.switch-content-input {
+    margin-top: 20px;
+    input {
+        border-radius: 50px;
+        // border: 2px solid #01a084;
+        // margin-left: 60px;
+        background-color: #FFF;
+        padding: 10px;
+        width: 40%;
+    }
+    button {
+        background: #01a084;
+        border: 2px solid #01a084;
+        color: #FFF;
+    }
+}
+
 .switch-title {
     text-align: center;
-    margin-bottom: 6px;
     font-weight: bold;
+    font-size: 22px;
     text-transform: uppercase;
 }
 .type {
     .switch-content {
         background: #c0d6bb;
+        label {
+            &:before {
+                background-color: #FFF;
+                padding: 5px;
+                border-radius: 10px;
+                border: 2px solid #178501;
+            }
+        }
+    }
+    .switch-content.player {
+        label {
+            &:before {
+                background-image: url("../assets/images/player.png");
+            }
+        }
+    }
+    .switch-content.club {
+        label {
+            &:before {
+                background-image: url("../assets/images/club.png");
+            }
+        }
+    }
+    .switch-content.agent {
+        label {
+            &:before {
+                background-image: url("../assets/images/agent.png");
+            }
+        }
     }
     .switch-title {
         color: #168600;
     }
     .switch-field {
         label {
-            background-color: #168600;
-            color: #FFF;
+            // background-color: #168600;
+            background-color: #FFF;
+            color: #168600;
             text-transform: uppercase;
             min-width: 120px;
-            &:first-of-type {
-                &:before {
-                    background-image: url("../assets/images/player.png");
-                    background-color: #FFF;
-                    padding: 5px;
-                    border-radius: 10px;
-                    border: 3px solid #168600;
-                }
-            }
-            &:last-of-type {
-                &:before {
-                    background-image: url("../assets/images/agent.png");
-                    background-color: #FFF;
-                    padding: 5px;
-                    border-radius: 10px;
-                    border: 3px solid #168600;
-                }
-            }
-            &:before {
-                background-image: url("../assets/images/club.png");
-                background-color: #FFF;
-                padding: 5px;
-                border-radius: 10px;
-                border: 3px solid #168600;
-            }
+            // &:first-of-type {
+            //     &:before {
+            //         background-image: url("../assets/images/player.png");
+            //         background-color: #FFF;
+            //         padding: 5px;
+            //         border-radius: 10px;
+            //         border: 2px solid #168600;
+            //     }
+            // }
+            // &:last-of-type {
+            //     &:before {
+            //         background-image: url("../assets/images/agent.png");
+            //         background-color: #FFF;
+            //         padding: 5px;
+            //         border-radius: 10px;
+            //         border: 2px solid #168600;
+            //     }
+            // }
+            // &:before {
+            //     background-image: url("../assets/images/club.png");
+            //     background-color: #FFF;
+            //     padding: 5px;
+            //     border-radius: 10px;
+            //     border: 2px solid #168600;
+            // }
         }
     }
 }
 .what {
     .switch-content {
         background: #bcd0e5;
+        label {
+            &:before {
+                background-color: #FFF;
+                padding: 5px;
+                border-radius: 10px;
+                border: 2px solid #178501;
+            }
+            &:hover {
+                background-color: #1057a0;
+                color: #FFF;
+            }
+        }
+    }
+    .switch-content.player {
+        label {
+            &:before {
+                background-image: url("../assets/images/player.png");
+            }
+        }
+    }
+    .switch-content.club {
+        label {
+            &:before {
+                background-image: url("../assets/images/club.png");
+            }
+        }
+    }
+    .switch-content.agent {
+        label {
+            &:before {
+                background-image: url("../assets/images/agent.png");
+            }
+        }
     }
     .switch-title {
         color: #1057a0;
     }
+
+    .switch-field input:checked + label {
+        // background-color: #1376db;
+        background-color: #1057a0;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
     .switch-field {
         label {
-            background-color: #1057a0;
-            color: #FFF;
+            background-color: #FFF;
+            color: #1057a0;
             text-transform: uppercase;
-            &:first-of-type {
-                &:before {
-                    background-image: url("https://banner2.kisspng.com/20180222/bgw/kisspng-a-s-roma-football-player-playmaker-illustration-cartoon-footballer-avatar-5a8eb3be6a47f2.5314331915193015664353.jpg");
-                }
-            }
+            min-width: 120px;
+            // &:first-of-type {
+            //     &:before {
+            //         background-image: url("../assets/images/player.png");
+            //         background-color: #FFF;
+            //         padding: 5px;
+            //         border-radius: 10px;
+            //         border: 2px solid #1057a0;
+            //     }
+            // }
+            // &:last-of-type {
+            //     &:before {
+            //         background-image: url("../assets/images/agent.png");
+            //         background-color: #FFF;
+            //         padding: 5px;
+            //         border-radius: 10px;
+            //         border: 2px solid #1057a0;
+            //     }
+            // }
+            // &:before {
+            //     background-image: url("../assets/images/club.png");
+            //     background-color: #FFF;
+            //     padding: 5px;
+            //     border-radius: 10px;
+            //     border: 2px solid #1057a0;
+            // }
         }
+    }
+}
+.where {
+    .switch-title {
+        color: #01a084;
     }
 }
 
@@ -342,7 +485,8 @@ export default {
 }
 
 .switch-field input:checked + label {
-    background-color: #A5DC86;
+    background-color: #168600;
+    color: #FFF;
     -webkit-box-shadow: none;
     box-shadow: none;
 }
@@ -474,6 +618,173 @@ h1 {
         overflow: hidden;
     }
 }
+
+// Button
+
+.btn-container {
+    position: absolute;
+    left: 50%;
+    margin: 0 0 100px -150px;
+}
+
+.btn-go {
+    width: 300px;
+    height: 50px;
+    line-height: 50px;
+    background-color: #FF6138;
+    border-radius: 8px;
+    color: #fff;
+    font-family: 'Indie Flower', cursive;
+    font-size: 22px;
+    font-weight: normal;
+    text-decoration: none;
+    text-align: center;
+    display: inline-block;
+    position: relative;
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -webkit-transition-property: -webkit-transform;
+    transition-property: transform;
+    -webkit-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    transform: translateZ(0);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+    -webkit-transform: translateY(-6px);
+    -ms-transform: translateY(-6px);
+    transform: translateY(-6px);
+    -webkit-animation-name: hover;
+    animation-name: hover;
+    -webkit-animation-duration: 1.5s;
+    animation-duration: 1.5s;
+    -webkit-animation-delay: 0.3s;
+    animation-delay: 0.3s;
+    -webkit-animation-timing-function: linear;
+    animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+    -webkit-animation-direction: alternate;
+    animation-direction: alternate;
+    &:before {
+        pointer-events: none;
+        position: absolute;
+        z-index: -1;
+        content: '';
+        top: 100%;
+        left: 5%;
+        height: 10px;
+        width: 90%;
+        opacity: 0;
+        background: -webkit-radial-gradient(center, ellipse, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0) 80%);
+        background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0) 80%);
+        -webkit-transition-duration: 0.3s;
+        transition-duration: 0.3s;
+        -webkit-transition-property: -webkit-transform, opacity;
+        transition-property: transform, opacity;
+        opacity: 0.4;
+        -webkit-transform: translateY(6px);
+        -ms-transform: translateY(6px);
+        transform: translateY(6px);
+        -webkit-animation-name: hover-shadow;
+        animation-name: hover-shadow;
+        -webkit-animation-duration: 1.5s;
+        animation-duration: 1.5s;
+        -webkit-animation-delay: 0.3s;
+        animation-delay: 0.3s;
+        -webkit-animation-timing-function: linear;
+        animation-timing-function: linear;
+        -webkit-animation-iteration-count: infinite;
+        animation-iteration-count: infinite;
+        -webkit-animation-direction: alternate;
+        animation-direction: alternate;
+    }
+    &:hover {
+        background-color: #e16e50;
+    }
+}
+
+@keyframes hover {
+    50% {
+        -webkit-transform: translateY(-3px);
+        -ms-transform: translateY(-3px);
+        transform: translateY(-3px);
+    }
+
+    100% {
+        -webkit-transform: translateY(-6px);
+        -ms-transform: translateY(-6px);
+        transform: translateY(-6px);
+    }
+}
+
+@-webkit-keyframes hover-shadow {
+    0% {
+        -webkit-transform: translateY(6px);
+        transform: translateY(6px);
+        opacity: 0.4;
+    }
+
+    50% {
+        -webkit-transform: translateY(3px);
+        transform: translateY(3px);
+        opacity: 1;
+    }
+
+    100% {
+        -webkit-transform: translateY(6px);
+        transform: translateY(6px);
+        opacity: 0.4;
+    }
+}
+
+@keyframes hover-shadow {
+    0% {
+        -webkit-transform: translateY(6px);
+        -ms-transform: translateY(6px);
+        transform: translateY(6px);
+        opacity: 0.4;
+    }
+
+    50% {
+        -webkit-transform: translateY(3px);
+        -ms-transform: translateY(3px);
+        transform: translateY(3px);
+        opacity: 1;
+    }
+
+    100% {
+        -webkit-transform: translateY(6px);
+        -ms-transform: translateY(6px);
+        transform: translateY(6px);
+        opacity: 0.4;
+    }
+}
+
+@-webkit-keyframes hover {
+    50% {
+        -webkit-transform: translateY(-3px);
+        transform: translateY(-3px);
+    }
+
+    100% {
+        -webkit-transform: translateY(-6px);
+        transform: translateY(-6px);
+    }
+}
+
+@keyframes hover {
+    50% {
+        -webkit-transform: translateY(-3px);
+        -ms-transform: translateY(-3px);
+        transform: translateY(-3px);
+    }
+
+    100% {
+        -webkit-transform: translateY(-6px);
+        -ms-transform: translateY(-6px);
+        transform: translateY(-6px);
+    }
+}
+
 @media only screen and (max-width: 767px) {
     .hero-section {
         height: auto;
@@ -563,6 +874,20 @@ h1 {
 }
 /* Large Mobile :480px. */
 @media only screen and (max-width: 767px) {
+
+    .switch-field label:before {
+        top: -40px;
+        left: 150px;
+    }
+    .form-check-inline {
+        display: block;
+        input {
+            margin: 40px 0;
+        }
+        label {
+            margin: -40px 0;
+        }
+    }
     h1 {
         span {
             color: #acd07a;

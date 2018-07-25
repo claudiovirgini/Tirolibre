@@ -39,7 +39,7 @@
         <form class="cd-form">
           <p class="fieldset">
             <label class="image-replace cd-email" for="signin-email">E-mail</label>
-            <input class="full-width has-padding has-border" id="signin-email" type="email"  v-model="userLoginEmail" placeholder="E-mail">
+            <input class="full-width has-padding has-border" id="signin-email" type="email" v-model="userLoginEmail" placeholder="E-mail">
             <!--<span class="cd-error-message">Error message here!</span>-->
           </p>
 
@@ -88,6 +88,32 @@
           </p>
 
           <p class="fieldset">
+
+            <div class="type">
+              <!-- I'm a ... -->
+              <div class="buttons">
+                <div class="switch-field">
+                  <!-- <div class="switch-title">-Io sono-</div> -->
+                  <div class="switch-content player form-check form-check-inline">
+                    <input type="radio" id="switch_3_left" name="who" value="who-calciatore" class="form-check-input" checked/>
+                    <label for="switch_3_left" class="calciatore form-check-label">calciatore</label>
+                  </div>
+                  <div class="switch-content club form-check form-check-inline">
+                    <input type="radio" id="switch_3_center" name="who" value="who-team" class="form-check-input" />
+                    <label for="switch_3_center" class="calciatore form-check-label">team</label>
+                  </div>
+                  <div class="switch-content agent form-check form-check-inline">
+                    <input type="radio" id="switch_3_right" name="who" value="who-agente" class="form-check-input" />
+                    <label for="switch_3_right" class="calciatore form-check-label">agente</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </p>
+
+
+          <p class="fieldset">
             <input type="checkbox" id="accept-terms">
             <label for="accept-terms">I agree to the <a href="#0">Terms</a></label>
           </p>
@@ -134,42 +160,46 @@ import VueAxios from 'vue-axios'
 import VueAuthenticate from 'vue-authenticate'
 import axios from 'axios'
 
-  Vue.use(VueAxios, axios)
-  Vue.use(VueAuthenticate, {
-    baseUrl: 'http://35.193.9.82:121', // Your API domain
+Vue.use(VueAxios, axios)
+Vue.use(VueAuthenticate, {
+  baseUrl: 'http://35.193.9.82:121', // Your API domain
 
-    providers: {
-      github: {
-        clientId: '',
-        redirectUri: 'http://localhost:8080/auth/callback' // Your client app URL
-      }
+  providers: {
+    github: {
+      clientId: '',
+      redirectUri: 'http://localhost:8080/auth/callback' // Your client app URL
     }
-  })
+  }
+})
 export default {
-    name: 'Header',
-    data: {
-      userLoginEmail: '',
-      userLoginPWD : ''
-    },
-    methods: {
-      login: function (email,pwd) {
-        this.error = null;
-        var data = "grant_type=password&userName=" + email + "&password=" + pwd;
-        this.$auth.login(data)
-          .then(response => {
-            alert(response.data.access_token)
-          })
-          .catch(error => {
-            alert(JSON.stringify(error.response.data.error_description))
-          })
-      },
-      register: function (name, email, password) {
-        this.$auth.register({ name, email, password }).then(function () {
-          // Execute application logic after successful registration
+  name: 'Header',
+  data: {
+    userLoginEmail: '',
+    userLoginPWD: ''
+  },
+  methods: {
+    login: function(email, pwd) {
+      this.error = null;
+      var data = "grant_type=password&userName=" + email + "&password=" + pwd;
+      this.$auth.login(data)
+        .then(response => {
+          alert(response.data.access_token)
         })
-      }
-
+        .catch(error => {
+          alert(JSON.stringify(error.response.data.error_description))
+        })
+    },
+    register: function(name, email, password) {
+      this.$auth.register({
+        name,
+        email,
+        password
+      }).then(function() {
+        // Execute application logic after successful registration
+      })
     }
+
+  }
 }
 </script>
 
@@ -801,4 +831,162 @@ button {
 }
 
 /* /login btn*/
+
+// .switch-field input:checked+label {
+.switch-field label {
+    position: relative;
+}
+// .switch-field input:checked+label:before {
+.switch-field label:before {
+    content: '';
+    width: 100%;
+    height: 100px;
+    left: 0;
+    right: 0;
+    position: absolute;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    bottom: 40px;
+}
+
+.switch-content {
+    height: 20px;
+    margin-bottom: 50px;
+    margin-top: 80px;
+    padding-bottom: 0;
+    padding-top: 40px;
+    border-radius: 5px;
+    box-shadow: 0 1rem 3rem rgba(0,0,0,.175);
+}
+
+.switch-field,
+.switch-field-input {
+    padding: 10px 0;
+    overflow: hidden;
+    label {
+        margin: 15px 30px;
+    }
+}
+
+.switch-content-input {
+    margin-top: 20px;
+    input {
+        border-radius: 50px;
+        // border: 2px solid #01a084;
+        // margin-left: 60px;
+        background-color: #FFF;
+        padding: 10px;
+        width: 40%;
+    }
+    button {
+        background: #01a084;
+        border: 2px solid #01a084;
+        color: #FFF;
+    }
+}
+
+.switch-title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 22px;
+    text-transform: uppercase;
+}
+
+.type {
+    .switch-content {
+        background: #c0d6bb;
+        label {
+            &:before {
+                background-color: #FFF;
+                padding: 5px;
+                border-radius: 10px;
+                border: 2px solid #178501;
+            }
+        }
+    }
+    .switch-content.player {
+        label {
+            &:before {
+                background-image: url("../assets/images/player.png");
+            }
+        }
+    }
+    .switch-content.club {
+        label {
+            &:before {
+                background-image: url("../assets/images/club.png");
+            }
+        }
+    }
+    .switch-content.agent {
+        label {
+            &:before {
+                background-image: url("../assets/images/agent.png");
+            }
+        }
+    }
+    .switch-title {
+        color: #168600;
+    }
+    .switch-field {
+        label {
+            background-color: #FFF;
+            color: #168600;
+            text-transform: uppercase;
+            min-width: 90px;
+        }
+    }
+}
+.switch-field input {
+    position: absolute !important;
+    clip: rect(0, 0, 0, 0);
+    height: 1px;
+    width: 1px;
+    border: 0;
+    overflow: hidden;
+}
+
+.switch-field label {
+    float: left;
+}
+
+.switch-field label {
+    display: inline-block;
+    width: auto;
+    background-color: #e4e4e4;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 14px;
+    font-weight: normal;
+    text-align: center;
+    text-shadow: none;
+    padding: 6px 14px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);
+    -webkit-transition: all 0.1s ease-in-out;
+    -moz-transition: all 0.1s ease-in-out;
+    -ms-transition: all 0.1s ease-in-out;
+    -o-transition: all 0.1s ease-in-out;
+    transition: all 0.1s ease-in-out;
+}
+
+.switch-field label:hover {
+    cursor: pointer;
+}
+
+.switch-field input:checked + label {
+    background-color: #168600;
+    color: #FFF;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.switch-field label:first-of-type {
+    border-radius: 4px 0 0 4px;
+}
+
+.switch-field label:last-of-type {
+    border-radius: 0 4px 4px 0;
+}
 </style>

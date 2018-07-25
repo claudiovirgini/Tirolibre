@@ -1,18 +1,295 @@
 <template lang="html">
   <div>
-      <section class="hero-section" v-if="cardResult">
+      <!-- <section class="hero-section" v-if="cardResult"> -->
+      <section class="pusher" v-if="cardResult">
+        <div class="main-header">
         <div class="container">
           <div class="row">
-            <Logo />
-          </div>
-          <div class="row">
+            <!-- <Logo /> -->
+            <div class="col-12 player-header">
 
+<div class="profile-card shadow-lg">
+    <div class="profile-cover">
+        <div class="profile-avatar">
+            <div class="btns-container">
+                <div class="profile-links">
+                    <a class="zoom-avatar" href="#"><img src="https://dl.dropboxusercontent.com/s/5liaxzvwbfuqzpo/zoom.png"></a>
+                    <a class="read-more" href="#"><img src="https://dl.dropboxusercontent.com/s/62dfoo9h44o58lw/more.png"></a>
+                    <a class="view-map" href="#"><img src="https://dl.dropboxusercontent.com/s/9ofmihok0h64lvn/location.png"></a>
+                </div>
+            </div>
+            <a href="#"><img src="https://dl.dropboxusercontent.com/s/7pcnqq18skh1myk/avatar.jpg" alt="Anis M" /></a>
+        </div>
+        <div class="profile-details">
+            <h1>Alejandro Salgado</h1>
+            <h6>Attaccante</h6>
+        </div>
+    </div>
+    <div class="profile-info" style="display: none;">
+        <h1>About Me</h1>
+        <div class="info-area">
+            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.Stet clita kasd gubergren, no sea takimata sanctus est.Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
+            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="profile-map" style="display: none;">
+        <iframe width="100%" height="150" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=Saveology+New+York&amp;aq=&amp;sll=37.0625,-95.677068&amp;sspn=40.052282,86.572266&amp;t=h&amp;ie=UTF8&amp;hq=Saveology&amp;hnear=New+York&amp;ll=40.552027,-74.420902&amp;spn=0.357117,0.912844&amp;iwloc=near&amp;output=embed"></iframe>
+        <div class="clear"></div>
+    </div>
+    <div class="profile-content">
+        <!-- <ul>
+            <li>
+                <div class="digits">83</div>
+                Followers
+            </li>
+            <li>
+                <div class="digits">1507</div>
+                Tweets
+            </li>
+            <li>
+                <div class="digits">234</div>
+                Friends
+            </li>
+            <li>
+                <div class="digits">51</div>
+                Likes
+            </li>
+            <li>
+                <div class="digits">42</div>
+                Gits
+            </li>
+        </ul>
+        <div class="clear"></div> -->
+
+        <div class="container">
+            <div class="row m-y-2">
+                <!-- edit form column -->
+                <!-- <div class="col-lg-4 text-lg-center">
+                    <h2>Edit Profile</h2>
+                </div>
+                <hr> -->
+                <!-- <div class="col-lg-8">
+                    <div class="alert alert-info alert-dismissable"> <a class="panel-close close" data-dismiss="alert">×</a>
+                        This is an <strong>.alert</strong>. Use this to show important messages to the user.
+                    </div>
+                </div> -->
+                <div class="col-lg-12 personal-info">
+                     <form role="form">
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label form-control-label font-weight-bold">Nome</label>
+                            <div class="col-lg-6">
+                                <!-- <input class="form-control" type="text" value="Jane" /> -->
+                                <input type="text" v-model="user.firstName">
+                                 <!-- <button @click="isEditing = !isEditing" class="hide">
+                                   {{ isEditing ? 'Save' : 'Edit' }}
+                                 </button>
+                                 <button v-if="isEditing" @click="isEditing = false">Cancel</button> -->
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label form-control-label font-weight-bold">Cognome</label>
+                            <div class="col-lg-6">
+                            <input type="text" v-model="user.lastName">
+                            <!-- <input type="text" v-model="user.lastName" :disabled="!isEditing" :class="{view: !isEditing}">
+                             <button @click="isEditing = !isEditing" class="hide">
+                               {{ isEditing ? 'Save' : 'Edit' }}
+                             </button>
+                             <button v-if="isEditing" @click="isEditing = false">Cancel</button> -->
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label form-control-label font-weight-bold">Classe</label>
+                            <div class="col-lg-6">
+                            <input type="text" v-model="user.classe">
+                             <!-- <button @click="isEditing = !isEditing" class="hide">
+                               {{ isEditing ? 'Save' : 'Edit' }}
+                             </button>
+                             <button v-if="isEditing" @click="isEditing = false">Cancel</button> -->
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label form-control-label font-weight-bold">Nazionalità</label>
+                            <div class="col-lg-6">
+                            <input type="text" v-model="user.nazionalita">
+                             <!-- <button @click="isEditing = !isEditing" class="hide">
+                               {{ isEditing ? 'Save' : 'Edit' }}
+                             </button>
+                             <button v-if="isEditing" @click="isEditing = false">Cancel</button> -->
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label form-control-label font-weight-bold">Ruolo</label>
+                            <div class="col-lg-6">
+                            <input type="text" v-model="user.ruolo">
+                             <!-- <button @click="isEditing = !isEditing" class="hide">
+                               {{ isEditing ? 'Save' : 'Edit' }}
+                             </button>
+                             <button v-if="isEditing" @click="isEditing = false">Cancel</button> -->
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label form-control-label font-weight-bold">Status Contrattuale</label>
+                            <div class="col-lg-6">
+                            <input type="text" v-model="user.status">
+                             <!-- <button @click="isEditing = !isEditing" class="hide">
+                               {{ isEditing ? 'Save' : 'Edit' }}
+                             </button>
+                             <button v-if="isEditing" @click="isEditing = false">Cancel</button> -->
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label form-control-label font-weight-bold">Dove ti trovi</label>
+                            <div class="col-lg-6">
+                            <input type="text" v-model="user.doveTiTrovi">
+                             <!-- <button @click="isEditing = !isEditing" class="hide">
+                               {{ isEditing ? 'Save' : 'Edit' }}
+                             </button>
+                             <button v-if="isEditing" @click="isEditing = false">Cancel</button> -->
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label form-control-label font-weight-bold">Dove cerchi</label>
+                            <div class="col-lg-6">
+                            <input type="text" v-model="user.doveCerchi">
+                             <!-- <button @click="isEditing = !isEditing" class="hide">
+                               {{ isEditing ? 'Save' : 'Edit' }}
+                             </button>
+                             <button v-if="isEditing" @click="isEditing = false">Cancel</button> -->
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label form-control-label font-weight-bold">Numero di telefono</label>
+                            <div class="col-lg-6">
+                            <input type="text" v-model="user.tel">
+                             <!-- <button @click="isEditing = !isEditing" class="hide">
+                               {{ isEditing ? 'Save' : 'Edit' }}
+                             </button>
+                             <button v-if="isEditing" @click="isEditing = false">Cancel</button> -->
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label form-control-label font-weight-bold">Peso</label>
+                            <div class="col-lg-6">
+                            <input type="text" v-model="user.peso">
+                             <!-- <button @click="isEditing = !isEditing" class="hide">
+                               {{ isEditing ? 'Save' : 'Edit' }}
+                             </button>
+                             <button v-if="isEditing" @click="isEditing = false">Cancel</button> -->
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label form-control-label font-weight-bold">Altezza</label>
+                            <div class="col-lg-6">
+                            <input type="text" v-model="user.altezza">
+                             <!-- <button @click="isEditing = !isEditing" class="hide">
+                               {{ isEditing ? 'Save' : 'Edit' }}
+                             </button>
+                             <button v-if="isEditing" @click="isEditing = false">Cancel</button> -->
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label form-control-label font-weight-bold">Ultimi tre campionati</label>
+                            <div class="col-lg-6">
+                            <input type="text" v-model="user.campionato1">
+                             <!-- <button @click="isEditing = !isEditing" class="hide">
+                               {{ isEditing ? 'Save' : 'Edit' }}
+                             </button>
+                             <button v-if="isEditing" @click="isEditing = false">Cancel</button> -->
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label form-control-label font-weight-bold"></label>
+                            <div class="col-lg-6">
+                            <input type="text" v-model="user.campionato2">
+                             <!-- <button @click="isEditing = !isEditing" class="hide">
+                               {{ isEditing ? 'Save' : 'Edit' }}
+                             </button>
+                             <button v-if="isEditing" @click="isEditing = false">Cancel</button> -->
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label form-control-label font-weight-bold"></label>
+                            <div class="col-lg-6">
+                            <input type="text" v-model="user.campionato3">
+                             <!-- <button @click="isEditing = !isEditing" class="hide">
+                               {{ isEditing ? 'Save' : 'Edit' }}
+                             </button>
+                             <button v-if="isEditing" @click="isEditing = false">Cancel</button> -->
+                            </div>
+                        </div>
+                        <!-- <div class="form-group row">
+                            <label class="col-lg-3 col-form-label form-control-label">Time Zone</label>
+                            <div class="col-lg-9">
+                                <select id="user_time_zone" class="form-control" size="0">
+                                    <option value="Hawaii">(GMT-10:00) Hawaii</option>
+                                    <option value="Alaska">(GMT-09:00) Alaska</option>
+                                    <option value="Pacific Time (US &amp; Canada)">(GMT-08:00) Pacific Time (US &amp; Canada)</option>
+                                    <option value="Arizona">(GMT-07:00) Arizona</option>
+                                    <option value="Mountain Time (US &amp; Canada)">(GMT-07:00) Mountain Time (US &amp; Canada)</option>
+                                    <option value="Central Time (US &amp; Canada)"
+                                    selected="selected">(GMT-06:00) Central Time (US &amp; Canada)</option>
+                                    <option value="Eastern Time (US &amp; Canada)">(GMT-05:00) Eastern Time (US &amp; Canada)</option>
+                                    <option value="Indiana (East)">(GMT-05:00) Indiana (East)</option>
+                                </select>
+                            </div>
+                        </div> -->
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label form-control-label"></label>
+                            <div class="col-lg-9">
+                                <input type="reset" class="btn btn-secondary" value="Cancel" />
+                                <input type="button" class="btn btn-primary" value="Save Changes" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- <div class="col-lg-4 pull-lg-8 text-xs-center">
+                        <img src="//placehold.it/150" class="m-x-auto img-fluid img-circle" alt="avatar" />
+                        <h6 class="m-t-2">Upload a different photo</h6>
+                        <label class="custom-file">
+                          <input type="file" id="file" class="custom-file-input">
+                          <span class="custom-file-control">Choose file</span>
+                        </label>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</div>
+            </div>
+          </div>
+          <hr />
+
+
+          <div class="row">
+                  <!-- <div>
+                  First Name:
+                  <input type="text" v-model="user.firstName" :disabled="!isEditing"
+                         :class="{view: !isEditing}">
+                </div>
+                <div>
+                  Last Name:
+                  <input type="text" v-model="user.lastName" :disabled="!isEditing"
+                         :class="{view: !isEditing}">
+                </div>
+                <div>
+
+                <button @click="isEditing = !isEditing">
+                  {{ isEditing ? 'Save' : 'Edit' }}
+                </button>
+                <button v-if="isEditing" @click="isEditing = false">Cancel</button>
+              </div> -->
             <!-- <p style="color: #000;">Player is:  {{ this.$route.query.user }}</p> -->
             <!-- <p style="color: #000;">Player is:  {{ $route.query.user }}</p> -->
 
               <!-- <Card /> -->
               <!-- v-if="card.name === this.$route.query.user" -->
-            <div class="col-md-4 mt-4" v-for="card in users" :key="card.name" v-if="card.name === $route.query.user">
+            <!-- <div class="col-md-4 mt-4" v-for="card in users" :key="card.name" v-if="card.name === $route.query.user">
               <ul>
                 <li>Nome: {{ card.name }}</li>
                 <li>Cognome: </li>
@@ -30,11 +307,12 @@
                 <li>Foto</li>
                 <li>Video</li>
               </ul>
-            </div>
+            </div> -->
           </div>
 
 
         </div>
+      </div>
       </section>
 
 
@@ -70,6 +348,23 @@ export default {
       users: [],
       userProfile: false,
       cardResult: true,
+      isEditing: false,
+      user: {
+        firstName: 'Alejandro',
+        lastName: 'Salgado',
+        classe: '1990',
+        nazionalita: 'Italiana',
+        ruolo: 'attaccante',
+        status: 'svincolato',
+        doveTiTrovi: 'Roma',
+        doveCerchi: 'Roma',
+        tel: '1234567890',
+        peso: '72',
+        altezza: '187',
+        campionato1: 'Serie D',
+        campionato2: 'Serie D',
+        campionato3: 'Serie D'
+      }
     }
   },
   // props: ['what', 'where', 'to'],
@@ -120,9 +415,7 @@ export default {
   mounted() {
     //from your component
 
-    // console.log("store player:" + this.$route.query.player)
     console.log("store player id:" + this.$route.query.player)
-    // console.log("query player:" + $route.params.id)
     this.userList()
   }
 }
@@ -131,6 +424,235 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style scoped lang="scss">
+.pusher {
+    background-image: url("../assets/images/bg-footer.jpg");
+    background-repeat: no-repeat;
+    background-position: 50% 300px;
+    background-size: cover;
+    min-height: 100vh;
+}
+.main-header {
+    // background-color: #d7e5e8;
+    background-color: #FFF;
+    // background-image: url("https://www.higuests.com/assets/images/alfred_001.png");
+    background-image: url("../assets/images/logo-footer.png");
+    background-repeat: no-repeat;
+    background-position: 50% 110%;
+    background-size: 200px auto;
+    padding-bottom: 220px;
+    border-radius: 0 0 9000px 6000px /1500px;
+    min-height: 600px;
+    overflow: hidden;
+    box-shadow: 0 1rem 3rem rgba(0,0,0,.175);
+}
+.left {
+    float: left;
+}
+.right {
+    float: right;
+}
+.clear {
+    clear: both;
+}
+
+.profile-card {
+    margin: 50px;
+    // width: 500px;
+    min-height: 400px;
+    h1,
+    h6 {
+        color: #FFF;
+    }
+}
+.profile-card .profile-cover {
+    background: url("https://ak1.picdn.net/shutterstock/videos/3307751/thumb/1.jpg?i10c=img.resize(height:160)") no-repeat center;
+    position: relative;
+    height: 260px;
+
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    background-size: cover;
+
+    transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    /* Firefox 4 */
+    -webkit-transition: all 0.5s;
+    /* Safari and Chrome */
+    -o-transition: all 0.5s;
+    /* Opera */
+}
+.profile-card .profile-cover:hover {
+    filter: none;
+    filter: none;
+    -webkit-filter: none;
+
+}
+.profile-card .profile-cover .profile-avatar {
+    background: #ffffff;
+    border: 1px solid #eeeeee;
+    border: 5px solid #ffffff;
+    width: 150px;
+    height: 150px;
+    position: absolute;
+    margin: 25px auto 0;
+    overflow: hidden;
+    left: 0;
+    right: 0;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    /* Firefox 4 */
+    -webkit-transition: all 0.5s;
+    /* Safari and Chrome */
+    -o-transition: all 0.5s;
+    /* Opera */
+}
+.profile-card .profile-cover .profile-avatar:hover {
+    margin-top: 23px;
+}
+.profile-card .profile-cover .profile-avatar .btns-container {
+    position: relative;
+}
+.profile-card .profile-cover .profile-avatar .btns-container .profile-links {
+    position: absolute;
+    top: 110px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    display: none;
+}
+.profile-card .profile-cover .profile-avatar .btns-container .profile-links a {
+    display: inline-block;
+    background: #ffffff;
+    text-decoration: none;
+    padding: 5px;
+}
+.profile-card .profile-cover .profile-avatar .btns-container .profile-links a img {
+    display: block;
+}
+.profile-card .profile-cover .profile-avatar .btns-container .profile-links a.zoom-avatar {
+    background: rgba(103, 186, 144, 0.7);
+}
+.profile-card .profile-cover .profile-avatar .btns-container .profile-links a.zoom-avatar:hover {
+    background: rgba(103, 186, 144, 1);
+}
+.profile-card .profile-cover .profile-avatar .btns-container .profile-links a.read-more {
+    background: rgba(231, 76, 60, 0.7);
+}
+.profile-card .profile-cover .profile-avatar .btns-container .profile-links a.read-more:hover {
+    background: rgba(231, 76, 60, 1);
+}
+.profile-card .profile-cover .profile-avatar .btns-container .profile-links a.view-map {
+    background: rgba(157, 177, 218, 0.7);
+}
+.profile-card .profile-cover .profile-avatar .btns-container .profile-links a.view-map:hover {
+    background: rgba(157, 177, 218, 1);
+}
+.profile-card .profile-cover .profile-details {
+    background: rgba(0,0,0,0.4);
+    border-top: 1px solid rgba(0,0,0,0.5);
+    color: #ffffff;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0 7px;
+}
+.profile-card .profile-cover .profile-details h6 {
+    font-weight: normal;
+}
+.profile-card .profile-info {
+    background: #e74c3c;
+    color: #ffffff;
+    padding: 10px;
+    font-family: Arial;
+    text-align: justify;
+}
+.profile-card .profile-info h1 {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    padding-bottom: 3px;
+    padding-left: 10px;
+    margin-bottom: 5px;
+}
+.profile-card .profile-info .info-area {
+    padding: 0 10px 5px;
+}
+.profile-card .profile-map {
+    border-top: 1px solid #cccccc;
+    float: left;
+    width: 100%;
+}
+.profile-card .profile-content {
+    background: #ffffff;
+    padding-top: 20px;
+    /* Old browsers */
+    /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+    background: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlZWVlZWUiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+");
+    background: -moz-linear-gradient(top, #ffffff 0%, #eeeeee 100%);
+    /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#eeeeee));
+    /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #ffffff 0%,#eeeeee 100%);
+    /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #ffffff 0%,#eeeeee 100%);
+    /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #ffffff 0%,#eeeeee 100%);
+    /* IE10+ */
+    background: linear-gradient(to bottom, #ffffff 0%,#eeeeee 100%);
+    /* W3C */
+
+    border: 1px solid #cccccc;
+    border-top: none;
+    -webkit-border-bottom-right-radius: 5px;
+    -webkit-border-bottom-left-radius: 5px;
+    -moz-border-radius-bottomright: 5px;
+    -moz-border-radius-bottomleft: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.profile-card .profile-content ul li {
+    float: left;
+    padding: 10px 32px;
+    text-align: center;
+    border-right: 1px solid #eeeeee;
+    border-left: 1px solid #ffffff;
+}
+.profile-card .profile-content ul li:first-child {
+    border-left: none;
+}
+.profile-card .profile-content ul li:last-child {
+    border-right: none;
+}
+.profile-card .profile-content ul li .digits {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.player-header {
+    // background-color: red;
+
+}
+button.hide {
+    cursor: pointer;
+    opacity: 0;
+    &:hover {
+        opacity: 1;
+    }
+}
+
+.view {
+    border-color: transparent;
+    background-color: initial;
+    color: initial;
+}
 li {
     list-style: none;
 }
@@ -141,320 +663,5 @@ h1 {
         // color: #088039;
         color: #FFF;
     }
-}
-.hero-section {
-    min-height: 900px;
-    padding-top: 30px;
-    display: block;
-    background-image: url("../assets/images/home5-bg.png");
-    // background-size: cover;
-    // background-color: #f3f7f9;
-    background-position: right top;
-    background-repeat: no-repeat;
-    position: relative;
-    overflow: hidden;
-
-    form {
-        display: block;
-        margin: 30px auto;
-        // width: 950px;
-        overflow: hidden;
-        background: #FFF;
-        border: 1px solid #E4E4E4;
-        border-radius: 5px;
-        font-size: 0;
-    }
-
-    form > div {
-        display: inline-block;
-        width: 100%;
-    }
-
-    form > div > label {
-        display: block;
-        padding: 10px 20px;
-        vertical-align: top;
-        font-family: Source Sans Pro, Arial, sans-serif;
-        font-size: 14px;
-        font-weight: 600;
-        text-transform: uppercase;
-        color: #939393;
-        cursor: pointer;
-    }
-
-    form > div.col-2,
-    form > div.col-3,
-    form > div.col-4 {
-        box-shadow: 1px 1px #E4E4E4;
-    }
-
-    form > div.col-2 {
-        width: 50%;
-    }
-
-    form > div.col-3 {
-        width: 33.3333333333%;
-    }
-
-    form > div.col-4 {
-        width: 25%;
-    }
-
-    form > div > label > input {
-        display: inline-block;
-        position: relative;
-        width: 100%;
-        height: 27px;
-        line-height: 27px;
-        margin: 5px -5px 0;
-        padding: 7px 5px 3px;
-        border: none;
-        outline: none;
-        border-radius: 3px;
-        background: transparent;
-        font-size: 14px;
-        font-weight: 200;
-        opacity: 0.66;
-        transition: opacity 0.3s;
-    }
-
-    form > div > label > select {
-        display: block;
-        width: 100%;
-        margin: 16px 0 6px;
-        padding: 0;
-        background: transparent;
-        border: none;
-        outline: none;
-        font-size: 14px;
-        font-weight: 200;
-        opacity: 0.33;
-    }
-
-    form > div > label > input:focus,
-    form > div > label > select:focus {
-        opacity: 1;
-    }
-}
-
-.hero-section-home {
-    &:before {
-        content: '';
-        position: absolute;
-        width: 100%;
-        height: 220px;
-        // background-image: url("../images/IcoTirolibre.png");
-        background-repeat: no-repeat;
-        background-position: left center;
-        background-size: contain;
-        overflow: hidden;
-    }
-}
-@media only screen and (max-width: 767px) {
-    .hero-section {
-        height: auto;
-        padding-bottom: 100px;
-        padding-top: 160px;
-        background-position: right 50% top;
-    }
-
-    .hero-section-home {
-        &::before {
-            opacity: 0.3;
-        }
-    }
-}
-
-/*------------------
-	Responsive
----------------------*/
-@media (min-width: 1200px) {
-    .container {
-        max-width: 1170px;
-    }
-}
-@media (max-width: 1585px) {
-    .hero-section .laptop-image {
-        left: 0;
-    }
-}
-@media (max-width: 1425px) {
-    .header-section .site-btn {
-        margin-left: 0;
-    }
-
-    .hero-section {
-        background-position: right 30% top;
-    }
-
-    .hero-section .laptop-image {
-        width: auto;
-        max-width: 100%;
-        top: 70px;
-    }
-}
-@media (min-width: 1199px) and (max-width: 1390px) {}
-/* Medium screen : 992px. */
-@media only screen and (min-width: 992px) and (max-width: 1199px) {
-    .menu-list li a {
-        margin-right: 15px;
-    }
-
-    .hero-section {
-        background-position: right 23% top;
-    }
-
-}
-/* Tablet :768px. */
-@media only screen and (min-width: 768px) and (max-width: 991px) {
-    .header-section {
-        padding: 30px 15px 0;
-    }
-
-    .menu-list li a {
-        margin-right: 6px;
-    }
-
-    .header-section .site-btn {
-        margin-left: 10px;
-    }
-
-    .hero-section {
-        background-position: right 25% top;
-        height: 730px;
-        padding-top: 160px;
-    }
-    .hero-text h2 {
-        font-size: 45px;
-    }
-
-    .pull-3 {
-        right: 0;
-    }
-
-    .push-8 {
-        left: 0;
-    }
-
-}
-/* Large Mobile :480px. */
-@media only screen and (max-width: 767px) {
-    .header-section {
-        padding: 30px 0;
-        background: #fff;
-    }
-
-    .header-section .responsive-bar {
-        float: right;
-        font-size: 25px;
-        display: block;
-        cursor: pointer;
-    }
-
-    .header-section .user {
-        float: right;
-        font-size: 25px;
-        color: #333;
-        margin-right: 20px;
-        display: block;
-    }
-
-    .main-menu {
-        float: none;
-        position: absolute;
-        width: 100%;
-        left: 0;
-        top: 100%;
-        background: #fff;
-        padding: 0 15px;
-        display: none;
-        -webkit-box-shadow: 0 14px 43px rgba(33, 54, 61, 0.15);
-        box-shadow: 0 14px 43px rgba(33, 54, 61, 0.15);
-    }
-
-    .menu-list {
-        list-style: none;
-    }
-
-    .menu-list li {
-        display: block;
-        border-top: 1px solid #e1e1e1;
-    }
-
-    .menu-list li a {
-        display: block;
-        padding: 10px 5px;
-        margin-right: 0;
-        color: #20509e;
-    }
-
-    .hero-text h2 {
-        font-size: 40px;
-    }
-
-    .hero-section {
-        height: auto;
-        padding-bottom: 100px;
-        padding-top: 160px;
-        background-position: right 50% top;
-    }
-
-    .pull-3 {
-        right: 0;
-    }
-
-    .push-8 {
-        left: 0;
-    }
-
-    .header-section .site-btn {
-        display: none;
-    }
-
-}
-/* small Mobile :320px. */
-@media only screen and (max-width: 479px) {}
-
-/*Profile Card 5*/
-.profile-card-5 {
-    margin-top: 20px;
-
-    &:hover {
-        box-shadow: 0 16px 24px 2px rgba(0,0,0,0.14), 0 6px 30px 5px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(0,0,0,0.3);
-    }
-}
-
-.profile-card-5 .btn {
-    border-radius: 2px;
-    text-transform: uppercase;
-    font-size: 12px;
-    padding: 7px 20px;
-}
-
-.profile-card-5 .card-img-block {
-    width: 91%;
-    margin: 0 auto;
-    position: relative;
-    top: -20px;
-}
-
-.profile-card-5 .card-img-block img {
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.63);
-}
-
-.profile-card-5 h5 {
-    color: #4E5E30;
-    font-weight: 600;
-}
-
-.profile-card-5 p {
-    font-size: 14px;
-    font-weight: 300;
-}
-
-.profile-card-5 .btn-primary {
-    background-color: #4E5E30;
-    border-color: #4E5E30;
 }
 </style>

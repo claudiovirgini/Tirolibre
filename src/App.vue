@@ -18,18 +18,19 @@ export default {
 </script>
 
 <style>
+@import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700');
+@import url('https://fonts.googleapis.com/css?family=Libre+Baskerville:400,700');
+
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700,900');
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Lato", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
   /* margin-top: 60px; */
 }
-
-@import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700');
-@import url('https://fonts.googleapis.com/css?family=Libre+Baskerville:400,700');
 
 body,
 html {
@@ -81,7 +82,7 @@ h6 {
   color: #20509e;
   margin: 0;
   font-weight: 500;
-  font-family: "Futura", sans-serif;
+  /* font-family: "Futura", sans-serif; */
 }
 
 h1 {

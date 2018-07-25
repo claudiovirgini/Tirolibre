@@ -38,7 +38,6 @@
   <!-- /.result -->
 </div>
 </template>
-
 <script>
 import {
   EventBus
