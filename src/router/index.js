@@ -16,7 +16,7 @@ export default new Router({
       component: HomeView
     },
     {
-      path: '/welcome',
+      path: '/confirm',
       name: 'Welcome',
       component: WelcomeView
     },

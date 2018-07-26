@@ -70,19 +70,19 @@
         <form class="cd-form">
           <p class="fieldset">
             <label class="image-replace cd-username" for="signup-username">Username</label>
-            <input class="full-width has-padding has-border" id="signup-username" type="text" placeholder="Username">
+            <input class="full-width has-padding has-border" id="signup-username" v-model="usernameSignup" type="text" placeholder="Username">
             <span class="cd-error-message">Error message here!</span>
           </p>
 
           <p class="fieldset">
             <label class="image-replace cd-email" for="signup-email">E-mail</label>
-            <input class="full-width has-padding has-border" id="signup-email" type="email" placeholder="E-mail">
+            <input class="full-width has-padding has-border" id="signup-email" type="email" v-model="emailSignup" placeholder="E-mail">
             <span class="cd-error-message">Error message here!</span>
           </p>
 
           <p class="fieldset">
             <label class="image-replace cd-password" for="signup-password">Password</label>
-            <input class="full-width has-padding has-border" id="signup-password" type="text" placeholder="Password">
+            <input class="full-width has-padding has-border" id="signup-password" type="text" v-model="passwordSignup" placeholder="Password">
             <a href="#0" class="hide-password">Hide</a>
             <span class="cd-error-message">Error message here!</span>
           </p>
@@ -95,15 +95,15 @@
                 <div class="switch-field">
                   <!-- <div class="switch-title">-Io sono-</div> -->
                   <div class="switch-content player form-check form-check-inline">
-                    <input type="radio" id="switch_3_left" name="who" value="who-calciatore" class="form-check-input" checked/>
+                    <input type="radio"  id="switch_3_left" name="who" value="0" v-model="profileSignup" class="form-check-input" checked/>
                     <label for="switch_3_left" class="calciatore form-check-label">calciatore</label>
                   </div>
                   <div class="switch-content club form-check form-check-inline">
-                    <input type="radio" id="switch_3_center" name="who" value="who-team" class="form-check-input" />
+                    <input type="radio" id="switch_3_center" name="who" value="1" v-model="profileSignup" class="form-check-input" />
                     <label for="switch_3_center" class="calciatore form-check-label">team</label>
                   </div>
                   <div class="switch-content agent form-check form-check-inline">
-                    <input type="radio" id="switch_3_right" name="who" value="who-agente" class="form-check-input" />
+                    <input type="radio" id="switch_3_right" name="who" value="2" v-model="profileSignup" class="form-check-input" />
                     <label for="switch_3_right" class="calciatore form-check-label">agente</label>
                   </div>
                 </div>
@@ -119,7 +119,7 @@
           </p>
 
           <p class="fieldset">
-            <input class="full-width has-padding" type="submit" value="Crea account">
+            <input class="full-width has-padding" type="submit" value="Crea account" @click="signup(usernameSignup, emailSignup, passwordSignup,profileSignup,profileSignup)">
           </p>
         </form>
 
@@ -135,7 +135,7 @@
           <p class="fieldset">
             <label class="image-replace cd-email" for="reset-email">E-mail</label>
             <input class="full-width has-padding has-border" id="reset-email" type="email" placeholder="E-mail">
-            <span class="cd-error-message">Error message here!</span>
+            <!--<span class="cd-error-message">Error message here!</span>-->
           </p>
 
           <p class="fieldset">
@@ -156,6 +156,7 @@
 
 <script>
 import Vue from 'vue'
+<<<<<<< HEAD
 import VueAxios from 'vue-axios'
 import VueAuthenticate from 'vue-authenticate'
 import axios from 'axios'
@@ -171,11 +172,19 @@ Vue.use(VueAuthenticate, {
   //  }
   //}
 })
+=======
+
+>>>>>>> 44f6d3b528857031940bfda9b0955bab5c15b3c7
 export default {
   name: 'Header',
   data: {
     userLoginEmail: '',
-    userLoginPWD: ''
+    userLoginPWD: '',
+
+    usernameSignup : '',
+    passwordSignup : '',
+    emailSignup: '',
+    profileSignup : ''
   },
   methods: {
     login: function(email, pwd) {
@@ -183,12 +192,14 @@ export default {
       var data = "grant_type=password&userName=" + email + "&password=" + pwd;
       this.$auth.login(data)
         .then(response => {
-          alert(response.data.access_token)
+          //alert(response.data.access_token)
+          alert('Login OK');
         })
         .catch(error => {
           alert(JSON.stringify(error.response.data.error_description))
         })
     },
+<<<<<<< HEAD
     register: function(name, email, password) {
       this.$auth.register({
         name,
@@ -198,6 +209,17 @@ export default {
       }).then(function() {
         // Execute application logic after successful registration
       })
+=======
+    signup: function (username, email, password, profile) {
+      this.$auth.register({ UserName: username, Email: email, Password: password, Profile: profile, Environment: this.$store.state.configurations.environment })
+        .then(response => {
+          //alert(JSON.stringify(response.data))
+          alert('SignUP OK');
+        })
+        .catch(error => {
+          alert(error.response.data.ExceptionMessage)
+        })
+>>>>>>> 44f6d3b528857031940bfda9b0955bab5c15b3c7
     }
 
   }

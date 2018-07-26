@@ -49,7 +49,22 @@ import Logo from '@/components/Logo'
     mounted() {
       alert(this.$route.query.confirm)
     }
+<<<<<<< HEAD
   }
+=======
+    },
+    mounted() {
+      alert(this.$route.query.cf)
+      axios.post(this.$store.state.configurations.serviceBaseUrl + '/api/Account/ConfirmEmail', { Environment: this.$store.state.configurations.environment, ConfirmationCode: this.$route.query.cf})
+        .then(response => {
+          alert('Activation OK')
+        })
+        .catch(error => {
+          alert('Activation KO')
+        })
+    }
+}
+>>>>>>> 44f6d3b528857031940bfda9b0955bab5c15b3c7
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
