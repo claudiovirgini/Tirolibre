@@ -1,61 +1,61 @@
 <template lang="html">
   <div>
-      <section class="hero-section" v-if="cardResult">
-        <div class="container">
-          <div class="row">
-            <Logo />
-            <div class="col-md-12">
-                <p style="color: #000;">What is: {{ what }}</p>
-                <p style="color: #000;">Where is: {{ where }}</p>
-              <form class="shadow-lg">
-                <div class="col-md-6">
-                  <label>Cosa cerchi
-                    <select tabindex="1" v-model="what">
-                      <option>calciatore</option>
-                      <option>team</option>
-                      <option>agente</option>
-                      <option>ds</option>
-                      <option>allenatore</option>
-                    </select>
+      <!-- <section class="hero-section" v-if="cardResult"> -->
+      <section class="pusher" v-if="cardResult">
+        <div class="main-header">
+          <div class="container">
+            <div class="row">
+              <Logo />
+              <div class="col-md-12">
+                  <!-- <p style="color: #000;">What is: {{ what }}</p>
+                  <p style="color: #000;">Where is: {{ where }}</p> -->
+                <form class="shadow-lg">
+                  <div class="col-md-6">
+                    <label>Cosa cerchi
+                      <select tabindex="1" v-model="what">
+                        <option>calciatore</option>
+                        <option>team</option>
+                        <option>agente</option>
+                        <option>ds</option>
+                        <option>allenatore</option>
+                      </select>
+                    </label>
+                  </div>
+                  <div class="col-md-6">
+                    <label>Dove cerchi
+                    <input placeholder="Dove cerchi?" tabindex="2" v-model="where" />
                   </label>
-                </div>
-                <div class="col-md-6">
-                  <label>Dove cerchi
-                  <input placeholder="Dove cerchi?" tabindex="2" v-model="where" />
-                </label>
-                </div>
-              </form>
-            </div>
-          </div>
-          <div class="row">
-
-              <!-- <Card /> -->
-            <div class="col-md-4 mt-4" v-for="card in filteredCustomers" :key="card.name" @click="playerProfile(card.name)">
-              <div class="card profile-card-5">
-                <div class="card-img-block">
-                  <img class="card-img-top" :src="card.fullpath" alt="Card image cap">
-                </div>
-                <div class="card-body pt-0">
-                  <h5 class="card-title">{{ card.name }}</h5>
-                  <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
-                  <p class="card-text" v-if="card.profile === 'calciatore'">
-                    {{ card.role }} | {{ card.age }}
-                  </p>
-                  <p class="card-text" v-if="card.profile === 'team'">
-                    {{ card.fulladdress }} | {{ card.level }}
-                  </p>
-                  <router-link class="total-btn" tag="button" :to="{ name: 'Player', params: { id: $route.params.id }, query: {user: card.name}}">
-                    <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
-                    Apri profilo
-                  </router-link>
-
-                </div>
+                  </div>
+                </form>
               </div>
             </div>
+            <div class="row">
 
+              <!-- <Card /> -->
+              <div class="col-md-4 mt-4" v-for="card in filteredCustomers" :key="card.name" @click="playerProfile(card.name)">
+                  <div class="card profile-card-5">
+                    <div class="card-img-block">
+                      <img class="card-img-top" :src="card.fullpath" alt="Card image cap">
+                    </div>
+                    <div class="card-body pt-0">
+                      <h5 class="card-title">{{ card.name }}</h5>
+                      <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+                      <p class="card-text" v-if="card.profile === 'calciatore'">
+                        {{ card.role }} | {{ card.age }}
+                      </p>
+                      <p class="card-text" v-if="card.profile === 'team'">
+                        {{ card.fulladdress }} | {{ card.level }}
+                      </p>
+                      <router-link class="total-btn" tag="button" :to="{ name: 'Player', params: { id: $route.params.id }, query: {user: card.name}}">
+                        <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                        Apri profilo
+                      </router-link>
+
+                    </div>
+                  </div>
+                </div>
+            </div>
           </div>
-
-
         </div>
       </section>
 
@@ -87,8 +87,7 @@ export default {
     Player
     // Footer
   },
- data() {
-  
+  data() {
     return {
       countries: [],
       userProfile: false,
@@ -171,6 +170,27 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style scoped lang="scss">
+.pusher {
+    background-image: url("../assets/images/bg-footer.jpg");
+    background-repeat: no-repeat;
+    background-position: 50% 300px;
+    background-size: cover;
+    min-height: 100vh;
+}
+.main-header {
+    // background-color: #d7e5e8;
+    background-color: #FFF;
+    // background-image: url("https://www.higuests.com/assets/images/alfred_001.png");
+    background-image: url("../assets/images/logo-footer.png");
+    background-repeat: no-repeat;
+    background-position: 50% 110%;
+    background-size: 200px auto;
+    padding-bottom: 220px;
+    border-radius: 0 0 9000px 6000px /1500px;
+    min-height: 600px;
+    overflow: hidden;
+    box-shadow: 0 1rem 3rem rgba(0,0,0,.175);
+}
 h1 {
     text-transform: uppercase;
     font-size: 2.5rem;
@@ -179,18 +199,18 @@ h1 {
         color: #FFF;
     }
 }
-.hero-section {
-    min-height: 900px;
-    padding-top: 30px;
-    display: block;
-    background-image: url("../assets/images/home5-bg.png");
-    // background-size: cover;
-    // background-color: #f3f7f9;
-    background-position: right top;
-    background-repeat: no-repeat;
-    position: relative;
-    overflow: hidden;
-
+// .hero-section {
+//     min-height: 900px;
+//     padding-top: 30px;
+//     display: block;
+//     background-image: url("../assets/images/home5-bg.png");
+//     // background-size: cover;
+//     // background-color: #f3f7f9;
+//     background-position: right top;
+//     background-repeat: no-repeat;
+//     position: relative;
+//     overflow: hidden;
+.pusher {
     form {
         display: block;
         margin: 30px auto;

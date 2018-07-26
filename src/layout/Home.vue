@@ -38,7 +38,6 @@
   <!-- /.result -->
 </div>
 </template>
-
 <script>
 import {
   EventBus
@@ -102,8 +101,6 @@ export default {
       this.error = null
       this.filter = false
       this.cardResult = true
-      // ../static/data/country.json
-      // http://35.193.9.82:121/api/Search/FindUser
       axios.get('http://35.193.9.82:121/api/Search/FindUser', {})
         .then(response => {
           console.log('userList Response:', response)
