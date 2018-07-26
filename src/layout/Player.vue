@@ -3,6 +3,8 @@
       <!-- <section class="hero-section" v-if="cardResult"> -->
       <section class="pusher" v-if="cardResult">
         <div class="main-header">
+
+
         <div class="container">
           <div class="row">
             <!-- <Logo /> -->
@@ -77,7 +79,7 @@
                 <div class="col-lg-12 personal-info">
                      <form role="form">
                         <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label font-weight-bold">Nome</label>
+                            <label class="col-lg-3 text-right col-form-label form-control-label font-weight-bold">Nome</label>
                             <div class="col-lg-6">
                                 <!-- <input class="form-control" type="text" value="Jane" /> -->
                                 <input type="text" v-model="user.firstName">
@@ -88,7 +90,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label font-weight-bold">Cognome</label>
+                            <label class="col-lg-3 text-right col-form-label form-control-label font-weight-bold">Cognome</label>
                             <div class="col-lg-6">
                             <input type="text" v-model="user.lastName">
                             <!-- <input type="text" v-model="user.lastName" :disabled="!isEditing" :class="{view: !isEditing}">
@@ -99,7 +101,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label font-weight-bold">Classe</label>
+                            <label class="col-lg-3 text-right col-form-label form-control-label font-weight-bold">Classe</label>
                             <div class="col-lg-6">
                             <input type="text" v-model="user.classe">
                              <!-- <button @click="isEditing = !isEditing" class="hide">
@@ -109,7 +111,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label font-weight-bold">Nazionalità</label>
+                            <label class="col-lg-3 text-right col-form-label form-control-label font-weight-bold">Nazionalità</label>
                             <div class="col-lg-6">
                             <input type="text" v-model="user.nazionalita">
                              <!-- <button @click="isEditing = !isEditing" class="hide">
@@ -122,7 +124,7 @@
                         <hr>
 
                         <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label font-weight-bold">Ruolo</label>
+                            <label class="col-lg-3 text-right col-form-label form-control-label font-weight-bold">Ruolo</label>
                             <div class="col-lg-6">
                             <input type="text" v-model="user.ruolo">
                              <!-- <button @click="isEditing = !isEditing" class="hide">
@@ -132,7 +134,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label font-weight-bold">Status Contrattuale</label>
+                            <label class="col-lg-3 text-right col-form-label form-control-label font-weight-bold">Status Contrattuale</label>
                             <div class="col-lg-6">
                             <input type="text" v-model="user.status">
                              <!-- <button @click="isEditing = !isEditing" class="hide">
@@ -142,7 +144,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label font-weight-bold">Dove ti trovi</label>
+                            <label class="col-lg-3 text-right col-form-label form-control-label font-weight-bold">Dove ti trovi</label>
                             <div class="col-lg-6">
                             <input type="text" v-model="user.doveTiTrovi">
                              <!-- <button @click="isEditing = !isEditing" class="hide">
@@ -152,7 +154,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label font-weight-bold">Dove cerchi</label>
+                            <label class="col-lg-3 text-right col-form-label form-control-label font-weight-bold">Dove cerchi</label>
                             <div class="col-lg-6">
                             <input type="text" v-model="user.doveCerchi">
                              <!-- <button @click="isEditing = !isEditing" class="hide">
@@ -165,7 +167,7 @@
                         <hr>
 
                         <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label font-weight-bold">Numero di telefono</label>
+                            <label class="col-lg-3 text-right col-form-label form-control-label font-weight-bold">Numero di telefono</label>
                             <div class="col-lg-6">
                             <input type="text" v-model="user.tel">
                              <!-- <button @click="isEditing = !isEditing" class="hide">
@@ -175,7 +177,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label font-weight-bold">Peso</label>
+                            <label class="col-lg-3 text-right col-form-label form-control-label font-weight-bold">Peso</label>
                             <div class="col-lg-6">
                             <input type="text" v-model="user.peso">
                              <!-- <button @click="isEditing = !isEditing" class="hide">
@@ -185,7 +187,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label font-weight-bold">Altezza</label>
+                            <label class="col-lg-3 text-right col-form-label form-control-label font-weight-bold">Altezza</label>
                             <div class="col-lg-6">
                             <input type="text" v-model="user.altezza">
                              <!-- <button @click="isEditing = !isEditing" class="hide">
@@ -195,7 +197,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label font-weight-bold">Ultimi tre campionati</label>
+                            <label class="col-lg-3 text-right col-form-label form-control-label font-weight-bold">Ultimi tre campionati</label>
                             <div class="col-lg-6">
                             <input type="text" v-model="user.campionato1">
                              <!-- <button @click="isEditing = !isEditing" class="hide">
@@ -205,7 +207,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label font-weight-bold"></label>
+                            <label class="col-lg-3 text-right col-form-label form-control-label font-weight-bold"></label>
                             <div class="col-lg-6">
                             <input type="text" v-model="user.campionato2">
                              <!-- <button @click="isEditing = !isEditing" class="hide">
@@ -215,7 +217,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label font-weight-bold"></label>
+                            <label class="col-lg-3 text-right col-form-label form-control-label font-weight-bold"></label>
                             <div class="col-lg-6">
                             <input type="text" v-model="user.campionato3">
                              <!-- <button @click="isEditing = !isEditing" class="hide">
@@ -242,7 +244,7 @@
                         </div> -->
                         <div class="form-group row">
                             <label class="col-lg-3 col-form-label form-control-label"></label>
-                            <div class="col-lg-9">
+                            <div class="col-lg-9 text-right">
                                 <input type="reset" class="btn btn-secondary" value="Cancel" />
                                 <input type="button" class="btn btn-primary" value="Save Changes" />
                             </div>
@@ -424,6 +426,9 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style scoped lang="scss">
+input {
+    padding: 8px 10px;
+}
 .pusher {
     background-image: url("../assets/images/bg-footer.jpg");
     background-repeat: no-repeat;
