@@ -35,18 +35,21 @@ import axios from 'axios'
 import Header from '@/components/Header'
 import Logo from '@/components/Logo'
 
-export default {
-  name: 'Home',
-  components: {
-    Header,
-    Logo
-  },
-  data() {
-    return {
-      msg: 'Welcome to TiroLibre'
+  export default {
+    name: 'Home',
+    components: {
+      Header,
+      Logo
+    },
+    data() {
+      return {
+        msg: 'Welcome to Tirolibre'
+      }
+    },
+    mounted() {
+      alert(this.$route.query.confirm)
     }
   }
-}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

@@ -164,12 +164,12 @@ Vue.use(VueAxios, axios)
 Vue.use(VueAuthenticate, {
   baseUrl: 'http://35.193.9.82:121', // Your API domain
 
-  providers: {
-    github: {
-      clientId: '',
-      redirectUri: 'http://localhost:8080/auth/callback' // Your client app URL
-    }
-  }
+  //providers: {
+  //  github: {
+  //    clientId: '',
+  //    redirectUri: 'http://localhost:8080/auth/callback' // Your client app URL
+  //  }
+  //}
 })
 export default {
   name: 'Header',
@@ -193,7 +193,8 @@ export default {
       this.$auth.register({
         name,
         email,
-        password
+        password,
+        profile
       }).then(function() {
         // Execute application logic after successful registration
       })
