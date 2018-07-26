@@ -1,26 +1,18 @@
 <template>
 <header role="banner" class="masthead mb-auto shadow-lg">
   <div id="cd-logo">
-    <a class="navbar-brand" href="#">
+    <router-link to="/">
+      <a class="navbar-brand" href="#">
       <img src="../../static/images/icoTiroLibre.png" width="30" height="30" class="d-inline-block align-top" alt="TiroLibre">
       TiroLibre
     </a>
+    </router-link>
   </div>
 
   <nav class="main-nav">
     <ul>
-      <!-- inser more links here -->
-      <li><a class="cd-signin" href="#">Login</a></li>
-      <!-- <li><a class="cd-signup" href="#0">Sign up</a></li> -->
-      <!-- <li>
-        <button class="cd-signin btn btn-menu box btn-signin" type="button">
-            <span class="box__content-wrap">
-                <span class="box__content">
-                    Login
-                </span>
-            </span>
-        </button>
-      </li> -->
+      <li><a class="cd-signin" href="#">Accedi</a></li>
+      <li><a class="cd-signup" href="#0">Registrati</a></li>
     </ul>
   </nav>
 
@@ -30,7 +22,7 @@
     <div class="cd-user-modal-container">
       <!-- this is the container wrapper -->
       <ul class="cd-switcher">
-        <li><a href="#0">Login</a></li>
+        <li><a href="#0">Accedi</a></li>
         <li><a href="#0">Registrati</a></li>
       </ul>
 
@@ -95,7 +87,7 @@
                 <div class="switch-field">
                   <!-- <div class="switch-title">-Io sono-</div> -->
                   <div class="switch-content player form-check form-check-inline">
-                    <input type="radio"  id="switch_3_left" name="who" value="0" v-model="profileSignup" class="form-check-input" checked/>
+                    <input type="radio" id="switch_3_left" name="who" value="0" v-model="profileSignup" class="form-check-input" checked/>
                     <label for="switch_3_left" class="calciatore form-check-label">calciatore</label>
                   </div>
                   <div class="switch-content club form-check form-check-inline">
@@ -156,7 +148,6 @@
 
 <script>
 import Vue from 'vue'
-<<<<<<< HEAD
 import VueAxios from 'vue-axios'
 import VueAuthenticate from 'vue-authenticate'
 import axios from 'axios'
@@ -172,19 +163,16 @@ Vue.use(VueAuthenticate, {
   //  }
   //}
 })
-=======
-
->>>>>>> 44f6d3b528857031940bfda9b0955bab5c15b3c7
 export default {
   name: 'Header',
   data: {
     userLoginEmail: '',
     userLoginPWD: '',
 
-    usernameSignup : '',
-    passwordSignup : '',
+    usernameSignup: '',
+    passwordSignup: '',
     emailSignup: '',
-    profileSignup : ''
+    profileSignup: ''
   },
   methods: {
     login: function(email, pwd) {
@@ -199,7 +187,6 @@ export default {
           alert(JSON.stringify(error.response.data.error_description))
         })
     },
-<<<<<<< HEAD
     register: function(name, email, password) {
       this.$auth.register({
         name,
@@ -209,9 +196,15 @@ export default {
       }).then(function() {
         // Execute application logic after successful registration
       })
-=======
-    signup: function (username, email, password, profile) {
-      this.$auth.register({ UserName: username, Email: email, Password: password, Profile: profile, Environment: this.$store.state.configurations.environment })
+    },
+    signup: function(username, email, password, profile) {
+      this.$auth.register({
+          UserName: username,
+          Email: email,
+          Password: password,
+          Profile: profile,
+          Environment: this.$store.state.configurations.environment
+        })
         .then(response => {
           //alert(JSON.stringify(response.data))
           alert('SignUP OK');
@@ -219,14 +212,12 @@ export default {
         .catch(error => {
           alert(error.response.data.ExceptionMessage)
         })
->>>>>>> 44f6d3b528857031940bfda9b0955bab5c15b3c7
     }
-
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+ <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 header[role=banner] {
     position: relative;
@@ -741,119 +732,6 @@ xsigin/signup popup
 #cd-signup.is-selected {
     display: block;
 }
-
-/*login btn*/
-
-button {
-    border: none;
-}
-.btn-signin {
-    background-color: #00852f !important;
-    width: 120px;
-    height: 40px;
-}
-
-.box {
-    background-color: inherit;
-    border-radius: 0.2em;
-    cursor: pointer;
-    color: white;
-    display: inline-block;
-    padding: 10px;
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
-}
-
-.box:hover {
-    color: #FFF;
-}
-
-.login-btn-black .box:hover {
-    color: #000;
-}
-
-.login-btn-black .box {
-    color: #000;
-}
-
-.box::after,
-.box::before {
-    background-color: #afeb61;
-    content: "";
-    position: absolute;
-    transform: translate3D(0, 100%, 0);
-    transition: transform 200ms linear;
-    transition-delay: 200ms;
-    width: 2px;
-    height: 100%;
-    bottom: 0;
-}
-
-.box::before {
-    right: 0;
-    left: auto;
-}
-
-.box::after {
-    left: 0;
-}
-
-.box__content::after {
-    content: "";
-    height: 2px;
-    border-bottom: 2px solid #afeb61;
-    bottom: 0;
-    position: absolute;
-    right: 30%;
-    left: 30%;
-    transition: left 200ms linear, right 200ms linear;
-    /* double delayed time for transition */
-    transition-delay: 400ms;
-}
-
-.box__content-wrap::after,
-.box__content-wrap::before {
-    border-top: 2px solid #afeb61;
-    content: "";
-    position: absolute;
-    top: 0;
-    transition: transform 200ms linear;
-    width: 50%;
-}
-
-.box__content-wrap::before {
-    left: 0;
-    transform: translate3D(-101%, 0, 0);
-}
-
-.box__content-wrap::after {
-    right: 0;
-    transform: translate3D(101%, 0, 0);
-}
-
-.box:hover::after,
-.box:hover::before {
-    transform: translate3D(0, 0, 0);
-    transition: transform 200ms linear;
-    transition-delay: 200ms;
-}
-
-.box:hover .box__content::after {
-    right: 1%;
-    left: 1%;
-    transition: left 200ms linear, right 200ms linear;
-}
-
-.box:hover .box__content-wrap::after,
-.box:hover .box__content-wrap::before {
-    transform: translate3D(0, 0, 0);
-    transition: transform 200ms linear;
-    /* double delayed time for transition */
-    transition-delay: 400ms;
-}
-
-/* /login btn*/
 
 // .switch-field input:checked+label {
 .switch-field label {

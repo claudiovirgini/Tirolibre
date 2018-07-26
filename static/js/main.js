@@ -36,10 +36,10 @@ $(window).on('load', function() {
 	/*------------------
 		Background set
 	--------------------*/
-	$('.set-bg').each(function() {
-		var bg = $(this).data('setbg');
-		$(this).css('background-image', 'url(' + bg + ')');
-	});
+	// $('.set-bg').each(function() {
+	// 	var bg = $(this).data('setbg');
+	// 	$(this).css('background-image', 'url(' + bg + ')');
+	// });
 
 
 

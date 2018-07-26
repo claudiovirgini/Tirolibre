@@ -1,6 +1,5 @@
 <template lang="html">
   <div>
-      <!-- <section class="hero-section" v-if="cardResult"> -->
       <section class="pusher" v-if="cardResult">
         <div class="main-header">
           <div class="container">
@@ -30,35 +29,31 @@
               </div>
             </div>
             <div class="row">
-
-              <!-- <Card /> -->
               <div class="col-md-4 mt-4" v-for="card in filteredCustomers" :key="card.name" @click="playerProfile(card.name)">
-                  <div class="card profile-card-5">
-                    <div class="card-img-block">
-                      <img class="card-img-top" :src="card.fullpath" alt="Card image cap">
-                    </div>
-                    <div class="card-body pt-0">
-                      <h5 class="card-title">{{ card.name }}</h5>
-                      <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
-                      <p class="card-text" v-if="card.profile === 'calciatore'">
-                        {{ card.role }} | {{ card.age }}
-                      </p>
-                      <p class="card-text" v-if="card.profile === 'team'">
-                        {{ card.fulladdress }} | {{ card.level }}
-                      </p>
-                      <router-link class="total-btn" tag="button" :to="{ name: 'Player', params: { id: $route.params.id }, query: {user: card.name}}">
-                        <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
-                        Apri profilo
-                      </router-link>
+                <div class="card profile-card-5">
+                  <div class="card-img-block">
+                    <img class="card-img-top" :src="card.fullpath" alt="Card image cap">
+                  </div>
+                  <div class="card-body pt-0">
+                    <h5 class="card-title">{{ card.name }}</h5>
+                    <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+                    <p class="card-text" v-if="card.profile === 'calciatore'">
+                      {{ card.role }} | {{ card.age }}
+                    </p>
+                    <p class="card-text" v-if="card.profile === 'team'">
+                      {{ card.fulladdress }} | {{ card.level }}
+                    </p>
+                    <router-link class="total-btn" tag="button" :to="{ name: 'Player', params: { id: $route.params.id }, query: {user: card.name}}">
+                      Apri profilo
+                    </router-link>
 
-                    </div>
                   </div>
                 </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
-
 
     <!-- <Footer /> -->
 
@@ -75,14 +70,12 @@ import {
 } from '../event-bus'
 import axios from 'axios'
 
-import Header from '@/components/Header'
 import Logo from '@/components/Logo'
 import Player from './Player'
 // import Footer from '@/components/Footer'
 export default {
   name: 'Result',
   components: {
-    Header,
     Logo,
     Player
     // Footer
@@ -199,17 +192,6 @@ h1 {
         color: #FFF;
     }
 }
-// .hero-section {
-//     min-height: 900px;
-//     padding-top: 30px;
-//     display: block;
-//     background-image: url("../assets/images/home5-bg.png");
-//     // background-size: cover;
-//     // background-color: #f3f7f9;
-//     background-position: right top;
-//     background-repeat: no-repeat;
-//     position: relative;
-//     overflow: hidden;
 .pusher {
     form {
         display: block;
@@ -294,34 +276,6 @@ h1 {
     }
 }
 
-.hero-section-home {
-    &:before {
-        content: '';
-        position: absolute;
-        width: 100%;
-        height: 220px;
-        // background-image: url("../images/IcoTirolibre.png");
-        background-repeat: no-repeat;
-        background-position: left center;
-        background-size: contain;
-        overflow: hidden;
-    }
-}
-@media only screen and (max-width: 767px) {
-    .hero-section {
-        height: auto;
-        padding-bottom: 100px;
-        padding-top: 160px;
-        background-position: right 50% top;
-    }
-
-    .hero-section-home {
-        &::before {
-            opacity: 0.3;
-        }
-    }
-}
-
 /*------------------
 	Responsive
 ---------------------*/
@@ -330,147 +284,6 @@ h1 {
         max-width: 1170px;
     }
 }
-@media (max-width: 1585px) {
-    .hero-section .laptop-image {
-        left: 0;
-    }
-}
-@media (max-width: 1425px) {
-    .header-section .site-btn {
-        margin-left: 0;
-    }
-
-    .hero-section {
-        background-position: right 30% top;
-    }
-
-    .hero-section .laptop-image {
-        width: auto;
-        max-width: 100%;
-        top: 70px;
-    }
-}
-@media (min-width: 1199px) and (max-width: 1390px) {}
-/* Medium screen : 992px. */
-@media only screen and (min-width: 992px) and (max-width: 1199px) {
-    .menu-list li a {
-        margin-right: 15px;
-    }
-
-    .hero-section {
-        background-position: right 23% top;
-    }
-
-}
-/* Tablet :768px. */
-@media only screen and (min-width: 768px) and (max-width: 991px) {
-    .header-section {
-        padding: 30px 15px 0;
-    }
-
-    .menu-list li a {
-        margin-right: 6px;
-    }
-
-    .header-section .site-btn {
-        margin-left: 10px;
-    }
-
-    .hero-section {
-        background-position: right 25% top;
-        height: 730px;
-        padding-top: 160px;
-    }
-    .hero-text h2 {
-        font-size: 45px;
-    }
-
-    .pull-3 {
-        right: 0;
-    }
-
-    .push-8 {
-        left: 0;
-    }
-
-}
-/* Large Mobile :480px. */
-@media only screen and (max-width: 767px) {
-    .header-section {
-        padding: 30px 0;
-        background: #fff;
-    }
-
-    .header-section .responsive-bar {
-        float: right;
-        font-size: 25px;
-        display: block;
-        cursor: pointer;
-    }
-
-    .header-section .user {
-        float: right;
-        font-size: 25px;
-        color: #333;
-        margin-right: 20px;
-        display: block;
-    }
-
-    .main-menu {
-        float: none;
-        position: absolute;
-        width: 100%;
-        left: 0;
-        top: 100%;
-        background: #fff;
-        padding: 0 15px;
-        display: none;
-        -webkit-box-shadow: 0 14px 43px rgba(33, 54, 61, 0.15);
-        box-shadow: 0 14px 43px rgba(33, 54, 61, 0.15);
-    }
-
-    .menu-list {
-        list-style: none;
-    }
-
-    .menu-list li {
-        display: block;
-        border-top: 1px solid #e1e1e1;
-    }
-
-    .menu-list li a {
-        display: block;
-        padding: 10px 5px;
-        margin-right: 0;
-        color: #20509e;
-    }
-
-    .hero-text h2 {
-        font-size: 40px;
-    }
-
-    .hero-section {
-        height: auto;
-        padding-bottom: 100px;
-        padding-top: 160px;
-        background-position: right 50% top;
-    }
-
-    .pull-3 {
-        right: 0;
-    }
-
-    .push-8 {
-        left: 0;
-    }
-
-    .header-section .site-btn {
-        display: none;
-    }
-
-}
-/* small Mobile :320px. */
-@media only screen and (max-width: 479px) {}
 
 /*Profile Card 5*/
 .profile-card-5 {

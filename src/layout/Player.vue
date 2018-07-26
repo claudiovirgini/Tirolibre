@@ -333,14 +333,12 @@ import {
 } from '../event-bus'
 import axios from 'axios'
 
-import Header from '@/components/Header'
 import Logo from '@/components/Logo'
 import Player from './Player'
 // import Footer from '@/components/Footer'
 export default {
   name: 'Result',
   components: {
-    Header,
     Logo,
     Player
     // Footer

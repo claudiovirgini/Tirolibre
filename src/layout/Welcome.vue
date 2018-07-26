@@ -1,6 +1,5 @@
 <template lang="html">
   <div>
-    <!-- <Header /> -->
     <section class="pusher">
       <div class="main-header">
 
@@ -32,39 +31,32 @@
 
 <script>
 import axios from 'axios'
-import Header from '@/components/Header'
 import Logo from '@/components/Logo'
 
-  export default {
-    name: 'Home',
-    components: {
-      Header,
-      Logo
-    },
-    data() {
-      return {
-        msg: 'Welcome to Tirolibre'
-      }
-    },
-    mounted() {
-      alert(this.$route.query.confirm)
+export default {
+  name: 'Home',
+  components: {
+    Logo
+  },
+  data() {
+    return {
+      msg: 'Welcome to Tirolibre'
     }
-<<<<<<< HEAD
+  },
+  mounted() {
+    alert(this.$route.query.cf)
+    axios.post(this.$store.state.configurations.serviceBaseUrl + '/api/Account/ConfirmEmail', {
+        Environment: this.$store.state.configurations.environment,
+        ConfirmationCode: this.$route.query.cf
+      })
+      .then(response => {
+        alert('Activation OK')
+      })
+      .catch(error => {
+        alert('Activation KO')
+      })
   }
-=======
-    },
-    mounted() {
-      alert(this.$route.query.cf)
-      axios.post(this.$store.state.configurations.serviceBaseUrl + '/api/Account/ConfirmEmail', { Environment: this.$store.state.configurations.environment, ConfirmationCode: this.$route.query.cf})
-        .then(response => {
-          alert('Activation OK')
-        })
-        .catch(error => {
-          alert('Activation KO')
-        })
-    }
 }
->>>>>>> 44f6d3b528857031940bfda9b0955bab5c15b3c7
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

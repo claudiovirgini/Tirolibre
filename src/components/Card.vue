@@ -1,17 +1,26 @@
 <template>
-<!--Profile Card 5-->
-<div class="col-md-4 mt-4" v-for="card in filteredCustomers" :key="card.title">
-  <div class="card profile-card-5">
-    <div class="card-img-block">
-      <img class="card-img-top" :src="card.src" alt="Card image cap">
-    </div>
-    <div class="card-body pt-0">
-      <h5 class="card-title">{{ card.title }}</h5>
-      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-      <a href="#" class="btn btn-primary">Go somewhere</a>
+<div>
+  <div class="col-md-4 mt-4" v-for="card in filteredCustomers" :key="card.name" @click="playerProfile(card.name)">
+    <div class="card profile-card-5">
+      <div class="card-img-block">
+        <img class="card-img-top" :src="card.fullpath" alt="Card image cap">
+      </div>
+      <div class="card-body pt-0">
+        <h5 class="card-title">{{ card.name }}</h5>
+        <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+        <p class="card-text" v-if="card.profile === 'calciatore'">
+          {{ card.role }} | {{ card.age }}
+        </p>
+        <p class="card-text" v-if="card.profile === 'team'">
+          {{ card.fulladdress }} | {{ card.level }}
+        </p>
+        <router-link class="total-btn" tag="button" :to="{ name: 'Player', params: { id: $route.params.id }, query: {user: card.name}}">
+          Apri profilo
+        </router-link>
+
+      </div>
     </div>
   </div>
-  <!-- <p class="mt-3 w-100 float-left text-center"><strong>Card with Floting Picture</strong></p> -->
 </div>
 </template>
 
@@ -21,16 +30,19 @@ export default {
   name: 'Card',
   data() {
     return {
-      countries: []
+      countries: [],
+      userProfile: false,
+      cardResult: true,
     }
   },
-  props: ['search', 'search02', 'search03'],
   methods: {
-    countryList: function() {
+    userList: function() {
       this.error = null;
-      axios.get('../static/data/country.json', {})
+      // ../static/data/country.json
+      // http://35.193.9.82:121/api/Search/FindUser
+      axios.get('http://35.193.9.82:121/api/Search/FindUser', {})
         .then(response => {
-          console.log('countryList Response:', response)
+          console.log('userList Response:', response)
           if (response.status !== 200) {
             this.error = response.statusText
             return
@@ -42,22 +54,50 @@ export default {
           console.log('error', error.response)
           this.error = error.response
         })
+    },
+    playerProfile: function() {
+      this.cardResult = false
+      this.userProfile = true
+      console.log("player " + this.$store.state.id)
     }
   },
   computed: {
+    what: {
+      get() {
+        return this.$store.state.what;
+      },
+      set(value) {
+        this.$store.commit("SET_WHAT", value);
+      }
+    },
+    where: {
+      get() {
+        return this.$store.state.where;
+      },
+      set(value) {
+        this.$store.commit("SET_WHERE", value);
+      }
+    },
+    player: {
+      get() {
+        return this.$store.state.player;
+      },
+      set(value) {
+        this.$store.commit("SET_PLAYER", value);
+      }
+    },
     filteredCustomers: function() {
       const {
-        search,
-        search02,
-        search03
+        what,
+        where
       } = this;
       return this.countries
-        .filter(card => card.title === search || card.title === search02 || card.title === search03)
+        .filter(card => card.profile === what)
+      // || card.where === where
     }
   },
   mounted() {
-    //from your component
-    this.countryList()
+    this.userList()
   }
 }
 </script>

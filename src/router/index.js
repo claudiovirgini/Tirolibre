@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import HomeView from '@/layout/Home'
 import ResultView from '@/layout/Result'
-import HomeFormView from '@/layout/Home-Form'
 import PlayerView from '@/layout/Player'
 import WelcomeView from '@/layout/Welcome'
 
@@ -28,11 +27,6 @@ export default new Router({
       props: (route) => ({
           player: route.query.name
       })
-    },
-    {
-      path: '/home-form',
-      name: 'HomeForm',
-      component: HomeFormView
     },
     {
       path: '/player',
