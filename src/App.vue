@@ -1,8 +1,7 @@
 <template>
 <div id="app">
-  <!-- <img src="./assets/logo.png"> -->
   <Header />
-  <router-view/>
+  <router-view></router-view>
 </div>
 </template>
 
@@ -15,7 +14,6 @@ export default {
   }
 }
 </script>
-
 <style>
 @import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700');

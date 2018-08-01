@@ -2,91 +2,94 @@
   <div>
     <section class="pusher" v-if="filter">
       <div class="main-header">
-
-      <div class="container">
-        <div class="row">
-          <Logo />
-          <div class="col-md-12 text-center">
-            <div class="type">
-                <!-- I'm a ... -->
-                <div class="buttons">
-                  <!-- <form class="form"> -->
+        <div class="container">
+          <div class="row">
+            <Logo />
+            <div class="col-md-12 text-center">
+              <div class="type">
+                  <!-- I'm a ... -->
+                  <div class="buttons">
+                    <!-- <form class="form"> -->
+                      <div class="switch-field">
+                        <div class="switch-title">-Io sono-</div>
+                        <div class="switch-content player form-check form-check-inline">
+                            <input type="radio" id="switch_3_left" name="who" value="who-calciatore" class="form-check-input" checked/>
+                            <label for="switch_3_left" class="calciatore form-check-label">calciatore</label>
+                        </div>
+                        <div class="switch-content club form-check form-check-inline">
+                          <input type="radio" id="switch_3_center" name="who" value="who-team" class="form-check-input" />
+                          <label for="switch_3_center" class="calciatore form-check-label">team</label>
+                        </div>
+                        <div class="switch-content agent form-check form-check-inline">
+                    			<input type="radio" id="switch_3_right" name="who" value="who-agente" class="form-check-input" />
+                          <label for="switch_3_right" class="calciatore form-check-label">agente</label>
+                        </div>
+                      </div>
+                  <!-- </form> -->
+                  </div>
+                </div>
+                <div class="what">
+                  <div class="buttons">
                     <div class="switch-field">
-                      <div class="switch-title">-Io sono-</div>
+                      <div class="switch-title">-cerco-</div>
                       <div class="switch-content player form-check form-check-inline">
-                          <input type="radio" id="switch_3_left" name="who" value="who-calciatore" class="form-check-input" checked/>
-                          <label for="switch_3_left" class="calciatore form-check-label">calciatore</label>
+                        <input type="radio" id="switch_4_left" name="what" value="calciatore" class="form-check-input" v-model="what" checked/>
+                        <label for="switch_4_left">calciatore</label>
                       </div>
                       <div class="switch-content club form-check form-check-inline">
-                        <input type="radio" id="switch_3_center" name="who" value="who-team" class="form-check-input" />
-                        <label for="switch_3_center" class="calciatore form-check-label">team</label>
+                        <input type="radio" id="switch_4_center" name="what" value="team" class="form-check-input" v-model="what" />
+                        <label for="switch_4_center">team</label>
                       </div>
                       <div class="switch-content agent form-check form-check-inline">
-                  			<input type="radio" id="switch_3_right" name="who" value="who-agente" class="form-check-input" />
-                        <label for="switch_3_right" class="calciatore form-check-label">agente</label>
+                        <input type="radio" id="switch_4_right" name="what" value="agente" class="form-check-input"  v-model="what" />
+                        <label for="switch_4_right">agente</label>
                       </div>
                     </div>
-                <!-- </form> -->
+                  </div>
                 </div>
-              </div>
-              <div class="what">
-                <div class="buttons">
-                  <div class="switch-field">
-                    <div class="switch-title">-cerco-</div>
-                    <div class="switch-content player form-check form-check-inline">
-                      <input type="radio" id="switch_4_left" name="what" value="calciatore" class="form-check-input" v-model="what" checked/>
-                      <label for="switch_4_left">calciatore</label>
-                    </div>
-                    <div class="switch-content club form-check form-check-inline">
-                      <input type="radio" id="switch_4_center" name="what" value="team" class="form-check-input" v-model="what" />
-                      <label for="switch_4_center">team</label>
-                    </div>
-                    <div class="switch-content agent form-check form-check-inline">
-                      <input type="radio" id="switch_4_right" name="what" value="agente" class="form-check-input"  v-model="what" />
-                      <label for="switch_4_right">agente</label>
+
+              <md-field class="col-md-6 mx-auto">
+                 <md-icon>location_on</md-icon>
+                 <label>Dove sto cercando</label>
+                 <md-input v-model="where"></md-input>
+               </md-field>
+                <!-- <div class="where">
+                  <div class="buttons">
+                    <div class="switch-field-input">
+                      <div class="switch-title">-dove sto cercando-</div>
+                      <div class="switch-content-input form-group">
+                        <label for="where" class="sr-only">Password</label>
+                        <input type="text" name="where" id="where" class="form-control mx-auto" v-model="where" placeholder="dove sto cercando">
+                      </div>
                     </div>
                   </div>
+                </div> -->
+              <!-- <hr> -->
+              <div class="form-group">
+                <div class="col-md-6 mx-auto">
+                  <button type="button" @click="userList" class="btn btn-outline-success btn-lg btn-block">Inizia <i class="fa fa-chevron-circle-right"></i></button>
+                    <!-- <a href="http://www.tirolibre.it" class="btn btn-outline-success btn-lg btn-block">Inizia <i class="fas fa-chevron-circle-right"></i></a> -->
                 </div>
               </div>
 
-              <div class="where">
-                <div class="buttons">
-                  <div class="switch-field-input">
-                    <!-- <div class="switch-title">-dove sto cercando-</div> -->
-                    <div class="switch-content-input form-group">
-                      <label for="where" class="sr-only">Password</label>
-                      <input type="text" name="where" id="where" class="form-control mx-auto" v-model="where" placeholder="dove sto cercando">
-                    </div>
-                  </div>
-                </div>
-              </div>
-            <hr>
-            <div class="form-group">
-              <div class="col-md-6 mx-auto">
-                <button type="button" @click="userList" class="btn btn-outline-success btn-lg btn-block">Inizia <i class="fas fa-chevron-circle-right"></i></button>
-                  <!-- <a href="http://www.tirolibre.it" class="btn btn-outline-success btn-lg btn-block">Inizia <i class="fas fa-chevron-circle-right"></i></a> -->
-              </div>
+
+              <!-- <span>Picked: {{ what }} // {{ where }}</span>
+              <hr>
+              Vuex store value: {{ $store.state.what }} // {{ $store.state.where }}
+              <br>
+              Computed property value: {{ what }} // {{ where }} -->
+
             </div>
+            <!-- <div class="col-md-6"> -->
 
-
-            <!-- <span>Picked: {{ what }} // {{ where }}</span>
-            <hr>
-            Vuex store value: {{ $store.state.what }} // {{ $store.state.where }}
-            <br>
-            Computed property value: {{ what }} // {{ where }} -->
-
+              <!-- <h1 v-on:click="changeTitle">TEST: {{ title }}</h1> -->
+              <!-- <img src="../assets/images/01.jpg" class="float-left m-3" alt="TiroLibre" width="250px">
+                              <img src="../assets/images/02.png" class="float-right m-3" alt="TiroLibre" width="250px">
+                  <img src="../assets/images/05.jpg" class="float-left m-3" alt="TiroLibre" width="250px"> -->
+              <!-- <img src="../assets/images/icoTiroLibre.png" class="" alt="TiroLibre"> -->
+            <!-- </div> -->
           </div>
-          <!-- <div class="col-md-6"> -->
-
-            <!-- <h1 v-on:click="changeTitle">TEST: {{ title }}</h1> -->
-            <!-- <img src="../assets/images/01.jpg" class="float-left m-3" alt="TiroLibre" width="250px">
-                            <img src="../assets/images/02.png" class="float-right m-3" alt="TiroLibre" width="250px">
-                <img src="../assets/images/05.jpg" class="float-left m-3" alt="TiroLibre" width="250px"> -->
-            <!-- <img src="../assets/images/icoTiroLibre.png" class="" alt="TiroLibre"> -->
-          <!-- </div> -->
         </div>
-      </div>
-
     </div>
     </section>
 
@@ -102,9 +105,6 @@
 </template>
 
 <script>
-import {
-  EventBus
-} from '../event-bus'
 import axios from 'axios'
 import Logo from '@/components/Logo'
 import Result from './Result'
@@ -239,6 +239,7 @@ export default {
         background-color: #FFF;
         padding: 10px;
         width: 40%;
+        border: 1px solid #F1EAE0;
     }
     button {
         background: #01a084;
@@ -252,6 +253,7 @@ export default {
     font-weight: bold;
     font-size: 22px;
     text-transform: uppercase;
+    padding: 20px;
 }
 .type {
     .switch-content {

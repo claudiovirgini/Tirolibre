@@ -1,13 +1,13 @@
 <template>
-<header role="banner" class="masthead mb-auto shadow-lg">
-  <div id="cd-logo">
+<header role="banner" class="masthead mb-auto">
+  <!-- <div id="cd-logo">
     <router-link to="/">
       <a class="navbar-brand" href="#">
-      <img src="../../static/images/icoTiroLibre.png" width="30" height="30" class="d-inline-block align-top" alt="TiroLibre">
-      TiroLibre
-    </a>
+        <img src="../assets/images/icoTiroLibre.png" width="30" height="30" class="d-inline-block align-top" alt="TiroLibre">
+        TiroLibre
+      </a>
     </router-link>
-  </div>
+  </div> -->
 
   <nav class="main-nav">
     <ul>
@@ -43,8 +43,10 @@
           </p>
 
           <p class="fieldset">
-            <input type="checkbox" id="remember-me" checked>
-            <label for="remember-me">Ricordami</label>
+            <!-- <input type="checkbox" id="remember-me" checked>
+            <label for="remember-me">Ricordami</label> -->
+
+            <md-checkbox v-model="remind">Ricordami</md-checkbox>
           </p>
 
           <p class="fieldset">
@@ -106,8 +108,10 @@
 
 
           <p class="fieldset">
-            <input type="checkbox" id="accept-terms">
-            <label for="accept-terms">I agree to the <a href="#0">Terms</a></label>
+            <!-- <input type="checkbox" id="accept-terms"> -->
+            <!-- <label for="accept-terms">I agree to the <a href="#0">Terms</a></label> -->
+            <md-checkbox v-model="terms">I agree to the <a href="#">Terms</a></md-checkbox>
+
           </p>
 
           <p class="fieldset">
@@ -165,14 +169,18 @@ Vue.use(VueAuthenticate, {
 })
 export default {
   name: 'Header',
-  data: {
-    userLoginEmail: '',
-    userLoginPWD: '',
+  data() {
+    return {
+      userLoginEmail: '',
+      userLoginPWD: '',
 
-    usernameSignup: '',
-    passwordSignup: '',
-    emailSignup: '',
-    profileSignup: ''
+      usernameSignup: '',
+      passwordSignup: '',
+      emailSignup: '',
+      profileSignup: '',
+      remind: null,
+      terms: null
+    }
   },
   methods: {
     login: function(email, pwd) {
@@ -255,9 +263,13 @@ header[role=banner] {
         clear: both;
     }
 }
+.switch-field {
+    padding: 30px 0 !important;
+}
 @media only screen and (min-width: 768px) {
     header[role=banner] {
-        height: 80px;
+        height: 60px;
+        background-color: #FFF;
 
         #cd-logo {
             margin: 20px 0 0 5%;
@@ -275,7 +287,7 @@ header[role=banner] {
     margin-right: 5%;
     width: 44px;
     height: 100%;
-    background: url("../../static/images/cd-icon-menu.svg") no-repeat center center;
+    background: url("../assets/images/cd-icon-menu.svg") no-repeat center center;
     cursor: pointer;
 
     ul {
@@ -306,7 +318,7 @@ header[role=banner] {
         padding-left: 5%;
         background: #292a34;
         border-top: 1px solid #3b3d4b;
-        color: #FFF;
+        color: #FFF !important;
     }
 }
 @media only screen and (min-width: 768px) {
@@ -324,7 +336,7 @@ header[role=banner] {
             -ms-transform: translateY(0);
             -o-transform: translateY(0);
             transform: translateY(0);
-            line-height: 80px;
+            line-height: 60px;
         }
 
         ul.is-visible {
@@ -349,6 +361,7 @@ header[role=banner] {
             height: auto;
             line-height: normal;
             background: transparent;
+            color: rgba(0, 0, 0, 0.5) !important;
         }
     }
 
@@ -357,12 +370,18 @@ header[role=banner] {
         padding: 0.6em 1em;
         border: 1px solid rgba(0, 0, 0, 0.5);
         border-radius: 50em;
+        &:hover {
+            color: rgba(0, 0, 0, 0.5) !important;
+        }
     }
 
     .main-nav a.cd-signup {
         background: #088039;
-        color: #FFF;
+        color: #FFF !important;
         border: none;
+        &:hover {
+            color: #FFF !important;
+        }
     }
 
     .main-nav a.cd-signin {
@@ -456,11 +475,17 @@ xsigin/signup popup
     line-height: 50px;
     background: #d2d8d8;
     color: #809191;
+    &:hover {
+        color: #809191 !important;
+    }
 }
 
 .cd-user-modal-container .cd-switcher a.selected {
     background: #FFF;
     color: #505260;
+    &:hover {
+        color: #505260 !important;
+    }
 }
 @media only screen and (min-width: 600px) {
     .cd-user-modal-container {
@@ -698,7 +723,7 @@ xsigin/signup popup
 }
 
 .cd-form-bottom-message a {
-    color: #FFF;
+    color: #FFF !important;
     text-decoration: underline;
 }
 
@@ -754,7 +779,7 @@ xsigin/signup popup
 .switch-content {
     height: 20px;
     margin-bottom: 50px;
-    margin-top: 80px;
+    margin-top: 60px;
     padding-bottom: 0;
     padding-top: 40px;
     border-radius: 5px;

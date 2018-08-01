@@ -43,10 +43,13 @@
                     <p class="card-text" v-if="card.profile === 'team'">
                       {{ card.fulladdress }} | {{ card.level }}
                     </p>
-                    <router-link class="total-btn" tag="button" :to="{ name: 'Player', params: { id: $route.params.id }, query: {user: card.name}}">
-                      Apri profilo
-                    </router-link>
-
+                    <div class="md-layout-item md-size-100 text-center">
+                      <md-button class="md-raised md-success">
+                        <router-link class="total-btn" :to="{ name: 'Player', params: { id: $route.params.id }, query: {user: card.name}}">
+                          Apri profilo
+                        </router-link>
+                      </md-button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -65,9 +68,6 @@
 
 
 <script>
-import {
-  bus
-} from '../event-bus'
 import axios from 'axios'
 
 import Logo from '@/components/Logo'
@@ -286,6 +286,11 @@ h1 {
 }
 
 /*Profile Card 5*/
+.md-button-content {
+    a {
+        color: #FFF !important;
+    }
+}
 .profile-card-5 {
     margin-top: 20px;
 
