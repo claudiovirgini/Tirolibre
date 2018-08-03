@@ -45,7 +45,8 @@
                     </p>
                     <div class="md-layout-item md-size-100 text-center">
                       <md-button class="md-raised md-success">
-                        <router-link class="total-btn" :to="{ name: 'Player', params: { id: $route.params.id }, query: {user: card.name}}">
+                        <!-- <router-link class="total-btn" :to="{ name: 'Player', params: { profile: card.name }, query: {user: card.name}}"> -->
+                        <router-link class="total-btn" :to="{ params: { profile: card.name }, query: {user: card.name}}">
                           Apri profilo
                         </router-link>
                       </md-button>
@@ -61,7 +62,8 @@
     <!-- <Footer /> -->
 
       <!-- player -->
-      <player v-if="userProfile" :player="player" />
+      <!-- <player v-if="userProfile" :player="player" /> -->
+      <userProfile v-if="userProfile" />
       <!-- /.player -->
 </div>
 </template>
@@ -71,14 +73,22 @@
 import axios from 'axios'
 
 import Logo from '@/components/Logo'
-import Player from './Player'
+// import Player from './Player'
+import UserProfile from './UserProfile'
 // import Footer from '@/components/Footer'
 export default {
   name: 'Result',
   components: {
     Logo,
-    Player
+    UserProfile
+    // Player
     // Footer
+  },
+  props: {
+    nome: {
+      type: String,
+      default: 'center'
+    },
   },
   data() {
     return {

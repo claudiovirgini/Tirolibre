@@ -10,6 +10,7 @@ import HomeView from '@/layout/Home'
 import ResultView from '@/layout/Result'
 import PlayerView from '@/layout/Player'
 import WelcomeView from '@/layout/Welcome'
+import UserProfileView from '@/layout/UserProfile'
 
 const routes = [
   {
@@ -39,6 +40,11 @@ const routes = [
     props: (route) => ({
         player: route.query.name
     })
+  },
+  {
+    path: '/userProfile',
+    name: 'UserProfile',
+    component: UserProfileView
   },
   {
     path: '/',

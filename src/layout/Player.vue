@@ -10,313 +10,142 @@
             <!-- <Logo /> -->
             <div class="col-12 player-header">
 
-<div class="profile-card shadow-lg">
-    <div class="profile-cover">
-        <div class="profile-avatar">
-            <div class="btns-container">
-                <div class="profile-links">
-                    <a class="zoom-avatar" href="#"><img src="https://dl.dropboxusercontent.com/s/5liaxzvwbfuqzpo/zoom.png"></a>
-                    <a class="read-more" href="#"><img src="https://dl.dropboxusercontent.com/s/62dfoo9h44o58lw/more.png"></a>
-                    <a class="view-map" href="#"><img src="https://dl.dropboxusercontent.com/s/9ofmihok0h64lvn/location.png"></a>
+              <md-card class="md-card-profile">
+                <div class="md-card-avatar">
+                  <img class="img" :src="cardUserImage">
                 </div>
-            </div>
-            <a href="#"><img src="https://dl.dropboxusercontent.com/s/7pcnqq18skh1myk/avatar.jpg" alt="Anis M" /></a>
-        </div>
-        <div class="profile-details">
-            <h1>Alejandro Salgado</h1>
-            <h6>Attaccante</h6>
-        </div>
-    </div>
-    <div class="profile-info" style="display: none;">
-        <h1>About Me</h1>
-        <div class="info-area">
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.Stet clita kasd gubergren, no sea takimata sanctus est.Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
-        </div>
-        <div class="clear"></div>
-    </div>
-    <div class="profile-map" style="display: none;">
-        <iframe width="100%" height="150" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=Saveology+New+York&amp;aq=&amp;sll=37.0625,-95.677068&amp;sspn=40.052282,86.572266&amp;t=h&amp;ie=UTF8&amp;hq=Saveology&amp;hnear=New+York&amp;ll=40.552027,-74.420902&amp;spn=0.357117,0.912844&amp;iwloc=near&amp;output=embed"></iframe>
-        <div class="clear"></div>
-    </div>
-    <div class="profile-content">
-        <!-- <ul>
-            <li>
-                <div class="digits">83</div>
-                Followers
-            </li>
-            <li>
-                <div class="digits">1507</div>
-                Tweets
-            </li>
-            <li>
-                <div class="digits">234</div>
-                Friends
-            </li>
-            <li>
-                <div class="digits">51</div>
-                Likes
-            </li>
-            <li>
-                <div class="digits">42</div>
-                Gits
-            </li>
-        </ul>
-        <div class="clear"></div> -->
 
-        <div class="container">
-            <div class="row m-y-2">
-                <!-- edit form column -->
-                <!-- <div class="col-lg-4 text-lg-center">
-                    <h2>Edit Profile</h2>
-                </div>
-                <hr> -->
-                <!-- <div class="col-lg-8">
-                    <div class="alert alert-info alert-dismissable"> <a class="panel-close close" data-dismiss="alert">×</a>
-                        This is an <strong>.alert</strong>. Use this to show important messages to the user.
+                <md-card-content>
+                  <h4 class="card-title">Nome Cognome</h4>
+                  <h6 class="category text-gray">Attaccante</h6>
+                  <!-- <p class="card-description">
+                    Don't be scared of the truth because we need to restart the human foundation in truth And I love you like Kanye loves Kanye I love Rick Owens’ bed design but the back is...
+                  </p> -->
+                  <hr>
+                  <div class="text-center">
+                    <div class="row">
+                      <div class="col-lg-6">
+                        <h5>Ruolo
+                          <br><small>attaccante</small></h5></div>
+                      <div class="col-lg-6">
+                        <h5>Classe
+                          <br><small>1999</small></h5></div>
                     </div>
-                </div> -->
-                <div class="col-lg-12 personal-info">
-                     <form role="form">
-                        <div class="form-group row">
-                            <label class="col-lg-3 text-right col-form-label form-control-label font-weight-bold">Nome</label>
-                            <div class="col-lg-6">
-                                <!-- <input class="form-control" type="text" value="Jane" /> -->
-                                <input type="text" v-model="user.firstName">
-                                 <!-- <button @click="isEditing = !isEditing" class="hide">
-                                   {{ isEditing ? 'Save' : 'Edit' }}
-                                 </button>
-                                 <button v-if="isEditing" @click="isEditing = false">Cancel</button> -->
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-lg-3 text-right col-form-label form-control-label font-weight-bold">Cognome</label>
-                            <div class="col-lg-6">
-                            <input type="text" v-model="user.lastName">
-                            <!-- <input type="text" v-model="user.lastName" :disabled="!isEditing" :class="{view: !isEditing}">
-                             <button @click="isEditing = !isEditing" class="hide">
-                               {{ isEditing ? 'Save' : 'Edit' }}
-                             </button>
-                             <button v-if="isEditing" @click="isEditing = false">Cancel</button> -->
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-lg-3 text-right col-form-label form-control-label font-weight-bold">Classe</label>
-                            <div class="col-lg-6">
-                            <input type="text" v-model="user.classe">
-                             <!-- <button @click="isEditing = !isEditing" class="hide">
-                               {{ isEditing ? 'Save' : 'Edit' }}
-                             </button>
-                             <button v-if="isEditing" @click="isEditing = false">Cancel</button> -->
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-lg-3 text-right col-form-label form-control-label font-weight-bold">Nazionalità</label>
-                            <div class="col-lg-6">
-                            <input type="text" v-model="user.nazionalita">
-                             <!-- <button @click="isEditing = !isEditing" class="hide">
-                               {{ isEditing ? 'Save' : 'Edit' }}
-                             </button>
-                             <button v-if="isEditing" @click="isEditing = false">Cancel</button> -->
-                            </div>
-                        </div>
+                  </div>
+                  <!-- <md-button class="md-round md-success">Follow</md-button> -->
+                </md-card-content>
+              </md-card>
+              
+                <md-card>
+                  <md-card-header :data-background-color="dataBackgroundColor">
+                    <h4 class="title">Aggiorna Profilo</h4>
+                    <p class="category">Completa il tuo profilo</p>
+                  </md-card-header>
 
-                        <hr>
+                  <md-card-content>
+                    <div class="md-layout">
+                      <div class="md-layout-item md-small-size-100 md-size-50">
+                        <md-field>
+                          <label>Nome</label>
+                          <md-input v-model="firstName" type="text"></md-input>
+                        </md-field>
+                      </div>
+                      <div class="md-layout-item md-small-size-100 md-size-50">
+                        <md-field>
+                          <label>Cognome</label>
+                          <md-input v-model="lastName" type="text"></md-input>
+                        </md-field>
+                      </div>
+                      <div class="md-layout-item md-small-size-100 md-size-33">
+                        <md-field>
+                          <label>Classe</label>
+                          <md-input v-model="classe" type="text"></md-input>
+                        </md-field>
+                      </div>
+                      <div class="md-layout-item md-small-size-100 md-size-33">
+                        <md-field>
+                          <label>Nazionalità</label>
+                          <md-input v-model="nazionalita" type="text"></md-input>
+                        </md-field>
+                      </div>
+                      <div class="md-layout-item md-small-size-100 md-size-33">
+                        <md-field>
+                          <label>Ruolo</label>
+                          <md-input v-model="ruolo" type="text"></md-input>
+                        </md-field>
+                      </div>
+                      <div class="md-layout-item md-small-size-100 md-size-33">
+                        <md-field>
+                          <label>Dove ti Trovi</label>
+                          <md-input v-model="doveTiTrovi" type="text"></md-input>
+                        </md-field>
+                      </div>
+                      <div class="md-layout-item md-small-size-100 md-size-33">
+                        <md-field>
+                          <label>Dove Cerchi</label>
+                          <md-input v-model="doveCerchi" type="text"></md-input>
+                        </md-field>
+                      </div>
+                      <div class="md-layout-item md-small-size-100 md-size-33">
+                        <md-field>
+                          <label>Status</label>
+                          <md-input v-model="status" type="text"></md-input>
+                        </md-field>
+                      </div>
+                      <div class="md-layout-item md-small-size-100 md-size-33">
+                        <md-field>
+                          <label>Telefono</label>
+                          <md-input v-model="tel" type="number"></md-input>
+                        </md-field>
+                      </div>
+                      <div class="md-layout-item md-small-size-100 md-size-33">
+                        <md-field>
+                          <label>Peso</label>
+                          <md-input v-model="peso" type="number"></md-input>
+                        </md-field>
+                      </div>
+                      <div class="md-layout-item md-small-size-100 md-size-33">
+                        <md-field>
+                          <label>Altezza</label>
+                          <md-input v-model="altezza" type="number"></md-input>
+                        </md-field>
+                      </div>
+                      <div class="md-layout-item md-small-size-100 md-size-33">
+                        <md-field>
+                          <label>Nome Squadra ultimo campionato</label>
+                          <md-input v-model="campionato1" type="text"></md-input>
+                        </md-field>
+                      </div>
+                      <div class="md-layout-item md-small-size-100 md-size-33">
+                        <md-field>
+                          <label>Campionato 2</label>
+                          <md-input v-model="campionato2" type="text"></md-input>
+                        </md-field>
+                      </div>
+                      <div class="md-layout-item md-small-size-100 md-size-33">
+                        <md-field>
+                          <label>Campionato 3</label>
+                          <md-input v-model="status" type="text"></md-input>
+                        </md-field>
+                      </div>
+                      <div class="md-layout-item md-size-100">
+                        <md-field maxlength="5">
+                          <label>About Me</label>
+                          <md-textarea v-model="aboutMe"></md-textarea>
+                        </md-field>
+                      </div>
+                      <div class="md-layout-item md-size-100 text-right">
+                        <md-button class="md-raised md-success">Aggiorna Profilo</md-button>
+                      </div>
+                    </div>
 
-                        <div class="form-group row">
-                            <label class="col-lg-3 text-right col-form-label form-control-label font-weight-bold">Ruolo</label>
-                            <div class="col-lg-6">
-                            <input type="text" v-model="user.ruolo">
-                             <!-- <button @click="isEditing = !isEditing" class="hide">
-                               {{ isEditing ? 'Save' : 'Edit' }}
-                             </button>
-                             <button v-if="isEditing" @click="isEditing = false">Cancel</button> -->
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-lg-3 text-right col-form-label form-control-label font-weight-bold">Status Contrattuale</label>
-                            <div class="col-lg-6">
-                            <input type="text" v-model="user.status">
-                             <!-- <button @click="isEditing = !isEditing" class="hide">
-                               {{ isEditing ? 'Save' : 'Edit' }}
-                             </button>
-                             <button v-if="isEditing" @click="isEditing = false">Cancel</button> -->
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-lg-3 text-right col-form-label form-control-label font-weight-bold">Dove ti trovi</label>
-                            <div class="col-lg-6">
-                            <input type="text" v-model="user.doveTiTrovi">
-                             <!-- <button @click="isEditing = !isEditing" class="hide">
-                               {{ isEditing ? 'Save' : 'Edit' }}
-                             </button>
-                             <button v-if="isEditing" @click="isEditing = false">Cancel</button> -->
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-lg-3 text-right col-form-label form-control-label font-weight-bold">Dove cerchi</label>
-                            <div class="col-lg-6">
-                            <input type="text" v-model="user.doveCerchi">
-                             <!-- <button @click="isEditing = !isEditing" class="hide">
-                               {{ isEditing ? 'Save' : 'Edit' }}
-                             </button>
-                             <button v-if="isEditing" @click="isEditing = false">Cancel</button> -->
-                            </div>
-                        </div>
-
-                        <hr>
-
-                        <div class="form-group row">
-                            <label class="col-lg-3 text-right col-form-label form-control-label font-weight-bold">Numero di telefono</label>
-                            <div class="col-lg-6">
-                            <input type="text" v-model="user.tel">
-                             <!-- <button @click="isEditing = !isEditing" class="hide">
-                               {{ isEditing ? 'Save' : 'Edit' }}
-                             </button>
-                             <button v-if="isEditing" @click="isEditing = false">Cancel</button> -->
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-lg-3 text-right col-form-label form-control-label font-weight-bold">Peso</label>
-                            <div class="col-lg-6">
-                            <input type="text" v-model="user.peso">
-                             <!-- <button @click="isEditing = !isEditing" class="hide">
-                               {{ isEditing ? 'Save' : 'Edit' }}
-                             </button>
-                             <button v-if="isEditing" @click="isEditing = false">Cancel</button> -->
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-lg-3 text-right col-form-label form-control-label font-weight-bold">Altezza</label>
-                            <div class="col-lg-6">
-                            <input type="text" v-model="user.altezza">
-                             <!-- <button @click="isEditing = !isEditing" class="hide">
-                               {{ isEditing ? 'Save' : 'Edit' }}
-                             </button>
-                             <button v-if="isEditing" @click="isEditing = false">Cancel</button> -->
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-lg-3 text-right col-form-label form-control-label font-weight-bold">Ultimi tre campionati</label>
-                            <div class="col-lg-6">
-                            <input type="text" v-model="user.campionato1">
-                             <!-- <button @click="isEditing = !isEditing" class="hide">
-                               {{ isEditing ? 'Save' : 'Edit' }}
-                             </button>
-                             <button v-if="isEditing" @click="isEditing = false">Cancel</button> -->
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-lg-3 text-right col-form-label form-control-label font-weight-bold"></label>
-                            <div class="col-lg-6">
-                            <input type="text" v-model="user.campionato2">
-                             <!-- <button @click="isEditing = !isEditing" class="hide">
-                               {{ isEditing ? 'Save' : 'Edit' }}
-                             </button>
-                             <button v-if="isEditing" @click="isEditing = false">Cancel</button> -->
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-lg-3 text-right col-form-label form-control-label font-weight-bold"></label>
-                            <div class="col-lg-6">
-                            <input type="text" v-model="user.campionato3">
-                             <!-- <button @click="isEditing = !isEditing" class="hide">
-                               {{ isEditing ? 'Save' : 'Edit' }}
-                             </button>
-                             <button v-if="isEditing" @click="isEditing = false">Cancel</button> -->
-                            </div>
-                        </div>
-                        <!-- <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label">Time Zone</label>
-                            <div class="col-lg-9">
-                                <select id="user_time_zone" class="form-control" size="0">
-                                    <option value="Hawaii">(GMT-10:00) Hawaii</option>
-                                    <option value="Alaska">(GMT-09:00) Alaska</option>
-                                    <option value="Pacific Time (US &amp; Canada)">(GMT-08:00) Pacific Time (US &amp; Canada)</option>
-                                    <option value="Arizona">(GMT-07:00) Arizona</option>
-                                    <option value="Mountain Time (US &amp; Canada)">(GMT-07:00) Mountain Time (US &amp; Canada)</option>
-                                    <option value="Central Time (US &amp; Canada)"
-                                    selected="selected">(GMT-06:00) Central Time (US &amp; Canada)</option>
-                                    <option value="Eastern Time (US &amp; Canada)">(GMT-05:00) Eastern Time (US &amp; Canada)</option>
-                                    <option value="Indiana (East)">(GMT-05:00) Indiana (East)</option>
-                                </select>
-                            </div>
-                        </div> -->
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label form-control-label"></label>
-                            <div class="col-lg-9 text-right">
-                                <input type="reset" class="btn btn-secondary" value="Cancel" />
-                                <input type="button" class="btn btn-primary" value="Save Changes" />
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <!-- <div class="col-lg-4 pull-lg-8 text-xs-center">
-                        <img src="//placehold.it/150" class="m-x-auto img-fluid img-circle" alt="avatar" />
-                        <h6 class="m-t-2">Upload a different photo</h6>
-                        <label class="custom-file">
-                          <input type="file" id="file" class="custom-file-input">
-                          <span class="custom-file-control">Choose file</span>
-                        </label>
-                </div> -->
-            </div>
-        </div>
-    </div>
-</div>
+                  </md-card-content>
+                </md-card>
             </div>
           </div>
-          <hr />
-
-
-          <div class="row">
-                  <!-- <div>
-                  First Name:
-                  <input type="text" v-model="user.firstName" :disabled="!isEditing"
-                         :class="{view: !isEditing}">
-                </div>
-                <div>
-                  Last Name:
-                  <input type="text" v-model="user.lastName" :disabled="!isEditing"
-                         :class="{view: !isEditing}">
-                </div>
-                <div>
-
-                <button @click="isEditing = !isEditing">
-                  {{ isEditing ? 'Save' : 'Edit' }}
-                </button>
-                <button v-if="isEditing" @click="isEditing = false">Cancel</button>
-              </div> -->
-            <!-- <p style="color: #000;">Player is:  {{ this.$route.query.user }}</p> -->
-            <!-- <p style="color: #000;">Player is:  {{ $route.query.user }}</p> -->
-
-              <!-- <Card /> -->
-              <!-- v-if="card.name === this.$route.query.user" -->
-            <!-- <div class="col-md-4 mt-4" v-for="card in users" :key="card.name" v-if="card.name === $route.query.user">
-              <ul>
-                <li>Nome: {{ card.name }}</li>
-                <li>Cognome: </li>
-                <li>Classe: {{ card.age }}</li>
-                <li>Nazionalità: </li>
-                <li>Ruolo: {{ card.role }}</li>
-                <li>Status Contrattuale: </li>
-                <li>Dove ti trovi: </li>
-                <li>Dove cerchi: </li>
-                <li>Numero di telefono: </li>
-                <li>Peso: </li>
-                <li>Altezza: </li>
-                <li>Ultimi 3 Campionati: </li>
-                <hr>
-                <li>Foto</li>
-                <li>Video</li>
-              </ul>
-            </div> -->
-          </div>
-
-
         </div>
       </div>
       </section>
-
 
     <!-- <Footer /> -->
 
@@ -351,7 +180,7 @@ export default {
         lastName: 'Salgado',
         classe: '1990',
         nazionalita: 'Italiana',
-        ruolo: 'attaccante',
+        role: 'attaccante',
         status: 'svincolato',
         doveTiTrovi: 'Roma',
         doveCerchi: 'Roma',

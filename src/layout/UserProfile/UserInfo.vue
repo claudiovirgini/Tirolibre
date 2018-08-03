@@ -1,144 +1,163 @@
 <template>
-<form>
-  <md-card>
+<div>
+  <!-- <Logo/> -->
+  <md-card class="md-card-profile" v-for="card in filteredCustomers" :key="card.name">
+
     <md-card-header :data-background-color="dataBackgroundColor">
-      <h4 class="title">Aggiorna Profilo</h4>
-      <p class="category">Completa il tuo profilo</p>
+      <h4 class="title">Scheda Profilo</h4>
+      <!-- <p class="category">Completa il tuo profilo</p> -->
     </md-card-header>
 
     <md-card-content>
+
       <div class="md-layout">
-        <div class="md-layout-item md-small-size-100 md-size-50">
+        <!-- <div class="md-layout-item md-small-size-100 md-size-50">
           <md-field>
             <label>Nome</label>
-            <md-input v-model="firstName" type="text"></md-input>
+            <md-input type="text"></md-input>
           </md-field>
         </div>
         <div class="md-layout-item md-small-size-100 md-size-50">
           <md-field>
             <label>Cognome</label>
-            <md-input v-model="lastName" type="text"></md-input>
+            <md-input type="text"></md-input>
           </md-field>
-        </div>
+        </div> -->
         <div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
-            <label>Classe</label>
-            <md-input v-model="classe" type="text"></md-input>
+            <label>Ruolo</label>
+            <md-input :value='card.role' disabled type="text"></md-input>
           </md-field>
         </div>
         <div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
             <label>Nazionalità</label>
-            <md-input v-model="nazionalita" type="text"></md-input>
+            <md-input :value='card.nazionalita' disabled type="text"></md-input>
           </md-field>
         </div>
         <div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
             <label>Ruolo</label>
-            <md-input v-model="ruolo" type="text"></md-input>
+            <md-input :value='card.role' disabled type="text"></md-input>
           </md-field>
         </div>
         <div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
             <label>Dove ti Trovi</label>
-            <md-input v-model="doveTiTrovi" type="text"></md-input>
+            <md-input type="text"></md-input>
           </md-field>
         </div>
         <div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
             <label>Dove Cerchi</label>
-            <md-input v-model="doveCerchi" type="text"></md-input>
+            <md-input :value='card.doveCerchi' disabled type="text"></md-input>
           </md-field>
         </div>
         <div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
             <label>Status</label>
-            <md-input v-model="status" type="text"></md-input>
+            <md-input :value='card.status' disabled type="text"></md-input>
           </md-field>
         </div>
         <div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
             <label>Telefono</label>
-            <md-input v-model="tel" type="number"></md-input>
+            <md-input :value='card.tel' disabled type="number"></md-input>
           </md-field>
         </div>
         <div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
             <label>Peso</label>
-            <md-input v-model="peso" type="number"></md-input>
+            <md-input :value='card.peso' disabled type="number"></md-input>
           </md-field>
         </div>
         <div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
             <label>Altezza</label>
-            <md-input v-model="altezza" type="number"></md-input>
+            <md-input :value='card.altezza' disabled type="number"></md-input>
           </md-field>
         </div>
         <div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
             <label>Nome Squadra ultimo campionato</label>
-            <md-input v-model="campionato1" type="text"></md-input>
+            <md-input :value='card.campionato1' disabled type="text"></md-input>
           </md-field>
         </div>
         <div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
             <label>Campionato 2</label>
-            <md-input v-model="campionato2" type="text"></md-input>
+            <md-input :value='card.campionato2' disabled type="text"></md-input>
           </md-field>
         </div>
         <div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
             <label>Campionato 3</label>
-            <md-input v-model="status" type="text"></md-input>
+            <md-input :value='card.campionato3' disabled type="text"></md-input>
           </md-field>
         </div>
         <div class="md-layout-item md-size-100">
           <md-field maxlength="5">
             <label>About Me</label>
-            <md-textarea v-model="aboutMe"></md-textarea>
+            <md-textarea :value='card.about' disabled></md-textarea>
           </md-field>
-        </div>
-        <div class="md-layout-item md-size-100 text-right">
-          <md-button class="md-raised md-success">Aggiorna Profilo</md-button>
         </div>
       </div>
 
     </md-card-content>
   </md-card>
-</form>
+
+
+</div>
 </template>
+
 <script>
 import axios from 'axios'
+
+
+import Logo from '@/components/Logo'
 export default {
-  name: 'edit-profile-form',
+  name: 'user-card',
   props: {
+    cardUserImage: {
+      type: String,
+      default: require('@/assets/img/faces/marc.jpg')
+    },
     dataBackgroundColor: {
       type: String,
       default: ''
     }
   },
+  components: {
+    Logo
+    // UserCard
+    // Logo,
+    // Player
+    // Footer
+  },
   data() {
     return {
-      firstName: 'Alejandro',
-      lastName: 'Salgado',
-      classe: '1990',
-      nazionalita: 'Italiana',
-      ruolo: 'attaccante',
-      status: 'svincolato',
-      doveTiTrovi: 'Roma',
-      doveCerchi: 'Roma',
-      tel: '1234567890',
-      peso: '72',
-      altezza: '187',
-      campionato1: 'Serie D',
-      campionato2: 'Serie D',
-      campionato3: 'Serie D',
-      company: "ASROMA",
-      email: "",
-      aboutMe: 'Oh so, your weak rhyme. You doubt I\'ll bother, reading into it.I\'ll probably won\'t, left to my own devicesBut that\'s the difference in our opinions.'
+      users: [],
+      userProfile: false,
+      cardResult: true,
+      isEditing: false,
+      user: {
+        firstName: 'Alejandro',
+        lastName: 'Salgado',
+        classe: '1990',
+        nazionalita: 'Italiana',
+        role: 'attaccante',
+        status: 'svincolato',
+        doveTiTrovi: 'Roma',
+        doveCerchi: 'Roma',
+        tel: '1234567890',
+        peso: '72',
+        altezza: '187',
+        campionato1: 'Serie D',
+        campionato2: 'Serie D',
+        campionato3: 'Serie D'
+      }
     }
   },
-
   // props: ['what', 'where', 'to'],
   methods: {
     userList: function() {
@@ -198,9 +217,9 @@ export default {
     console.log("user:" + this.$route.query.user)
     this.userList()
   }
-
 }
 </script>
+
 <style>
 
 </style>
