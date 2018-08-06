@@ -50,9 +50,24 @@
 
               <md-field class="col-md-6 mx-auto">
                  <md-icon>location_on</md-icon>
-                 <label>Dove sto cercando</label>
-                 <md-input v-model="where"></md-input>
+                 <!-- <label>Dove sto cercando</label> -->
+                 <!-- <md-input v-model="where"></md-input> -->
+
+                                <vue-google-autocomplete
+                         ref="address"
+                         id="map"
+                         classname="form-control"
+                         placeholder="Dove sto cercando"
+                         v-on:placechanged="getAddressData"
+                         country="it"
+                     >
+                     </vue-google-autocomplete>
                </md-field>
+
+
+                           <div class="message is-success" v-show="address">
+                               <div class="message-body">{{ address }}</div>
+                           </div>
                 <!-- <div class="where">
                   <div class="buttons">
                     <div class="switch-field-input">
@@ -112,12 +127,14 @@ import Result from './Result'
 // import Fact from '@/components/Fact'
 // import Review from '@/components/Review'
 // import Footer from '@/components/Footer'
+import VueGoogleAutocomplete from 'vue-google-autocomplete'
 
 export default {
   name: 'Home',
   components: {
     Logo,
-    Result
+    Result,
+    VueGoogleAutocomplete
     // Process,
     // Fact,
     // Review,
@@ -127,7 +144,8 @@ export default {
     return {
       // what: '',
       cardResult: false,
-      filter: true
+      filter: true,
+      address: ''
     }
   },
   computed: {
@@ -157,7 +175,21 @@ export default {
       // || card.where === where
     }
   },
+  mounted() {
+    // To demonstrate functionality of exposed component functions
+    // Here we make focus on the user input
+    this.$refs.address.focus();
+  },
   methods: {
+    /**
+     * When the location found
+     * @param {Object} addressData Data of the found location
+     * @param {Object} placeResultData PlaceResult object
+     * @param {String} id Input container ID
+     */
+    getAddressData: function(addressData, placeResultData, id) {
+      this.address = addressData;
+    },
     userList: function() {
       console.log("userList");
       console.log("store: " + this.$store.state.what);
@@ -172,6 +204,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+#map {
+    height: auto !important;
+}
+
 .pusher {
     background-image: url("../assets/images/bg-footer.jpg");
     background-repeat: no-repeat;
