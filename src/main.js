@@ -10,6 +10,7 @@ import routes from './routes/routes'
 // store
 import { store } from './store/store'
 
+
 // Plugins
 import GlobalComponents from './globalComponents'
 import GlobalDirectives from './globalDirectives'
@@ -38,7 +39,7 @@ Object.defineProperty(Vue.prototype, '$Chartist', {
     return this.$root.Chartist
   }
 })
-
+export const serverBus = new Vue();
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

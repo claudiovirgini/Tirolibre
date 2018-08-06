@@ -1,226 +1,76 @@
 <template>
 <header role="banner" class="masthead mb-auto">
-  <!-- <div id="cd-logo">
-    <router-link to="/">
-      <a class="navbar-brand" href="#">
-        <img src="../assets/images/icoTiroLibre.png" width="30" height="30" class="d-inline-block align-top" alt="TiroLibre">
-        TiroLibre
-      </a>
-    </router-link>
-  </div> -->
-
   <nav class="main-nav">
-    <ul>
-      <li><a class="cd-signin" href="#">Accedi</a></li>
-      <li><a class="cd-signup" href="#0">Registrati</a></li>
-    </ul>
+      <ul>
+        <li v-if="!isAuthenticated"><a class="cd-signin" href="#">Accedi</a></li>
+        <li v-if="!isAuthenticated"><a class="cd-signup" href="#0">Registrati</a></li>
+        <li v-if="isAuthenticated" class="nav-item">
+          <router-link class="nav-link" to="/user">Benvenuto {{name}}</router-link>
+        </li>
+        <li v-if="isAuthenticated" class="nav-item">
+          <a class="cd-signup" v-on:click="logout()">Logout</a>
+        </li>
+      </ul>
   </nav>
-
-
   <div class="cd-user-modal">
-    <!-- this is the entire modal form, including the background -->
     <div class="cd-user-modal-container">
-      <!-- this is the container wrapper -->
       <ul class="cd-switcher">
         <li><a href="#0">Accedi</a></li>
         <li><a href="#0">Registrati</a></li>
       </ul>
-
       <div id="cd-login">
-        <!-- log in form -->
-        <form class="cd-form">
-          <p class="fieldset">
-            <label class="image-replace cd-email" for="signin-email">E-mail</label>
-            <input class="full-width has-padding has-border" id="signin-email" type="email" v-model="userLoginEmail" placeholder="E-mail">
-            <!--<span class="cd-error-message">Error message here!</span>-->
-          </p>
-
-          <p class="fieldset">
-            <label class="image-replace cd-password" for="signin-password">Password</label>
-            <input class="full-width has-padding has-border" id="signin-password" type="text" v-model="userLoginPWD" placeholder="Password">
-            <a href="#0" class="hide-password">Hide</a>
-            <span class="cd-error-message">Error message here!</span>
-          </p>
-
-          <p class="fieldset">
-            <!-- <input type="checkbox" id="remember-me" checked>
-            <label for="remember-me">Ricordami</label> -->
-
-            <md-checkbox v-model="remind">Ricordami</md-checkbox>
-          </p>
-
-          <p class="fieldset">
-            <input class="full-width" type="submit" value="Login" @click="login(userLoginEmail,userLoginPWD)">
-          </p>
-        </form>
-
-        <p class="cd-form-bottom-message"><a href="#0">Dimenticato la password?</a></p>
-        <!-- <a href="#0" class="cd-close-form">Close</a> -->
+        <Login/>
       </div>
-      <!-- cd-login -->
-
       <div id="cd-signup">
-        <!-- sign up form -->
-        <form class="cd-form">
-          <p class="fieldset">
-            <label class="image-replace cd-username" for="signup-username">Username</label>
-            <input class="full-width has-padding has-border" id="signup-username" v-model="usernameSignup" type="text" placeholder="Username">
-            <span class="cd-error-message">Error message here!</span>
-          </p>
-
-          <p class="fieldset">
-            <label class="image-replace cd-email" for="signup-email">E-mail</label>
-            <input class="full-width has-padding has-border" id="signup-email" type="email" v-model="emailSignup" placeholder="E-mail">
-            <span class="cd-error-message">Error message here!</span>
-          </p>
-
-          <p class="fieldset">
-            <label class="image-replace cd-password" for="signup-password">Password</label>
-            <input class="full-width has-padding has-border" id="signup-password" type="text" v-model="passwordSignup" placeholder="Password">
-            <a href="#0" class="hide-password">Hide</a>
-            <span class="cd-error-message">Error message here!</span>
-          </p>
-
-          <p class="fieldset">
-
-            <div class="type">
-              <!-- I'm a ... -->
-              <div class="buttons">
-                <div class="switch-field">
-                  <!-- <div class="switch-title">-Io sono-</div> -->
-                  <div class="switch-content player form-check form-check-inline">
-                    <input type="radio" id="switch_3_left" name="who" value="0" v-model="profileSignup" class="form-check-input" checked/>
-                    <label for="switch_3_left" class="calciatore form-check-label">calciatore</label>
-                  </div>
-                  <div class="switch-content club form-check form-check-inline">
-                    <input type="radio" id="switch_3_center" name="who" value="1" v-model="profileSignup" class="form-check-input" />
-                    <label for="switch_3_center" class="calciatore form-check-label">team</label>
-                  </div>
-                  <div class="switch-content agent form-check form-check-inline">
-                    <input type="radio" id="switch_3_right" name="who" value="2" v-model="profileSignup" class="form-check-input" />
-                    <label for="switch_3_right" class="calciatore form-check-label">agente</label>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </p>
-
-
-          <p class="fieldset">
-            <!-- <input type="checkbox" id="accept-terms"> -->
-            <!-- <label for="accept-terms">I agree to the <a href="#0">Terms</a></label> -->
-            <md-checkbox v-model="terms">I agree to the <a href="#">Terms</a></md-checkbox>
-
-          </p>
-
-          <p class="fieldset">
-            <input class="full-width has-padding" type="submit" value="Crea account" @click="signup(usernameSignup, emailSignup, passwordSignup,profileSignup,profileSignup)">
-          </p>
-        </form>
-
-        <!-- <a href="#0" class="cd-close-form">Close</a> -->
+        <Signup />
       </div>
-      <!-- cd-signup -->
-
       <div id="cd-reset-password">
-        <!-- reset password form -->
-        <p class="cd-form-message">Lost your password? Please enter your email address. You will receive a link to create a new password.</p>
-
-        <form class="cd-form">
-          <p class="fieldset">
-            <label class="image-replace cd-email" for="reset-email">E-mail</label>
-            <input class="full-width has-padding has-border" id="reset-email" type="email" placeholder="E-mail">
-            <!--<span class="cd-error-message">Error message here!</span>-->
-          </p>
-
-          <p class="fieldset">
-            <input class="full-width has-padding" type="submit" value="Reset password">
-          </p>
-        </form>
-
-        <p class="cd-form-bottom-message"><a href="#0">Back to log-in</a></p>
+         <RecoveryPwd></RecoveryPwd>
       </div>
-      <!-- cd-reset-password -->
       <a href="#0" class="cd-close-form">Close</a>
     </div>
-    <!-- cd-user-modal-container -->
   </div>
-  <!-- cd-user-modal -->
 </header>
 </template>
 
 <script>
+  import Login from '@/components/Authentication/Login'
+  import Signup from '@/components/Authentication/Signup'
+  import RecoveryPwd from '@/components/Authentication/RecoveryPwd'
+
+
 import Vue from 'vue'
-import VueAxios from 'vue-axios'
-import VueAuthenticate from 'vue-authenticate'
-import axios from 'axios'
 
-Vue.use(VueAxios, axios)
-Vue.use(VueAuthenticate, {
-  baseUrl: 'http://35.193.9.82:121', // Your API domain
-
-  //providers: {
-  //  github: {
-  //    clientId: '',
-  //    redirectUri: 'http://localhost:8080/auth/callback' // Your client app URL
-  //  }
-  //}
-})
 export default {
-  name: 'Header',
-  data() {
-    return {
-      userLoginEmail: '',
-      userLoginPWD: '',
-
-      usernameSignup: '',
-      passwordSignup: '',
-      emailSignup: '',
-      profileSignup: '',
-      remind: null,
-      terms: null
-    }
-  },
-  methods: {
-    login: function(email, pwd) {
-      this.error = null;
-      var data = "grant_type=password&userName=" + email + "&password=" + pwd;
-      this.$auth.login(data)
-        .then(response => {
-          //alert(response.data.access_token)
-          alert('Login OK');
-        })
-        .catch(error => {
-          alert(JSON.stringify(error.response.data.error_description))
-        })
+    name: 'Header',
+    components: {
+      Login,
+      Signup,
+      RecoveryPwd
     },
-    register: function(name, email, password) {
-      this.$auth.register({
-        name,
-        email,
-        password,
-        profile
-      }).then(function() {
-        // Execute application logic after successful registration
-      })
+    data() {
+      return {
+        remind: null,
+      }
     },
-    signup: function(username, email, password, profile) {
-      this.$auth.register({
-          UserName: username,
-          Email: email,
-          Password: password,
-          Profile: profile,
-          Environment: this.$store.state.configurations.environment
-        })
-        .then(response => {
-          //alert(JSON.stringify(response.data))
-          alert('SignUP OK');
-        })
-        .catch(error => {
-          alert(error.response.data.ExceptionMessage)
-        })
-    }
+    computed: {
+      isAuthenticated: {
+        get() {  return this.$store.state.authentichation.isAuth; }
+      },
+      name: {
+        get() { return this.$store.state.authentichation.user != null ? this.$store.state.authentichation.user.Email  : 'not'; }
+      },
+    },
+    created() {
+      this.$store.dispatch('fetchUser')
+    },
+    methods: {
+      logout: function () {
+        this.$store.dispatch('logout')
+      },
+      goToProfile: function(){
+        this.$router.go('/user')
+      }
   }
 }
 </script>
