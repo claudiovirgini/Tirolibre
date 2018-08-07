@@ -6,26 +6,24 @@
           <div class="row">
             <Logo />
             <div class="col-md-12 text-center">
-              <div class="type">
+              <div class="who">
                   <!-- I'm a ... -->
                   <div class="buttons">
-                    <!-- <form class="form"> -->
                       <div class="switch-field">
                         <div class="switch-title">-Io sono-</div>
                         <div class="switch-content player form-check form-check-inline">
-                            <input type="radio" id="switch_3_left" name="who" value="who-calciatore" class="form-check-input" checked/>
-                            <label for="switch_3_left" class="calciatore form-check-label">calciatore</label>
+                            <input type="radio" id="who-calciatore" name="who" value="who-calciatore" class="form-check-input" v-model="who" checked/>
+                            <label for="who-calciatore">calciatore</label>
                         </div>
                         <div class="switch-content club form-check form-check-inline">
-                          <input type="radio" id="switch_3_center" name="who" value="who-team" class="form-check-input" />
-                          <label for="switch_3_center" class="calciatore form-check-label">team</label>
+                          <input type="radio" id="who-team" name="who" value="who-team" class="form-check-input" v-model="who" />
+                          <label for="who-team">team</label>
                         </div>
                         <div class="switch-content agent form-check form-check-inline">
-                    			<input type="radio" id="switch_3_right" name="who" value="who-agente" class="form-check-input" />
-                          <label for="switch_3_right" class="calciatore form-check-label">agente</label>
+                    			<input type="radio" id="who-agente" name="who" value="who-agente" class="form-check-input" v-model="who" />
+                          <label for="who-agente">agente</label>
                         </div>
                       </div>
-                  <!-- </form> -->
                   </div>
                 </div>
                 <div class="what">
@@ -53,56 +51,35 @@
                  <!-- <label>Dove sto cercando</label> -->
                  <!-- <md-input v-model="where"></md-input> -->
 
-                                <vue-google-autocomplete
-                         ref="address"
-                         id="map"
-                         classname="form-control"
-                         placeholder="Dove sto cercando"
-                         v-on:placechanged="getAddressData"
-                         country="it"
-                     >
-                     </vue-google-autocomplete>
+              <vue-google-autocomplete
+                   ref="address"
+                   id="map"
+                   classname="form-control"
+                   placeholder="Dove sto cercando"
+                   v-on:placechanged="getAddressData"
+                   types="(cities)"
+                   country="it"
+                   >
+               </vue-google-autocomplete>
                </md-field>
 
-
-                           <div class="message is-success" v-show="address">
-                               <div class="message-body">{{ address }}</div>
-                           </div>
-                <!-- <div class="where">
-                  <div class="buttons">
-                    <div class="switch-field-input">
-                      <div class="switch-title">-dove sto cercando-</div>
-                      <div class="switch-content-input form-group">
-                        <label for="where" class="sr-only">Password</label>
-                        <input type="text" name="where" id="where" class="form-control mx-auto" v-model="where" placeholder="dove sto cercando">
-                      </div>
-                    </div>
-                  </div>
-                </div> -->
-              <!-- <hr> -->
+               <!-- <div class="message is-success" v-show="address">
+                   <div class="message-body">{{ address }}</div>
+               </div> -->
               <div class="form-group">
                 <div class="col-md-6 mx-auto">
                   <button type="button" @click="userList" class="btn btn-outline-success btn-lg btn-block">Inizia <i class="fa fa-chevron-circle-right"></i></button>
-                    <!-- <a href="http://www.tirolibre.it" class="btn btn-outline-success btn-lg btn-block">Inizia <i class="fas fa-chevron-circle-right"></i></a> -->
+                  <!-- <a href="http://www.tirolibre.it" class="btn btn-outline-success btn-lg btn-block">Inizia <i class="fas fa-chevron-circle-right"></i></a> -->
                 </div>
               </div>
 
-
-              <!-- <span>Picked: {{ what }} // {{ where }}</span>
+              <!-- <span>Picked: {{ who }} // {{ what }} // {{ where }}</span>
               <hr>
-              Vuex store value: {{ $store.state.what }} // {{ $store.state.where }}
+              Vuex store value: {{ $store.state.who }} // {{ $store.state.what }} // {{ $store.state.where }}
               <br>
-              Computed property value: {{ what }} // {{ where }} -->
+              Computed property value: {{ who }} // {{ what }} // {{ where }} -->
 
             </div>
-            <!-- <div class="col-md-6"> -->
-
-              <!-- <h1 v-on:click="changeTitle">TEST: {{ title }}</h1> -->
-              <!-- <img src="../assets/images/01.jpg" class="float-left m-3" alt="TiroLibre" width="250px">
-                              <img src="../assets/images/02.png" class="float-right m-3" alt="TiroLibre" width="250px">
-                  <img src="../assets/images/05.jpg" class="float-left m-3" alt="TiroLibre" width="250px"> -->
-              <!-- <img src="../assets/images/icoTiroLibre.png" class="" alt="TiroLibre"> -->
-            <!-- </div> -->
           </div>
         </div>
     </div>
@@ -114,7 +91,7 @@
     <Footer /> -->
 
   <!-- result -->
-  <result v-if="cardResult" :what="what" :where="where" />
+  <result v-if="cardResult" :what="what" :where="address" />
   <!-- /.result -->
 </div>
 </template>
@@ -149,6 +126,14 @@ export default {
     }
   },
   computed: {
+    who: {
+      get() {
+        return this.$store.state.who;
+      },
+      set(value) {
+        this.$store.commit("SET_WHO", value);
+      }
+    },
     what: {
       get() {
         return this.$store.state.what;
@@ -192,6 +177,7 @@ export default {
     },
     userList: function() {
       console.log("userList");
+      console.log("store: " + this.$store.state.who);
       console.log("store: " + this.$store.state.what);
       console.log("store: " + this.$store.state.where);
       this.error = null
@@ -216,6 +202,7 @@ export default {
     min-height: 100vh;
 }
 .main-header {
+    width: 100%;
     // background-color: #d7e5e8;
     background-color: #FFF;
     // background-image: url("https://www.higuests.com/assets/images/alfred_001.png");
@@ -291,7 +278,8 @@ export default {
     text-transform: uppercase;
     padding: 20px;
 }
-.type {
+
+.who {
     .switch-content {
         background: #c0d6bb;
         label {
@@ -300,6 +288,10 @@ export default {
                 padding: 5px;
                 border-radius: 10px;
                 border: 2px solid #178501;
+            }
+            &:hover {
+                background-color: #178501;
+                color: #FFF;
             }
         }
     }
@@ -327,38 +319,19 @@ export default {
     .switch-title {
         color: #168600;
     }
+
+    .switch-field input:checked + label {
+        // background-color: #1376db;
+        background-color: #178501;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
     .switch-field {
         label {
-            // background-color: #168600;
             background-color: #FFF;
             color: #168600;
             text-transform: uppercase;
             min-width: 120px;
-            // &:first-of-type {
-            //     &:before {
-            //         background-image: url("../assets/images/player.png");
-            //         background-color: #FFF;
-            //         padding: 5px;
-            //         border-radius: 10px;
-            //         border: 2px solid #168600;
-            //     }
-            // }
-            // &:last-of-type {
-            //     &:before {
-            //         background-image: url("../assets/images/agent.png");
-            //         background-color: #FFF;
-            //         padding: 5px;
-            //         border-radius: 10px;
-            //         border: 2px solid #168600;
-            //     }
-            // }
-            // &:before {
-            //     background-image: url("../assets/images/club.png");
-            //     background-color: #FFF;
-            //     padding: 5px;
-            //     border-radius: 10px;
-            //     border: 2px solid #168600;
-            // }
         }
     }
 }
@@ -404,7 +377,6 @@ export default {
     }
 
     .switch-field input:checked + label {
-        // background-color: #1376db;
         background-color: #1057a0;
         -webkit-box-shadow: none;
         box-shadow: none;
@@ -415,31 +387,6 @@ export default {
             color: #1057a0;
             text-transform: uppercase;
             min-width: 120px;
-            // &:first-of-type {
-            //     &:before {
-            //         background-image: url("../assets/images/player.png");
-            //         background-color: #FFF;
-            //         padding: 5px;
-            //         border-radius: 10px;
-            //         border: 2px solid #1057a0;
-            //     }
-            // }
-            // &:last-of-type {
-            //     &:before {
-            //         background-image: url("../assets/images/agent.png");
-            //         background-color: #FFF;
-            //         padding: 5px;
-            //         border-radius: 10px;
-            //         border: 2px solid #1057a0;
-            //     }
-            // }
-            // &:before {
-            //     background-image: url("../assets/images/club.png");
-            //     background-color: #FFF;
-            //     padding: 5px;
-            //     border-radius: 10px;
-            //     border: 2px solid #1057a0;
-            // }
         }
     }
 }

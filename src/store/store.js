@@ -13,13 +13,14 @@ Vue.use(Router)
 
 export const store = new Vuex.Store({
   state: {
+    who: '',
     what: '',
     where: '',
     player: '',
     configurations: {
-      serviceBaseUrl: 'http://localhost:61610/',
+      // serviceBaseUrl: 'http://localhost:61610/',
       imageRootUrl: 'http://tirolibre.it/CDN/',
-      //serviceBaseUrl: 'http://testservice.tirolibre.it',
+      serviceBaseUrl: 'http://testservice.tirolibre.it',
       loginUrl   : '/auth/login',
       signupUrl  : '/api/Account/Register',
       getPlayerInfoUrl: '/api/Player/GetPlayerInfo',
@@ -51,6 +52,9 @@ export const store = new Vuex.Store({
         state.authentication.user = JSON.parse(data.userInfo);
         state.authentication.token = data.token;
       }
+    },
+    SET_WHO(state, who) {
+      state.who = who;
     },
     SET_WHAT(state, what) {
       state.what = what;
@@ -95,7 +99,7 @@ export const store = new Vuex.Store({
 
 
     getPlayerProfile({ commit, state }, playerId) {
-      const data = { PlayerId: playerId }      
+      const data = { PlayerId: playerId }
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getPlayerInfoUrl, data);
     },
 
@@ -104,5 +108,5 @@ export const store = new Vuex.Store({
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.savePlayerInfoUrl, data);
     }
   }
- 
+
 })

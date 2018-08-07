@@ -20,18 +20,18 @@
       <md-icon>import_export</md-icon>
       <p>Market</p>
     </sidebar-link>
-    <sidebar-link to="/premium">
+    <!-- <sidebar-link to="/premium">
       <md-icon>local_grocery_store</md-icon>
       <p>Passa a Premium</p>
-    </sidebar-link>
+    </sidebar-link> -->
     <!-- <sidebar-link to="/notifications">
       <md-icon>notifications</md-icon>
       <p>Notifications</p>
     </sidebar-link> -->
-    <!-- <sidebar-link to="/upgrade" class="active-pro">
+    <sidebar-link to="/upgrade" class="active-pro">
       <md-icon>unarchive</md-icon>
       <p>Upgrade to PRO</p>
-    </sidebar-link> -->
+    </sidebar-link>
   </side-bar>
 
   <div class="main-panel">
@@ -41,12 +41,14 @@
 
     </dashboard-content>
 
-    <content-footer v-if="!$route.meta.hideFooter"></content-footer>
+    <!-- <content-footer v-if="!$route.meta.hideFooter"></content-footer> -->
   </div>
 </div>
 </template>
 <style lang="scss">
-
+.nav-item.active p {
+    color: #FFF;
+}
 </style>
 <script>
 import TopNavbar from './TopNavbar.vue'

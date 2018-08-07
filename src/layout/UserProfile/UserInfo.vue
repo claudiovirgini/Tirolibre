@@ -25,8 +25,8 @@
         </div> -->
         <div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
-            <label>Ruolo</label>
-            <md-input :value='card.role' disabled type="text"></md-input>
+            <label>Classe</label>
+            <md-input :value='card.classe' disabled type="text"></md-input>
           </md-field>
         </div>
         <div class="md-layout-item md-small-size-100 md-size-33">
@@ -44,7 +44,7 @@
         <div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
             <label>Dove ti Trovi</label>
-            <md-input type="text"></md-input>
+            <md-input type="text" disabled></md-input>
           </md-field>
         </div>
         <div class="md-layout-item md-small-size-100 md-size-33">

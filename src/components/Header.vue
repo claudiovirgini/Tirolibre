@@ -1,17 +1,21 @@
 <template>
 <header role="banner" class="masthead mb-auto">
-  <nav class="main-nav">
-      <ul>
-        <li v-if="!isAuthenticated"><a class="cd-signin" href="#">Accedi</a></li>
-        <li v-if="!isAuthenticated"><a class="cd-signup" href="#0">Registrati</a></li>
-        <li v-if="isAuthenticated" class="nav-item">
-          <router-link class="nav-link" to="/user">Benvenuto {{name}}</router-link>
-        </li>
-        <li v-if="isAuthenticated" class="nav-item">
-          <a class="cd-signup" v-on:click="logout()">Logout</a>
-        </li>
-      </ul>
+  <nav class="main-nav isNotAuthenticated" v-if="!isAuthenticated">
+    <ul>
+      <li><a class="cd-signin" href="#">Accedi</a></li>
+      <li><a class="cd-signup" href="#0">Registrati</a></li>
+    </ul>
   </nav>
+  <div class="main-nav" v-if="isAuthenticated">
+    <ul>
+      <li class="nav-item">
+        <router-link class="nav-link" to="/user">Benvenuto {{name}}</router-link>
+      </li>
+      <li class="nav-item">
+        <a class="cd-signup" v-on:click="logout()">Logout</a>
+      </li>
+    </ul>
+  </div>
   <div class="cd-user-modal">
     <div class="cd-user-modal-container">
       <ul class="cd-switcher">
@@ -25,7 +29,7 @@
         <Signup />
       </div>
       <div id="cd-reset-password">
-         <RecoveryPwd></RecoveryPwd>
+        <RecoveryPwd></RecoveryPwd>
       </div>
       <a href="#0" class="cd-close-form">Close</a>
     </div>
@@ -34,46 +38,52 @@
 </template>
 
 <script>
-  import Login from '@/components/Authentication/Login'
-  import Signup from '@/components/Authentication/Signup'
-  import RecoveryPwd from '@/components/Authentication/RecoveryPwd'
-  import { serverBus } from '../main';
+import Login from '@/components/Authentication/Login'
+import Signup from '@/components/Authentication/Signup'
+import RecoveryPwd from '@/components/Authentication/RecoveryPwd'
+import {
+  serverBus
+} from '../main';
 
 import Vue from 'vue'
 
 export default {
-    name: 'Header',
-    components: {
-      Login,
-      Signup,
-      RecoveryPwd
-    },
-    data() {
-      return {
-        remind: null,
+  name: 'Header',
+  components: {
+    Login,
+    Signup,
+    RecoveryPwd
+  },
+  data() {
+    return {
+      remind: null,
+    }
+  },
+  computed: {
+    isAuthenticated: {
+      get() {
+        return this.$store.state.authentication.isAuth;
       }
     },
-    computed: {
-      isAuthenticated: {
-        get() {  return this.$store.state.authentication.isAuth; }
-      },
-      name: {
-        get() { return this.$store.state.authentication.user != null ? this.$store.state.authentication.user.Email  : 'not'; }
-      },
-    },
-    created() {
-      this.$store.dispatch('fetchUser')
-      serverBus.$on('route', (routeToFollow) => {
-        this.$router.go('/' + routeToFollow)
-      });
-    },
-    methods: {
-      logout: function () {
-        this.$store.dispatch('logout')
-      },
-      goToProfile: function(){
-        this.$router.go('/user')
+    name: {
+      get() {
+        return this.$store.state.authentication.user != null ? this.$store.state.authentication.user.Email : 'not';
       }
+    },
+  },
+  // created() {
+  //   this.$store.dispatch('fetchUser')
+  //   serverBus.$on('route', (routeToFollow) => {
+  //     this.$router.go('/' + routeToFollow)
+  //   });
+  // },
+  methods: {
+    logout: function() {
+      this.$store.dispatch('logout')
+    },
+    goToProfile: function() {
+      this.$router.go('/user')
+    }
   }
 }
 </script>
@@ -179,7 +189,7 @@ header[role=banner] {
         width: auto;
         height: auto;
         background: none;
-        cursor: auto;
+        cursor: pointer;
 
         ul {
             position: static;

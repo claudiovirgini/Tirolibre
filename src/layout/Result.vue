@@ -89,6 +89,10 @@ export default {
       type: String,
       default: 'center'
     },
+    where: {
+      type: String,
+      default: 'center'
+    }
   },
   data() {
     return {

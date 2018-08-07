@@ -6,10 +6,11 @@
         <img :src="imgLogo" alt="">
       </div>
     </a>
-
-    <a href="https://www.creative-tim.com/product/vue-material-dashboard" target="_blank" class="simple-text logo-normal">
+    <router-link to="/">
+      <a href="#" target="_blank" class="simple-text logo-normal">
         {{title}}
       </a>
+    </router-link>
   </div>
   <div class="sidebar-wrapper">
     <slot name="content"></slot>
