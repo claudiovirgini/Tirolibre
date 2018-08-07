@@ -93,6 +93,7 @@ export default {
     }
   },
   mounted() {
+    alert("cici")
     //from your component
     console.log("user:" + this.$route.query.user)
     this.userList()

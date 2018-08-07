@@ -8,7 +8,6 @@ import UpgradeToPRO from '@/pages/UpgradeToPRO.vue'
 
 import HomeView from '@/layout/Home'
 import ResultView from '@/layout/Result'
-import PlayerView from '@/layout/Player'
 import WelcomeView from '@/layout/Welcome'
 import UserProfileView from '@/layout/UserProfile'
 
@@ -27,15 +26,6 @@ const routes = [
     path: '/result',
     name: 'Result',
     component: ResultView,
-    // Inject  props based on route.query values (our query parameters!)
-    props: (route) => ({
-        player: route.query.name
-    })
-  },
-  {
-    path: '/player',
-    name: 'Player',
-    component: PlayerView,
     // Inject  props based on route.query values (our query parameters!)
     props: (route) => ({
         player: route.query.name
