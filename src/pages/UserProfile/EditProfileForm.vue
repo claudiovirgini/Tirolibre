@@ -11,85 +11,85 @@
         <div class="md-layout-item md-small-size-100 md-size-50">
           <md-field>
             <label>Nome</label>
-            <md-input v-model="firstName" type="text"></md-input>
+            <md-input v-model="name" type="text"></md-input>
           </md-field>
         </div>
         <div class="md-layout-item md-small-size-100 md-size-50">
           <md-field>
             <label>Cognome</label>
-            <md-input v-model="lastName" type="text"></md-input>
+            <md-input v-model="surname" type="text"></md-input>
           </md-field>
         </div>
         <div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
             <label>Classe</label>
-            <md-input v-model="classe" type="text"></md-input>
+            <md-input v-model="yearClass" type="number"></md-input>
           </md-field>
         </div>
         <div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
             <label>Nazionalità</label>
-            <md-input v-model="nazionalita" type="text"></md-input>
+            <md-input v-model="nationality"  type="text"></md-input>
           </md-field>
         </div>
         <div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
             <label>Ruolo</label>
-            <md-input v-model="ruolo" type="text"></md-input>
+            <md-input v-model="roleSelected" type="text"></md-input>
           </md-field>
         </div>
         <div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
             <label>Dove ti Trovi</label>
-            <md-input v-model="doveTiTrovi" type="text"></md-input>
+            <md-input v-model="city" type="text"></md-input>
           </md-field>
         </div>
         <div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
             <label>Dove Cerchi</label>
-            <md-input v-model="doveCerchi" type="text"></md-input>
+            <md-input v-model="researchPlace" type="text"></md-input>
           </md-field>
         </div>
         <div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
             <label>Status</label>
-            <md-input v-model="status" type="text"></md-input>
+            <md-input v-model="actualStatus" type="text"></md-input>
           </md-field>
         </div>
         <div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
             <label>Telefono</label>
-            <md-input v-model="tel" type="number"></md-input>
+            <md-input v-model="phoneNumber" type="number"></md-input>
           </md-field>
         </div>
         <div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
             <label>Peso</label>
-            <md-input v-model="peso" type="number"></md-input>
+            <md-input v-model="weigth" type="number"></md-input>
           </md-field>
         </div>
         <div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
             <label>Altezza</label>
-            <md-input v-model="altezza" type="number"></md-input>
+            <md-input v-model="heigth" type="number"></md-input>
           </md-field>
         </div>
         <div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
             <label>Nome Squadra ultimo campionato</label>
-            <md-input v-model="campionato1" type="text"></md-input>
+            <md-input v-model="experience1" type="text"></md-input>
           </md-field>
         </div>
         <div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
-            <label>Campionato 2</label>
-            <md-input v-model="campionato2" type="text"></md-input>
+            <label>Nome Squadra altre esperienze</label>
+            <md-input v-model="experience2" type="text" :disabled="(playerdata != null && playerdata.Experiences != null) && (playerdata.Experiences>0)"></md-input>
           </md-field>
         </div>
         <div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
-            <label>Campionato 3</label>
-            <md-input v-model="status" type="text"></md-input>
+            <label>Nome Squadra altre esperienze</label>
+            <md-input v-model="experience3" type="text"></md-input>
           </md-field>
         </div>
         <div class="md-layout-item md-size-100">
@@ -99,7 +99,7 @@
           </md-field>
         </div>
         <div class="md-layout-item md-size-100 text-right">
-          <md-button class="md-raised md-success">Aggiorna Profilo</md-button>
+          <md-button class="md-raised md-success"  v-on:click="saveProfile()" >Aggiorna Profilo</md-button>
         </div>
       </div>
 
@@ -110,63 +110,197 @@
 <script>
 import axios from 'axios'
 export default {
-  name: 'edit-profile-form',
-  props: {
+    name: 'edit-profile-form',
+    props: {
+    playerdata: {
+        type: Object
+    },
     dataBackgroundColor: {
       type: String,
       default: ''
     }
   },
-  data() {
-    return {
-      firstName: 'Alejandro',
-      lastName: 'Salgado',
-      classe: '1990',
-      nazionalita: 'Italiana',
-      ruolo: 'attaccante',
-      status: 'svincolato',
-      doveTiTrovi: 'Roma',
-      doveCerchi: 'Roma',
-      tel: '1234567890',
-      peso: '72',
-      altezza: '187',
-      campionato1: 'Serie D',
-      campionato2: 'Serie D',
-      campionato3: 'Serie D',
-      company: "ASROMA",
-      email: "",
-      aboutMe: 'Oh so, your weak rhyme. You doubt I\'ll bother, reading into it.I\'ll probably won\'t, left to my own devicesBut that\'s the difference in our opinions.'
-    }
-  },
-
-  // props: ['what', 'where', 'to'],
   methods: {
-    userList: function() {
-      this.error = null;
-      // ../static/data/country.json
-      // http://35.193.9.82:121/api/Search/FindUser
-      axios.get('http://35.193.9.82:121/api/Search/FindUser', {})
-        .then(response => {
-          console.log('userList Response:', response)
-          if (response.status !== 200) {
-            this.error = response.statusText
-            return
-          }
-          this.users = response.data
-        })
-        .catch(error => {
-          // Request failed.
-          console.log('error', error.response)
-          this.error = error.response
-        })
+      saveProfile: function () {
+        this.$store.dispatch('savePlayerProfile', this.playerdata).then(res => {
+            alert('Salvataggio OK')
+        }).catch(error => alert('Si è verificato un errore'))
+      },
+    //playerProfile: function() {
+    //  this.cardResult = false
+    //  this.userProfile = true
+    //}
     },
-    playerProfile: function() {
-      this.cardResult = false
-      this.userProfile = true
-      console.log("player " + this.$store.state.id)
-    }
-  },
   computed: {
+      name: {
+        get() {
+          return (this.playerdata != null) ? this.playerdata.Name : '';
+        },
+        set(value) {
+          this.playerdata.Name = value;
+        }
+      },
+      surname: {
+        get() {
+          return (this.playerdata != null) ? this.playerdata.Surname : '';
+        },
+        set(value) {
+          this.playerdata.SurName = value;
+        }
+      },
+      weigth: {
+        get() {
+          return (this.playerdata != null) ? this.playerdata.Weigth : '';
+        },
+        set(value) {
+          this.playerdata.Weigth = value;
+        }
+      },
+      heigth: {
+        get() {
+          return (this.playerdata != null) ? this.playerdata.Heigth : '';
+        },
+        set(value) {
+          this.playerdata.Heigth = value;
+        }
+      },
+      aboutMe: {
+        get() {
+          return (this.playerdata != null) ? this.playerdata.AboutMe : '';
+        },
+        set(value) {
+          this.playerdata.AboutMe = value;
+        }
+      },
+      actualStatus: {
+        get() {
+          return (this.playerdata != null) ? this.playerdata.ActualStatus : '';
+        },
+        set(value) {
+          this.playerdata.ActualStatus = value;
+        }
+      },
+      city: {
+        get() {
+          return (this.playerdata != null) ? this.playerdata.City : '';
+        },
+        set(value) {
+          this.playerdata.City = value;
+        }
+      },
+      nationality: {
+        get() {
+          return (this.playerdata != null) ? this.playerdata.Nationality : '';
+        },
+        set(value) {
+          this.playerdata.Nationality = value;
+        }
+      },
+      phoneNumber: {
+        get() {
+          return (this.playerdata != null) ? this.playerdata.PhoneNumber : '';
+        },
+        set(value) {
+          this.playerdata.PhoneNumber = value;
+        }
+      },
+      yearClass : {
+        get() {
+          var returned = 'not available'
+          if (this.playerdata != null && this.playerdata.BornDate) {
+            var temp = new Date(this.playerdata.BornDate);
+            returned = temp.getFullYear()
+          }
+          return returned;
+        },
+        set(value) {
+          if (this.playerdata.BornDate != null) {
+            this.playerdata.BornDate = new Date(this.playerdata.BornDate);
+          }
+          else {
+            this.playerdata.BornDate = new Date('01/01/2000');
+          }
+          this.playerdata.BornDate.setFullYear(value)
+        }
+      },
+      roleSelected: {
+        get() {
+          if ((this.playerdata != null) && (this.playerdata.Roles != null) && (this.playerdata.Roles.length > 0))
+            return this.playerdata.Roles[0].RoleName
+          else return 'not available';
+        },
+        set(value) {
+          if ((this.playerdata != null) && (this.playerdata.Roles != null) && (this.playerdata.Roles.length > 0))
+            return this.playerdata.Roles[0].RoleName = value;
+          else {
+            this.playerdata.Roles = [];
+            this.playerdata.Roles.push({ Id: 0, RoleName: value })
+          }
+        }
+      },
+      researchPlace: {
+        get() {
+          if ((this.playerdata != null) && (this.playerdata.ResearchPlaces != null) && (this.playerdata.ResearchPlaces.length > 0))
+            return this.playerdata.ResearchPlaces[0].Value
+          else return 'not available';
+        },
+        set(value) {
+          if ((this.playerdata != null) && (this.playerdata.ResearchPlaces != null) && (this.playerdata.ResearchPlaces.length > 0))
+            return this.playerdata.ResearchPlaces[0].Value = value;
+          else {
+            this.playerdata.ResearchPlaces = [];
+            this.playerdata.ResearchPlaces.push({ Id: 0, Value: value })
+          }
+        }
+      },
+      experience1: {
+        get() {
+          if ((this.playerdata != null) && (this.playerdata.Experiences != null) && (this.playerdata.Experiences.length > 0))
+            return this.playerdata.Experiences[0].TeamName
+          else   return 'not available';
+        },
+        set(value) {
+          if ((this.playerdata != null) && (this.playerdata.Experiences != null) && (this.playerdata.Experiences.length > 0))
+            return this.playerdata.Experiences[0].TeamName = value;
+          else {
+            this.playerdata.Experiences = [];
+            this.playerdata.Experiences.push({ Id: 0, TeamName: value })
+          }
+        }
+      },
+      experience2: {
+        get() {
+          if ((this.playerdata != null) && (this.playerdata.Experiences != null) && (this.playerdata.Experiences.length > 1))
+            return this.playerdata.Experiences[1].TeamName
+          else
+            return 'not available';
+        },
+        set(value) {
+          if ((this.playerdata != null) && (this.playerdata.Experiences != null) && (this.playerdata.Experiences.length > 1))
+            return this.playerdata.Experiences[1].TeamName = value;
+          else {
+            if ((this.playerdata.Experiences != null) && (this.playerdata.Experiences.length == 1)) {
+              this.playerdata.Experiences.push({ Id: 0, TeamName: value })
+            }
+          }
+        }
+      },
+      experience3: {
+        get() {
+          if ((this.playerdata != null) && (this.playerdata.Experiences != null) && (this.playerdata.Experiences.length > 2))
+            return this.playerdata.Experiences[2].TeamName
+          else return 'not available';
+        },
+        set(value) {
+          if ((this.playerdata != null) &&(this.playerdata.Experiences != null) && (this.playerdata.Experiences.length > 2))
+            return this.playerdata.Experiences[2].TeamName = value;
+          else {
+            if ((this.playerdata.Experiences != null) && (this.playerdata.Experiences.length == 2)) {
+              this.playerdata.Experiences.push({ Id: 0, TeamName: value })
+            }
+          }
+        }
+      },
     what: {
       get() {
         return this.$store.state.what;
@@ -174,30 +308,11 @@ export default {
       set(value) {
         this.$store.commit("SET_WHAT", value);
       }
-    },
-    player: {
-      get() {
-        return this.$store.state.player;
-      },
-      set(value) {
-        this.$store.commit("SET_PLAYER", value);
-      }
-    },
-    filteredCustomers: function() {
-      const {
-        what,
-        where
-      } = this;
-      return this.users
-        .filter(card => card.name === this.$route.query.user)
-      // || card.where === where
     }
   },
-  mounted() {
-    //from your component
-    console.log("user:" + this.$route.query.user)
-    this.userList()
-  }
+  //  mounted() {
+  //    alert(this.playerdata.Name)
+  //},
 
 }
 </script>

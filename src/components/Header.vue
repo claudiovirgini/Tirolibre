@@ -37,7 +37,7 @@
   import Login from '@/components/Authentication/Login'
   import Signup from '@/components/Authentication/Signup'
   import RecoveryPwd from '@/components/Authentication/RecoveryPwd'
-
+  import { serverBus } from '../main';
 
 import Vue from 'vue'
 
@@ -55,14 +55,17 @@ export default {
     },
     computed: {
       isAuthenticated: {
-        get() {  return this.$store.state.authentichation.isAuth; }
+        get() {  return this.$store.state.authentication.isAuth; }
       },
       name: {
-        get() { return this.$store.state.authentichation.user != null ? this.$store.state.authentichation.user.Email  : 'not'; }
+        get() { return this.$store.state.authentication.user != null ? this.$store.state.authentication.user.Email  : 'not'; }
       },
     },
     created() {
       this.$store.dispatch('fetchUser')
+      serverBus.$on('route', (routeToFollow) => {
+        this.$router.go('/' + routeToFollow)
+      });
     },
     methods: {
       logout: function () {

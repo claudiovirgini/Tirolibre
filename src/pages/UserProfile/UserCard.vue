@@ -1,42 +1,84 @@
 <template>
-<md-card class="md-card-profile">
-  <div class="md-card-avatar">
-    <img class="img" :src="cardUserImage">
-  </div>
-
-  <md-card-content>
-    <h4 class="card-title">Nome Cognome</h4>
-    <h6 class="category text-gray">Attaccante</h6>
-    <!-- <p class="card-description">
-      Don't be scared of the truth because we need to restart the human foundation in truth And I love you like Kanye loves Kanye I love Rick Owens’ bed design but the back is...
-    </p> -->
-    <hr>
-    <div class="text-center">
-      <div class="row">
-        <div class="col-lg-6">
-          <h5>Ruolo
-            <br><small>attaccante</small></h5></div>
-        <div class="col-lg-6">
-          <h5>Classe
-            <br><small>1999</small></h5></div>
+  <div>
+    <md-card class="md-card-profile">
+      <div class="md-card-avatar">
+        <img class="img" :src="imagefile">
       </div>
-    </div>
-    <!-- <md-button class="md-round md-success">Follow</md-button> -->
-  </md-card-content>
-</md-card>
+      <md-card-content>
+        <h4 class="card-title">{{ name+' '+surname }}</h4>
+        <h6 class="category text-gray">Profile</h6>
+        <hr>
+        <div class="text-center">
+          <div class="row">
+            <div class="col-lg-6">
+              <h5>
+                Ruolo
+                <br><small>{{ role }}</small>
+              </h5>
+            </div>
+            <div class="col-lg-6">
+              <h5>
+                Classe
+                <br><small>{{ yearClass }}</small>
+              </h5>
+            </div>
+          </div>
+        </div>
+      </md-card-content>
+    </md-card>
+  </div>
 </template>
 <script>
 export default {
-  name: 'user-card',
-  props: {
-    cardUserImage: {
-      type: String,
-      default: require('@/assets/img/faces/marc.jpg')
+    name: 'edit-profile-form',
+    props: {
+      playerdata: {
+        type: Object
+      }
+    },
+    //mounted() {
+    //  alert('mike : '+this.playerdata.Surname)
+    //},
+    data() {
+      return {
+        imageBaseUrl: this.$store.state.configurations.imageRootUrl,
+      }
+    },
+    computed: {
+      name: {
+        get() {
+          return this.playerdata != null ? this.playerdata.Name : '';
+        }
+      },
+      surname: {
+        get() {
+          return this.playerdata != null ? this.playerdata.Surname : '';
+        }
+      },
+      imagefile: {
+        get() {
+          return this.playerdata != null && this.playerdata.FilePlayerImage != null
+            ? this.$store.state.configurations.imageRootUrl + this.playerdata.FilePlayerImage
+            : '@/assets/img/faces/marc.jpg';
+        }
+      },
+      role: {
+        get() {
+          return this.playerdata != null && this.playerdata.Roles != null && this.playerdata.Roles.length > 0 ? this.playerdata.Roles[0].RoleName : '';
+        }
+      },
+      yearClass: {
+        get() {
+          var returned = 'not available'
+          if (this.playerdata != null && this.playerdata.BornDate) {
+            var temp = new Date(this.playerdata.BornDate);
+            returned = temp.getFullYear()
+          }
+          return returned;
+        }
+      }
     }
-  },
-  data() {
-    return {}
-  }
+
 }
 </script>
 <style>

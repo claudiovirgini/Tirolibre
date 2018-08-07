@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-
+import Router from 'vue-router'
 import VueAxios from 'vue-axios'
 import VueAuthenticate from 'vue-authenticate'
 import axios from 'axios'
@@ -9,14 +9,7 @@ import { serverBus } from '../main';
 
 Vue.use(Vuex)
 Vue.use(VueAxios, axios)
-Vue.use(VueAuthenticate,
-  {
-    baseUrl: 'http://localhost:61610',
-    //baseUrl: 'http://testservice.tirolibre.it',
-    loginUrl: '/auth/login',
-    getUser: '/auth/login',
-    registerUrl: '/api/Account/Register'
-  });
+Vue.use(Router)
 
 export const store = new Vuex.Store({
   state: {
@@ -24,13 +17,18 @@ export const store = new Vuex.Store({
     where: '',
     player: '',
     configurations: {
-      serviceBaseUrl: 'http://localhost:61610',
+      serviceBaseUrl: 'http://localhost:61610/',
+      imageRootUrl: 'http://tirolibre.it/CDN/',
+      //serviceBaseUrl: 'http://testservice.tirolibre.it',
       loginUrl   : '/auth/login',
       signupUrl  : '/api/Account/Register',
-      getPlayerInfoUrl : '/api/Player/GetPlayerInfo',
+      getPlayerInfoUrl: '/api/Player/GetPlayerInfo',
+      savePlayerInfoUrl: '/api/Player/SavePlayerInfo',
+
       environment: 1
+
     },
-    authentichation: {
+    authentication: {
       token: null,
       user: null,
       isAuth: false
@@ -41,18 +39,17 @@ export const store = new Vuex.Store({
 
     SET_AUTH(state,data) {
       if (data === null) {
-        state.authentichation.isAuth = false;
-        state.authentichation.user = null;
+        state.authentication.isAuth = false;
+        state.authentication.user = null;
         localStorage.removeItem('token');
         localStorage.removeItem('user');
-
-        state.authentichation.token = null;
+        state.authentication.token = null;
       } else {
         localStorage.setItem('user', data.userInfo);
         localStorage.setItem('token', data.token);
-        state.authentichation.isAuth = true;
-        state.authentichation.user = JSON.parse(data.userInfo);
-        state.authentichation.token = data.token;
+        state.authentication.isAuth = true;
+        state.authentication.user = JSON.parse(data.userInfo);
+        state.authentication.token = data.token;
       }
     },
     SET_WHAT(state, what) {
@@ -68,6 +65,7 @@ export const store = new Vuex.Store({
   actions: {
     logout({ commit, dispatch }) {
       commit('SET_AUTH', null);
+      serverBus.$emit('route', '');
     },
     login({ commit, dispatch }, authData) {
       const data = "grant_type=password&userName=" + authData.email + "&password=" + authData.pwd;
@@ -75,6 +73,7 @@ export const store = new Vuex.Store({
         .then(res => {
           //var userRead = JSON.parse(res.data.user);
           commit('SET_AUTH', { token: res.data.access_token, userInfo: res.data.user });
+          serverBus.$emit('route', 'user');
         })
         .catch(error => alert(error.response.data.error_description));
     },
@@ -96,15 +95,14 @@ export const store = new Vuex.Store({
 
 
     getPlayerProfile({ commit, state }, playerId) {
-      const data = { Email: authData.email, Password: authData.password, Environment: this.state.configurations.environment, Profile: authData.profile }
-      axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.signupUrl, data)
-        .then(res => {
-          alert('Signup OK');
-        })
-        .catch(error => alert(error.response.data.error_description));
+      const data = { PlayerId: playerId }      
+      return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getPlayerInfoUrl, data);
+    },
+
+    savePlayerProfile({ commit, state }, player) {
+      const data = { Player: player }
+      return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.savePlayerInfoUrl, data);
     }
-
-
   }
  
 })
