@@ -20,19 +20,19 @@
                   <p>Candidarti agli annunci</p>
                 </li>
                 <li>
-                  <p>comparire nell'elenco calciatori</p>
+                  <p>Comparire nell'elenco calciatori</p>
                 </li>
                 <li>
-                  <p>condividere pubblicamente il tuo profilo</p>
+                  <p>Condividere pubblicamente il tuo profilo</p>
                 </li>
                 <li>
-                  <p>presentazione personalizzata del profilo agli agenti</p>
+                  <p>Presentazione personalizzata del profilo agli agenti</p>
                 </li>
                 <li>
-                  <p>ricevere offerte di procura</p>
+                  <p>Ricevere offerte di procura</p>
                 </li>
                 <li>
-                  <p>presentazione personalizzata del profilo ai club</p>
+                  <p>Presentazione personalizzata del profilo ai club</p>
                 </li>
               </div>
             </div>
@@ -42,21 +42,21 @@
               <div class="pricing-header">
                 <h5>STANDARD</h5>
                 <div class="price-box">
-                  <div class="price">0
-                    <div class="currency">€</div>
-                    <div class="plan">/ Mese</div>
+                  <div class="price">Gratuito
+                    <!-- <div class="currency">€</div> -->
+                    <!-- <div class="plan">/ Mese</div> -->
                   </div>
                 </div>
               </div>
               <div class="pricing-feature">
                 <li>
                   <p>
-                    <i class="fa fa-check available"></i> 1/week
+                    <i class="fa fa-check available"></i> 1/settimana
                   </p>
                 </li>
                 <li>
                   <p>
-                    <i class="fa fa-check available"></i> 1/week
+                    <i class="fa fa-check available"></i> 1/settimana
                   </p>
                 </li>
                 <li>
@@ -2982,7 +2982,6 @@ h6 {
 .pricing-feature li p {
   margin: 0;
   font-size: 13.5px;
-  text-transform: capitalize;
   padding: 0 20px;
   line-height: normal;
 }

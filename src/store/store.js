@@ -13,6 +13,7 @@ Vue.use(Router)
 
 export const store = new Vuex.Store({
   state: {
+    who: '',
     what: '',
     where: '',
     player: '',
@@ -52,6 +53,9 @@ export const store = new Vuex.Store({
         state.authentication.user = JSON.parse(data.userInfo);
         state.authentication.token = data.token;
       }
+    },
+    SET_WHO(state, who) {
+      state.what = who;
     },
     SET_WHAT(state, what) {
       state.what = what;
@@ -96,7 +100,7 @@ export const store = new Vuex.Store({
 
 
     getPlayerProfile({ commit, state }, playerId) {
-      const data = { PlayerId: playerId }      
+      const data = { PlayerId: playerId }
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getPlayerInfoUrl, data);
     },
     getTeamAroundPoint({ commit, state }) {
@@ -109,5 +113,5 @@ export const store = new Vuex.Store({
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.savePlayerInfoUrl, data);
     }
   }
- 
+
 })
