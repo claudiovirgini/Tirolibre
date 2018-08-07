@@ -185,6 +185,7 @@ export default {
     min-height: 100vh;
 }
 .main-header {
+    width: 100%;
     // background-color: #d7e5e8;
     background-color: #FFF;
     // background-image: url("https://www.higuests.com/assets/images/alfred_001.png");

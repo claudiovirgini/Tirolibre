@@ -19,6 +19,8 @@
         </div>
       </div>
     </md-card-content>
+
+    <iframe width="560" height="315" :src="youtube" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
   </md-card>
 </div>
 </template>
@@ -36,7 +38,6 @@ export default {
     }
   },
   components: {
-    // UserCard
     // Logo,
     // Player
     // Footer
@@ -47,22 +48,7 @@ export default {
       userProfile: false,
       cardResult: true,
       isEditing: false,
-      user: {
-        firstName: 'Alejandro',
-        lastName: 'Salgado',
-        classe: '1990',
-        nazionalita: 'Italiana',
-        role: 'attaccante',
-        status: 'svincolato',
-        doveTiTrovi: 'Roma',
-        doveCerchi: 'Roma',
-        tel: '1234567890',
-        peso: '72',
-        altezza: '187',
-        campionato1: 'Serie D',
-        campionato2: 'Serie D',
-        campionato3: 'Serie D'
-      }
+      youtube: 'https://www.youtube.com/embed/RYd8EUYfJWw'
     }
   },
   // props: ['what', 'where', 'to'],
@@ -128,5 +114,7 @@ export default {
 </script>
 
 <style>
-
+iframe {
+  height: 300px !important;
+}
 </style>
