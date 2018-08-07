@@ -222,10 +222,10 @@
 </template>
 <script>
 // import {PricingCard} from '@/components'
-import PricingCard from './PricingCard.vue'
+//import PricingCard from './PricingCard.vue'
 export default {
   components: {
-    PricingCard
+    //PricingCard
   }
 }
 </script>

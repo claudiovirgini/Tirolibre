@@ -25,7 +25,7 @@ export const store = new Vuex.Store({
       signupUrl  : '/api/Account/Register',
       getPlayerInfoUrl: '/api/Player/GetPlayerInfo',
       savePlayerInfoUrl: '/api/Player/SavePlayerInfo',
-
+      getTeamAroundPoint: '/api/Player/GetTeamsAroundPoint',
       environment: 1
 
     },
@@ -98,6 +98,10 @@ export const store = new Vuex.Store({
     getPlayerProfile({ commit, state }, playerId) {
       const data = { PlayerId: playerId }      
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getPlayerInfoUrl, data);
+    },
+    getTeamAroundPoint({ commit, state }) {
+      alert('GET')
+      return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getTeamAroundPoint);
     },
 
     savePlayerProfile({ commit, state }, player) {
