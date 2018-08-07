@@ -33,9 +33,9 @@ import {
       }
     },
     mounted() {
-      if (this.$store.state.authentication.user == null)
-        this.$router.go('/')
-      else 
+      //if (this.$store.state.authentication.user == null)
+      //  this.$router.go('/')
+      //else 
         this.$store.dispatch('getPlayerProfile', this.$store.state.authentication.user.Id).then(res => {
           this.playerdata = res.data;
         }).catch(error => alert('Si è verificato un errore'));
