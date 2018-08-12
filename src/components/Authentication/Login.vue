@@ -34,7 +34,10 @@ export default {
       userLoginPWD: '',
       remind: true
     }
-  },
+    },
+    mounted()  {
+
+    },
   methods: {
     login: function(email, pwd) {
       const formData = {
@@ -42,16 +45,17 @@ export default {
         pwd: pwd,
       }
       //console.log(formData)
-      this.$store.dispatch('login', {
-        email: email,
-        pwd: pwd
-      })
+      this.$store.dispatch('login', { email: email, pwd: pwd })
+
       $('.cd-user-modal').removeClass('is-visible');
     },
   }
 }
 </script>
 <style scoped lang="scss">
+
+
+
 header[role=banner] {
     position: relative;
     height: 50px;

@@ -40,8 +40,10 @@
         </div>
         <div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
-            <label>Dove ti Trovi</label>
-            <md-input v-model="city" type="text"></md-input>
+            <!--<label>Dove ti Trovi</label>-->
+            <map-autocomplete  place-holder="Dove ti trovi" :initial-address="city" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress"></map-autocomplete>
+
+            <!--<md-input v-model="city" type="text"></md-input>-->
           </md-field>
         </div>
         <div class="md-layout-item md-small-size-100 md-size-33">
@@ -108,9 +110,14 @@
 </form>
 </template>
 <script>
-import axios from 'axios'
+  import { serverBus } from '@/main';
+
+import MapAutocomplete from '@/components/GoogleMaps/MapAutocomplete'
 export default {
     name: 'edit-profile-form',
+    components: {
+      MapAutocomplete
+    },
     props: {
     playerdata: {
         type: Object
@@ -119,17 +126,23 @@ export default {
       type: String,
       default: ''
     }
-  },
-  methods: {
-      saveProfile: function () {
-        this.$store.dispatch('savePlayerProfile', this.playerdata).then(res => {
-            alert('Salvataggio OK')
-        }).catch(error => alert('Si è verificato un errore'))
+    },
+
+    methods: {
+      setCorrectAddress: function (address) { 
+        //alert(JSON.stringify(address));
+        this.city = address;
       },
-    //playerProfile: function() {
-    //  this.cardResult = false
-    //  this.userProfile = true
-    //}
+      setInvalidAddress: function () {
+      },
+      saveProfile: function () {
+        serverBus.$emit('showLoading', true);
+        this.$store.dispatch('savePlayerProfile', this.playerdata).then(res => {
+          serverBus.$emit('showLoading', false);
+            alert('Salvataggio OK')
+        }).catch(error => {
+          alert('Si è verificato un errore'); serverBus.$emit('showLoading', false); })
+      },
     },
   computed: {
       name: {
@@ -182,10 +195,10 @@ export default {
       },
       city: {
         get() {
-          return (this.playerdata != null) ? this.playerdata.City : '';
+          return (this.playerdata != null && this.playerdata.Address != null) ? this.playerdata.Address.FullAddress : '';
         },
         set(value) {
-          this.playerdata.City = value;
+          this.playerdata.Address = { FullAddressJson: JSON.stringify(value), FullAddress: value.formatted_address, Location : null};
         }
       },
       nationality: {

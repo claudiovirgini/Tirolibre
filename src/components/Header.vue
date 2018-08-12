@@ -1,46 +1,63 @@
 <template>
-<header role="banner" class="masthead mb-auto">
-  <nav class="main-nav isNotAuthenticated" v-if="!isAuthenticated">
-    <ul>
-      <li><a class="cd-signin" href="#">Accedi</a></li>
-      <li><a class="cd-signup" href="#0">Registrati</a></li>
-    </ul>
-  </nav>
-  <div class="main-nav" v-if="isAuthenticated">
-    <ul>
-      <li class="nav-item">
-        <router-link class="nav-link" to="/user">Benvenuto {{name}}</router-link>
-      </li>
-      <li class="nav-item">
-        <a class="cd-signup" v-on:click="logout()">Logout</a>
-      </li>
-    </ul>
-  </div>
-  <div class="cd-user-modal">
-    <div class="cd-user-modal-container">
-      <ul class="cd-switcher">
-        <li><a href="#0">Accedi</a></li>
-        <li><a href="#0">Registrati</a></li>
+  <header role="banner" class="masthead mb-auto">
+    <nav class="main-nav isNotAuthenticated" v-if="!isAuthenticated">
+      <ul>
+        <!--<li><button type="button" v-on:click="show(true)">accedi</button></li>-->
+        <li><a class="cd-signin" href="#">Accedi</a></li>
+        <li><a class="cd-signup" href="#0">Registrati</a></li>
       </ul>
-      <div id="cd-login">
-        <Login/>
-      </div>
-      <div id="cd-signup">
-        <Signup />
-      </div>
-      <div id="cd-reset-password">
-        <RecoveryPwd></RecoveryPwd>
-      </div>
-      <a href="#0" class="cd-close-form">Close</a>
+    </nav>
+
+    <div class="main-nav" v-if="isAuthenticated">
+
+      <ul>
+        <li class="nav-item">
+          <router-link class="nav-link" to="/user">Benvenuto {{name}}</router-link>
+        </li>
+        <li class="nav-item">
+          <a class="cd-signup" v-on:click="logout()">Logout</a>
+        </li>
+      </ul>
     </div>
-  </div>
-</header>
+    <!--<md-dialog :md-active.sync="showDialog">
+
+  </md-dialog>-->
+    <div class="cd-user-modal">
+      <div class="cd-user-modal-container">
+        <ul class="cd-switcher">
+          <li><a href="#0">Accedi</a></li>
+          <li><a href="#0">Registrati</a></li>
+        </ul>
+        <div id="cd-login">
+          <Login />
+        </div>
+        <div id="cd-signup">
+          <Signup />
+        </div>
+        <div id="cd-reset-password">
+          <RecoveryPwd></RecoveryPwd>
+        </div>
+        <a href="#0" class="cd-close-form">Close</a>
+      </div>
+    </div>
+    <div id=preloderH  v-if="isLoading">
+      <div class=loaderH>
+        <!--<hour-glass></hour-glass>-->
+        <!--<rotate-square4></rotate-square4>-->
+        <!--<rotate-square2></rotate-square2>-->
+        <scale-out></scale-out>
+      </div>
+    </div>
+  </header>
+
 </template>
 
 <script>
 import Login from '@/components/Authentication/Login'
 import Signup from '@/components/Authentication/Signup'
-import RecoveryPwd from '@/components/Authentication/RecoveryPwd'
+  import RecoveryPwd from '@/components/Authentication/RecoveryPwd'
+  import { RotateSquare4, HourGlass, RotateSquare2, ScaleOut } from 'vue-loading-spinner'
+
 import {
   serverBus
 } from '../main';
@@ -52,11 +69,17 @@ export default {
   components: {
     Login,
     Signup,
-    RecoveryPwd
+    RecoveryPwd,
+    RotateSquare4,
+    RotateSquare2,
+    HourGlass,
+    ScaleOut
   },
   data() {
     return {
+      isLoading: false,
       remind: null,
+      showDialog: false
     }
   },
   computed: {
@@ -71,15 +94,19 @@ export default {
       }
     },
   },
-  // created() {
-  //   this.$store.dispatch('fetchUser')
-  //   serverBus.$on('route', (routeToFollow) => {
-  //     this.$router.go('/' + routeToFollow)
-  //   });
-  // },
-  methods: {
+   created() {
+     this.$store.dispatch('fetchUser')
+     serverBus.$on('showLoading', (isToShow) => {
+       this.showLoading(isToShow);
+     });
+   },
+    methods: {
+      showLoading: function (isToShow) {
+        this.isLoading = isToShow;
+      },
     logout: function() {
       this.$store.dispatch('logout')
+      this.$router.push('/') 
     },
     goToProfile: function() {
       this.$router.go('/user')
@@ -90,6 +117,78 @@ export default {
 
  <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+
+  /***LOADER **********/
+
+  #preloderH {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 999999;
+    background: #fff;
+    opacity:0.6
+  }
+
+  .loaderH {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -13px;
+    margin-left: -13px;
+    border-radius: 60px;
+    /*animation: loader 0.8s linear infinite;
+    -webkit-animation: loader 0.8s linear infinite;*/
+  }
+
+  @keyframes loaderH {
+    0% {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+      border: 4px solid #f44336;
+      border-left-color: transparent;
+    }
+
+    50% {
+      -webkit-transform: rotate(180deg);
+      transform: rotate(180deg);
+      border: 4px solid #673ab7;
+      border-left-color: transparent;
+    }
+
+    100% {
+      -webkit-transform: rotate(360deg);
+      transform: rotate(360deg);
+      border: 4px solid #f44336;
+      border-left-color: transparent;
+    }
+  }
+
+  @-webkit-keyframes loaderH {
+    0% {
+      -webkit-transform: rotate(0deg);
+      border: 4px solid #f44336;
+      border-left-color: transparent;
+    }
+
+    50% {
+      -webkit-transform: rotate(180deg);
+      border: 4px solid #673ab7;
+      border-left-color: transparent;
+    }
+
+    100% {
+      -webkit-transform: rotate(360deg);
+      border: 4px solid #f44336;
+      border-left-color: transparent;
+    }
+  }
+  /***END LOADER*******/
+
+
 header[role=banner] {
     position: relative;
     height: 50px;

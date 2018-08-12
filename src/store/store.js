@@ -16,10 +16,10 @@ export const store = new Vuex.Store({
     who: '',
     what: '',
     where: '',
-    player: '',
+    playerSelected: '',
     configurations: {
-      //serviceBaseUrl: 'http://localhost:61610/',
-      serviceBaseUrl: 'http://testservice.tirolibre.it',
+      serviceBaseUrl: 'http://localhost:61610/',
+      //serviceBaseUrl: 'http://testservice.tirolibre.it',
       imageRootUrl: 'http://tirolibre.it/CDN/',
       //serviceBaseUrl: 'http://testservice.tirolibre.it',
       loginUrl   : '/auth/login',
@@ -27,6 +27,7 @@ export const store = new Vuex.Store({
       getPlayerInfoUrl: '/api/Player/GetPlayerInfo',
       savePlayerInfoUrl: '/api/Player/SavePlayerInfo',
       getTeamAroundPoint: '/api/Player/GetTeamsAroundPoint',
+      FindUserUrl: '/api/Player/FindUser',
       environment: 1
 
     },
@@ -54,8 +55,9 @@ export const store = new Vuex.Store({
         state.authentication.token = data.token;
       }
     },
+
     SET_WHO(state, who) {
-      state.what = who;
+      state.who = who;
     },
     SET_WHAT(state, what) {
       state.what = what;
@@ -64,10 +66,17 @@ export const store = new Vuex.Store({
       state.where = where;
     },
     SET_PLAYER(state, player) {
-      state.player = player;
+      state.playerSelected = player;
     }
   },
   actions: {
+    makeid: function () {
+      var text = "";
+      var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      for (var i = 0; i < 5; i++)
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+      return text;
+    },
     logout({ commit, dispatch }) {
       commit('SET_AUTH', null);
       serverBus.$emit('route', '');
@@ -104,13 +113,16 @@ export const store = new Vuex.Store({
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getPlayerInfoUrl, data);
     },
     getTeamAroundPoint({ commit, state }) {
-      alert('GET')
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getTeamAroundPoint);
     },
 
     savePlayerProfile({ commit, state }, player) {
       const data = { Player: player }
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.savePlayerInfoUrl, data);
+    },
+
+    findUser({ commit, state },param) {
+      return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.FindUserUrl, { Profile:param.profile,Top:param.top});
     }
   }
 

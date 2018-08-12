@@ -60,7 +60,7 @@ export default {
       get() {
         return this.playerdata != null && this.playerdata.FilePlayerImage != null ?
           this.$store.state.configurations.imageRootUrl + this.playerdata.FilePlayerImage :
-          '@/assets/img/faces/marc.jpg';
+          '@/src/assets/img/faces/marc.jpg';
       }
     },
     role: {

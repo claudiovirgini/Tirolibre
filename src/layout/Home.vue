@@ -7,122 +7,95 @@
             <Logo />
             <div class="col-md-12 text-center">
               <div class="who">
-                  <!-- I'm a ... -->
-                  <div class="buttons">
-                      <div class="switch-field">
-                        <div class="switch-title">-Io sono-</div>
-                        <div class="switch-content player form-check form-check-inline">
-                            <input type="radio" id="who-calciatore" name="who" value="who-calciatore" class="form-check-input" v-model="who" checked/>
-                            <label for="who-calciatore">calciatore</label>
-                        </div>
-                        <div class="switch-content club form-check form-check-inline">
-                          <input type="radio" id="who-team" name="who" value="who-team" class="form-check-input" v-model="who" />
-                          <label for="who-team">team</label>
-                        </div>
-                        <div class="switch-content agent form-check form-check-inline">
-                    			<input type="radio" id="who-agente" name="who" value="who-agente" class="form-check-input" v-model="who" />
-                          <label for="who-agente">agente</label>
-                        </div>
-                      </div>
-                  </div>
-                </div>
-                <div class="what">
-                  <div class="buttons">
-                    <div class="switch-field">
-                      <div class="switch-title">-cerco-</div>
-                      <div class="switch-content player form-check form-check-inline">
-                        <input type="radio" id="switch_4_left" name="what" value="calciatore" class="form-check-input" v-model="what" checked/>
-                        <label for="switch_4_left">calciatore</label>
-                      </div>
-                      <div class="switch-content club form-check form-check-inline">
-                        <input type="radio" id="switch_4_center" name="what" value="team" class="form-check-input" v-model="what" />
-                        <label for="switch_4_center">team</label>
-                      </div>
-                      <div class="switch-content agent form-check form-check-inline">
-                        <input type="radio" id="switch_4_right" name="what" value="agente" class="form-check-input"  v-model="what" />
-                        <label for="switch_4_right">agente</label>
-                      </div>
+                <!-- I'm a ... -->
+                <div class="buttons">
+                  <div class="switch-field">
+                    <div class="switch-title">-Io sono-</div>
+                    <div class="switch-content player form-check form-check-inline">
+                      <input type="radio" id="who-calciatore" name="who" value="who-calciatore" class="form-check-input" v-model="who" checked />
+                      <label for="who-calciatore">calciatore</label>
+                    </div>
+                    <div class="switch-content club form-check form-check-inline">
+                      <input type="radio" id="who-team" name="who" value="who-team" class="form-check-input" v-model="who" />
+                      <label for="who-team">team</label>
+                    </div>
+                    <div class="switch-content agent form-check form-check-inline">
+                      <input type="radio" id="who-agente" name="who" value="who-agente" class="form-check-input" v-model="who" />
+                      <label for="who-agente">agente</label>
                     </div>
                   </div>
                 </div>
-
-              <md-field class="col-md-6 mx-auto">
-                 <md-icon>location_on</md-icon>
-                 <!-- <label>Dove sto cercando</label> -->
-                 <!-- <md-input v-model="where"></md-input> -->
-
-              <vue-google-autocomplete
-                   ref="address"
-                   id="map"
-                   classname="form-control"
-                   placeholder="Dove sto cercando"
-                   v-on:placechanged="getAddressData"
-                   types="(cities)"
-                   country="it"
-                   >
-               </vue-google-autocomplete>
-               </md-field>
-
-               <!-- <div class="message is-success" v-show="address">
-                   <div class="message-body">{{ address }}</div>
-               </div> -->
-              <div class="form-group">
-                <div class="col-md-6 mx-auto">
-                  <button type="button" @click="userList" class="btn btn-outline-success btn-lg btn-block">Inizia <i class="fa fa-chevron-circle-right"></i></button>
-                  <!-- <a href="http://www.tirolibre.it" class="btn btn-outline-success btn-lg btn-block">Inizia <i class="fas fa-chevron-circle-right"></i></a> -->
-                </div>
               </div>
 
-              <!-- <span>Picked: {{ who }} // {{ what }} // {{ where }}</span>
-              <hr>
-              Vuex store value: {{ $store.state.who }} // {{ $store.state.what }} // {{ $store.state.where }}
-              <br>
-              Computed property value: {{ who }} // {{ what }} // {{ where }} -->
-
+              <div class="what" >
+                <div class="buttons">
+                  <div class="switch-field"  v-bind:class="[hasErrorWhat ? 'hasErrorWhat' : '']">
+                    <div class="switch-title">-cerco-</div>
+                    <div class="switch-content player form-check form-check-inline">
+                      <input type="radio" id="switch_4_left" name="what" value="calciatore" class="form-check-input" @click="selectItem" v-model="what" checked />
+                      <label for="switch_4_left">calciatore</label>
+                    </div>
+                    <div class="switch-content club form-check form-check-inline">
+                      <input type="radio" id="switch_4_center" name="what" value="team" class="form-check-input" @click="selectItem" v-model="what" />
+                      <label for="switch_4_center">team</label>
+                    </div>
+                    <div class="switch-content agent form-check form-check-inline">
+                      <input type="radio" id="switch_4_right" name="what" value="agente" class="form-check-input" @click="selectItem" v-model="what" />
+                      <label for="switch_4_right">agente</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <md-field class="col-md-6 mx-auto" v-bind:class="[hasErrorWhere ? 'hasErrorWhat' : '']">
+                <md-icon style="float:left">location_on</md-icon>
+                <map-autocomplete place-holder="Dove stai cercando" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress"></map-autocomplete>
+              </md-field>
+              <div class="form-group">
+                <div class="col-md-6 mx-auto">
+                  <button type="button" @click="findUsers"  class="btn btn-outline-success btn-lg btn-block">Inizia <i class="fa fa-chevron-circle-right"></i></button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-    </div>
+      </div>
     </section>
+    <!-- result -->
+    <result v-if="cardResult" :what='what' :who='who' />
+    <!-- /.result -->
+  </div>
 
-    <!-- <Process />
-    <Fact />
-    <Review />
-    <Footer /> -->
+  <!--<span>Picked: {{ who }} // {{ what }} // {{ where }}</span>
+  <hr>
+  Vuex store value: {{ $store.state.who }} // {{ $store.state.what }} // {{ $store.state.where }}
+  <br>
+  Computed property value: {{ who }} // {{ what }} // {{ where }}-->
 
-  <!-- result -->
-  <result v-if="cardResult" :what="what" :where="address" />
-  <!-- /.result -->
-</div>
 </template>
 
 <script>
 import axios from 'axios'
 import Logo from '@/components/Logo'
 import Result from './Result'
-// import Process from '@/components/Process'
-// import Fact from '@/components/Fact'
-// import Review from '@/components/Review'
-// import Footer from '@/components/Footer'
-import VueGoogleAutocomplete from 'vue-google-autocomplete'
+import MapAutocomplete from '@/components/GoogleMaps/MapAutocomplete'
+import { fail } from 'assert';
+
+//import VueGoogleAutocomplete from 'vue-google-autocomplete'
 
 export default {
   name: 'Home',
   components: {
     Logo,
     Result,
-    VueGoogleAutocomplete
-    // Process,
-    // Fact,
-    // Review,
-    // Footer
+    MapAutocomplete
   },
   data() {
     return {
-      // what: '',
       cardResult: false,
       filter: true,
-      address: ''
+      isValidAddress: null,
+      hasErrorWhere: false,
+      hasErrorWhat: false
     }
   },
   computed: {
@@ -150,49 +123,52 @@ export default {
         this.$store.commit("SET_WHERE", value);
       }
     },
-    filteredCustomers: function() {
-      const {
-        // what,
-        where
-      } = this;
-      return this.users
-        .filter(card => card.profile === what)
-      // || card.where === where
-    }
   },
   mounted() {
-    // To demonstrate functionality of exposed component functions
-    // Here we make focus on the user input
-    this.$refs.address.focus();
+    //this.$refs.address.focus();
   },
-  methods: {
-    /**
-     * When the location found
-     * @param {Object} addressData Data of the found location
-     * @param {Object} placeResultData PlaceResult object
-     * @param {String} id Input container ID
-     */
-    getAddressData: function(addressData, placeResultData, id) {
-      this.address = addressData;
+    methods: {
+      selectItem: function () {
+        this.hasErrorWhat = false;
+      },
+      setCorrectAddress: function (place) {
+        this.isValidAddress = true;
+        this.hasErrorWhere = false;
+        //alert('New Place : ' + place.formatted_address)
+      },
+      setInvalidAddress: function () {
+        this.isValidAddress = false;
+        this.hasErrorWhere = true;
+
+        //alert('INVALID')
+      },
+      findUsers: function () {
+        if ((!this.isValidAddress) || (this.isValidAddress==null) || (this.what == null) || (this.what == '')) {
+          if ((!this.isValidAddress) || (this.isValidAddress == null)) {
+            this.hasErrorWhere = true;
+          }
+          if ((this.what == null)  || (this.what == '')) this.hasErrorWhat = true;
+        } else {
+          this.error = null
+          this.filter = false
+          this.cardResult = true
+        }
+
     },
-    userList: function() {
-      console.log("userList");
-      console.log("store: " + this.$store.state.who);
-      console.log("store: " + this.$store.state.what);
-      console.log("store: " + this.$store.state.where);
-      this.error = null
-      this.filter = false
-      this.cardResult = true
-    }
+
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-#map {
+  .hasErrorWhat{
+    border:2px red solid;
+    border-radius:5px;
+  }
+  #map {
     height: auto !important;
-}
+  }
 
 .pusher {
     background-image: url("../assets/images/bg-footer.jpg");

@@ -6,12 +6,10 @@
             <div class="row">
               <Logo />
               <div class="col-md-12">
-                  <!-- <p style="color: #000;">What is: {{ what }}</p>
-                  <p style="color: #000;">Where is: {{ where }}</p> -->
                 <form class="shadow-lg">
                   <div class="col-md-6">
                     <label>Cosa cerchi
-                      <select tabindex="1" v-model="what">
+                      <select tabindex="1" v-model="profileSelected">
                         <option>calciatore</option>
                         <option>team</option>
                         <option>agente</option>
@@ -22,33 +20,33 @@
                   </div>
                   <div class="col-md-6">
                     <label>Dove cerchi
-                    <input placeholder="Dove cerchi?" tabindex="2" v-model="where" />
+                    <input placeholder="Dove cerchi?" tabindex="2"  />
                   </label>
                   </div>
                 </form>
               </div>
             </div>
             <div class="row">
-              <div class="col-md-4 mt-4" v-for="card in filteredCustomers" :key="card.name" @click="playerProfile(card.name)">
+              <div class="col-md-4 mt-4" v-for="item in items" :key="item.id">
                 <div class="card profile-card-5">
                   <div class="card-img-block">
-                    <img class="card-img-top" :src="card.fullpath" alt="Card image cap">
+                    <img class="card-img-top" :src="getImagePathForItem(item)" alt="Card image cap">
                   </div>
                   <div class="card-body pt-0">
-                    <h5 class="card-title">{{ card.name }}</h5>
+                    <h5 class="card-title">{{ item.name}}</h5>
                     <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
-                    <p class="card-text" v-if="card.profile === 'calciatore'">
-                      {{ card.role }} | {{ card.age }}
+                    <p class="card-text" v-if="item.Profile === 'calciatore'">
+                      {{ item.role }} | {{ item.age }}
                     </p>
-                    <p class="card-text" v-if="card.profile === 'team'">
-                      {{ card.fulladdress }} | {{ card.level }}
+                    <p class="card-text" v-if="item.profile === 'team'">
+                      {{ item.fulladdress }} | {{ item.level }}
                     </p>
                     <div class="md-layout-item md-size-100 text-center">
-                      <md-button class="md-raised md-success">
+                      <md-button class="md-raised md-success" >
                         <!-- <router-link class="total-btn" :to="{ name: 'Player', params: { profile: card.name }, query: {user: card.name}}"> -->
-                        <router-link class="total-btn" :to="{ params: { profile: card.name }, query: {user: card.name}}">
+                        <div  class="total-btn"  @click="showProfile(item)">
                           Apri profilo
-                        </router-link>
+                        </div>
                       </md-button>
                     </div>
                   </div>
@@ -63,64 +61,57 @@
 
       <!-- player -->
       <!-- <player v-if="userProfile" :player="player" /> -->
-      <userProfile v-if="userProfile" />
+      <userProfile v-if="userProfile" :playerId="playerIdSelected" />
       <!-- /.player -->
 </div>
 </template>
 
 
 <script>
-import axios from 'axios'
-
 import Logo from '@/components/Logo'
-// import Player from './Player'
 import UserProfile from './UserProfile'
-// import Footer from '@/components/Footer'
+  import { serverBus } from '../main';
+
 export default {
   name: 'Result',
   components: {
     Logo,
     UserProfile
-    // Player
-    // Footer
   },
   props: {
-    nome: {
+    what: {
       type: String,
       default: 'center'
     },
-    where: {
+    who: {
       type: String,
       default: 'center'
     }
   },
   data() {
     return {
-      countries: [],
+      playerIdSelected : 0,
+      items: [],
       userProfile: false,
       cardResult: true,
     }
   },
-  // props: ['what', 'where', 'to'],
-  methods: {
-    userList: function() {
-      this.error = null;
-      // ../static/data/country.json
-      // http://35.193.9.82:121/api/Search/FindUser
-      axios.get('http://35.193.9.82:121/api/Search/FindUser', {})
-        .then(response => {
-          console.log('userList Response:', response)
-          if (response.status !== 200) {
-            this.error = response.statusText
-            return
-          }
-          this.countries = response.data
-        })
-        .catch(error => {
-          // Request failed.
-          console.log('error', error.response)
-          this.error = error.response
-        })
+    methods: {
+      showProfile: function (item) {
+        this.cardResult = false
+        this.userProfile = true
+        this.playerIdSelected = item.id;
+      },
+      getImagePathForItem: function (item) {
+        return this.$store.state.configurations.imageRootUrl + item.fullpath;
+    },
+      userList: function () {
+        serverBus.$emit('showLoading', true);
+        this.$store.dispatch('findUser', { profile: this.what, top: 100 }
+        ).then(res => {
+          this.items = res.data
+          serverBus.$emit('showLoading', false);
+          }).catch(error => { alert('Si è verificato un errore'); serverBus.$emit('showLoading', false); })
     },
     playerProfile: function() {
       this.cardResult = false
@@ -129,46 +120,22 @@ export default {
     }
   },
   computed: {
-    what: {
+    profileSelected: {
       get() {
-        return this.$store.state.what;
+        return this._profileSelected;
       },
       set(value) {
-        this.$store.commit("SET_WHAT", value);
+        this._profileSelected = value;
+        serverBus.$emit('showLoading', true);
+        this.$store.dispatch('findUser', { profile: this._profileSelected, top: 100 }
+        ).then(res => {
+          this.items = res.data
+          serverBus.$emit('showLoading', false);
+          }).catch(error => { serverBus.$emit('showLoading', false); alert('Si è verificato un errore') })
       }
     },
-    where: {
-      get() {
-        return this.$store.state.where;
-      },
-      set(value) {
-        this.$store.commit("SET_WHERE", value);
-      }
-    },
-    player: {
-      get() {
-        return this.$store.state.player;
-      },
-      set(value) {
-        this.$store.commit("SET_PLAYER", value);
-      }
-    },
-    filteredCustomers: function() {
-      const {
-        what,
-        where
-      } = this;
-      return this.countries
-        .filter(card => card.profile === what)
-      // || card.where === where
-    }
   },
-  mounted() {
-    //from your component
-
-    // console.log("store player:" + this.$route.query.player)
-    // console.log("store player id:" + this.$route.query.id)
-    // console.log("query player:" + $route.params.id)
+    mounted() {
     this.userList()
   }
 }

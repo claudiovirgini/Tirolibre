@@ -1,116 +1,105 @@
 <template>
 <div>
-  <md-card class="md-card-profile" v-for="card in filteredCustomers" :key="card.name">
+  <md-card class="md-card-profile">
     <div class="md-card-avatar">
-      <img class="img" :src="cardUserImage">
+      <img class="img" :src="imagefile">
     </div>
     <md-card-content>
-      <h4 class="card-title">{{ card.name }}</h4>
-      <h6 class="category text-gray">{{ card.profile }}</h6>
+      <h4 class="card-title">{{name}}</h4>
+      <h6 class="category text-gray">Calciatore</h6>
       <hr>
       <div class="text-center">
         <div class="row">
           <div class="col-lg-6">
-            <h5>Ruolo
-              <br><small>{{ card.role }}</small></h5></div>
+            <h5>
+              Ruolo
+              <br><small>{{roleSelected}}</small>
+            </h5>
+          </div>
           <div class="col-lg-6">
-            <h5>Classe
-              <br><small>{{ card.age }}</small></h5></div>
+            <h5>
+              Classe
+              <br><small>{{yearClass}}</small>
+            </h5>
+          </div>
         </div>
       </div>
     </md-card-content>
-
-    <iframe width="560" height="315" :src="youtube" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    <youtube :video-id="videoId"></youtube>
+    <!--<iframe width="560" height="315" :src="videoUrl" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>-->
   </md-card>
 </div>
 </template>
 
 <script>
-import axios from 'axios'
+  import Vue from 'vue'
+  import VueYouTubeEmbed from 'vue-youtube-embed'
+  import { getIdFromURL, getTimeFromURL } from 'vue-youtube-embed'
+  Vue.use(VueYouTubeEmbed)
 
+  export default {
+    name: 'userCard',
+    //props: {
+    //  cardUserImage: {
+    //    type: String,
+    //    default: require('@/assets/img/faces/marc.jpg')
+    //  }
+    //},
+    props: {
+      playerdata: {
+        type: Object
+      }
+    },
+    computed: {
+      videoId: {
+        get() {
+          return this.playerdata != null && this.playerdata.Videos != null && this.playerdata.Videos.length > 0 ?
+            getIdFromURL(this.playerdata.Videos[0].VideoUrl) :
+            '';
+          //'https://www.youtube.com/embed/RYd8EUYfJWw';
 
-export default {
-  name: 'user-card',
-  props: {
-    cardUserImage: {
-      type: String,
-      default: require('@/assets/img/faces/marc.jpg')
-    }
-  },
-  components: {
-    // Logo,
-    // Player
-    // Footer
-  },
-  data() {
-    return {
-      users: [],
-      userProfile: false,
-      cardResult: true,
-      isEditing: false,
-      youtube: 'https://www.youtube.com/embed/RYd8EUYfJWw'
-    }
-  },
-  // props: ['what', 'where', 'to'],
-  methods: {
-    userList: function() {
-      this.error = null;
-      // ../static/data/country.json
-      // http://35.193.9.82:121/api/Search/FindUser
-      axios.get('http://35.193.9.82:121/api/Search/FindUser', {})
-        .then(response => {
-          console.log('userList Response:', response)
-          if (response.status !== 200) {
-            this.error = response.statusText
-            return
+        }
+      },
+      videoUrl: {
+        get() {
+          return this.playerdata != null && this.playerdata.Videos != null && this.playerdata.Videos.length > 0 ?
+            this.playerdata.Videos[0].VideoUrl :
+            '';
+          //'https://www.youtube.com/embed/RYd8EUYfJWw';
+
+        }
+      },
+      imagefile: {
+        get() {
+          return this.playerdata != null && this.playerdata.FilePlayerImage != null ?
+            this.$store.state.configurations.imageRootUrl + this.playerdata.FilePlayerImage :
+            '@/assets/img/faces/marc.jpg';
+        }
+      },
+      name: {
+        get() {
+          return (this.playerdata != null) ? this.playerdata.Name : '';
+        },
+      },
+      yearClass: {
+        get() {
+          var returned = 'not available'
+          if (this.playerdata != null && this.playerdata.BornDate) {
+            var temp = new Date(this.playerdata.BornDate);
+            returned = temp.getFullYear()
           }
-          this.users = response.data
-        })
-        .catch(error => {
-          // Request failed.
-          console.log('error', error.response)
-          this.error = error.response
-        })
-    },
-    playerProfile: function() {
-      this.cardResult = false
-      this.userProfile = true
-      console.log("player " + this.$store.state.id)
-    }
-  },
-  computed: {
-    what: {
-      get() {
-        return this.$store.state.what;
+          return returned;
+        }
       },
-      set(value) {
-        this.$store.commit("SET_WHAT", value);
+      roleSelected: {
+        get() {
+          if ((this.playerdata != null) && (this.playerdata.Roles != null) && (this.playerdata.Roles.length > 0))
+            return this.playerdata.Roles[0].RoleName
+          else return 'not available';
+        }
       }
     },
-    player: {
-      get() {
-        return this.$store.state.player;
-      },
-      set(value) {
-        this.$store.commit("SET_PLAYER", value);
-      }
-    },
-    filteredCustomers: function() {
-      const {
-        what,
-        where
-      } = this;
-      return this.users
-        .filter(card => card.name === this.$route.query.user)
-      // || card.where === where
-    }
-  },
-  mounted() {
-    //from your component
-    console.log("user:" + this.$route.query.user)
-    this.userList()
   }
-}
 </script>
 
 <style>

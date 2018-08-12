@@ -1,7 +1,7 @@
 <template>
 <div>
   <!-- <Logo/> -->
-  <md-card class="md-card-profile" v-for="card in filteredCustomers" :key="card.name">
+  <md-card class="md-card-profile" >
 
     <md-card-header :data-background-color="dataBackgroundColor">
       <h4 class="title">Scheda Profilo</h4>
@@ -11,94 +11,82 @@
     <md-card-content>
 
       <div class="md-layout">
-        <!-- <div class="md-layout-item md-small-size-100 md-size-50">
-          <md-field>
-            <label>Nome</label>
-            <md-input type="text"></md-input>
-          </md-field>
-        </div>
-        <div class="md-layout-item md-small-size-100 md-size-50">
-          <md-field>
-            <label>Cognome</label>
-            <md-input type="text"></md-input>
-          </md-field>
-        </div> -->
         <div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
             <label>Classe</label>
-            <md-input :value='card.classe' disabled type="text"></md-input>
+            <md-input :value='yearClass' disabled type="text"></md-input>
           </md-field>
         </div>
         <div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
             <label>Nazionalità</label>
-            <md-input :value='card.nazionalita' disabled type="text"></md-input>
+            <md-input :value='nationality' disabled type="text"></md-input>
           </md-field>
         </div>
         <div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
             <label>Ruolo</label>
-            <md-input :value='card.role' disabled type="text"></md-input>
+            <md-input :value='roleSelected' disabled type="text"></md-input>
           </md-field>
         </div>
         <div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
             <label>Dove ti Trovi</label>
-            <md-input type="text" disabled></md-input>
+            <md-input :value="city" type="text" disabled></md-input>
           </md-field>
         </div>
         <div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
             <label>Dove Cerchi</label>
-            <md-input :value='card.doveCerchi' disabled type="text"></md-input>
+            <md-input :value='researchPlace' disabled type="text"></md-input>
           </md-field>
         </div>
         <div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
             <label>Status</label>
-            <md-input :value='card.status' disabled type="text"></md-input>
+            <md-input :value='actualStatus' disabled type="text"></md-input>
           </md-field>
         </div>
         <div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
             <label>Telefono</label>
-            <md-input :value='card.tel' disabled type="number"></md-input>
+            <md-input :value='phoneNumber' disabled type="number"></md-input>
           </md-field>
         </div>
         <div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
             <label>Peso</label>
-            <md-input :value='card.peso' disabled type="number"></md-input>
+            <md-input :value='weigth' disabled type="number"></md-input>
           </md-field>
         </div>
         <div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
             <label>Altezza</label>
-            <md-input :value='card.altezza' disabled type="number"></md-input>
+            <md-input :value='heigth' disabled type="number"></md-input>
           </md-field>
         </div>
         <div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
             <label>Nome Squadra ultimo campionato</label>
-            <md-input :value='card.campionato1' disabled type="text"></md-input>
+            <md-input :value='experience1' disabled type="text"></md-input>
           </md-field>
         </div>
         <div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
             <label>Campionato 2</label>
-            <md-input :value='card.campionato2' disabled type="text"></md-input>
+            <md-input :value='experience2' disabled type="text"></md-input>
           </md-field>
         </div>
         <div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
             <label>Campionato 3</label>
-            <md-input :value='card.campionato3' disabled type="text"></md-input>
+            <md-input :value='experience3' disabled type="text"></md-input>
           </md-field>
         </div>
         <div class="md-layout-item md-size-100">
           <md-field maxlength="5">
             <label>About Me</label>
-            <md-textarea :value='card.about' disabled></md-textarea>
+            <md-textarea :value='aboutMe' disabled></md-textarea>
           </md-field>
         </div>
       </div>
@@ -111,13 +99,15 @@
 </template>
 
 <script>
-import axios from 'axios'
 
 
 import Logo from '@/components/Logo'
 export default {
   name: 'user-card',
-  props: {
+    props: {
+    playerdata : {
+      type: Object
+    },
     cardUserImage: {
       type: String,
       default: require('@/assets/img/faces/marc.jpg')
@@ -129,93 +119,188 @@ export default {
   },
   components: {
     Logo
-    // UserCard
-    // Logo,
-    // Player
-    // Footer
   },
-  data() {
-    return {
-      users: [],
-      userProfile: false,
-      cardResult: true,
-      isEditing: false,
-      user: {
-        firstName: 'Alejandro',
-        lastName: 'Salgado',
-        classe: '1990',
-        nazionalita: 'Italiana',
-        role: 'attaccante',
-        status: 'svincolato',
-        doveTiTrovi: 'Roma',
-        doveCerchi: 'Roma',
-        tel: '1234567890',
-        peso: '72',
-        altezza: '187',
-        campionato1: 'Serie D',
-        campionato2: 'Serie D',
-        campionato3: 'Serie D'
-      }
-    }
-  },
-  // props: ['what', 'where', 'to'],
+
   methods: {
-    userList: function() {
-      this.error = null;
-      // ../static/data/country.json
-      // http://35.193.9.82:121/api/Search/FindUser
-      axios.get('http://35.193.9.82:121/api/Search/FindUser', {})
-        .then(response => {
-          console.log('userList Response:', response)
-          if (response.status !== 200) {
-            this.error = response.statusText
-            return
-          }
-          this.users = response.data
-        })
-        .catch(error => {
-          // Request failed.
-          console.log('error', error.response)
-          this.error = error.response
-        })
-    },
     playerProfile: function() {
       this.cardResult = false
       this.userProfile = true
       console.log("player " + this.$store.state.id)
     }
   },
-  computed: {
-    what: {
-      get() {
-        return this.$store.state.what;
+    computed: {
+      name: {
+        get() {
+          return (this.playerdata != null) ? this.playerdata.Name : '';
+        },
+        set(value) {
+          this.playerdata.Name = value;
+        }
       },
-      set(value) {
-        this.$store.commit("SET_WHAT", value);
-      }
-    },
-    player: {
-      get() {
-        return this.$store.state.player;
+      surname: {
+        get() {
+          return (this.playerdata != null) ? this.playerdata.Surname : '';
+        },
+        set(value) {
+          this.playerdata.SurName = value;
+        }
       },
-      set(value) {
-        this.$store.commit("SET_PLAYER", value);
-      }
+      weigth: {
+        get() {
+          return (this.playerdata != null) ? this.playerdata.Weigth : '';
+        },
+        set(value) {
+          this.playerdata.Weigth = value;
+        }
+      },
+      heigth: {
+        get() {
+          return (this.playerdata != null) ? this.playerdata.Heigth : '';
+        },
+        set(value) {
+          this.playerdata.Heigth = value;
+        }
+      },
+      aboutMe: {
+        get() {
+          return (this.playerdata != null) ? this.playerdata.AboutMe : '';
+        },
+        set(value) {
+          this.playerdata.AboutMe = value;
+        }
+      },
+      actualStatus: {
+        get() {
+          return (this.playerdata != null) ? this.playerdata.ActualStatus : '';
+        },
+        set(value) {
+          this.playerdata.ActualStatus = value;
+        }
+      },
+      city: {
+        get() {
+          return (this.playerdata != null) ? this.playerdata.City : '';
+        },
+        set(value) {
+          this.playerdata.City = value;
+        }
+      },
+      nationality: {
+        get() {
+          return (this.playerdata != null) ? this.playerdata.Nationality : '';
+        },
+        set(value) {
+          this.playerdata.Nationality = value;
+        }
+      },
+      phoneNumber: {
+        get() {
+          return (this.playerdata != null) ? this.playerdata.PhoneNumber : '';
+        },
+        set(value) {
+          this.playerdata.PhoneNumber = value;
+        }
+      },
+      yearClass: {
+        get() {
+          var returned = 'not available'
+          if (this.playerdata != null && this.playerdata.BornDate) {
+            var temp = new Date(this.playerdata.BornDate);
+            returned = temp.getFullYear()
+          }
+          return returned;
+        },
+        set(value) {
+          if (this.playerdata.BornDate != null) {
+            this.playerdata.BornDate = new Date(this.playerdata.BornDate);
+          }
+          else {
+            this.playerdata.BornDate = new Date('01/01/2000');
+          }
+          this.playerdata.BornDate.setFullYear(value)
+        }
+      },
+      roleSelected: {
+        get() {
+          if ((this.playerdata != null) && (this.playerdata.Roles != null) && (this.playerdata.Roles.length > 0))
+            return this.playerdata.Roles[0].RoleName
+          else return 'not available';
+        },
+        set(value) {
+          if ((this.playerdata != null) && (this.playerdata.Roles != null) && (this.playerdata.Roles.length > 0))
+            return this.playerdata.Roles[0].RoleName = value;
+          else {
+            this.playerdata.Roles = [];
+            this.playerdata.Roles.push({ Id: 0, RoleName: value })
+          }
+        }
+      },
+      researchPlace: {
+        get() {
+          if ((this.playerdata != null) && (this.playerdata.ResearchPlaces != null) && (this.playerdata.ResearchPlaces.length > 0))
+            return this.playerdata.ResearchPlaces[0].Value
+          else return 'not available';
+        },
+        set(value) {
+          if ((this.playerdata != null) && (this.playerdata.ResearchPlaces != null) && (this.playerdata.ResearchPlaces.length > 0))
+            return this.playerdata.ResearchPlaces[0].Value = value;
+          else {
+            this.playerdata.ResearchPlaces = [];
+            this.playerdata.ResearchPlaces.push({ Id: 0, Value: value })
+          }
+        }
+      },
+      experience1: {
+        get() {
+          if ((this.playerdata != null) && (this.playerdata.Experiences != null) && (this.playerdata.Experiences.length > 0))
+            return this.playerdata.Experiences[0].TeamName
+          else return 'not available';
+        },
+        set(value) {
+          if ((this.playerdata != null) && (this.playerdata.Experiences != null) && (this.playerdata.Experiences.length > 0))
+            return this.playerdata.Experiences[0].TeamName = value;
+          else {
+            this.playerdata.Experiences = [];
+            this.playerdata.Experiences.push({ Id: 0, TeamName: value })
+          }
+        }
+      },
+      experience2: {
+        get() {
+          if ((this.playerdata != null) && (this.playerdata.Experiences != null) && (this.playerdata.Experiences.length > 1))
+            return this.playerdata.Experiences[1].TeamName
+          else
+            return 'not available';
+        },
+        set(value) {
+          if ((this.playerdata != null) && (this.playerdata.Experiences != null) && (this.playerdata.Experiences.length > 1))
+            return this.playerdata.Experiences[1].TeamName = value;
+          else {
+            if ((this.playerdata.Experiences != null) && (this.playerdata.Experiences.length == 1)) {
+              this.playerdata.Experiences.push({ Id: 0, TeamName: value })
+            }
+          }
+        }
+      },
+      experience3: {
+        get() {
+          if ((this.playerdata != null) && (this.playerdata.Experiences != null) && (this.playerdata.Experiences.length > 2))
+            return this.playerdata.Experiences[2].TeamName
+          else return 'not available';
+        },
+        set(value) {
+          if ((this.playerdata != null) && (this.playerdata.Experiences != null) && (this.playerdata.Experiences.length > 2))
+            return this.playerdata.Experiences[2].TeamName = value;
+          else {
+            if ((this.playerdata.Experiences != null) && (this.playerdata.Experiences.length == 2)) {
+              this.playerdata.Experiences.push({ Id: 0, TeamName: value })
+            }
+          }
+        }
+      },
+
     },
-    filteredCustomers: function() {
-      const {
-        what,
-        where
-      } = this;
-      return this.users
-        .filter(card => card.name === this.$route.query.user)
-      // || card.where === where
-    }
-  },
   mounted() {
-    //from your component
-    console.log("user:" + this.$route.query.user)
-    this.userList()
   }
 }
 </script>
