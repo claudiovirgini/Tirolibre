@@ -57,21 +57,13 @@
             return this.radius;
           },
           set(value) {
+            var self = this;
             this.radius = value;
             this.map.setCenter(this.actualPos)
             if (this._mapCircle != null) { this._mapCircle.setMap(null) };
             this._mapCircle = this.getCircle(this.map, value, this.actualPos)
-            var self = this;
             if (this.actualTimer != null)  clearTimeout(this.actualTimer);
-            this.actualTimer = setTimeout(function () {
-              self.findTeams();
-              }, 800);
-            
-            
-            //}
-            //if (this.actualPos != null)
-            //  this.findTeams();
-            //alert('pos : ' + this.actualPos + ' - radius : ' + this.amount)
+            this.actualTimer = setTimeout(function () { self.findTeams(); }, 800);
           }
         },
       map: {

@@ -17,8 +17,8 @@ export const store = new Vuex.Store({
     where: '',
     playerSelected: '',
     configurations: {
-      //serviceBaseUrl: 'http://localhost:61610/',
-      serviceBaseUrl: 'http://testservice.tirolibre.it',
+      serviceBaseUrl: 'http://localhost:61610/',
+      //serviceBaseUrl: 'http://testservice.tirolibre.it',
       imageRootUrl: 'http://tirolibre.it/CDN/',
       //serviceBaseUrl: 'http://testservice.tirolibre.it',
       loginUrl   : '/auth/login',
@@ -69,6 +69,46 @@ export const store = new Vuex.Store({
     }
   },
   actions: {
+    getRoleList: function() {
+      let roleRilst = [];
+      roleRilst.push({ text: 'Tutti i ruoli', value: 0 });
+      roleRilst.push({ text: 'Portiere', value: 1 });
+      roleRilst.push({ text: 'Centrale Destro', value: 2 });
+      roleRilst.push({ text: 'Centrale Sinistro', value: 3 });
+      roleRilst.push({ text: 'Terzino Destro', value: 4 });
+      roleRilst.push({ text: 'Terzino Sinistro', value: 5 });
+      roleRilst.push({ text: 'Ala Destra', value: 6 });
+      roleRilst.push({ text: 'Ala Sinistra', value: 7 });
+      roleRilst.push({ text: 'Mediano', value: 8 });
+      roleRilst.push({ text: 'Centrocampista', value: 9 });
+      roleRilst.push({ text: 'Seconda Punta', value: 10 });
+      roleRilst.push({ text: 'Prima Punta', value: 11 });
+      return roleRilst;
+    },
+    getCategories: function () {
+      let categoryLlst = [];
+      categoryLlst.push({ text: 'Tutte le categorie', value: 0 });
+      categoryLlst.push({ text: 'Seria A', value: 1 });
+      categoryLlst.push({ text: 'Serie B', value: 2 });
+      categoryLlst.push({ text: 'Serie C', value: 3 });
+      categoryLlst.push({ text: 'Serie D', value: 4 });
+      categoryLlst.push({ text: 'Eccellenza', value: 5 });
+      categoryLlst.push({ text: 'Promozione', value: 6 });
+      categoryLlst.push({ text: 'Prima Categoria', value: 7 });
+      categoryLlst.push({ text: 'Seconda Categoria', value: 8 });
+      categoryLlst.push({ text: 'Terza Categoria', value: 9 });
+      return categoryLlst;
+    },
+    getClassList: function () {
+      let classilst = [];
+      classilst.push({ text: 'Tutto', value: 0 });
+      for (let i = 0; i < 10; i++) {
+        var myDate = new Date();
+        let classToAdd = myDate.getFullYear() - 5 - i;
+        classilst.push({ text: classToAdd, value: classToAdd});
+      }
+      return classilst;
+    },
     makeid: function () {
       var text = "";
       var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -122,7 +162,7 @@ export const store = new Vuex.Store({
     },
 
     findUser({ commit, state },param) {
-      return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.FindUserUrl, { Profile:param.profile,Top:param.top});
+      return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.FindUserUrl, { Profile: param.profile, Radius: param.radius, FullAddressJson: param.place});
     }
   }
 

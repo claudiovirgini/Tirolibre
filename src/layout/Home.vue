@@ -61,7 +61,7 @@
       </div>
     </section>
     <!-- result -->
-    <result v-if="cardResult" :what='what' :who='who' />
+    <result v-if="cardResult" :what='what' :who='who' :place="placeSelected" />
     <!-- /.result -->
   </div>
 
@@ -95,10 +95,19 @@ export default {
       filter: true,
       isValidAddress: null,
       hasErrorWhere: false,
-      hasErrorWhat: false
+      hasErrorWhat: false,
+      _placeSelected : null
     }
   },
-  computed: {
+    computed: {
+      placeSelected: {
+        get() {
+          return this._placeSelected;
+        },
+      set(value) {
+        this._placeSelected = value;
+        }
+      },
     who: {
       get() {
         return this.$store.state.who;
@@ -134,12 +143,13 @@ export default {
       setCorrectAddress: function (place) {
         this.isValidAddress = true;
         this.hasErrorWhere = false;
+        this._placeSelected = place
         //alert('New Place : ' + place.formatted_address)
       },
       setInvalidAddress: function () {
         this.isValidAddress = false;
         this.hasErrorWhere = true;
-
+        this._placeSelected = null;
         //alert('INVALID')
       },
       findUsers: function () {

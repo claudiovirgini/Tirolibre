@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <div class="inputWithIcon inputIconBg">
       <vue-google-autocomplete ref="address" style="width:95%;float:right"
                                :id="inputComponentName"
@@ -63,9 +64,9 @@ export default {
         this.$store.dispatch('makeid').then(res => {
           this.inputComponentName = 'inputMap_' + res;
           
-          if (this.startactualpos == "true"
-
-          ) { this.findMyPosition() }
+          if (this.startactualpos == "true") {
+            this.findMyPosition()
+          }
         }).catch(error => alert(error.response.data.error_description));
       if (this.initialAddress != null) {
         this.checkAddressValidity(this.initialAddress);

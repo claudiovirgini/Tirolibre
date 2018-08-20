@@ -8,22 +8,73 @@
               <div class="col-md-12">
                 <form class="shadow-lg">
                   <div class="col-md-6">
-                    <label>Cosa cerchi
-                      <select tabindex="1" v-model="profileSelected">
-                        <option>calciatore</option>
-                        <option>team</option>
-                        <option>agente</option>
-                        <option>ds</option>
-                        <option>allenatore</option>
-                      </select>
-                    </label>
+                    <div class="md-layout-item">
+                      <md-field>
+                        <label for="profile">Cosa cerchi</label>
+                        <md-select v-model="profileSelected" id="profile">
+                          <md-option value="team">team</md-option>
+                          <md-option value="calciatore">calciatore</md-option>
+                          <md-option value="agente">agente</md-option>
+                          <md-option value="ds">direttore sportivo</md-option>
+                          <md-option value="allenatore">allenatore</md-option>
+                        </md-select>
+                      </md-field>
+                    </div>
                   </div>
                   <div class="col-md-6">
-                    <label>Dove cerchi
-                    <input placeholder="Dove cerchi?" tabindex="2"  />
-                  </label>
+                    <label>
+                      <!--Dove cerchi-->
+                      <map-autocomplete place-holder="Dove cerchi?" :initialAddress="selectedAddressString" startactualpos="false" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress"></map-autocomplete>
+                      <!--<input placeholder="Dove cerchi?" tabindex="2" />-->
+                    </label>
                   </div>
                 </form>
+              </div>
+
+            </div>
+            <div class="row" id="filterPlayer"  v-if="_profileSelected === 'calciatore'">
+              <div class="col-md-4">
+                <md-field  >
+                  <label for="ruolo">Ruolo</label>
+                  <md-select v-model="roleSelected" id="ruolo">
+                    <md-option v-for="role in roleList" v-bind:value="role.value">
+                      {{ role.text }}
+                    </md-option>
+                  </md-select>
+                </md-field>
+              </div>
+              <div class="col-md-4">
+                <md-field>
+                  <label for="classe">Classe</label>
+                  <md-select v-model="classeSelected" id="classe">
+                    <md-option v-for="classe in classList" v-bind:value="classe.value">
+                      {{ classe.text }}
+                    </md-option>
+                  </md-select>
+                </md-field>
+              </div>
+              <div class="col-md-4">
+                <md-field>
+                  <label for="status">Status</label>
+                  <md-select v-model="statusSelected" id="status">
+                    <md-option value="svincolato">svincolato</md-option>
+                    <md-option value="contratto1">Contartto ad 1 anno</md-option>
+                    <md-option value="contratto2">Contartto ad 2 anno</md-option>
+                    <md-option value="contratto3">Contartto ad 3 anno</md-option>
+                    <md-option value="contratto4">Contartto ad 4 anno</md-option>
+                  </md-select>
+                </md-field>
+              </div>
+              <div class="col-md-4">
+                <md-field>
+                  <label for="category">Categoria</label>
+                  <md-select v-model="categorySelected" id="category">
+                      <md-option v-for="category in categoryList" :value="category.value" :key="category.value" >
+                        {{ category.text }}
+                      </md-option>
+                    </md-select>
+
+                </md-field>
               </div>
             </div>
             <div class="row">
@@ -31,11 +82,12 @@
                 <div class="card profile-card-5">
                   <div class="card-img-block">
                     <picture-box :picUrl="getImagePathForItem(item)" :picType="item.profile == 0 ? profilecard : item.profile"></picture-box>
-
-                      <!--<img class="card-img-top" :src="getImagePathForItem(item)" alt="Card image cap">-->
+                    <!--<img class="card-img-top" :src="getImagePathForItem(item)" alt="Card image cap">-->
                   </div>
                   <div class="card-body pt-0">
-                    <h5 class="card-title">{{ item.name}}</h5>
+                    <h5 class="card-title">
+                      {{item.name }}
+                    </h5>
                     <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
                     <p class="card-text" v-if="item.Profile === 0">
                       {{ item.role }} | {{ item.age }}
@@ -44,9 +96,9 @@
                       {{ item.fulladdress }} | {{ item.level }}
                     </p>
                     <div class="md-layout-item md-size-100 text-center">
-                      <md-button class="md-raised md-success" >
+                      <md-button class="md-raised md-success">
                         <!-- <router-link class="total-btn" :to="{ name: 'Player', params: { profile: card.name }, query: {user: card.name}}"> -->
-                        <div  class="total-btn"  @click="showProfile(item)">
+                        <div class="total-btn" @click="showProfile(item)">
                           Apri profilo
                         </div>
                       </md-button>
@@ -58,13 +110,7 @@
           </div>
         </div>
       </section>
-
-    <!-- <Footer /> -->
-
-      <!-- player -->
-      <!-- <player v-if="userProfile" :player="player" /> -->
       <userProfile v-if="userProfile" :playerId="playerIdSelected" />
-      <!-- /.player -->
 </div>
 </template>
 
@@ -74,35 +120,58 @@ import PictureBox from '@/components/PictureBox/PictureBox'
 import Logo from '@/components/Logo'
 import UserProfile from './UserProfile'
   import { serverBus } from '../main';
+  import MapAutocomplete from '@/components/GoogleMaps/MapAutocomplete'
+
 
 export default {
   name: 'Result',
   components: {
     Logo,
     UserProfile,
-    PictureBox
-
+    PictureBox,
+    MapAutocomplete
   },
   props: {
     what: {
       type: String,
-      default: 'center'
+      default: 'team'
+    },
+    place: {
+      type: Object,
     },
     who: {
       type: String,
-      default: 'center'
+      default: 'calciatore'
     }
   },
   data() {
     return {
-      profilecard : 100,
-      playerIdSelected : 0,
+      roleList: [],
+      classList: [],
+      categoryList: [],
+
+      profilecard: 100,
+
+      roleSelected:  '',
+      classeSelected : '',
+      _categorySelected: null,
+      statusSelected : '',
+      playerIdSelected: 0,
       items: [],
       userProfile: false,
       cardResult: true,
+      placeSelected: null,
+      _profileSelected : "calciatore"
     }
   },
     methods: {
+      setCorrectAddress: function (value) {
+        this.placeSelected = value;
+        this.findUsers(this._profileSelected, this.placeSelected, 100);
+      },
+      setInvalidAddress: function () {
+
+      },
       showProfile: function (item) {
         this.cardResult = false
         this.userProfile = true
@@ -111,37 +180,61 @@ export default {
       getImagePathForItem: function (item) {
         return this.$store.state.configurations.imageRootUrl + item.fullpath;
     },
-      userList: function () {
-        serverBus.$emit('showLoading', true);
-        this.$store.dispatch('findUser', { profile: this.what, top: 100 }
-        ).then(res => {
-          this.items = res.data
-          serverBus.$emit('showLoading', false);
-          }).catch(error => { alert('Si è verificato un errore'); serverBus.$emit('showLoading', false); })
+    findUsers :function(profile, address, radiusP) {
+      serverBus.$emit('showLoading', true);
+      this.$store.dispatch('findUser', { profile: profile, radius: radiusP, place: JSON.stringify(address) }
+      ).then(res => {
+        this.items = res.data
+        serverBus.$emit('showLoading', false);
+      }).catch(error => { alert('Si è verificato un errore'); serverBus.$emit('showLoading', false); })
     },
     playerProfile: function() {
       this.cardResult = false
       this.userProfile = true
     }
   },
-  computed: {
+    computed: {
+      categorySelected :{
+        get() {
+          return this._categorySelected;
+        },
+        set(value) {
+          this._categorySelected = value;
+        }
+      },
+      selectedAddressString: {
+        get() {
+          if (this.placeSelected != null) return this.placeSelected.formatted_address;
+          else return null;
+        }
+      },
     profileSelected: {
       get() {
         return this._profileSelected;
       },
       set(value) {
         this._profileSelected = value;
-        serverBus.$emit('showLoading', true);
-        this.$store.dispatch('findUser', { profile: this._profileSelected, top: 100 }
-        ).then(res => {
-          this.items = res.data
-          serverBus.$emit('showLoading', false);
-          }).catch(error => { serverBus.$emit('showLoading', false); alert('Si è verificato un errore') })
+        this.findUsers(this._profileSelected, this.placeSelected, 100);
       }
     },
-  },
-    mounted() {
-    this.userList()
+    },
+ 
+    created() {
+      this.$store.dispatch('getCategories', {}).then(res => {
+        this.categoryList = res
+        this._categorySelected = res[0];
+      }).catch(error => { alert('Si è verificato un errore nel caricamento dei ruoli'); })
+      this.$store.dispatch('getRoleList', {}).then(res => {
+        this.roleList = res
+      }).catch(error => { alert('Si è verificato un errore nel caricamento dei ruoli');})
+      this.$store.dispatch('getClassList', {}).then(res => {
+        this.classList = res;
+      }).catch(error => { alert('Si è verificato un errore nel caricamento dei ruoli'); })
+      if (this.place != null)
+        this.placeSelected = this.place;
+      if (this.what != null)
+        this._profileSelected = this.what;
+      this.findUsers(this._profileSelected, this.placeSelected, 100);
   }
 }
 </script>
