@@ -7,9 +7,9 @@
       <div class="col-lg-4 col-md-6 col-sm-12" style="padding-top:10px;text-align:center">
         <button @click="decreaseAmount()" class="button_plus">-</button> <vue-slider style="float:left;width:70%;padding-top:13px" ref="slider" v-model="amount"></vue-slider><button @click="increaseAmount()" class="button_plus">+</button>
       </div>
-      <div class="col-lg-4 col-md-12 col-sm-12" style="padding-top:10px;text-align:center">
+      <!--<div class="col-lg-4 col-md-12 col-sm-12" style="padding-top:10px;text-align:center">
         <button @click="findTeams()" class="btn"><i class="fa fa-search" ></i> Cerca</button>
-      </div>
+      </div>-->
     </div>
     <div id="map"></div>
   </div>
@@ -31,6 +31,7 @@
         _teams : [],
         radius: 10,
         actualPos: null,
+        actualTimer: null,
         marker: new google.maps.Marker(),
         markers: []
 
@@ -57,10 +58,16 @@
           },
           set(value) {
             this.radius = value;
-            //if (this.actualPos != null) {
-              this.map.setCenter(this.actualPos)
-              if (this._mapCircle != null) { this._mapCircle.setMap(null) };
-              this._mapCircle = this.getCircle(this.map, value, this.actualPos)
+            this.map.setCenter(this.actualPos)
+            if (this._mapCircle != null) { this._mapCircle.setMap(null) };
+            this._mapCircle = this.getCircle(this.map, value, this.actualPos)
+            var self = this;
+            if (this.actualTimer != null)  clearTimeout(this.actualTimer);
+            this.actualTimer = setTimeout(function () {
+              self.findTeams();
+              }, 800);
+            
+            
             //}
             //if (this.actualPos != null)
             //  this.findTeams();
@@ -119,7 +126,6 @@
 
       },
       setCorrectAddress: function (value) {
-      
         let newPos = { lat: value.geometry.location.lat(), lng: value.geometry.location.lng() };
         if (this.actualPos == null) {
           this.actualPos = newPos;

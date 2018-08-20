@@ -3,7 +3,6 @@ import Vuex from 'vuex'
 
 import Router from 'vue-router'
 import VueAxios from 'vue-axios'
-import VueAuthenticate from 'vue-authenticate'
 import axios from 'axios'
 import { serverBus } from '../main';
 
