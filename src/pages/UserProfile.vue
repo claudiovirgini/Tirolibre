@@ -2,12 +2,12 @@
   <div class="content">
     <div class="md-layout">
       <div class="md-layout-item md-medium-size-100 md-size-66">
-        <edit-profile-form data-background-color="green"  v-bind:playerdata="playerdata" v-if="profileLoaded">
+        <edit-profile-form data-background-color="green"  :playerdata="playerdata" v-if="profileLoaded">
 
         </edit-profile-form>
       </div>
       <div class="md-layout-item md-medium-size-100 md-size-33">
-        <user-card  v-bind:playerdata="playerdata" v-if="profileLoaded">
+        <user-card   :playerdata="playerdata" v-if="profileLoaded">
 
         </user-card>
       </div>
@@ -34,6 +34,7 @@ import {
         profileLoaded : false
       }
     },
+
     mounted() {
       //if (this.$store.state.authentication.user == null)
       //  this.$router.go('/')
@@ -43,6 +44,8 @@ import {
           this.playerdata = res.data;
           this.profileLoaded = true;
           serverBus.$emit('showLoading', false);
+          //serverBus.$on('updateProfile', updateProfile);
+
         }).catch(error => { alert('Si è verificato un errore'); serverBus.$emit('showLoading', false) });
     }
   }

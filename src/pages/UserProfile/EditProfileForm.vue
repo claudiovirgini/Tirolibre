@@ -130,7 +130,6 @@ export default {
 
     methods: {
       setCorrectAddress: function (address) { 
-        //alert(JSON.stringify(address));
         this.city = address;
       },
       setInvalidAddress: function () {
@@ -158,7 +157,7 @@ export default {
           return (this.playerdata != null) ? this.playerdata.Surname : '';
         },
         set(value) {
-          this.playerdata.SurName = value;
+          this.playerdata.Surname = value;
         }
       },
       weigth: {

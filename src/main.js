@@ -46,6 +46,7 @@ new Vue({
   render: h => h(App),
   router,
   store,
+
   data: {
     Chartist: Chartist
   }

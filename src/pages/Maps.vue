@@ -1,214 +1,199 @@
 <template>
-<div id="map"></div>
+  <div style="padding:15px">
+    <div class="row" style="padding-bottom:10px">
+      <div class="col-lg-4 col-md-6 col-sm-12">
+        <map-autocomplete place-holder="Luogo di ricerca" :initial-address="city" startactualpos="true" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress"></map-autocomplete>
+      </div>
+      <div class="col-lg-4 col-md-6 col-sm-12" style="padding-top:10px;text-align:center">
+        <button @click="decreaseAmount()" class="button_plus">-</button> <vue-slider style="float:left;width:70%;padding-top:13px" ref="slider" v-model="amount"></vue-slider><button @click="increaseAmount()" class="button_plus">+</button>
+      </div>
+      <div class="col-lg-4 col-md-12 col-sm-12" style="padding-top:10px;text-align:center">
+        <button @click="findTeams()" class="btn"><i class="fa fa-search" ></i> Cerca</button>
+      </div>
+    </div>
+    <div id="map"></div>
+  </div>
 </template>
 
 <script>
-import axios from 'axios'
-import GoogleMapsLoader from 'google-maps'
-export default {
-  methods: {
-    initMap(google) {
-      var icons = {
-        parking: {
-          icon: 'https://tarantelleromane.files.wordpress.com/2016/10/map-marker.png?w=50'
+  import vueSlider from 'vue-slider-component'
+  import MapAutocomplete from '@/components/GoogleMaps/MapAutocomplete'
+  import axios from 'axios'
+  import { serverBus } from '../main';
+
+  export default {
+    data() {
+      return {
+        city: '',
+        _mapCircle: null,
+        _amount: 0,
+        _map: null,
+        _teams : [],
+        radius: 10,
+        actualPos: null,
+        marker: new google.maps.Marker(),
+        markers: []
+
+      }
+    },
+    components: {
+      vueSlider,
+      MapAutocomplete
+    },
+    computed: {
+      teams: {
+        get() {
+          return this_teams;
+        },
+        set(value) {
+          this._teams = value;
+         
         }
-      };
+      },
+      amount:
+        {
+          get() {
+            return this.radius;
+          },
+          set(value) {
+            this.radius = value;
+            //if (this.actualPos != null) {
+              this.map.setCenter(this.actualPos)
+              if (this._mapCircle != null) { this._mapCircle.setMap(null) };
+              this._mapCircle = this.getCircle(this.map, value, this.actualPos)
+            //}
+            //if (this.actualPos != null)
+            //  this.findTeams();
+            //alert('pos : ' + this.actualPos + ' - radius : ' + this.amount)
+          }
+        },
+      map: {
+        get() {
+          if (this._map == null) {
+            var mapOptions = { zoom: 8 };
+            this._map = new google.maps.Map(document.getElementById('map'), mapOptions)
+          };
+          return this._map;
+        },
+        set(value) {
+          this._map = value;
+        }
+      }
+    },
+    mounted() {
+    },
+    methods: {
+      increaseAmount: function () {
+        if (this.amount < 100)
+          this.amount = this.amount + 5;
+      },
+      decreaseAmount: function () {
+        if (this.amount > 0)
+          this.amount = this.amount - 5;
+      },
+      findTeams: function () {
+        var self = this;
+        if ((this.actualPos != null) && (this.amount != null)) {
+          serverBus.$emit('showLoading', true);
+          this.$store.dispatch('getTeamAroundPoint', { lat: this.actualPos.lat, lng: this.actualPos.lng, rad: this.amount*4, top: 100 })
+            .then(res => {
+              self.teams = res.data
+              for (var i = 0; i < self.markers.length; i++) {
+                self.markers[i].setMap(null);
+              }
+              res.data.forEach(function (team) {
+                let point = { lat: team.Latitudine, lng: team.Longitudine };
+                let markerMap = new google.maps.Marker({
+                  position: point,
+                  map: self.map,
+                  animation: google.maps.Animation.DROP,
+                  title: team.TeamName
+                });
+                markerMap.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
+                self.markers.push(markerMap);
+              });
+            serverBus.$emit('showLoading', false);
+            })
+            .catch(error => { alert('Si è verificato un errore'); serverBus.$emit('showLoading', false); })
+        }
+
+      },
+      setCorrectAddress: function (value) {
       
-      this.$store.dispatch('getTeamAroundPoint').then(res => {
-        var teams =  res.data;
-        var centerMap = {
-          lat: 41.9027835,
-          lng: 12.4963655
-        };
-        var myLatlng = new google.maps.LatLng(centerMap.lat, centerMap.lng)
-        var mapOptions = {
-          zoom: 6,
-          center: centerMap,
-          scrollwheel: false, // we disable de scroll over the map, it is a really annoing when you scroll through page
-          styles: [{
-            'featureType': 'water',
-            'stylers': [{
-              'saturation': 43
-            }, {
-              'lightness': -11
-            }, {
-              'hue': '#0088ff'
-            }]
-          }, {
-            'featureType': 'road',
-            'elementType': 'geometry.fill',
-            'stylers': [{
-              'hue': '#ff0000'
-            }, {
-              'saturation': -100
-            }, {
-              'lightness': 99
-            }]
-          }, {
-            'featureType': 'road',
-            'elementType': 'geometry.stroke',
-            'stylers': [{
-              'color': '#808080'
-            }, {
-              'lightness': 54
-            }]
-          }, {
-            'featureType': 'landscape.man_made',
-            'elementType': 'geometry.fill',
-            'stylers': [{
-              'color': '#ece2d9'
-            }]
-          }, {
-            'featureType': 'poi.park',
-            'elementType': 'geometry.fill',
-            'stylers': [{
-              'color': '#ccdca1'
-            }]
-          }, {
-            'featureType': 'road',
-            'elementType': 'labels.text.fill',
-            'stylers': [{
-              'color': '#767676'
-            }]
-          }, {
-            'featureType': 'road',
-            'elementType': 'labels.text.stroke',
-            'stylers': [{
-              'color': '#ffffff'
-            }]
-          }, {
-            'featureType': 'poi',
-            'stylers': [{
-              'visibility': 'off'
-            }]
-          }, {
-            'featureType': 'landscape.natural',
-            'elementType': 'geometry.fill',
-            'stylers': [{
-              'visibility': 'on'
-            }, {
-              'color': '#b8cb93'
-            }]
-          }, {
-            'featureType': 'poi.park',
-            'stylers': [{
-              'visibility': 'on'
-            }]
-          }, {
-            'featureType': 'poi.sports_complex',
-            'stylers': [{
-              'visibility': 'on'
-            }]
-          }, {
-            'featureType': 'poi.medical',
-            'stylers': [{
-              'visibility': 'on'
-            }]
-          }, {
-            'featureType': 'poi.business',
-            'stylers': [{
-              'visibility': 'simplified'
-            }]
-          }]
-
+        let newPos = { lat: value.geometry.location.lat(), lng: value.geometry.location.lng() };
+        if (this.actualPos == null) {
+          this.actualPos = newPos;
+          this.setNewPointOnMap(value, this.map, this.radius)
+          //this.findTeams();
         }
-        var map = new google.maps.Map(document.getElementById('map'), mapOptions)
-        var marker = new google.maps.Marker({
-          position: myLatlng,
-          title: 'You Are HERE'
-        })
-        var InfoWindows = new google.maps.InfoWindow({});
-        teams.forEach(function (team) {
-          var marker = new google.maps.Marker({
-            position: {
-              lat: team.Latitudine,
-              lng: team.Longitudine
-            },
-            map: map,
-            //icon: 'parking',
-            title: team.Name
-          });
-          marker.addListener('mouseover', function () {
-            InfoWindows.open(map, this);
-            var content = '<div id="content"><div id="siteNotice"></div><h1 id="firstHeading" class="firstHeading">' + team.TeamName + '</h1><div id="bodyContent"><p><b>' + team.FullAddress +'</b> - 3 terminal airport offering flights to Europe and around the world with national rail connections.</p> <p><a href="https://www.google.co.uk">BOOK</a></p></div></div>'
-            InfoWindows.setContent(content);
-          });
+        else if ((newPos.lat != this.actualPos.lat) || (newPos.lng != this.actualPos.lng)) {
+          this.actualPos = newPos;
+          this.setNewPointOnMap(value, this.map, this.radius)
+          //this.findTeams();
+        }
+      },
+      setInvalidAddress: function () {
+
+      },
+      getCircle: function (mapP, radiusp, position) {
+        var circle = new google.maps.Circle({
+          strokeColor: '#FF0000',
+          strokeOpacity: 0.8,
+          strokeWeight: 2,
+          fillColor: '#FF0000',
+          fillOpacity: 0.35,
+          map: mapP,
+          center: position,
+          radius: radiusp * 4000
         });
+        return circle;
+      },
+      setNewPointOnMap: function (place) {
+        this.map = null;
+        this.amount = 10;
+        
+        this.marker.setMap(null);
+        for (var i = 0; i < this.markers.length; i++) {
+          this.markers[i].setMap(null);
+        }
+        this.marker = new google.maps.Marker({
+          position: this.actualPos,
+          map: this.map,
+          title: 'YOU ARE HERE'
+        });
+        this.marker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png')
+        this.map.setCenter(this.actualPos)
+        if (this._mapCircle != null) { this._mapCircle.setMap(null) }
+        this._mapCircle = this.getCircle(this.map, this.amount, this.actualPos)
+      },
 
-        // To add the marker to the map, call setMap();
-        marker.setMap(map)
-      }).catch(error =>
-        alert('Si è verificato un errore'));
-
-      //var airports = [{
-      //    title: 'Manchester Airport',
-      //    position: {
-      //      lat: 53.3588026,
-      //      lng: -2.274919
-      //    },
-      //    icon: 'parking',
-      //    content: '<div id="content"><div id="siteNotice"></div><h1 id="firstHeading" class="firstHeading">Manchester Airport - from £30</h1><div id="bodyContent"><p><b>Manchester Airport</b> - 3 terminal airport offering flights to Europe and around the world with national rail connections.</p> <p><a href="https://www.google.co.uk">BOOK</a></p></div></div>'
-      //  },
-      //  {
-      //    title: 'Leeds Airport',
-      //    position: {
-      //      lat: 53.8679434,
-      //      lng: -1.6637193
-      //    },
-      //    icon: 'parking',
-      //    content: '<div id="content"><div id="siteNotice"></div><h1 id="firstHeading" class="firstHeading">Leeds Airport - from £30</h1><div id="bodyContent"><p><b>Leeds Airport</b> - 3 terminal airport offering flights to Europe and around the world with national rail connections.</p> <p><a href="https://www.google.co.uk">BOOK</a></p></div></div>'
-      //  },
-      //  {
-      //    title: 'Belfast Airport',
-      //    position: {
-      //      lat: 54.661781,
-      //      lng: -6.2184331
-      //    },
-      //    icon: 'parking',
-      //    content: '<div id="content"><div id="siteNotice"></div><h1 id="firstHeading" class="firstHeading">Belfast Airport - from £30</h1><div id="bodyContent"><p><b>Belfast Airport</b> - 3 terminal airport offering flights to Europe and around the world with national rail connections.</p> <p><a href="https://www.google.co.uk">BOOK</a></p></div></div>'
-      //  },
-      //  {
-      //    title: 'Edinburgh Airport',
-      //    position: {
-      //      lat: 55.950785,
-      //      lng: -3.3636419
-      //    },
-      //    icon: 'parking',
-      //    content: '<div id="content"><div id="siteNotice"></div><h1 id="firstHeading" class="firstHeading">Edinburgh Airport - from £30</h1><div id="bodyContent"><p><b>Edinburgh Airport</b> - 3 terminal airport offering flights to Europe and around the world with national rail connections.</p> <p><a href="https://www.google.co.uk">BOOK</a></p></div></div>'
-      //  },
-      //  {
-      //    title: 'Cardiff Airport',
-      //    position: {
-      //      lat: 51.3985498,
-      //      lng: -3.3416461
-      //    },
-      //    icon: 'parking',
-      //    content: '<div id="content"><div id="siteNotice"></div><h1 id="firstHeading" class="firstHeading">Cardiff Airport - from £30</h1><div id="bodyContent"><p><b>Cardiff Airport</b> - 3 terminal airport offering flights to Europe and around the world with national rail connections.</p> <p><a href="https://www.google.co.uk">BOOK</a></p></div></div>'
-      //  },
-      //  {
-      //    title: 'Heathrow Airport',
-      //    position: {
-      //      lat: 51.4700223,
-      //      lng: -0.4542955
-      //    },
-      //    icon: 'parking',
-      //    content: '<div id="content"><div id="siteNotice"></div><h1 id="firstHeading" class="firstHeading">Heathrow Airport - from £50</h1><div id="bodyContent"><p><b>Heathrow Airport</b> - 3 terminal airport offering flights to Europe and around the world with national rail connections.</p> <p><a href="https://www.google.co.uk">BOOK</a></p></div></div>'
-      //  }
-      //];
-
-
-
-
-
-  
-
-    }
-  },
-  mounted() {
-    GoogleMapsLoader.KEY = 'AIzaSyAUa6Mc53UMsnzOZ6PQ_TXbM2_ozArfCUQ'
-    GoogleMapsLoader.load((google) => {
-      this.initMap(google)
-    })
   }
+
 }
 </script>
+<style>
+  .button_plus {
+    float: left;
+    background-color: #3498db; /* Green */
+    border: none;
+    color: white;
+    /*padding: 15px 32px;*/
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 26px;
+    width: 30px;
+    height: 30px;
+  }
+  .btn {
+    background-color: #3498db;
+    border: none;
+    color: white;
+    padding: 12px 16px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+    .btn:hover {
+      background-color: RoyalBlue;
+    }
+</style>

@@ -3,6 +3,8 @@ import DashboardLayout from '@/pages/Layout/DashboardLayout.vue'
 import Dashboard from '@/pages/Dashboard.vue'
 import UserProfile from '@/pages/UserProfile.vue'
 import Maps from '@/pages/Maps.vue'
+import Market from '@/pages/Market.vue'
+
 import UpgradeToPRO from '@/pages/UpgradeToPRO.vue'
 
 
@@ -10,6 +12,7 @@ import HomeView from '@/layout/Home'
 import ResultView from '@/layout/Result'
 import WelcomeView from '@/layout/Welcome'
 import UserProfileView from '@/layout/UserProfile'
+
 
 const routes = [
   {
@@ -58,6 +61,15 @@ const routes = [
           hideFooter: true
         },
         component: Maps
+
+      },
+      {
+        path: 'market',
+        name: 'Market',
+        meta: {
+          hideFooter: true
+        },
+        component: Market
 
       },
       {

@@ -2,7 +2,7 @@
 <div>
   <md-card class="md-card-profile">
     <div class="md-card-avatar">
-      <img class="img" :src="imagefile">
+      <picture-box :picUrl="imagefile" :picType="profile"></picture-box>
     </div>
     <md-card-content>
       <h4 class="card-title">{{name}}</h4>
@@ -33,6 +33,7 @@
 
 <script>
   import Vue from 'vue'
+  import PictureBox from '@/components/PictureBox/PictureBox'
   import VueYouTubeEmbed from 'vue-youtube-embed'
   import { getIdFromURL, getTimeFromURL } from 'vue-youtube-embed'
   Vue.use(VueYouTubeEmbed)
@@ -49,6 +50,9 @@
       playerdata: {
         type: Object
       }
+    },
+    components: {
+      PictureBox
     },
     computed: {
       videoId: {
@@ -67,6 +71,11 @@
             '';
           //'https://www.youtube.com/embed/RYd8EUYfJWw';
 
+        }
+      },
+      profile: {
+        get() {
+          return (this.playerdata != null) ? this.playerdata.Profile : 0;
         }
       },
       imagefile: {

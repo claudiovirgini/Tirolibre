@@ -30,15 +30,17 @@
               <div class="col-md-4 mt-4" v-for="item in items" :key="item.id">
                 <div class="card profile-card-5">
                   <div class="card-img-block">
-                    <img class="card-img-top" :src="getImagePathForItem(item)" alt="Card image cap">
+                    <picture-box :picUrl="getImagePathForItem(item)" :picType="item.profile == 0 ? profilecard : item.profile"></picture-box>
+
+                      <!--<img class="card-img-top" :src="getImagePathForItem(item)" alt="Card image cap">-->
                   </div>
                   <div class="card-body pt-0">
                     <h5 class="card-title">{{ item.name}}</h5>
                     <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
-                    <p class="card-text" v-if="item.Profile === 'calciatore'">
+                    <p class="card-text" v-if="item.Profile === 0">
                       {{ item.role }} | {{ item.age }}
                     </p>
-                    <p class="card-text" v-if="item.profile === 'team'">
+                    <p class="card-text" v-if="item.profile === 1">
                       {{ item.fulladdress }} | {{ item.level }}
                     </p>
                     <div class="md-layout-item md-size-100 text-center">
@@ -68,6 +70,7 @@
 
 
 <script>
+import PictureBox from '@/components/PictureBox/PictureBox'
 import Logo from '@/components/Logo'
 import UserProfile from './UserProfile'
   import { serverBus } from '../main';
@@ -76,7 +79,9 @@ export default {
   name: 'Result',
   components: {
     Logo,
-    UserProfile
+    UserProfile,
+    PictureBox
+
   },
   props: {
     what: {
@@ -90,6 +95,7 @@ export default {
   },
   data() {
     return {
+      profilecard : 100,
       playerIdSelected : 0,
       items: [],
       userProfile: false,
@@ -116,7 +122,6 @@ export default {
     playerProfile: function() {
       this.cardResult = false
       this.userProfile = true
-      console.log("player " + this.$store.state.id)
     }
   },
   computed: {

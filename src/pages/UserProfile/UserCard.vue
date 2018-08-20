@@ -2,7 +2,8 @@
 <div>
   <md-card class="md-card-profile">
     <div class="md-card-avatar">
-      <img class="img" :src="imagefile">
+      <picture-box :picUrl="imagefile" :picType="profile" ></picture-box>
+      <!--<img class="img" :src="imagefile">-->
     </div>
     <md-card-content>
       <h4 class="card-title">{{ name+' '+surname }}</h4>
@@ -30,22 +31,31 @@
 </div>
 </template>
 <script>
+  import PictureBox from '@/components/PictureBox/PictureBox'
 export default {
-  name: 'edit-profile-form',
-  props: {
+    name: 'edit-profile-form',
+    components: {
+      PictureBox
+    },
+    props: {
     playerdata: {
       type: Object
     }
   },
   //mounted() {
-  //  alert('mike : '+this.playerdata.Surname)
+  //  alert('mike : '+this.test)
   //},
   data() {
     return {
       imageBaseUrl: this.$store.state.configurations.imageRootUrl,
     }
   },
-  computed: {
+    computed: {
+      profile: {
+        get() {
+          return  (this.playerdata != null) ? this.playerdata.Profile : -1;
+        }
+      },
     name: {
       get() {
         return this.playerdata != null ? this.playerdata.Name : '';

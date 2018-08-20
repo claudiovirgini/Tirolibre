@@ -18,8 +18,8 @@ export const store = new Vuex.Store({
     where: '',
     playerSelected: '',
     configurations: {
-      serviceBaseUrl: 'http://localhost:61610/',
-      //serviceBaseUrl: 'http://testservice.tirolibre.it',
+      //serviceBaseUrl: 'http://localhost:61610/',
+      serviceBaseUrl: 'http://testservice.tirolibre.it',
       imageRootUrl: 'http://tirolibre.it/CDN/',
       //serviceBaseUrl: 'http://testservice.tirolibre.it',
       loginUrl   : '/auth/login',
@@ -112,8 +112,9 @@ export const store = new Vuex.Store({
       const data = { PlayerId: playerId }
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getPlayerInfoUrl, data);
     },
-    getTeamAroundPoint({ commit, state }) {
-      return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getTeamAroundPoint);
+    getTeamAroundPoint({ commit, state }, params) {
+      const data = { Latitudine: params.lat, Longitudine: params.lng, Radius: params.rad, Top: params.top  }
+      return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getTeamAroundPoint,data);
     },
 
     savePlayerProfile({ commit, state }, player) {

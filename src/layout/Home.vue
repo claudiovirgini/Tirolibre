@@ -47,8 +47,8 @@
                 </div>
               </div>
               <md-field class="col-md-6 mx-auto" v-bind:class="[hasErrorWhere ? 'hasErrorWhat' : '']">
-                <md-icon style="float:left">location_on</md-icon>
-                <map-autocomplete place-holder="Dove stai cercando" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress"></map-autocomplete>
+                <!--<md-icon style="float:left">location_on</md-icon>-->
+                <map-autocomplete place-holder="Dove stai cercando" startactualpos="true" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress"></map-autocomplete>
               </md-field>
               <div class="form-group">
                 <div class="col-md-6 mx-auto">
