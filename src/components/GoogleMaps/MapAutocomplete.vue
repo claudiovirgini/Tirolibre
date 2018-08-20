@@ -73,6 +73,7 @@ export default {
    },
     methods: {
       keyhandler: function (event) {
+      
         if ((event.key == 'Backspace') || (event.key == 'Delete')) {
           this._placeSelected = null;
           this.hasError = true;
@@ -82,6 +83,7 @@ export default {
           let stringPlace = $('#' + this.inputComponentName).val();
           this.checkAddressValidity(stringPlace);
         }
+        
         event.preventDefault();
       },
 
@@ -107,7 +109,7 @@ export default {
        * @param {String} id Input container ID
        */
       getAddressData: function (addressData, placeResultData, id) {
-        this.placeSelected = addressData;
+        this.checkAddressValidity(addressData.locality);
         this.$emit('placeChanged', this.placeSelected);
       },
       findMyPosition: function () {
