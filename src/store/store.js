@@ -85,18 +85,31 @@ export const store = new Vuex.Store({
       roleRilst.push({ text: 'Prima Punta', value: 11 });
       return roleRilst;
     },
+    getStatus: function () {
+      let statusLlst = [];
+      statusLlst.push({ text: 'Svincolato', value: 0 });
+      statusLlst.push({ text: 'Contratto ad 1 anno', value: 1 });
+      statusLlst.push({ text: 'Contratto a 2 anni', value: 2 });
+      statusLlst.push({ text: 'Contratto a 3 anni', value: 3 });
+      statusLlst.push({ text: 'Contratto a 4 anni', value: 4 });
+      return statusLlst;
+    },
     getCategories: function () {
       let categoryLlst = [];
-      categoryLlst.push({ text: 'Tutte le categorie', value: 0 });
-      categoryLlst.push({ text: 'Seria A', value: 1 });
-      categoryLlst.push({ text: 'Serie B', value: 2 });
-      categoryLlst.push({ text: 'Serie C', value: 3 });
-      categoryLlst.push({ text: 'Serie D', value: 4 });
-      categoryLlst.push({ text: 'Eccellenza', value: 5 });
-      categoryLlst.push({ text: 'Promozione', value: 6 });
-      categoryLlst.push({ text: 'Prima Categoria', value: 7 });
-      categoryLlst.push({ text: 'Seconda Categoria', value: 8 });
-      categoryLlst.push({ text: 'Terza Categoria', value: 9 });
+      categoryLlst.push({ text: 'Tutte le categorie', value: null });
+      categoryLlst.push({ text: 'Seria A', value: 0 });
+      categoryLlst.push({ text: 'Serie B', value: 1 });
+      categoryLlst.push({ text: 'Serie C', value: 2 });
+      categoryLlst.push({ text: 'Serie D', value: 3 });
+      categoryLlst.push({ text: 'Eccellenza', value: 4 });
+      categoryLlst.push({ text: 'Promozione', value: 5 });
+      categoryLlst.push({ text: 'Prima Categoria', value: 6 });
+      categoryLlst.push({ text: 'Seconda Categoria', value: 7 });
+      categoryLlst.push({ text: 'Terza Categoria', value: 8 });
+      categoryLlst.push({ text: 'Juniores', value: 9 });
+      categoryLlst.push({ text: 'Allievi Nazionali', value: 10 });
+      categoryLlst.push({ text: 'Primavera', value: 11 });
+      categoryLlst.push({ text: 'Scuola Calcio', value: 12 });
       return categoryLlst;
     },
     getClassList: function () {
@@ -111,12 +124,12 @@ export const store = new Vuex.Store({
     },
     getProfileList: function () {
       let profileList = [];
-      profileList.push({ text: 'Tutto', value: 0 });
-      profileList.push({ text: 'calciatore', value: 1 });
-      profileList.push({ text: 'CLUB', value: 2 });
-      profileList.push({ text: 'agente', value: 3 });
-      profileList.push({ text: 'allenatore', value: 4 });
-      profileList.push({ text: 'direttore Sportivo', value: 5 });
+      profileList.push({ text: 'Tutto', value: null });
+      profileList.push({ text: 'calciatore', value: 0 });
+      profileList.push({ text: 'CLUB', value: 1 });
+      profileList.push({ text: 'agente', value: 2 });
+      profileList.push({ text: 'allenatore', value: 3 });
+      profileList.push({ text: 'direttore Sportivo', value: 4 });
       return profileList;
     },
     makeid: function () {
@@ -172,7 +185,19 @@ export const store = new Vuex.Store({
     },
 
     findUser({ commit, state }, param) {
-      return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.FindUserUrl, { Profile: param.profile, Radius: param.radius, FullAddressJson: param.place});
+      let playerDetails = { Role: null, Category: null, Class: null, Status: null };
+      let teamDetails = { Category: null };
+      if (param.playerFilter != null) {
+        playerDetails.Role = param.playerFilter.role;
+        playerDetails.Category = param.playerFilter.category;
+        playerDetails.Class = param.playerFilter.class;
+        playerDetails.Status = param.playerFilter.status;
+      }
+      if (param.teamFilter != null) {
+        teamDetails.Category = param.teamFilter.category;
+      }
+      let dataParam = { PlayerDetail: playerDetails, TeamDetail: teamDetails, Profile: param.profile, Radius: param.radius, FullAddressJson: param.place };
+      return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.FindUserUrl, dataParam);
     }
   }
 

@@ -11,8 +11,8 @@
                     <div class="md-layout-item">
                       <md-field>
                         <label for="profileList">Cosa cerchi</label>
-                        <md-select v-model="profileSelected"  @md-selected="mdSelected" >
-                          <md-option v-for="profile in profileList"  v-bind:value="profile.value">
+                        <md-select v-model="profileSelected" @md-selected="mdSelected">
+                          <md-option v-for="profile in profileList" v-bind:value="profile.value">
                             {{ profile.text }}
                           </md-option>
                         </md-select>
@@ -28,11 +28,28 @@
                   </div>
                 </form>
               </div>
-
             </div>
-            <div class="row" id="filterPlayer"  v-if="profileSelected === 1">
+            <div class="row" id="filterTeam" v-if="profileSelected === 1">
               <div class="col-md-4">
-                <md-field  >
+                <md-field>
+                  <label for="category">Categoria</label>
+                  <md-select v-model="categorySelected" id="category">
+                    <md-option v-for="category in categoryList" :value="category.value">
+                      {{ category.text }}
+                    </md-option>
+                  </md-select>
+                </md-field>
+              </div>
+              <div class="col-md-4" style="padding-top:10px;text-align:center">
+                <button @click="updateRadius(-5)" class="button_plus">-</button> <vue-slider style="float:left;width:70%;padding-top:13px" ref="slider" v-model="radius"></vue-slider><button @click="updateRadius(5)" class="button_plus">+</button>
+              </div>
+              <div class="col-md-4">
+                <button @click="findTeam()" class="btn"><i class="fa fa-search"></i> Cerca</button>
+              </div>
+            </div>
+            <div class="row" id="filterPlayer" v-if="profileSelected === 0">
+              <div class="col-md-4">
+                <md-field>
                   <label for="ruolo">Ruolo</label>
                   <md-select v-model="roleSelected" id="ruolo">
                     <md-option v-for="role in roleList" v-bind:value="role.value">
@@ -55,58 +72,61 @@
                 <md-field>
                   <label for="status">Status</label>
                   <md-select v-model="statusSelected" id="status">
-                    <md-option value="svincolato">svincolato</md-option>
-                    <md-option value="contratto1">Contartto ad 1 anno</md-option>
-                    <md-option value="contratto2">Contartto ad 2 anno</md-option>
-                    <md-option value="contratto3">Contartto ad 3 anno</md-option>
-                    <md-option value="contratto4">Contartto ad 4 anno</md-option>
+                    <md-option v-for="status in statusList" v-bind:value="status.value">
+                      {{ status.text }}
+                    </md-option>
                   </md-select>
+
                 </md-field>
               </div>
               <div class="col-md-4">
                 <md-field>
                   <label for="category">Categoria</label>
                   <md-select v-model="categorySelected" id="category">
-                      <md-option v-for="category in categoryList"   :key="category.value" :value="category.text" >
-                        {{ category.text }}
-                      </md-option>
-                    </md-select>
+                    <md-option v-for="category in categoryList"  v-bind:value="category.value">
+                      {{ category.text }}
+                    </md-option>
+                  </md-select>
 
                 </md-field>
               </div>
+              <div class="col-md-4">
+                <button @click="findPlayer()" class="btn"><i class="fa fa-search"></i> Cerca</button>
+              </div>
             </div>
-            <div class="row">
-              <div class="col-md-4 mt-4" v-for="item in items" :key="item.id">
-                <div class="card profile-card-5">
-                  <div class="card-img-block">
-                    <picture-box :picUrl="getImagePathForItem(item)" :picType="item.profile == 0 ? profilecard : item.profile"></picture-box>
-                    <!--<img class="card-img-top" :src="getImagePathForItem(item)" alt="Card image cap">-->
-                  </div>
-                  <div class="card-body pt-0">
-                    <h5 class="card-title">
-                      {{item.name }}
-                    </h5>
-                    <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
-                    <p class="card-text" v-if="item.Profile === 0">
-                      {{ item.role }} | {{ item.age }}
-                    </p>
-                    <p class="card-text" v-if="item.profile === 1">
-                      {{ item.fulladdress }} | {{ item.level }}
-                    </p>
-                    <div class="md-layout-item md-size-100 text-center">
-                      <md-button class="md-raised md-success">
-                        <!-- <router-link class="total-btn" :to="{ name: 'Player', params: { profile: card.name }, query: {user: card.name}}"> -->
-                        <div class="total-btn" @click="showProfile(item)">
-                          Apri profilo
-                        </div>
-                      </md-button>
+
+              <div class="row">
+                <div class="col-md-4 mt-4" v-for="item in items" :key="item.id">
+                  <div class="card profile-card-5">
+                    <div class="card-img-block">
+                      <picture-box :picUrl="getImagePathForItem(item)" :picType="item.profile == 0 ? profilecard : item.profile"></picture-box>
+                      <!--<img class="card-img-top" :src="getImagePathForItem(item)" alt="Card image cap">-->
+                    </div>
+                    <div class="card-body pt-0">
+                      <h5 class="card-title">
+                        {{item.name }}
+                      </h5>
+                      <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+                      <p class="card-text" v-if="item.Profile === 0">
+                        {{ item.role }} | {{ item.age }}
+                      </p>
+                      <p class="card-text" v-if="item.profile === 1">
+                        {{ item.fulladdress }} | {{ item.level }}
+                      </p>
+                      <div class="md-layout-item md-size-100 text-center">
+                        <md-button class="md-raised md-success">
+                          <!-- <router-link class="total-btn" :to="{ name: 'Player', params: { profile: card.name }, query: {user: card.name}}"> -->
+                          <div class="total-btn" @click="showProfile(item)">
+                            Apri profilo
+                          </div>
+                        </md-button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
       </section>
       <userProfile v-if="userProfile" :playerId="playerIdSelected" />
 </div>
@@ -119,6 +139,7 @@ import Logo from '@/components/Logo'
 import UserProfile from './UserProfile'
 import { serverBus } from '../main';
 import MapAutocomplete from '@/components/GoogleMaps/MapAutocomplete'
+  import vueSlider from 'vue-slider-component'
 
 
 export default {
@@ -127,7 +148,8 @@ export default {
     Logo,
     UserProfile,
     PictureBox,
-    MapAutocomplete
+    MapAutocomplete,
+    vueSlider
   },
   props: {
     what: {
@@ -142,15 +164,17 @@ export default {
   },
   data: function(){
     return {
-      profileSelected  : null,
+      radius : 100,
+      statusList: [],
       roleList: [],
       classList: [],
       categoryList: [],
-      profileList:[],
-      roleSelected:  '',
-      classeSelected : '',
-      _categorySelected: '',
-      statusSelected : '',
+      profileList: [],
+      profileSelected: null,
+      roleSelected:  null,
+      classeSelected : null,
+      categorySelected: null,
+      statusSelected : null,
       playerIdSelected: 0,
       items: [],
       userProfile: false,
@@ -160,14 +184,19 @@ export default {
     }
   },
     methods: {
+      updateRadius: function (amount) {
+        this.radius = this.radius + amount;
+        if ((this.radius + amount) < 0) this.radius = 0;
+        if (this.radius + amount > 100) this.radius = 1000;
+      },
       mdSelected: function (val) {
-        if ((this.profileSelected != null) && (this.placeSelected != null))
-          this.findUsers(this.profileSelected, this.placeSelected, 100);
+        //if ((this.profileSelected != null) && (this.placeSelected != null))
+        //  this.findUsers(this.profileSelected, this.placeSelected, 100);
       },
       setCorrectAddress: function (value) {
         this.placeSelected = value;
-        if ((this.profileSelected != null) && (this.placeSelected != null))
-           this.findUsers(this.profileSelected, this.placeSelected, 100);
+        //if ((this.profileSelected != null) && (this.placeSelected != null))
+        //   this.findUsers(this.profileSelected, this.placeSelected, 100);
       },
       setInvalidAddress: function () {
 
@@ -180,25 +209,25 @@ export default {
       getImagePathForItem: function (item) {
         return this.$store.state.configurations.imageRootUrl + item.fullpath;
     },
-    findUsers :function(profile, address, radiusP) {
-      serverBus.$emit('showLoading', true);
-      let temp = this.profileList.filter(d => d.value === profile);
-      this.$store.dispatch('findUser', { profile: temp[0].value, radius: radiusP, place: JSON.stringify(address) }
-      ).then(res => {
-        this.items = res.data
-          serverBus.$emit('showLoading', false);
-        }).catch(error => { alert('Si è verificato un errore nella chiamata API : ' + JSON.stringify(error)); serverBus.$emit('showLoading', false); })
-    },
+      findUsers :function(profile, address, radiusP,filterPlayer,filterTeam) {
+        serverBus.$emit('showLoading', true);
+        this.$store.dispatch('findUser', { profile: profile, radius: radiusP, place: JSON.stringify(address), playerFilter: filterPlayer, teamFilter: filterTeam }
+        ).then(res => {
+          this.items = res.data
+            serverBus.$emit('showLoading', false);
+          }).catch(error => { alert('Si è verificato un errore nella chiamata API : ' + JSON.stringify(error)); serverBus.$emit('showLoading', false); })
+      },
+      findPlayer: function () {
+//        alert('status : ' + this.statusSelected + ' - class : ' + this.classeSelected + ' - Role : ' + this.roleSelected + ' - ProfileSelected : ' + this.profileSelected + ' - categorySelected : ' + this.categorySelected)
+        let findPlayerDetails = { status: this.statusSelected, role: this.roleSelected, class: this.classeSelected, category: this.categorySelected };
+        this.findUsers(this.profileSelected, this.placeSelected, 100, findPlayerDetails,null);
+      },
+      findTeam: function () {
+        let findTeamDetails = { category: this.categorySelected };
+        this.findUsers(this.profileSelected, this.placeSelected, this.radius, null, findTeamDetails);
+      }
   },
     computed: {
-      categorySelected :{
-        get() {
-          return this._categorySelected;
-        },
-        set(value) {
-          this._categorySelected = value;
-        }
-      },
       selectedAddressString: {
         get() {
           if (this.placeSelected != null) return this.placeSelected.formatted_address;
@@ -212,19 +241,22 @@ export default {
       var self = this;
       this.$store.dispatch('getCategories', {}).then(res => {
         self.categoryList = res
-        self.categorySelected = res[0];
-      }).catch(error => { alert('Si è verificato un errore nel caricamento delle categorie'); })
+      })
       this.$store.dispatch('getRoleList', {}).then(res => {
         this.roleList = res
-      }).catch(error => { alert('Si è verificato un errore nel caricamento dei ruoli');})
+      })
+      this.$store.dispatch('getStatus', {}).then(res => {
+        this.statusList = res;
+      })
       this.$store.dispatch('getClassList', {}).then(res => {
         this.classList = res;
-      }).catch(error => { alert('Si è verificato un errore nel caricamento delle classi'); })
+      })
       this.$store.dispatch('getProfileList', {}).then(res => {
         this.profileList = res;
         setTimeout(function () {
           let temp = self.profileList.filter(d => d.text === self.what);
           self.profileSelected = temp[0].value;
+          self.findTeam();
         }, 500);
       })
 
