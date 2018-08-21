@@ -10,13 +10,11 @@
                   <div class="col-md-6">
                     <div class="md-layout-item">
                       <md-field>
-                        <label for="profile">Cosa cerchi</label>
-                        <md-select v-model="profileSelected" id="profile">
-                          <md-option value="team">team</md-option>
-                          <md-option value="calciatore">calciatore</md-option>
-                          <md-option value="agente">agente</md-option>
-                          <md-option value="ds">direttore sportivo</md-option>
-                          <md-option value="allenatore">allenatore</md-option>
+                        <label for="profileList">Cosa cerchi</label>
+                        <md-select v-model="profileSelected"  @md-selected="mdSelected" >
+                          <md-option v-for="profile in profileList"  v-bind:value="profile.value">
+                            {{ profile.text }}
+                          </md-option>
                         </md-select>
                       </md-field>
                     </div>
@@ -32,7 +30,7 @@
               </div>
 
             </div>
-            <div class="row" id="filterPlayer"  v-if="_profileSelected === 'calciatore'">
+            <div class="row" id="filterPlayer"  v-if="profileSelected === 1">
               <div class="col-md-4">
                 <md-field  >
                   <label for="ruolo">Ruolo</label>
@@ -69,7 +67,7 @@
                 <md-field>
                   <label for="category">Categoria</label>
                   <md-select v-model="categorySelected" id="category">
-                      <md-option v-for="category in categoryList" :value="category.value" :key="category.value" >
+                      <md-option v-for="category in categoryList"   :key="category.value" :value="category.text" >
                         {{ category.text }}
                       </md-option>
                     </md-select>
@@ -119,8 +117,8 @@
 import PictureBox from '@/components/PictureBox/PictureBox'
 import Logo from '@/components/Logo'
 import UserProfile from './UserProfile'
-  import { serverBus } from '../main';
-  import MapAutocomplete from '@/components/GoogleMaps/MapAutocomplete'
+import { serverBus } from '../main';
+import MapAutocomplete from '@/components/GoogleMaps/MapAutocomplete'
 
 
 export default {
@@ -133,41 +131,43 @@ export default {
   },
   props: {
     what: {
-      type: String,
-      default: 'team'
+      type: String
     },
     place: {
       type: Object,
     },
     who: {
       type: String,
-      default: 'calciatore'
     }
   },
-  data() {
+  data: function(){
     return {
+      profileSelected  : null,
       roleList: [],
       classList: [],
       categoryList: [],
-
-      profilecard: 100,
-
+      profileList:[],
       roleSelected:  '',
       classeSelected : '',
-      _categorySelected: null,
+      _categorySelected: '',
       statusSelected : '',
       playerIdSelected: 0,
       items: [],
       userProfile: false,
       cardResult: true,
       placeSelected: null,
-      _profileSelected : "calciatore"
+      _profileSelected: null
     }
   },
     methods: {
+      mdSelected: function (val) {
+        if ((this.profileSelected != null) && (this.placeSelected != null))
+          this.findUsers(this.profileSelected, this.placeSelected, 100);
+      },
       setCorrectAddress: function (value) {
         this.placeSelected = value;
-        this.findUsers(this._profileSelected, this.placeSelected, 100);
+        if ((this.profileSelected != null) && (this.placeSelected != null))
+           this.findUsers(this.profileSelected, this.placeSelected, 100);
       },
       setInvalidAddress: function () {
 
@@ -182,16 +182,13 @@ export default {
     },
     findUsers :function(profile, address, radiusP) {
       serverBus.$emit('showLoading', true);
-      this.$store.dispatch('findUser', { profile: profile, radius: radiusP, place: JSON.stringify(address) }
+      let temp = this.profileList.filter(d => d.value === profile);
+      this.$store.dispatch('findUser', { profile: temp[0].value, radius: radiusP, place: JSON.stringify(address) }
       ).then(res => {
         this.items = res.data
-        serverBus.$emit('showLoading', false);
-      }).catch(error => { alert('Si è verificato un errore'); serverBus.$emit('showLoading', false); })
+          serverBus.$emit('showLoading', false);
+        }).catch(error => { alert('Si è verificato un errore nella chiamata API : ' + JSON.stringify(error)); serverBus.$emit('showLoading', false); })
     },
-    playerProfile: function() {
-      this.cardResult = false
-      this.userProfile = true
-    }
   },
     computed: {
       categorySelected :{
@@ -208,33 +205,29 @@ export default {
           else return null;
         }
       },
-    profileSelected: {
-      get() {
-        return this._profileSelected;
-      },
-      set(value) {
-        this._profileSelected = value;
-        this.findUsers(this._profileSelected, this.placeSelected, 100);
-      }
     },
-    },
- 
+
     created() {
+      if (this.place != null) this.placeSelected = this.place;
+      var self = this;
       this.$store.dispatch('getCategories', {}).then(res => {
-        this.categoryList = res
-        this._categorySelected = res[0];
-      }).catch(error => { alert('Si è verificato un errore nel caricamento dei ruoli'); })
+        self.categoryList = res
+        self.categorySelected = res[0];
+      }).catch(error => { alert('Si è verificato un errore nel caricamento delle categorie'); })
       this.$store.dispatch('getRoleList', {}).then(res => {
         this.roleList = res
       }).catch(error => { alert('Si è verificato un errore nel caricamento dei ruoli');})
       this.$store.dispatch('getClassList', {}).then(res => {
         this.classList = res;
-      }).catch(error => { alert('Si è verificato un errore nel caricamento dei ruoli'); })
-      if (this.place != null)
-        this.placeSelected = this.place;
-      if (this.what != null)
-        this._profileSelected = this.what;
-      this.findUsers(this._profileSelected, this.placeSelected, 100);
+      }).catch(error => { alert('Si è verificato un errore nel caricamento delle classi'); })
+      this.$store.dispatch('getProfileList', {}).then(res => {
+        this.profileList = res;
+        setTimeout(function () {
+          let temp = self.profileList.filter(d => d.text === self.what);
+          self.profileSelected = temp[0].value;
+        }, 500);
+      })
+
   }
 }
 </script>

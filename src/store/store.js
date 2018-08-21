@@ -17,8 +17,8 @@ export const store = new Vuex.Store({
     where: '',
     playerSelected: '',
     configurations: {
-      serviceBaseUrl: 'http://localhost:61610/',
-      //serviceBaseUrl: 'http://testservice.tirolibre.it',
+      //serviceBaseUrl: 'http://localhost:61610/',
+      serviceBaseUrl: 'http://testservice.tirolibre.it',
       imageRootUrl: 'http://tirolibre.it/CDN/',
       //serviceBaseUrl: 'http://testservice.tirolibre.it',
       loginUrl   : '/auth/login',
@@ -109,6 +109,16 @@ export const store = new Vuex.Store({
       }
       return classilst;
     },
+    getProfileList: function () {
+      let profileList = [];
+      profileList.push({ text: 'Tutto', value: 0 });
+      profileList.push({ text: 'calciatore', value: 1 });
+      profileList.push({ text: 'CLUB', value: 2 });
+      profileList.push({ text: 'agente', value: 3 });
+      profileList.push({ text: 'allenatore', value: 4 });
+      profileList.push({ text: 'direttore Sportivo', value: 5 });
+      return profileList;
+    },
     makeid: function () {
       var text = "";
       var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -161,7 +171,7 @@ export const store = new Vuex.Store({
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.savePlayerInfoUrl, data);
     },
 
-    findUser({ commit, state },param) {
+    findUser({ commit, state }, param) {
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.FindUserUrl, { Profile: param.profile, Radius: param.radius, FullAddressJson: param.place});
     }
   }

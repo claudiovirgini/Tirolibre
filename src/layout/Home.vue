@@ -13,15 +13,15 @@
                     <div class="switch-title">-Io sono-</div>
                     <div class="switch-content player form-check form-check-inline">
                       <input type="radio" id="who-calciatore" name="who" value="who-calciatore" class="form-check-input" v-model="who" checked />
-                      <label for="who-calciatore">calciatore</label>
+                      <label for="who-calciatore">Calciatore</label>
                     </div>
                     <div class="switch-content club form-check form-check-inline">
                       <input type="radio" id="who-team" name="who" value="who-team" class="form-check-input" v-model="who" />
-                      <label for="who-team">team</label>
+                      <label for="who-team">CLUB</label>
                     </div>
                     <div class="switch-content agent form-check form-check-inline">
                       <input type="radio" id="who-agente" name="who" value="who-agente" class="form-check-input" v-model="who" />
-                      <label for="who-agente">agente</label>
+                      <label for="who-agente">Agente</label>
                     </div>
                   </div>
                 </div>
@@ -36,8 +36,8 @@
                       <label for="switch_4_left">calciatore</label>
                     </div>
                     <div class="switch-content club form-check form-check-inline">
-                      <input type="radio" id="switch_4_center" name="what" value="team" class="form-check-input" @click="selectItem" v-model="what" />
-                      <label for="switch_4_center">team</label>
+                      <input type="radio" id="switch_4_center" name="what" value="CLUB" class="form-check-input" @click="selectItem" v-model="what" />
+                      <label for="switch_4_center">CLUB</label>
                     </div>
                     <div class="switch-content agent form-check form-check-inline">
                       <input type="radio" id="switch_4_right" name="what" value="agente" class="form-check-input" @click="selectItem" v-model="what" />
@@ -91,6 +91,8 @@ export default {
   },
   data() {
     return {
+      what: '',
+      who: '',
       cardResult: false,
       filter: true,
       isValidAddress: null,
@@ -108,30 +110,31 @@ export default {
         this._placeSelected = value;
         }
       },
-    who: {
-      get() {
-        return this.$store.state.who;
-      },
-      set(value) {
-        this.$store.commit("SET_WHO", value);
-      }
-    },
-    what: {
-      get() {
-        return this.$store.state.what;
-      },
-      set(value) {
-        this.$store.commit("SET_WHAT", value);
-      }
-    },
-    where: {
-      get() {
-        return this.$store.state.where;
-      },
-      set(value) {
-        this.$store.commit("SET_WHERE", value);
-      }
-    },
+    //who: {
+    //  get() {
+    //    return this.$store.state.who;
+    //  },
+    //  set(value) {
+    //    this.$store.commit("SET_WHO", value);
+    //  }
+    //},
+    //what: {
+    //  get() {
+    //    return this.$store.state.what;
+    //  },
+    //  set(value) {
+      
+    //    this.$store.commit("SET_WHAT", value);
+    //  }
+    //},
+    //where: {
+    //  get() {
+    //    return this.$store.state.where;
+    //  },
+    //  set(value) {
+    //    this.$store.commit("SET_WHERE", value);
+    //  }
+    //},
   },
   mounted() {
     //this.$refs.address.focus();
