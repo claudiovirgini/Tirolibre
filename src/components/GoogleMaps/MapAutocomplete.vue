@@ -1,30 +1,18 @@
 <template>
-  <div>
+<div>
 
-    <div class="inputWithIcon inputIconBg">
-      <vue-google-autocomplete ref="address" style="width:95%;float:right"
-                               :id="inputComponentName"
-                               v-on:keyup="keyhandler"
-                               classname="form-control"
-                               :placeholder="placeHolder"
-                               v-on:placechanged="getAddressData"
-                               types="(cities)"
-                               v-bind:class="[hasError ? 'inputError' : '']"
-                               country="it"
-                              >
-      </vue-google-autocomplete>
-      <i class="fa fa-map-marker fa-lg fa-fw"   aria-hidden="true" style="height:36px;cursor:pointer" @click="findMyPosition"></i>
-    </div>
-
-
+  <div class="inputWithIcon inputIconBg">
+    <vue-google-autocomplete ref="address" style="width:95%;float:right" :id="inputComponentName" v-on:keyup="keyhandler" classname="form-control" :placeholder="placeHolder" v-on:placechanged="getAddressData" types="(cities)" v-bind:class="[hasError ? 'inputError' : '']"
+      country="it">
+    </vue-google-autocomplete>
+    <i class="fa fa-map-marker fa-lg fa-fw" aria-hidden="true" style="height:36px;cursor:pointer" @click="findMyPosition"></i>
   </div>
-   
 
 
+</div>
 </template>
 
 <script>
-
 //import {
 //  serverBus
 //} from '../main';
@@ -33,8 +21,8 @@ import Vue from 'vue'
 import VueGoogleAutocomplete from 'vue-google-autocomplete'
 import axios from 'axios'
 export default {
-    name: 'MapAutocomplete',
-    props: ['initialAddress','placeHolder','startactualpos'],
+  name: 'MapAutocomplete',
+  props: ['initialAddress', 'placeHolder', 'startactualpos'],
   components: {
     VueGoogleAutocomplete
   },
@@ -42,103 +30,109 @@ export default {
     return {
       _placeSelected: null,
       hasError: true,
-      inputComponentName : 'inputMap_'
+      inputComponentName: 'inputMap_'
     }
   },
-    computed: {
-      placeSelected: {
-        get() {
-          return this._placeSelected ;
-        },
-        set(value) {
-          if (value.length > 0) {
-            this.hasError = false,
+  computed: {
+    placeSelected: {
+      get() {
+        return this._placeSelected;
+      },
+      set(value) {
+        if (value.length > 0) {
+          this.hasError = false,
             this._placeSelected = value[0]
-            this.$emit('setCorrectAddress', value[0]);
-          }
+          this.$emit('setCorrectAddress', value[0]);
         }
-
       }
+
+    }
   },
-    created() {
-        this.$store.dispatch('makeid').then(res => {
-          this.inputComponentName = 'inputMap_' + res;
-          
-          if (this.startactualpos == "true") {
-            this.findMyPosition()
-          }
-        }).catch(error => alert(error.response.data.error_description));
-      if (this.initialAddress != null) {
-        this.checkAddressValidity(this.initialAddress);
-      }
-   },
-    methods: {
-      keyhandler: function (event) {
-      
-        if ((event.key == 'Backspace') || (event.key == 'Delete')) {
-          this._placeSelected = null;
-          this.hasError = true;
-          this.$emit('setInvalidAddress');
-        }
-        else if (event.key == 'Enter') {
-          let stringPlace = $('#' + this.inputComponentName).val();
-          this.checkAddressValidity(stringPlace);
-        }
-        
-        event.preventDefault();
-      },
+  created() {
+    this.$store.dispatch('makeid').then(res => {
+      this.inputComponentName = 'inputMap_' + res;
 
-      checkAddressValidity: function (address) {
-        var geocoder = new google.maps.Geocoder();
-        var self = this
-        geocoder.geocode({ 'address': address },
-          function (results, status) {
-            if (status === google.maps.GeocoderStatus.OK && results.length > 0) {
-              $('#' + self.inputComponentName).val(results[0].formatted_address)
-              self.placeSelected = results;
-            } else {
-              self._placeSelected = null;
-              self.hasError = true;
-              self.$emit('setInvalidAddress')
-            };
+      if (this.startactualpos == "true") {
+        this.findMyPosition()
+      }
+    }).catch(error => alert(error.response.data.error_description));
+    if (this.initialAddress != null) {
+      this.checkAddressValidity(this.initialAddress);
+    }
+  },
+  methods: {
+    keyhandler: function(event) {
+
+      if ((event.key == 'Backspace') || (event.key == 'Delete')) {
+        this._placeSelected = null;
+        this.hasError = true;
+        this.$emit('setInvalidAddress');
+      } else if (event.key == 'Enter') {
+        let stringPlace = $('#' + this.inputComponentName).val();
+        this.checkAddressValidity(stringPlace);
+      }
+
+      event.preventDefault();
+    },
+
+    checkAddressValidity: function(address) {
+      var geocoder = new google.maps.Geocoder();
+      var self = this
+      geocoder.geocode({
+          'address': address
+        },
+        function(results, status) {
+          if (status === google.maps.GeocoderStatus.OK && results.length > 0) {
+            $('#' + self.inputComponentName).val(results[0].formatted_address)
+            self.placeSelected = results;
+          } else {
+            self._placeSelected = null;
+            self.hasError = true;
+            self.$emit('setInvalidAddress')
+          };
         });
-      },
-      /**
-       * When the location found
-       * @param {Object} addressData Data of the found location
-       * @param {Object} placeResultData PlaceResult object
-       * @param {String} id Input container ID
-       */
-      getAddressData: function (addressData, placeResultData, id) {
-        this.checkAddressValidity(addressData.locality);
-        this.$emit('placeChanged', this.placeSelected);
-      },
-      findMyPosition: function () {
-       
-        var self = this;
-        axios.post('http://ip-api.com/json')
-          .then(res => {
-            self.actualPos = {
-              lat: res.data.lat,
-              lng: res.data.lon
-            };
-            this.checkAddressValidity(res.data.city);
-          })
-          .catch(error => alert('Request failed.  Returned status of', status));
-      },
+    },
+    /**
+     * When the location found
+     * @param {Object} addressData Data of the found location
+     * @param {Object} placeResultData PlaceResult object
+     * @param {String} id Input container ID
+     */
+    getAddressData: function(addressData, placeResultData, id) {
+      this.checkAddressValidity(addressData.locality);
+      this.$emit('placeChanged', this.placeSelected);
+    },
+    findMyPosition: function() {
+
+      var self = this;
+      axios.post('http://ip-api.com/json')
+        .then(res => {
+          self.actualPos = {
+            lat: res.data.lat,
+            lng: res.data.lon
+          };
+          this.checkAddressValidity(res.data.city);
+        })
+        .catch(error => alert('Request failed.  Returned status of', status));
+    },
   }
 }
 </script>
 <style scoped lang="scss">
-  #map {
+#map {
     height: auto !important;
-  }
-  .inputError{
+}
+.inputError {
     /*border : 1px solid red;
     background-color:pink*/
     /*box-shadow:2px 2px red ;*/
-  }
-  input[type=text] {
+}
+
+.form-control {
+    background-color: #FFF;
+    background-image: none;
+}
+input[type=text] {
     width: 100%;
     border: 2px solid #aaa;
     border-radius: 4px;
@@ -146,44 +140,44 @@ export default {
     outline: none;
     padding: 8px;
     box-sizing: border-box;
-    transition: .3s;
-  }
+    transition: 0.3s;
+}
 
-    input[type=text]:focus {
-      border-color: dodgerBlue;
-      box-shadow: 0 0 8px 0 dodgerBlue;
-    }
+input[type=text]:focus {
+    border-color: dodgerBlue;
+    box-shadow: 0 0 8px 0 dodgerBlue;
+}
 
-  .inputWithIcon input[type=text] {
+.inputWithIcon input[type=text] {
     padding-left: 40px;
-  }
+}
 
-  .inputWithIcon {
+.inputWithIcon {
     position: relative;
-  }
+}
 
-    .inputWithIcon i {
-      position: absolute;
-      left: 0;
-      top: 8px;
-      padding: 9px 8px;
-      color: #aaa;
-      transition: .3s;
-    }
+.inputWithIcon i {
+    position: absolute;
+    left: 0;
+    top: 8px;
+    padding: 9px 8px;
+    color: #aaa;
+    transition: 0.3s;
+}
 
-    .inputWithIcon input[type=text]:focus + i {
-      color: dodgerBlue;
-    }
+.inputWithIcon input[type=text]:focus + i {
+    color: dodgerBlue;
+}
 
-    .inputWithIcon.inputIconBg i {
-      background-color: #aaa;
-      color: #fff;
-      padding: 9px 4px;
-      border-radius: 4px 0 0 4px;
-    }
+.inputWithIcon.inputIconBg i {
+    background-color: #aaa;
+    color: #fff;
+    padding: 9px 4px;
+    border-radius: 4px 0 0 4px;
+}
 
-    .inputWithIcon.inputIconBg input[type=text]:focus + i {
-      color: #fff;
-      background-color: dodgerBlue;
-    }
+.inputWithIcon.inputIconBg input[type=text]:focus + i {
+    color: #fff;
+    background-color: dodgerBlue;
+}
 </style>

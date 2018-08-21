@@ -10,14 +10,14 @@
                 <!-- I'm a ... -->
                 <div class="buttons">
                   <div class="switch-field">
-                    <div class="switch-title">-Io sono-</div>
+                    <div class="switch-title">- Io sono -</div>
                     <div class="switch-content player form-check form-check-inline">
                       <input type="radio" id="who-calciatore" name="who" value="who-calciatore" class="form-check-input" v-model="who" checked />
                       <label for="who-calciatore">Calciatore</label>
                     </div>
                     <div class="switch-content club form-check form-check-inline">
                       <input type="radio" id="who-team" name="who" value="who-team" class="form-check-input" v-model="who" />
-                      <label for="who-team">CLUB</label>
+                      <label for="who-team">Club</label>
                     </div>
                     <div class="switch-content agent form-check form-check-inline">
                       <input type="radio" id="who-agente" name="who" value="who-agente" class="form-check-input" v-model="who" />
@@ -30,14 +30,14 @@
               <div class="what" >
                 <div class="buttons">
                   <div class="switch-field"  v-bind:class="[hasErrorWhat ? 'hasErrorWhat' : '']">
-                    <div class="switch-title">-cerco-</div>
+                    <div class="switch-title">- cerco -</div>
                     <div class="switch-content player form-check form-check-inline">
                       <input type="radio" id="switch_4_left" name="what" value="calciatore" class="form-check-input" @click="selectItem" v-model="what" checked />
                       <label for="switch_4_left">calciatore</label>
                     </div>
                     <div class="switch-content club form-check form-check-inline">
                       <input type="radio" id="switch_4_center" name="what" value="CLUB" class="form-check-input" @click="selectItem" v-model="what" />
-                      <label for="switch_4_center">CLUB</label>
+                      <label for="switch_4_center">club</label>
                     </div>
                     <div class="switch-content agent form-check form-check-inline">
                       <input type="radio" id="switch_4_right" name="what" value="agente" class="form-check-input" @click="selectItem" v-model="what" />
@@ -46,10 +46,15 @@
                   </div>
                 </div>
               </div>
-              <md-field class="col-md-6 mx-auto" v-bind:class="[hasErrorWhere ? 'hasErrorWhat' : '']">
-                <!--<md-icon style="float:left">location_on</md-icon>-->
-                <map-autocomplete place-holder="Dove stai cercando" startactualpos="true" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress"></map-autocomplete>
-              </md-field>
+              <div class="where">
+                <div class="row">
+                  <md-field class="col-md-6 mx-auto" v-bind:class="[hasErrorWhere ? 'hasErrorWhat' : '']">
+                    <!--<md-icon style="float:left">location_on</md-icon>-->
+                     <label for="where" class="label-autocomplete">- DOVE STAI CERCANDO -</label>
+                    <map-autocomplete id="where" class="col-12" place-holder="Dove stai cercando" startactualpos="true" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress"></map-autocomplete>
+                  </md-field>
+                </div>
+              </div>
               <div class="form-group">
                 <div class="col-md-6 mx-auto">
                   <button type="button" @click="findUsers"  class="btn btn-outline-success btn-lg btn-block">Inizia <i class="fa fa-chevron-circle-right"></i></button>
@@ -78,7 +83,9 @@ import axios from 'axios'
 import Logo from '@/components/Logo'
 import Result from './Result'
 import MapAutocomplete from '@/components/GoogleMaps/MapAutocomplete'
-import { fail } from 'assert';
+import {
+  fail
+} from 'assert';
 
 //import VueGoogleAutocomplete from 'vue-google-autocomplete'
 
@@ -98,18 +105,18 @@ export default {
       isValidAddress: null,
       hasErrorWhere: false,
       hasErrorWhat: false,
-      _placeSelected : null
+      _placeSelected: null
     }
   },
-    computed: {
-      placeSelected: {
-        get() {
-          return this._placeSelected;
-        },
+  computed: {
+    placeSelected: {
+      get() {
+        return this._placeSelected;
+      },
       set(value) {
         this._placeSelected = value;
-        }
-      },
+      }
+    },
     //who: {
     //  get() {
     //    return this.$store.state.who;
@@ -123,7 +130,7 @@ export default {
     //    return this.$store.state.what;
     //  },
     //  set(value) {
-      
+
     //    this.$store.commit("SET_WHAT", value);
     //  }
     //},
@@ -139,33 +146,33 @@ export default {
   mounted() {
     //this.$refs.address.focus();
   },
-    methods: {
-      selectItem: function () {
-        this.hasErrorWhat = false;
-      },
-      setCorrectAddress: function (place) {
-        this.isValidAddress = true;
-        this.hasErrorWhere = false;
-        this._placeSelected = place
-        //alert('New Place : ' + place.formatted_address)
-      },
-      setInvalidAddress: function () {
-        this.isValidAddress = false;
-        this.hasErrorWhere = true;
-        this._placeSelected = null;
-        //alert('INVALID')
-      },
-      findUsers: function () {
-        if ((!this.isValidAddress) || (this.isValidAddress==null) || (this.what == null) || (this.what == '')) {
-          if ((!this.isValidAddress) || (this.isValidAddress == null)) {
-            this.hasErrorWhere = true;
-          }
-          if ((this.what == null)  || (this.what == '')) this.hasErrorWhat = true;
-        } else {
-          this.error = null
-          this.filter = false
-          this.cardResult = true
+  methods: {
+    selectItem: function() {
+      this.hasErrorWhat = false;
+    },
+    setCorrectAddress: function(place) {
+      this.isValidAddress = true;
+      this.hasErrorWhere = false;
+      this._placeSelected = place
+      //alert('New Place : ' + place.formatted_address)
+    },
+    setInvalidAddress: function() {
+      this.isValidAddress = false;
+      this.hasErrorWhere = true;
+      this._placeSelected = null;
+      //alert('INVALID')
+    },
+    findUsers: function() {
+      if ((!this.isValidAddress) || (this.isValidAddress == null) || (this.what == null) || (this.what == '')) {
+        if ((!this.isValidAddress) || (this.isValidAddress == null)) {
+          this.hasErrorWhere = true;
         }
+        if ((this.what == null) || (this.what == '')) this.hasErrorWhat = true;
+      } else {
+        this.error = null
+        this.filter = false
+        this.cardResult = true
+      }
 
     },
 
@@ -175,13 +182,13 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-  .hasErrorWhat{
-    border:2px red solid;
-    border-radius:5px;
-  }
-  #map {
+.hasErrorWhat {
+    border: 2px red solid;
+    border-radius: 5px;
+}
+#map {
     height: auto !important;
-  }
+}
 
 .pusher {
     background-image: url("../assets/images/bg-footer.jpg");
@@ -263,9 +270,9 @@ export default {
 .switch-title {
     text-align: center;
     font-weight: bold;
-    font-size: 22px;
+    font-size: 18px;
     text-transform: uppercase;
-    padding: 20px;
+    padding: 10px;
 }
 
 .who {
@@ -332,7 +339,7 @@ export default {
                 background-color: #FFF;
                 padding: 5px;
                 border-radius: 10px;
-                border: 2px solid #178501;
+                border: 2px solid #1057a0;
             }
             &:hover {
                 background-color: #1057a0;
@@ -380,8 +387,17 @@ export default {
     }
 }
 .where {
+    .md-field {
+        background-color: #4b5a65;
+        padding: 20px;
+        border-radius: 10px;
+    }
     .switch-title {
         color: #01a084;
+    }
+    label {
+        left: 40px;
+        top: 5px;
     }
 }
 
