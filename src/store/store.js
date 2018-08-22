@@ -71,7 +71,7 @@ export const store = new Vuex.Store({
   actions: {
     getRoleList: function() {
       let roleRilst = [];
-      roleRilst.push({ text: 'Tutti i ruoli', value: 0 });
+      roleRilst.push({ text: 'Tutti i ruoli', value: -1 });
       roleRilst.push({ text: 'Portiere', value: 1 });
       roleRilst.push({ text: 'Centrale Destro', value: 2 });
       roleRilst.push({ text: 'Centrale Sinistro', value: 3 });
@@ -87,8 +87,9 @@ export const store = new Vuex.Store({
     },
     getStatus: function () {
       let statusLlst = [];
+      statusLlst.push({ text: 'Tutto', value: -1 });
       statusLlst.push({ text: 'Svincolato', value: 0 });
-      statusLlst.push({ text: 'Contratto ad 1 anno', value: 1 });
+      statusLlst.push({ text: 'Contratto a 1 anno', value: 1 });
       statusLlst.push({ text: 'Contratto a 2 anni', value: 2 });
       statusLlst.push({ text: 'Contratto a 3 anni', value: 3 });
       statusLlst.push({ text: 'Contratto a 4 anni', value: 4 });
@@ -96,7 +97,7 @@ export const store = new Vuex.Store({
     },
     getCategories: function () {
       let categoryLlst = [];
-      categoryLlst.push({ text: 'Tutte le categorie', value: null });
+      categoryLlst.push({ text: 'Tutte le categorie', value: -1 });
       categoryLlst.push({ text: 'Seria A', value: 0 });
       categoryLlst.push({ text: 'Serie B', value: 1 });
       categoryLlst.push({ text: 'Serie C', value: 2 });
@@ -109,7 +110,7 @@ export const store = new Vuex.Store({
       categoryLlst.push({ text: 'Juniores', value: 9 });
       categoryLlst.push({ text: 'Allievi Nazionali', value: 10 });
       categoryLlst.push({ text: 'Primavera', value: 11 });
-      categoryLlst.push({ text: 'Scuola Calcio', value: 12 });
+      categoryLlst.push({ text: 'Scuola calcio', value: 12 });
       return categoryLlst;
     },
     getClassList: function () {
@@ -124,7 +125,7 @@ export const store = new Vuex.Store({
     },
     getProfileList: function () {
       let profileList = [];
-      profileList.push({ text: 'Tutto', value: null });
+      profileList.push({ text: 'Tutto', value: -1 });
       profileList.push({ text: 'calciatore', value: 0 });
       profileList.push({ text: 'CLUB', value: 1 });
       profileList.push({ text: 'agente', value: 2 });
@@ -188,10 +189,10 @@ export const store = new Vuex.Store({
       let playerDetails = { Role: null, Category: null, Class: null, Status: null };
       let teamDetails = { Category: null };
       if (param.playerFilter != null) {
-        playerDetails.Role = param.playerFilter.role;
-        playerDetails.Category = param.playerFilter.category;
-        playerDetails.Class = param.playerFilter.class;
-        playerDetails.Status = param.playerFilter.status;
+        playerDetails.Role = param.playerFilter.role > -1 ? param.playerFilter.role : null;
+        playerDetails.Category = param.playerFilter.category > -1 ? param.playerFilter.category : null;
+        playerDetails.Class = param.playerFilter.class > -1 ? param.playerFilter.class : null;
+        playerDetails.Status = param.playerFilter.status != 'Tutto' ? param.playerFilter.status : null;
       }
       if (param.teamFilter != null) {
         teamDetails.Category = param.teamFilter.category;
