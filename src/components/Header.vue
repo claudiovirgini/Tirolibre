@@ -1,62 +1,66 @@
 <template>
-  <header role="banner" class="masthead mb-auto">
-    <nav class="main-nav isNotAuthenticated" v-if="!isAuthenticated">
-      <ul>
-        <!--<li><button type="button" v-on:click="show(true)">accedi</button></li>-->
-        <li><a class="cd-signin" href="#">Accedi</a></li>
-        <li><a class="cd-signup" href="#0">Registrati</a></li>
-      </ul>
-    </nav>
+<header role="banner" class="masthead mb-auto">
+  <nav class="main-nav isNotAuthenticated" v-if="!isAuthenticated">
+    <ul>
+      <!--<li><button type="button" v-on:click="show(true)">accedi</button></li>-->
+      <li><a class="cd-signin" href="#">Accedi</a></li>
+      <li><a class="cd-signup" href="#0">Registrati</a></li>
+    </ul>
+  </nav>
 
-    <div class="main-nav" v-if="isAuthenticated">
+  <div class="isAuthenticated" v-if="isAuthenticated">
 
-      <ul>
-        <li class="nav-item">
-          <router-link class="nav-link" to="/user">Benvenuto {{name}}</router-link>
-        </li>
-        <li class="nav-item">
-          <a class="cd-signup" v-on:click="logout()">Logout</a>
-        </li>
-      </ul>
-    </div>
-    <!--<md-dialog :md-active.sync="showDialog">
+    <ul>
+      <li class="nav-item user">
+        <router-link class="nav-link" to="/user">Benvenuto {{name}}</router-link>
+      </li>
+      <li class="nav-item logout">
+        <a class="cd-signup" v-on:click="logout()" title="Logout"><i class="fas fa-power-off"></i></a>
+      </li>
+    </ul>
+  </div>
+  <!--<md-dialog :md-active.sync="showDialog">
 
   </md-dialog>-->
-    <div class="cd-user-modal">
-      <div class="cd-user-modal-container">
-        <ul class="cd-switcher">
-          <li><a href="#0">Accedi</a></li>
-          <li><a href="#0">Registrati</a></li>
-        </ul>
-        <div id="cd-login">
-          <Login />
-        </div>
-        <div id="cd-signup">
-          <Signup />
-        </div>
-        <div id="cd-reset-password">
-          <RecoveryPwd></RecoveryPwd>
-        </div>
-        <a href="#0" class="cd-close-form">Close</a>
+  <div class="cd-user-modal">
+    <div class="cd-user-modal-container">
+      <ul class="cd-switcher">
+        <li><a href="#0">Accedi</a></li>
+        <li><a href="#0">Registrati</a></li>
+      </ul>
+      <div id="cd-login">
+        <Login />
       </div>
-    </div>
-    <div id=preloderH  v-if="isLoading">
-      <div class=loaderH>
-        <!--<hour-glass></hour-glass>-->
-        <!--<rotate-square4></rotate-square4>-->
-        <!--<rotate-square2></rotate-square2>-->
-        <scale-out></scale-out>
+      <div id="cd-signup">
+        <Signup />
       </div>
+      <div id="cd-reset-password">
+        <RecoveryPwd></RecoveryPwd>
+      </div>
+      <a href="#0" class="cd-close-form">Close</a>
     </div>
-  </header>
-
+  </div>
+  <div id=preloderH v-if="isLoading">
+    <div class=loaderH>
+      <!--<hour-glass></hour-glass>-->
+      <!--<rotate-square4></rotate-square4>-->
+      <!--<rotate-square2></rotate-square2>-->
+      <scale-out></scale-out>
+    </div>
+  </div>
+</header>
 </template>
 
 <script>
 import Login from '@/components/Authentication/Login'
 import Signup from '@/components/Authentication/Signup'
-  import RecoveryPwd from '@/components/Authentication/RecoveryPwd'
-  import { RotateSquare4, HourGlass, RotateSquare2, ScaleOut } from 'vue-loading-spinner'
+import RecoveryPwd from '@/components/Authentication/RecoveryPwd'
+import {
+  RotateSquare4,
+  HourGlass,
+  RotateSquare2,
+  ScaleOut
+} from 'vue-loading-spinner'
 
 import {
   serverBus
@@ -90,23 +94,23 @@ export default {
     },
     name: {
       get() {
-        return this.$store.state.authentication.user != null ? this.$store.state.authentication.user.Email : 'not';
+        return this.$store.state.authentication.user != null ? this.$store.state.authentication.user.Name : 'not';
       }
     },
   },
-   created() {
-     this.$store.dispatch('fetchUser')
-     serverBus.$on('showLoading', (isToShow) => {
-       this.showLoading(isToShow);
-     });
-   },
-    methods: {
-      showLoading: function (isToShow) {
-        this.isLoading = isToShow;
-      },
+  created() {
+    this.$store.dispatch('fetchUser')
+    serverBus.$on('showLoading', (isToShow) => {
+      this.showLoading(isToShow);
+    });
+  },
+  methods: {
+    showLoading: function(isToShow) {
+      this.isLoading = isToShow;
+    },
     logout: function() {
       this.$store.dispatch('logout')
-      this.$router.push('/') 
+      this.$router.push('/')
     },
     goToProfile: function() {
       this.$router.go('/user')
@@ -117,10 +121,9 @@ export default {
 
  <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+/***LOADER **********/
 
-  /***LOADER **********/
-
-  #preloderH {
+#preloderH {
     position: fixed;
     width: 100%;
     height: 100%;
@@ -128,10 +131,10 @@ export default {
     left: 0;
     z-index: 999999;
     background: #fff;
-    opacity:0.6
-  }
+    opacity: 0.6;
+}
 
-  .loaderH {
+.loaderH {
     width: 40px;
     height: 40px;
     position: absolute;
@@ -142,52 +145,51 @@ export default {
     border-radius: 60px;
     /*animation: loader 0.8s linear infinite;
     -webkit-animation: loader 0.8s linear infinite;*/
-  }
+}
 
-  @keyframes loaderH {
+@keyframes loaderH {
     0% {
-      -webkit-transform: rotate(0deg);
-      transform: rotate(0deg);
-      border: 4px solid #f44336;
-      border-left-color: transparent;
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+        border: 4px solid #f44336;
+        border-left-color: transparent;
     }
 
     50% {
-      -webkit-transform: rotate(180deg);
-      transform: rotate(180deg);
-      border: 4px solid #673ab7;
-      border-left-color: transparent;
+        -webkit-transform: rotate(180deg);
+        transform: rotate(180deg);
+        border: 4px solid #673ab7;
+        border-left-color: transparent;
     }
 
     100% {
-      -webkit-transform: rotate(360deg);
-      transform: rotate(360deg);
-      border: 4px solid #f44336;
-      border-left-color: transparent;
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+        border: 4px solid #f44336;
+        border-left-color: transparent;
     }
-  }
+}
 
-  @-webkit-keyframes loaderH {
+@-webkit-keyframes loaderH {
     0% {
-      -webkit-transform: rotate(0deg);
-      border: 4px solid #f44336;
-      border-left-color: transparent;
+        -webkit-transform: rotate(0deg);
+        border: 4px solid #f44336;
+        border-left-color: transparent;
     }
 
     50% {
-      -webkit-transform: rotate(180deg);
-      border: 4px solid #673ab7;
-      border-left-color: transparent;
+        -webkit-transform: rotate(180deg);
+        border: 4px solid #673ab7;
+        border-left-color: transparent;
     }
 
     100% {
-      -webkit-transform: rotate(360deg);
-      border: 4px solid #f44336;
-      border-left-color: transparent;
+        -webkit-transform: rotate(360deg);
+        border: 4px solid #f44336;
+        border-left-color: transparent;
     }
-  }
-  /***END LOADER*******/
-
+}
+/***END LOADER*******/
 
 header[role=banner] {
     position: relative;
@@ -244,6 +246,42 @@ header[role=banner] {
     }
 }
 
+.isAuthenticated {
+    float: right;
+    margin-top: 3px;
+    margin-right: 30px;
+    cursor: pointer;
+    li {
+        display: inline-block;
+        list-style: none;
+    }
+    li.user {
+        display: inline-block;
+        height: auto;
+        line-height: normal;
+        background: transparent;
+        border-top: 1px solid #3b3d4b;
+        a {
+            color: rgba(0,0,0,.5)!important;
+        }
+    }
+    li.logout {
+        background-color: #ed1a34;
+        border-radius: 10px;
+        &:hover {
+            background-color: rgba(0,0,0,.5);
+        }
+        a {
+            color: #FFF;
+            &:hover {
+                color: #FFF !important;
+            }
+        }
+        i {
+            padding: 20px;
+        }
+    }
+}
 .main-nav {
     float: right;
     margin-right: 5%;

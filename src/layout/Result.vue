@@ -29,7 +29,11 @@
                 </form>
               </div>
             </div>
-            <div class="row" id="filterTeam" v-if="profileSelected === 1">
+
+            <!-- <button type="button" class="btn btn-light float-right btn-advanced" data-toggle="collapse" data-target="#filterTeam" v-if="profileSelected === 1">
+                Più filtri
+           </button> -->
+            <div class="row collapse filter-panel show" id="filterTeam" v-if="profileSelected === 1">
               <div class="col-md-4">
                 <md-field>
                   <label for="category">Categoria</label>
@@ -47,12 +51,12 @@
                 <button @click="findTeam()" class="btn"><i class="fa fa-search"></i> Cerca</button>
               </div>
             </div>
-            <button type="button" class="btn btn-light float-right btn-advanced" data-toggle="collapse" data-target="#filter-panel">
-                Più filtri
-           </button>
 
-           <div id="filter-panel" class="collapse filter-panel">
-            <div class="row" id="filterPlayer" v-if="profileSelected === 0">
+
+            <!-- <button type="button" class="btn btn-light float-right btn-advanced" data-toggle="collapse" data-target="#filterPlayer" v-if="profileSelected === 0">
+                Più filtri
+           </button> -->
+            <div class="row collapse filter-panel show" id="filterPlayer" v-if="profileSelected === 0">
               <div class="col-md-4">
                 <md-field>
                   <label for="ruolo">Ruolo</label>
@@ -98,7 +102,6 @@
               <div class="col-md-4">
                 <button @click="findPlayer()" class="btn btn-outline-success btn-lg btn-block"><i class="fa fa-search"></i> Cerca</button>
               </div>
-            </div>
           </div>
 
               <div class="row">
@@ -290,6 +293,16 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style scoped lang="scss">
+// @media screen and (min-width:767px) {
+//     .filter-panel {
+//         display: block;
+//     }
+// }
+// @media screen and (max-width:766px) {
+//     .filter-panel {
+//         display: none;
+//     }
+// }
 .pusher {
     background-image: url("../assets/images/bg-footer.jpg");
     background-repeat: no-repeat;
