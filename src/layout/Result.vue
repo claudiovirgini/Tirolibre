@@ -47,6 +47,11 @@
                 <button @click="findTeam()" class="btn"><i class="fa fa-search"></i> Cerca</button>
               </div>
             </div>
+            <button type="button" class="btn btn-light float-right btn-advanced" data-toggle="collapse" data-target="#filter-panel">
+                Più filtri
+           </button>
+
+           <div id="filter-panel" class="collapse filter-panel">
             <div class="row" id="filterPlayer" v-if="profileSelected === 0">
               <div class="col-md-4">
                 <md-field>
@@ -91,9 +96,10 @@
                 </md-field>
               </div>
               <div class="col-md-4">
-                <button @click="findPlayer()" class="btn"><i class="fa fa-search"></i> Cerca</button>
+                <button @click="findPlayer()" class="btn btn-outline-success btn-lg btn-block"><i class="fa fa-search"></i> Cerca</button>
               </div>
             </div>
+          </div>
 
               <div class="row">
                 <div class="col-md-4 mt-4" v-for="item in items" :key="item.id">
@@ -137,9 +143,11 @@
 import PictureBox from '@/components/PictureBox/PictureBox'
 import Logo from '@/components/Logo'
 import UserProfile from './UserProfile'
-import { serverBus } from '../main';
+import {
+  serverBus
+} from '../main';
 import MapAutocomplete from '@/components/GoogleMaps/MapAutocomplete'
-  import vueSlider from 'vue-slider-component'
+import vueSlider from 'vue-slider-component'
 
 
 export default {
@@ -162,19 +170,19 @@ export default {
       type: String,
     }
   },
-  data: function(){
+  data: function() {
     return {
-      radius : 100,
+      radius: 100,
       statusList: [],
       roleList: [],
       classList: [],
       categoryList: [],
       profileList: [],
       profileSelected: null,
-      roleSelected:  null,
-      classeSelected : null,
+      roleSelected: null,
+      classeSelected: null,
       categorySelected: null,
-      statusSelected : null,
+      statusSelected: null,
       playerIdSelected: 0,
       items: [],
       userProfile: false,
@@ -183,82 +191,97 @@ export default {
       _profileSelected: null
     }
   },
-    methods: {
-      updateRadius: function (amount) {
-        this.radius = this.radius + amount;
-        if ((this.radius + amount) < 0) this.radius = 0;
-        if (this.radius + amount > 100) this.radius = 1000;
-      },
-      mdSelected: function (val) {
-        //if ((this.profileSelected != null) && (this.placeSelected != null))
-        //  this.findUsers(this.profileSelected, this.placeSelected, 100);
-      },
-      setCorrectAddress: function (value) {
-        this.placeSelected = value;
-        //if ((this.profileSelected != null) && (this.placeSelected != null))
-        //   this.findUsers(this.profileSelected, this.placeSelected, 100);
-      },
-      setInvalidAddress: function () {
-
-      },
-      showProfile: function (item) {
-        this.cardResult = false
-        this.userProfile = true
-        this.playerIdSelected = item.id;
-      },
-      getImagePathForItem: function (item) {
-        return this.$store.state.configurations.imageRootUrl + item.fullpath;
+  methods: {
+    updateRadius: function(amount) {
+      this.radius = this.radius + amount;
+      if ((this.radius + amount) < 0) this.radius = 0;
+      if (this.radius + amount > 100) this.radius = 1000;
     },
-      findUsers :function(profile, address, radiusP,filterPlayer,filterTeam) {
-        serverBus.$emit('showLoading', true);
-        this.$store.dispatch('findUser', { profile: profile, radius: radiusP, place: JSON.stringify(address), playerFilter: filterPlayer, teamFilter: filterTeam }
-        ).then(res => {
-          this.items = res.data
-            serverBus.$emit('showLoading', false);
-          }).catch(error => { alert('Si è verificato un errore nella chiamata API : ' + JSON.stringify(error)); serverBus.$emit('showLoading', false); })
-      },
-      findPlayer: function () {
-//        alert('status : ' + this.statusSelected + ' - class : ' + this.classeSelected + ' - Role : ' + this.roleSelected + ' - ProfileSelected : ' + this.profileSelected + ' - categorySelected : ' + this.categorySelected)
-        let findPlayerDetails = { status: this.statusSelected, role: this.roleSelected, class: this.classeSelected, category: this.categorySelected };
-        this.findUsers(this.profileSelected, this.placeSelected, 100, findPlayerDetails,null);
-      },
-      findTeam: function () {
-        let findTeamDetails = { category: this.categorySelected };
-        this.findUsers(this.profileSelected, this.placeSelected, this.radius, null, findTeamDetails);
-      }
+    mdSelected: function(val) {
+      //if ((this.profileSelected != null) && (this.placeSelected != null))
+      //  this.findUsers(this.profileSelected, this.placeSelected, 100);
+    },
+    setCorrectAddress: function(value) {
+      this.placeSelected = value;
+      //if ((this.profileSelected != null) && (this.placeSelected != null))
+      //   this.findUsers(this.profileSelected, this.placeSelected, 100);
+    },
+    setInvalidAddress: function() {
+
+    },
+    showProfile: function(item) {
+      this.cardResult = false
+      this.userProfile = true
+      this.playerIdSelected = item.id;
+    },
+    getImagePathForItem: function(item) {
+      return this.$store.state.configurations.imageRootUrl + item.fullpath;
+    },
+    findUsers: function(profile, address, radiusP, filterPlayer, filterTeam) {
+      serverBus.$emit('showLoading', true);
+      this.$store.dispatch('findUser', {
+        profile: profile,
+        radius: radiusP,
+        place: JSON.stringify(address),
+        playerFilter: filterPlayer,
+        teamFilter: filterTeam
+      }).then(res => {
+        this.items = res.data
+        serverBus.$emit('showLoading', false);
+      }).catch(error => {
+        alert('Si è verificato un errore nella chiamata API : ' + JSON.stringify(error));
+        serverBus.$emit('showLoading', false);
+      })
+    },
+    findPlayer: function() {
+      //        alert('status : ' + this.statusSelected + ' - class : ' + this.classeSelected + ' - Role : ' + this.roleSelected + ' - ProfileSelected : ' + this.profileSelected + ' - categorySelected : ' + this.categorySelected)
+      let findPlayerDetails = {
+        status: this.statusSelected,
+        role: this.roleSelected,
+        class: this.classeSelected,
+        category: this.categorySelected
+      };
+      this.findUsers(this.profileSelected, this.placeSelected, 100, findPlayerDetails, null);
+    },
+    findTeam: function() {
+      let findTeamDetails = {
+        category: this.categorySelected
+      };
+      this.findUsers(this.profileSelected, this.placeSelected, this.radius, null, findTeamDetails);
+    }
   },
-    computed: {
-      selectedAddressString: {
-        get() {
-          if (this.placeSelected != null) return this.placeSelected.formatted_address;
-          else return null;
-        }
-      },
+  computed: {
+    selectedAddressString: {
+      get() {
+        if (this.placeSelected != null) return this.placeSelected.formatted_address;
+        else return null;
+      }
     },
+  },
 
-    created() {
-      if (this.place != null) this.placeSelected = this.place;
-      var self = this;
-      this.$store.dispatch('getCategories', {}).then(res => {
-        self.categoryList = res
-      })
-      this.$store.dispatch('getRoleList', {}).then(res => {
-        this.roleList = res
-      })
-      this.$store.dispatch('getStatus', {}).then(res => {
-        this.statusList = res;
-      })
-      this.$store.dispatch('getClassList', {}).then(res => {
-        this.classList = res;
-      })
-      this.$store.dispatch('getProfileList', {}).then(res => {
-        this.profileList = res;
-        setTimeout(function () {
-          let temp = self.profileList.filter(d => d.text === self.what);
-          self.profileSelected = temp[0].value;
-          self.findTeam();
-        }, 500);
-      })
+  created() {
+    if (this.place != null) this.placeSelected = this.place;
+    var self = this;
+    this.$store.dispatch('getCategories', {}).then(res => {
+      self.categoryList = res
+    })
+    this.$store.dispatch('getRoleList', {}).then(res => {
+      this.roleList = res
+    })
+    this.$store.dispatch('getStatus', {}).then(res => {
+      this.statusList = res;
+    })
+    this.$store.dispatch('getClassList', {}).then(res => {
+      this.classList = res;
+    })
+    this.$store.dispatch('getProfileList', {}).then(res => {
+      this.profileList = res;
+      setTimeout(function() {
+        let temp = self.profileList.filter(d => d.text === self.what);
+        self.profileSelected = temp[0].value;
+        self.findTeam();
+      }, 500);
+    })
 
   }
 }
@@ -381,6 +404,28 @@ h1 {
     }
 }
 
+.btn-advanced {
+    background-color: transparent;
+    color: #00842d;
+    font-weight: 700;
+    border: 1px solid #E4E4E4;
+}
+
+[data-toggle="collapse"]:after {
+    display: inline-block;
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    content: "\f078";
+    transform: rotate(180deg);
+    transition: all linear 0.25s;
+}
+[data-toggle="collapse"].collapsed:after {
+    transform: rotate(0deg);
+}
 /*------------------
 	Responsive
 ---------------------*/
