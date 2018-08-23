@@ -1,5 +1,8 @@
 <template>
 <header role="banner" class="masthead mb-auto">
+  <a class="navbar-brand float-left" href="#">
+    <img src="../assets/images/TiroLibreLogo_black.png" class="d-inline-block align-top" alt="TiroLibre" width="150px;">
+  </a>
   <nav class="main-nav isNotAuthenticated" v-if="!isAuthenticated">
     <ul>
       <!--<li><button type="button" v-on:click="show(true)">accedi</button></li>-->
@@ -12,8 +15,7 @@
 
     <ul>
       <li class="nav-item user">
-        <img v-bind:src="imageUrl" style="height:33px !important"/>
-        
+        <img v-bind:src="imageUrl" style="height:33px !important" />
         <router-link class="nav-link" to="/user">Benvenuto {{name}}</router-link>
       </li>
       <li class="nav-item logout">
@@ -101,11 +103,11 @@ export default {
     },
     imageUrl: {
       get() {
-       
+
         return this.$store.state.authentication.userImageUrl != null ? this.$store.state.configurations.imageRootUrl + this.$store.state.authentication.userImageUrl : 'not image';
       }
     },
-    
+
   },
   created() {
     this.$store.dispatch('fetchUser')
@@ -202,9 +204,12 @@ export default {
 
 header[role=banner] {
     position: relative;
-    height: 50px;
+    height: auto;
+    max-height: 50px;
     background: transparent;
-
+    .navbar-brand {
+        margin: 3px 0 3px 30px;
+    }
     #cd-logo {
         float: left;
         margin: 4px 0 0 5%;
@@ -241,7 +246,8 @@ header[role=banner] {
 }
 @media only screen and (min-width: 768px) {
     header[role=banner] {
-        height: 60px;
+        height: auto;
+        max-height: 60px;
         background-color: #FFF;
 
         #cd-logo {
@@ -257,8 +263,7 @@ header[role=banner] {
 
 .isAuthenticated {
     float: right;
-    margin-top: 3px;
-    margin-right: 30px;
+    margin: 3px 30px 3px 3px;
     cursor: pointer;
     li {
         display: inline-block;
@@ -275,19 +280,19 @@ header[role=banner] {
         }
     }
     li.logout {
-        background-color: #ed1a34;
+        background-color: rgba(0,0,0,.1);
         border-radius: 10px;
         &:hover {
             background-color: rgba(0,0,0,.5);
         }
         a {
-            color: #FFF;
+            color: #ed1a34;
             &:hover {
                 color: #FFF !important;
             }
         }
         i {
-            padding: 20px;
+            padding: 15px;
         }
     }
 }

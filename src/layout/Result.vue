@@ -105,35 +105,46 @@
           </div>
 
               <div class="row">
-                <div class="col-md-4 mt-4" v-for="item in items" :key="item.id">
-                  <div class="card profile-card-5">
+                <div class="col-md-4 mt-4 col-xs-6 d-flex align-items-stretch" v-for="item in items" :key="item.id">
+                  <div class="card profile-card-5" @click="showProfile(item)">
                     <div class="card-img-block">
                       <picture-box :picUrl="getImagePathForItem(item)" :picType="item.profile == 0 ? profilecard : item.profile"></picture-box>
                       <!--<img class="card-img-top" :src="getImagePathForItem(item)" alt="Card image cap">-->
                     </div>
                     <div class="card-body pt-0">
-                      <h5 class="card-title">
+                      <h3 class="card-title">
                         {{item.name }}
-                      </h5>
+                      </h3>
                       <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
                       <p class="card-text" v-if="item.Profile === 0">
                         {{ item.role }} | {{ item.age }}
                       </p>
                       <p class="card-text" v-if="item.profile === 1">
-                        {{ item.fulladdress }} | {{ item.level }}
+                        {{ item.fulladdress }}
                       </p>
-                      <div class="md-layout-item md-size-100 text-center">
+                      <p class="card-text level" v-if="item.profile === 1">
+                        <i class="fas fa-trophy"></i> {{ item.level }}
+                      </p>
+
+
+                      <!-- <div class="md-layout-item md-size-100 text-center">
                         <md-button class="md-raised md-success">
-                          <!-- <router-link class="total-btn" :to="{ name: 'Player', params: { profile: card.name }, query: {user: card.name}}"> -->
-                          <div class="total-btn" @click="showProfile(item)">
+                           <router-link class="total-btn" :to="{ name: 'Player', params: { profile: card.name }, query: {user: card.name}}">
+                           <div class="total-btn" @click="showProfile(item)">
                             Apri profilo
                           </div>
                         </md-button>
-                      </div>
+                      </div> -->
                     </div>
                   </div>
                 </div>
               </div>
+
+              <back-to-top bottom="50px" right="50px">
+                <button type="button" class="btn btn-success btn-to-top"><i class="fas fa-chevron-up"></i></button>
+              </back-to-top>
+
+
             </div>
           </div>
       </section>
@@ -439,6 +450,7 @@ h1 {
 [data-toggle="collapse"].collapsed:after {
     transform: rotate(0deg);
 }
+
 /*------------------
 	Responsive
 ---------------------*/
@@ -460,39 +472,39 @@ h1 {
     &:hover {
         box-shadow: 0 16px 24px 2px rgba(0,0,0,0.14), 0 6px 30px 5px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(0,0,0,0.3);
     }
-}
-
-.profile-card-5 .btn {
-    border-radius: 2px;
-    text-transform: uppercase;
-    font-size: 12px;
-    padding: 7px 20px;
-}
-
-.profile-card-5 .card-img-block {
-    width: 91%;
-    margin: 0 auto;
-    position: relative;
-    top: -20px;
-}
-
-.profile-card-5 .card-img-block img {
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.63);
-}
-
-.profile-card-5 h5 {
-    color: #4E5E30;
-    font-weight: 600;
-}
-
-.profile-card-5 p {
-    font-size: 14px;
-    font-weight: 300;
-}
-
-.profile-card-5 .btn-primary {
-    background-color: #4E5E30;
-    border-color: #4E5E30;
+    .btn {
+        border-radius: 2px;
+        text-transform: uppercase;
+        font-size: 12px;
+        padding: 7px 20px;
+    }
+    .btn-primary {
+        background-color: #4E5E30;
+        border-color: #4E5E30;
+    }
+    .card-img-block {
+        width: 91%;
+        margin: 0 auto;
+        position: relative;
+        top: -20px;
+        img {
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.63);
+        }
+    }
+    h3 {
+        color: #4E5E30;
+        font-weight: 700;
+        margin-top: 0;
+    }
+    p {
+        font-size: 14px;
+        font-weight: 300;
+    }
+    .card-text.level {
+        font-weight: 700;
+        color: #00842d;
+        text-transform: uppercase;
+    }
 }
 </style>

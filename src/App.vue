@@ -118,4 +118,15 @@ h1 {
   margin-bottom: 30px;
   font-size: 14px;
 }
+
+.btn-to-top {
+  width: 60px;
+  height: 60px;
+  padding: 10px 16px;
+  border-radius: 5px;
+  font-size: 22px;
+  line-height: 22px;
+  background-color: rgba(1, 14, 27, .7);
+  color: #FFF;
+}
 </style>

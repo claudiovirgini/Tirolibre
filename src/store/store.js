@@ -134,8 +134,8 @@ export const store = new Vuex.Store({
       profileList.push({ text: 'calciatore', value: 0 });
       profileList.push({ text: 'CLUB', value: 1 });
       profileList.push({ text: 'agente', value: 2 });
-      profileList.push({ text: 'allenatore', value: 3 });
-      profileList.push({ text: 'direttore Sportivo', value: 4 });
+      // profileList.push({ text: 'allenatore', value: 3 });
+      // profileList.push({ text: 'direttore Sportivo', value: 4 });
       return profileList;
     },
     makeid: function () {
@@ -154,7 +154,7 @@ export const store = new Vuex.Store({
       axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.loginUrl, data)
         .then(res => {
           //var userRead = JSON.parse(res.data.user);
-         
+
           commit('SET_AUTH', { token: res.data.access_token, userInfo: res.data.user, imageUrl: res.data.imageUrl });
           serverBus.$emit('route', 'user');
         })
