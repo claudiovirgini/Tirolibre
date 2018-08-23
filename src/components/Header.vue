@@ -12,7 +12,7 @@
 
     <ul>
       <li class="nav-item user">
-        <img v-bind:src="imageUrl" style="height:32px !important"/>
+        <img v-bind:src="imageUrl" style="height:33px !important"/>
         
         <router-link class="nav-link" to="/user">Benvenuto {{name}}</router-link>
       </li>
