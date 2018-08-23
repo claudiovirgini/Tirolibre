@@ -44,7 +44,8 @@ export default {
     vueSlider,
     MapAutocomplete
   },
-  computed: {
+    computed: {
+
     teams: {
       get() {
         return this_teams;
@@ -60,6 +61,8 @@ export default {
       },
       set(value) {
         var self = this;
+        var imgRootUrl = this.$store.configurations
+        
         this.radius = value;
         this.map.setCenter(this.actualPos)
         if (this._mapCircle != null) {
@@ -67,8 +70,10 @@ export default {
         };
         this._mapCircle = this.getCircle(this.map, value, this.actualPos)
         if (this.actualTimer != null) clearTimeout(this.actualTimer);
-        this.actualTimer = setTimeout(function() {
+        this.actualTimer = setTimeout(function () {
+
           self.findTeams();
+
         }, 800);
       }
     },
@@ -86,8 +91,11 @@ export default {
         this._map = value;
       }
     }
-  },
-  mounted() {},
+    },
+
+
+    created() {
+    },
   methods: {
     increaseAmount: function() {
       if (this.amount < 100)
@@ -99,6 +107,7 @@ export default {
     },
     findTeams: function() {
       var self = this;
+     
       if ((this.actualPos != null) && (this.amount != null)) {
         serverBus.$emit('showLoading', true);
         this.$store.dispatch('getTeamAroundPoint', {
@@ -108,6 +117,8 @@ export default {
             top: 100
           })
           .then(res => {
+            
+
             self.teams = res.data
             for (var i = 0; i < self.markers.length; i++) {
               self.markers[i].setMap(null);
@@ -118,7 +129,7 @@ export default {
                 lng: team.Longitudine
               };
               let contentString = '<div class="card" style="width: 18rem;">' +
-                '<img class="card-img-top" style="max-width: 250px; margin: 0 auto;" src="http://tirolibre.it/CDN' + team.Logo + '" alt="http://tirolibre.it/CDN' + team.Logo + '">' +
+                '<img class="card-img-top" style="max-width: 250px; margin: 0 auto;" src="' + self.$store.state.configurations.imageRootUrl+ team.Logo + '" alt="'  + team.Logo + '">' +
                 '<div class="card-body">' +
                 '<h5 class="card-title">' + team.TeamName + '</h5>' +
                 '<p class="card-text">' +
@@ -148,10 +159,10 @@ export default {
             });
             serverBus.$emit('showLoading', false);
           })
-          .catch(error => {
-            alert('Si è verificato un errore');
-            serverBus.$emit('showLoading', false);
-          })
+          //.catch(error => {
+          //  alert('Si è verificato un errore');
+          //  serverBus.$emit('showLoading', false);
+          //})
       }
     },
     setCorrectAddress: function(value) {

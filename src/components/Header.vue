@@ -12,6 +12,8 @@
 
     <ul>
       <li class="nav-item user">
+        <img v-bind:src="imageUrl" style="height:32px !important"/>
+        
         <router-link class="nav-link" to="/user">Benvenuto {{name}}</router-link>
       </li>
       <li class="nav-item logout">
@@ -97,6 +99,13 @@ export default {
         return this.$store.state.authentication.user != null ? this.$store.state.authentication.user.Name : 'not';
       }
     },
+    imageUrl: {
+      get() {
+       
+        return this.$store.state.authentication.userImageUrl != null ? this.$store.state.configurations.imageRootUrl + this.$store.state.authentication.userImageUrl : 'not image';
+      }
+    },
+    
   },
   created() {
     this.$store.dispatch('fetchUser')

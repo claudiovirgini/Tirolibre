@@ -17,8 +17,8 @@ export const store = new Vuex.Store({
     where: '',
     playerSelected: '',
     configurations: {
-      //serviceBaseUrl: 'http://localhost:61610/',
-      serviceBaseUrl: 'http://testservice.tirolibre.it',
+      serviceBaseUrl: 'http://localhost:61610/',
+      //serviceBaseUrl: 'http://testservice.tirolibre.it',
       imageRootUrl: 'http://tirolibre.it/CDN/',
       //serviceBaseUrl: 'http://testservice.tirolibre.it',
       loginUrl   : '/auth/login',
@@ -33,6 +33,7 @@ export const store = new Vuex.Store({
     authentication: {
       token: null,
       user: null,
+      userImageUrl : null,
       isAuth: false
     }
   },
@@ -45,12 +46,16 @@ export const store = new Vuex.Store({
         state.authentication.user = null;
         localStorage.removeItem('token');
         localStorage.removeItem('user');
+        localStorage.removeItem('userImageUrl');
+
         state.authentication.token = null;
       } else {
         localStorage.setItem('user', data.userInfo);
+        localStorage.setItem('userImageUrl', data.imageUrl);
         localStorage.setItem('token', data.token);
         state.authentication.isAuth = true;
         state.authentication.user = JSON.parse(data.userInfo);
+        state.authentication.userImageUrl = data.imageUrl;
         state.authentication.token = data.token;
       }
     },
@@ -149,7 +154,8 @@ export const store = new Vuex.Store({
       axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.loginUrl, data)
         .then(res => {
           //var userRead = JSON.parse(res.data.user);
-          commit('SET_AUTH', { token: res.data.access_token, userInfo: res.data.user });
+         
+          commit('SET_AUTH', { token: res.data.access_token, userInfo: res.data.user, imageUrl: res.data.imageUrl });
           serverBus.$emit('route', 'user');
         })
         .catch(error => alert(error.response.data.error_description));
@@ -166,7 +172,8 @@ export const store = new Vuex.Store({
       const token = localStorage.getItem('token');
       if (token != null) {
         var userRead = localStorage.getItem('user');
-        commit('SET_AUTH', { token: token, userInfo: userRead });
+        var imgUrlRead = localStorage.getItem('userImageUrl');
+        commit('SET_AUTH', { token: token, userInfo: userRead, imageUrl: imgUrlRead });
       }
     },
 
