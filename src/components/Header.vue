@@ -14,13 +14,15 @@
   <div class="isAuthenticated" v-if="isAuthenticated">
 
     <ul>
-      <li class="nav-item user">
+      <!-- <li class="nav-item user-img">
         <img v-bind:src="imageUrl" style="height:33px !important" />
+      </li> -->
+      <li class="nav-item user">
         <router-link class="nav-link" to="/user">Benvenuto {{name}}</router-link>
       </li>
-      <li class="nav-item logout">
+      <!-- <li class="nav-item logout">
         <a class="cd-signup" v-on:click="logout()" title="Logout"><i class="fas fa-power-off"></i></a>
-      </li>
+      </li> -->
     </ul>
   </div>
   <!--<md-dialog :md-active.sync="showDialog">
@@ -274,7 +276,7 @@ header[role=banner] {
         height: auto;
         line-height: normal;
         background: transparent;
-        border-top: 1px solid #3b3d4b;
+        // border-top: 1px solid #3b3d4b;
         a {
             color: rgba(0,0,0,.5)!important;
         }

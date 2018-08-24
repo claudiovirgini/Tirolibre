@@ -28,9 +28,15 @@
       <md-icon>notifications</md-icon>
       <p>Notifications</p>
     </sidebar-link> -->
-    <sidebar-link to="/upgrade" class="active-pro">
+    <sidebar-link to="/upgrade" class="">
       <md-icon>unarchive</md-icon>
       <p>Upgrade to PRO</p>
+    </sidebar-link>
+    <sidebar-link to="/" class="active-pro">
+      <!-- <li class="nav-item logout active-pro"> -->
+      <md-icon>power_settings_new</md-icon>
+      <p v-on:click="logout()" class="text-uppercase">Logout</p>
+      <!-- <a class="cd-signup" v-on:click="logout()" title="Logout"><i class="fas fa-power-off"></i> Logout</a> -->
     </sidebar-link>
   </side-bar>
 
@@ -62,6 +68,12 @@ export default {
     DashboardContent,
     ContentFooter,
     MobileMenu
+  },
+  methods: {
+    logout: function() {
+      this.$store.dispatch('logout')
+      this.$router.push('/')
+    }
   }
 }
 </script>
