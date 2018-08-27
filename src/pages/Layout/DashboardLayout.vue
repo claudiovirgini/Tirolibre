@@ -20,6 +20,10 @@
       <md-icon>import_export</md-icon>
       <p>Market</p>
     </sidebar-link>
+    <sidebar-link to="/portfolio">
+      <md-icon>supervised_user_circle</md-icon>
+      <p>Portfolio</p>
+    </sidebar-link>
     <!-- <sidebar-link to="/premium">
       <md-icon>local_grocery_store</md-icon>
       <p>Passa a Premium</p>

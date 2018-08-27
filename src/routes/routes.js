@@ -4,6 +4,7 @@ import Dashboard from '@/pages/Dashboard.vue'
 import UserProfile from '@/pages/UserProfile.vue'
 import Maps from '@/pages/Maps.vue'
 import Market from '@/pages/Market.vue'
+import Portfolio from '@/pages/Portfolio.vue'
 
 import UpgradeToPRO from '@/pages/UpgradeToPRO.vue'
 
@@ -70,6 +71,15 @@ const routes = [
           hideFooter: true
         },
         component: Market
+
+      },
+      {
+        path: 'portfolio',
+        name: 'Portfolio',
+        meta: {
+          hideFooter: true
+        },
+        component: Portfolio
 
       },
       {

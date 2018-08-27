@@ -1,0 +1,56 @@
+[
+  {
+    "id": 1,
+    "name": "Pippo Franco",
+    "fullpath": "https://www.teatro.it/images/articles/237/main-image/Pippo-franco-intervista.jpg",
+    "role": "Bomber",
+    "team": "Cassino",
+    "level": "SerieD",
+    "age": 20
+  },
+  {
+    "id": 2,
+    "name": "Umberto Smaila",
+    "fullpath": "http://www.adnkronos.com/rf/image_size_1280x960/Pub/AdnKronos/Assets/Immagini/fotogallery/smaila%20-%20Copia/Sigaro%20-%20Vanity%202008.jpg",
+    "role": "SuperBomber",
+    "team": "Cassino",
+    "level": "SerieD",
+    "age": 20
+  },
+  {
+    "id": 3,
+    "name": "Jerry Calà",
+    "fullpath": "https://www.ticketone.it/obj/media/IT-eventim/galery/222x222/j/jerry-cala-biglietti.jpg",
+    "role": "Bomber",
+    "team": "Cassino",
+    "level": "SerieD",
+    "age": 20
+  },
+  {
+    "id": 4,
+    "name": "Paolo Vullo",
+    "fullpath": "https://media.licdn.com/dms/image/C5603AQEkaWQ85Q1KtQ/profile-displayphoto-shrink_200_200/0?e=1538611200&v=beta&t=MkRLMBglZ7tZGDF1o6kUO1JxmtuH6L_kOtxt2YapxsM",
+    "role": "Audiomessaggiatore",
+    "team": "Cassino",
+    "level": "SerieD",
+    "age": 20
+  },
+  {
+    "id": 5,
+    "name": "Loris Batacchi",
+    "fullpath": "https://pbs.twimg.com/profile_images/502409323717615616/cwojDzz9_400x400.jpeg",
+    "role": "Bomber",
+    "team": "Cassino",
+    "level": "SerieD",
+    "age": 20
+  },
+  {
+    "id": 5,
+    "name": "Pasquale Ametrano",
+    "fullpath": "https://pbs.twimg.com/profile_images/1865469597/Pasquale_Ametrano_400x400.jpg",
+    "role": "Bomber",
+    "team": "Cassino",
+    "level": "SerieD",
+    "age": 20
+  }
+]
