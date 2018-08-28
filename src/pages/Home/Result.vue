@@ -156,10 +156,10 @@
 <script>
 import PictureBox from '@/components/PictureBox/PictureBox'
 import Logo from '@/components/Logo'
-import UserProfile from './UserProfile'
+  import UserProfile from '@/pages/UserProfile/PlayerProfileView.vue'
 import {
   serverBus
-} from '../main';
+} from '@/main';
 import MapAutocomplete from '@/components/GoogleMaps/MapAutocomplete'
 import vueSlider from 'vue-slider-component'
 
@@ -315,7 +315,7 @@ export default {
 //     }
 // }
 .pusher {
-    background-image: url("../assets/images/bg-footer.jpg");
+    background-image: url("/assets/images/bg-footer.jpg");
     background-repeat: no-repeat;
     background-position: 50% 300px;
     background-size: cover;
@@ -326,7 +326,7 @@ export default {
     // background-color: #d7e5e8;
     background-color: #FFF;
     // background-image: url("https://www.higuests.com/assets/images/alfred_001.png");
-    background-image: url("../assets/images/logo-footer.png");
+    background-image: url("/assets/images/logo-footer.png");
     background-repeat: no-repeat;
     background-position: 50% 110%;
     background-size: 200px auto;

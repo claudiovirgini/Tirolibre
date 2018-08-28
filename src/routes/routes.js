@@ -1,19 +1,21 @@
-import DashboardLayout from '@/pages/Layout/DashboardLayout.vue'
+import DashboardLayout from '@/components/Dashboard/DashboardLayout.vue'
 
-import Dashboard from '@/pages/Dashboard.vue'
-import UserProfile from '@/pages/UserProfile.vue'
-import Maps from '@/pages/Maps.vue'
-import Market from '@/pages/Market.vue'
-import Portfolio from '@/pages/Portfolio.vue'
+//                       Player Profile                                           //
+import PlayerProfileManager from '@/pages/UserProfile/PlayerProfileManager.vue'
+import PlayerMaps from '@/pages/UserProfile/PlayerMaps.vue'
+import PlayerMarket from '@/pages/UserProfile/PlayerMarket.vue'
+import PlayerProfileView from '@/pages/UserProfile/PlayerProfileView.vue'
+import UpgradeToPRO from '@/pages/UserProfile/UpgradeToPRO.vue'
+//                       END Player Profile                                       //
 
-import UpgradeToPRO from '@/pages/UpgradeToPRO.vue'
 
 
-import HomeView from '@/layout/Home'
-import ResultView from '@/layout/Result'
-import WelcomeView from '@/layout/Welcome'
-import UserProfileView from '@/layout/UserProfile'
+import Portfolio from '@/pages/AgentProfile/Portfolio.vue'
 
+
+import HomeView from '@/pages/Home/Home.vue'
+import ResultView from '@/pages/Home/Result'
+import WelcomeView from '@/pages/Welcome'
 
 const routes = [
   {
@@ -30,15 +32,14 @@ const routes = [
     path: '/result',
     name: 'Result',
     component: ResultView,
-    // Inject  props based on route.query values (our query parameters!)
     props: (route) => ({
         player: route.query.name
     })
   },
   {
-    path: '/userProfile',
-    name: 'UserProfile',
-    component: UserProfileView
+    path: '/playerProfile',
+    name: 'PlayerProfile',
+    component: PlayerProfileView
   },
   {
     path: '/',
@@ -46,14 +47,9 @@ const routes = [
     redirect: '/dashboard',
     children: [
       {
-        path: 'dashboard',
-        name: 'Dashboard',
-        component: Dashboard
-      },
-      {
-        path: 'user',
-        name: 'User Profile',
-        component: UserProfile
+        path: 'player',
+        name: 'Player Profile',
+        component: PlayerProfileManager
       },
       {
         path: 'maps',
@@ -61,7 +57,7 @@ const routes = [
         meta: {
           hideFooter: true
         },
-        component: Maps
+        component: PlayerMaps
 
       },
       {
@@ -70,7 +66,7 @@ const routes = [
         meta: {
           hideFooter: true
         },
-        component: Market
+        component: PlayerMarket
 
       },
       {

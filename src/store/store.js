@@ -17,8 +17,8 @@ export const store = new Vuex.Store({
     where: '',
     playerSelected: '',
     configurations: {
-      serviceBaseUrl: 'http://localhost:61610/',
-      //serviceBaseUrl: 'http://testservice.tirolibre.it',
+      //serviceBaseUrl: 'http://localhost:61610/',
+      serviceBaseUrl: 'http://testservice.tirolibre.it',
       imageRootUrl: 'http://tirolibre.it/CDN/',
       //serviceBaseUrl: 'http://testservice.tirolibre.it',
       loginUrl   : '/auth/login',

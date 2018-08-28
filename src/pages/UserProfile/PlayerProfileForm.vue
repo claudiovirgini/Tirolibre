@@ -113,8 +113,8 @@
   import { serverBus } from '@/main';
 
 import MapAutocomplete from '@/components/GoogleMaps/MapAutocomplete'
-export default {
-    name: 'edit-profile-form',
+  export default {
+    name: 'PlayerProfileForm',
     components: {
       MapAutocomplete
     },

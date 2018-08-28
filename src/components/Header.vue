@@ -18,7 +18,7 @@
         <img v-bind:src="imageUrl" style="height:33px !important" />
       </li> -->
       <li class="nav-item user">
-        <router-link class="nav-link" to="/user">Benvenuto {{name}}</router-link>
+        <router-link class="nav-link" to="/player">Benvenuto {{name}}</router-link>
       </li>
       <!-- <li class="nav-item logout">
         <a class="cd-signup" v-on:click="logout()" title="Logout"><i class="fas fa-power-off"></i></a>
@@ -126,7 +126,7 @@ export default {
       this.$router.push('/')
     },
     goToProfile: function() {
-      this.$router.go('/user')
+      this.$router.go('/player')
     }
   }
 }

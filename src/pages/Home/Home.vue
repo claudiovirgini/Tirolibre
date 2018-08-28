@@ -81,7 +81,7 @@
 <script>
 import axios from 'axios'
 import Logo from '@/components/Logo'
-import Result from './Result'
+import Result from '@/pages/Home/Result.vue'
 import MapAutocomplete from '@/components/GoogleMaps/MapAutocomplete'
 import {
   fail
@@ -191,7 +191,7 @@ export default {
 }
 
 .pusher {
-    background-image: url("../assets/images/bg-footer.jpg");
+    background-image: url("/assets/images/bg-footer.jpg");
     background-repeat: no-repeat;
     background-position: 50% 300px;
     background-size: cover;
@@ -202,7 +202,7 @@ export default {
     // background-color: #d7e5e8;
     background-color: #FFF;
     // background-image: url("https://www.higuests.com/assets/images/alfred_001.png");
-    background-image: url("../assets/images/logo-footer.png");
+    background-image: url("/assets/images/logo-footer.png");
     background-repeat: no-repeat;
     background-position: 50% 110%;
     background-size: 200px auto;
@@ -294,21 +294,21 @@ export default {
     .switch-content.player {
         label {
             &:before {
-                background-image: url("../assets/images/player.png");
+                background-image: url("/assets/images/player.png");
             }
         }
     }
     .switch-content.club {
         label {
             &:before {
-                background-image: url("../assets/images/club.png");
+                background-image: url("/assets/images/club.png");
             }
         }
     }
     .switch-content.agent {
         label {
             &:before {
-                background-image: url("../assets/images/agent.png");
+                background-image: url("/assets/images/agent.png");
             }
         }
     }
@@ -350,21 +350,21 @@ export default {
     .switch-content.player {
         label {
             &:before {
-                background-image: url("../assets/images/player.png");
+                background-image: url("/assets/images/player.png");
             }
         }
     }
     .switch-content.club {
         label {
             &:before {
-                background-image: url("../assets/images/club.png");
+                background-image: url("/assets/images/club.png");
             }
         }
     }
     .switch-content.agent {
         label {
             &:before {
-                background-image: url("../assets/images/agent.png");
+                background-image: url("/assets/images/agent.png");
             }
         }
     }

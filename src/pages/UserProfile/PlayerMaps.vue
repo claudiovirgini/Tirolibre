@@ -19,12 +19,13 @@
 <script>
 import vueSlider from 'vue-slider-component'
 import MapAutocomplete from '@/components/GoogleMaps/MapAutocomplete'
-import axios from 'axios'
+//import axios from 'axios'
 import {
   serverBus
-} from '../main';
+} from '../../main';
 
-export default {
+  export default {
+  name: 'PlayerMaps',
   data() {
     return {
       city: '',

@@ -15,13 +15,13 @@
 </template>
 
 <script>
-
-import UserCard from './UserProfile/UserCard'
-import UserInfo from './UserProfile/UserInfo'
-import { serverBus } from '../main';
+  
+import UserCard from '@/pages/UserProfile/PlayerProfileViewCard.vue'
+  import UserInfo from '@/pages/UserProfile/PlayerProfileViewForm.vue'
+import { serverBus } from '@/main';
 
 export default {
-  name: 'userProfile',
+  name: 'PlayerProfileView',
   components: {
     UserCard,
     UserInfo

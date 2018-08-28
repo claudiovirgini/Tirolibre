@@ -3,12 +3,12 @@
   <notifications></notifications>
 
   <side-bar>
-    <mobile-menu slot="content"></mobile-menu>
+    <!--<mobile-menu slot="content"></mobile-menu>-->
     <!-- <sidebar-link to="/dashboard">
       <md-icon>dashboard</md-icon>
       <p>Dashboard</p>
     </sidebar-link> -->
-    <sidebar-link to="/user">
+    <sidebar-link to="/player">
       <md-icon>person</md-icon>
       <p>User Profile</p>
     </sidebar-link>
@@ -46,10 +46,12 @@
 
   <div class="main-panel">
     <top-navbar></top-navbar>
+    <transition name="fade" mode="out-in">
+      <router-view></router-view>
+    </transition>
+    <!--<dashboard-content>
 
-    <dashboard-content>
-
-    </dashboard-content>
+    </dashboard-content>-->
 
     <!-- <content-footer v-if="!$route.meta.hideFooter"></content-footer> -->
   </div>
@@ -60,18 +62,30 @@
     color: #FFF;
 }
 </style>
+<style>
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity .1s
+  }
+
+  .fade-enter,
+  .fade-leave-to
+  /* .fade-leave-active in <2.1.8 */ {
+    opacity: 0
+  }
+</style>
 <script>
-import TopNavbar from './TopNavbar.vue'
-import ContentFooter from './ContentFooter.vue'
-import DashboardContent from './Content.vue'
-import MobileMenu from '@/pages/Layout/MobileMenu.vue'
+  import TopNavbar from '@/components/Dashboard/TopNavbar.vue'
+//import ContentFooter from './ContentFooter.vue'
+//import DashboardContent from './Content.vue'
+//import MobileMenu from '@/components/Dashboard/MobileMenu.vue'
 
 export default {
   components: {
     TopNavbar,
-    DashboardContent,
-    ContentFooter,
-    MobileMenu
+    //DashboardContent,
+    //ContentFooter,
+    //MobileMenu
   },
   methods: {
     logout: function() {

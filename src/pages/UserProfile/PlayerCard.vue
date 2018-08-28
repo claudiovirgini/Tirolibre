@@ -32,8 +32,8 @@
 </template>
 <script>
   import PictureBox from '@/components/PictureBox/PictureBox'
-export default {
-    name: 'edit-profile-form',
+  export default {
+    name: 'PlayerCard',
     components: {
       PictureBox
     },

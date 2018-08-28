@@ -2,32 +2,30 @@
   <div class="content">
     <div class="md-layout">
       <div class="md-layout-item md-medium-size-100 md-size-66">
-        <edit-profile-form data-background-color="green"  :playerdata="playerdata" v-if="profileLoaded">
+        <player-profile-form data-background-color="green"  :playerdata="playerdata" v-if="profileLoaded">
 
-        </edit-profile-form>
+        </player-profile-form>
       </div>
       <div class="md-layout-item md-medium-size-100 md-size-33">
-        <user-card   :playerdata="playerdata" v-if="profileLoaded">
+        <player-card   :playerdata="playerdata" v-if="profileLoaded">
 
-        </user-card>
+        </player-card>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import {
-  EditProfileForm,
-  UserCard
-} from '@/pages'
-  import { serverBus } from '../main';
+import PlayerProfileForm from '@/pages/UserProfile/PlayerProfileForm.vue'
+import PlayerCard from '@/pages/UserProfile/PlayerCard.vue'
+  import { serverBus } from '@/main';
 
   export default {
     components: {
-      EditProfileForm,
-      UserCard
+      PlayerProfileForm,
+      PlayerCard
     },
-    name: 'UserProfile',
+    name: 'PlayerProfileManager',
     data() {
       return {
         playerdata: {},
