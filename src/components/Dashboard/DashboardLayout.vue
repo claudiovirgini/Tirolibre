@@ -5,34 +5,38 @@
   <side-bar>
     <!--<mobile-menu slot="content"></mobile-menu>-->
     <!-- <sidebar-link to="/dashboard">
-      <md-icon>dashboard</md-icon>
-      <p>Dashboard</p>
-    </sidebar-link> -->
-    <sidebar-link to="/player">
+    <md-icon>dashboard</md-icon>
+    <p>Dashboard</p>
+  </sidebar-link> -->
+    <sidebar-link to="/agent"  v-if="isAgentProfile">
       <md-icon>person</md-icon>
-      <p>User Profile</p>
+      <p>Agent Profile</p>
     </sidebar-link>
-    <sidebar-link to="/maps">
+    <sidebar-link to="/player" v-if="isPlayerProfile">
+      <md-icon>person</md-icon>
+      <p>Player Profile</p>
+    </sidebar-link>
+    <sidebar-link to="/maps" v-if="isPlayerProfile">
       <md-icon>location_on</md-icon>
       <p>Maps</p>
     </sidebar-link>
-    <sidebar-link to="/market">
+    <sidebar-link to="/market" v-if="isPlayerProfile">
       <md-icon>import_export</md-icon>
       <p>Market</p>
     </sidebar-link>
-    <sidebar-link to="/portfolio">
+    <sidebar-link to="/portfolio" v-if="isAgentProfile">
       <md-icon>supervised_user_circle</md-icon>
       <p>Portfolio</p>
     </sidebar-link>
     <!-- <sidebar-link to="/premium">
-      <md-icon>local_grocery_store</md-icon>
-      <p>Passa a Premium</p>
-    </sidebar-link> -->
+    <md-icon>local_grocery_store</md-icon>
+    <p>Passa a Premium</p>
+  </sidebar-link> -->
     <!-- <sidebar-link to="/notifications">
-      <md-icon>notifications</md-icon>
-      <p>Notifications</p>
-    </sidebar-link> -->
-    <sidebar-link to="/upgrade" class="">
+    <md-icon>notifications</md-icon>
+    <p>Notifications</p>
+  </sidebar-link> -->
+    <sidebar-link to="/upgrade" class="" v-if="isPlayerProfile">
       <md-icon>unarchive</md-icon>
       <p>Upgrade to PRO</p>
     </sidebar-link>
@@ -49,11 +53,6 @@
     <transition name="fade" mode="out-in">
       <router-view></router-view>
     </transition>
-    <!--<dashboard-content>
-
-    </dashboard-content>-->
-
-    <!-- <content-footer v-if="!$route.meta.hideFooter"></content-footer> -->
   </div>
 </div>
 </template>
@@ -86,6 +85,19 @@ export default {
     //DashboardContent,
     //ContentFooter,
     //MobileMenu
+    },
+    data() {
+      return {
+        isPlayerProfile: false,
+        isTeamProfile: false,
+        isAgentProfile: false,
+      }
+    },
+    created() {
+      var profile = this.$store.state.authentication.user.Profile;
+      if (profile == 0) this.isPlayerProfile = true;
+      if (profile == 1) this.isTeamProfile = true;
+      if (profile == 2) this.isAgentProfile = true;
   },
   methods: {
     logout: function() {

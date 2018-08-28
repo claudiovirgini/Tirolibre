@@ -17,8 +17,9 @@
       <!-- <li class="nav-item user-img">
         <img v-bind:src="imageUrl" style="height:33px !important" />
       </li> -->
-      <li class="nav-item user">
-        <router-link class="nav-link" to="/player">Benvenuto {{name}}</router-link>
+      <li class="nav-item user"  @click="goToProfile()">
+        <label >Benvenuto {{name}}</label>
+        <!--<router-link class="nav-link" @click="goToProfile()">Benvenuto {{name}}</router-link>-->
       </li>
       <!-- <li class="nav-item logout">
         <a class="cd-signup" v-on:click="logout()" title="Logout"><i class="fas fa-power-off"></i></a>
@@ -125,8 +126,11 @@ export default {
       this.$store.dispatch('logout')
       this.$router.push('/')
     },
-    goToProfile: function() {
-      this.$router.go('/player')
+    goToProfile: function () {
+      var actualProfile = this.$store.state.authentication.user.Profile;
+      if (actualProfile == 0) this.$router.push('/player')
+      if (actualProfile == 1) this.$router.push('/team')
+      if (actualProfile == 2) this.$router.push('/agent')
     }
   }
 }

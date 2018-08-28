@@ -23,7 +23,7 @@
             <p class="hidden-lg hidden-md">Dashboard</p>
           </md-list-item> -->
 
-          <md-list-item to="/user">
+          <md-list-item to="/player">
             <i class="material-icons">person</i>
             <p class="hidden-lg hidden-md">Profile</p>
           </md-list-item>

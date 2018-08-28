@@ -9,7 +9,7 @@ import UpgradeToPRO from '@/pages/UserProfile/UpgradeToPRO.vue'
 //                       END Player Profile                                       //
 
 
-
+import AgentProfileManager from '@/pages/AgentProfile/AgentProfileManager.vue'
 import Portfolio from '@/pages/AgentProfile/Portfolio.vue'
 
 
@@ -46,6 +46,11 @@ const routes = [
     component: DashboardLayout,
     redirect: '/dashboard',
     children: [
+      {
+        path: 'agent',
+        name: 'Agent Profile',
+        component: AgentProfileManager
+      },
       {
         path: 'player',
         name: 'Player Profile',
