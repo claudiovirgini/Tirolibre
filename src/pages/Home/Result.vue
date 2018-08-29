@@ -108,7 +108,7 @@
                 <div class="col-md-4 mt-4 col-xs-6 d-flex align-items-stretch" v-for="item in items" :key="item.id">
                   <div class="card profile-card-5" @click="showProfile(item)">
                     <div class="card-img-block">
-                      <picture-box :picUrl="getImagePathForItem(item)" :picType="item.profile == 0 ? profilecard : item.profile"></picture-box>
+                      <picture-box :picUrl="getImagePathForItem(item)" :picType="item.profile"></picture-box>
                       <!--<img class="card-img-top" :src="getImagePathForItem(item)" alt="Card image cap">-->
                     </div>
                     <div class="card-body pt-0">
