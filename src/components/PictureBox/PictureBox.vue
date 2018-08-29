@@ -1,5 +1,5 @@
 <template>
-<img :src="picUrl" class="img-thumbnail" v-bind:class="{ 'imgDefaultPlayer': isDefaultPlayer,'imgDefaultTeam':isDefaulTeam,'imgDefaultCardPlayer':isDefaulCardPlayer  }" @error="imageLoadError" />
+<img :src="picUrl" class="img-thumbnail" v-bind:class="{ 'imgDefaultPlayer': isDefaultPlayer,'imgDefaultTeam':isDefaulTeam,'imgDefaultAgent':isDefaultAgent,'imgDefaultCardPlayer':isDefaulCardPlayer  }" @error="imageLoadError" />
 </template>
 
 <script>
@@ -15,6 +15,7 @@ export default {
   },
   data() {
     return {
+      isDefaultAgent: false,
       isDefaultPlayer: false,
       isDefaulCardPlayer: false,
       isDefaulTeam: false,
@@ -38,6 +39,8 @@ export default {
         this.isDefaulCardPlayer = true;
       if (this.picType === 1) //team
         this.isDefaulTeam = true;
+      if (this.picType === 2) //team
+        this.isDefaultAgent = true;
     }
   },
   mounted() {
@@ -72,4 +75,7 @@ export default {
 .imgDefaultTeam {
   content: url("../../assets/img/vue-logo.png");
 }
+  .imgDefaultAgent {
+    content: url("../../assets/img/defaultFace.jpg");
+  }
 </style>

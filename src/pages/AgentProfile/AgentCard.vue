@@ -14,13 +14,13 @@
           <div class="col-lg-6">
             <h5>
                 Ruolo
-                <br><small>{{ role }}</small>
+                <!--<br><small>{{ role }}</small>-->
               </h5>
           </div>
           <div class="col-lg-6">
             <h5>
                 Classe
-                <br><small>{{ yearClass }}</small>
+                <!--<br><small>{{ yearClass }}</small>-->
               </h5>
           </div>
         </div>
@@ -38,7 +38,7 @@
       PictureBox
     },
     props: {
-    playerdata: {
+    agentdata: {
       type: Object
     }
   },
@@ -53,43 +53,26 @@
     computed: {
       profile: {
         get() {
-          return  (this.playerdata != null) ? this.playerdata.Profile : -1;
+          return (this.agentdata != null) ? this.agentdata.Profile : -1;
         }
       },
     name: {
       get() {
-        return this.playerdata != null ? this.playerdata.Name : '';
+        return this.agentdata != null ? this.agentdata.Name : '';
       }
     },
     surname: {
       get() {
-        return this.playerdata != null ? this.playerdata.Surname : '';
+        return this.agentdata != null ? this.agentdata.Surname : '';
       }
     },
     imagefile: {
       get() {
-        return this.playerdata != null && this.playerdata.FilePlayerImage != null ?
-          this.$store.state.configurations.imageRootUrl + this.playerdata.FilePlayerImage :
-          '@/src/assets/img/faces/marc.jpg';
+        return this.agentdata != null && this.agentdata.FileAgentImage != null ?
+          this.$store.state.configurations.imageRootUrl + this.agentdata.FileAgentImage : '@/src/assets/img/faces/marc.jpg';
       }
     },
-    role: {
-      get() {
-        return this.playerdata != null && this.playerdata.Roles != null && this.playerdata.Roles.length > 0 ? this.playerdata.Roles[0].RoleName : '';
-      }
-    },
-    yearClass: {
-      get() {
-        var returned = 'not available'
-        if (this.playerdata != null && this.playerdata.BornDate) {
-          var temp = new Date(this.playerdata.BornDate);
-          returned = temp.getFullYear()
-        }
-        return returned;
-      }
-    }
   }
-
 }
 </script>
 <style>

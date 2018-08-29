@@ -27,6 +27,13 @@ export const store = new Vuex.Store({
       savePlayerInfoUrl: '/api/Player/SavePlayerInfo',
       getTeamAroundPoint: '/api/Player/GetTeamsAroundPoint',
       FindUserUrl: '/api/Player/FindUser',
+
+      getAgentInfoUrl   : '/api/Agent/GetAgentInfo',
+      saveAgentInfoUrl: '/api/Agent/SaveAgentInfo',
+      addOrUpdateAgentPlayeroUrl: '/api/Agent/AddOrUpdateAgentPlayer',
+      deleteeAgentPlayerUrl  : '/api/Agent/DeleteeAgentPlayer',
+
+
       environment: 1
 
     },
@@ -186,11 +193,30 @@ export const store = new Vuex.Store({
       const data = { Latitudine: params.lat, Longitudine: params.lng, Radius: params.rad, Top: params.top  }
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getTeamAroundPoint,data);
     },
-
     savePlayerProfile({ commit, state }, player) {
       const data = { Player: player }
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.savePlayerInfoUrl, data);
     },
+
+
+    getAgentProfile({ commit, state }, agentId) {
+      const data = { AgentId: agentId }
+      return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getAgentInfoUrl, data);
+    },
+    saveAgentProfile({ commit, state }, agent) {
+      const data = { Agent: agent }
+      return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.saveAgentInfoUrl, data);
+    },
+    addOrUpdateAgentPlayer({ commit, state }, agentId,player) {
+      const data = { Agent: agentId, Player: player}
+      return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.addOrUpdateAgentPlayeroUrl, data);
+    },
+    deletePlayerAgent({ commit, state }, playerId) {
+      const data = { AgentPlayerId: playerId }
+      return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.deleteeAgentPlayerUrl, data);
+    },
+
+
 
     findUser({ commit, state }, param) {
       let playerDetails = { Role: null, Category: null, Class: null, Status: null };
