@@ -294,21 +294,21 @@ export default {
     .switch-content.player {
         label {
             &:before {
-                background-image: url("/assets/images/player.png");
+                background-image: url("../../assets/images/player.png");
             }
         }
     }
     .switch-content.club {
         label {
             &:before {
-                background-image: url("/assets/images/club.png");
+                background-image: url("../../assets/images/club.png");
             }
         }
     }
     .switch-content.agent {
         label {
             &:before {
-                background-image: url("/assets/images/agent.png");
+                background-image: url("../../assets/images/agent.png");
             }
         }
     }
@@ -350,21 +350,21 @@ export default {
     .switch-content.player {
         label {
             &:before {
-                background-image: url("/assets/images/player.png");
+                background-image: url("../../assets/images/player.png");
             }
         }
     }
     .switch-content.club {
         label {
             &:before {
-                background-image: url("/assets/images/club.png");
+                background-image: url("../../assets/images/club.png");
             }
         }
     }
     .switch-content.agent {
         label {
             &:before {
-                background-image: url("/assets/images/agent.png");
+                background-image: url("../../assets/images/agent.png");
             }
         }
     }
