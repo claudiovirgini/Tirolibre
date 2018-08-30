@@ -30,7 +30,8 @@ export default {
     }
   },
   methods: {
-    imageLoadError: function() {
+    imageLoadError: function () {
+      
       this.isDefaultPlayer = false;
       this.isDefaulTeam = false;
       if (this.picType === 0) //calciatore
@@ -43,7 +44,7 @@ export default {
         this.isDefaultAgent = true;
     }
   },
-  mounted() {
+    mounted() {
     //this.isDefaultPlayer = true;
     //alert(require('~src/assets/img/faces/marc.jpg'))
     //if (this.$store.state.authentication.user == null)

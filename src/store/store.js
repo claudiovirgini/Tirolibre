@@ -28,8 +28,10 @@ export const store = new Vuex.Store({
       getTeamAroundPoint: '/api/Player/GetTeamsAroundPoint',
       FindUserUrl: '/api/Player/FindUser',
 
-      getAgentInfoUrl   : '/api/Agent/GetAgentInfo',
+      getAgentInfoUrl: '/api/Agent/GetAgentInfo',
+      getAgentPlayerListUrl: '/api/Agent/GetAgentPlayerList',
       saveAgentInfoUrl: '/api/Agent/SaveAgentInfo',
+      getPlayerAgentInfoUrl: '/api/Agent/GetPlayerAgentInfo',
       addOrUpdateAgentPlayeroUrl: '/api/Agent/AddOrUpdateAgentPlayer',
       deleteeAgentPlayerUrl  : '/api/Agent/DeleteeAgentPlayer',
 
@@ -203,12 +205,16 @@ export const store = new Vuex.Store({
       const data = { AgentId: agentId }
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getAgentInfoUrl, data);
     },
+    getPlayerAgentProfile({ commit, state }, playerId) {
+      const data = { PlayerId: playerId }
+      return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getPlayerAgentInfoUrl, data);
+    },
     saveAgentProfile({ commit, state }, agent) {
       const data = { Agent: agent }
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.saveAgentInfoUrl, data);
     },
-    addOrUpdateAgentPlayer({ commit, state }, agentId,player) {
-      const data = { Agent: agentId, Player: player}
+    addOrUpdateAgentPlayer({ commit, state }, params) {
+      const data = { AgentId: params.agentId, Player: params.player}
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.addOrUpdateAgentPlayeroUrl, data);
     },
     deletePlayerAgent({ commit, state }, playerId) {
@@ -216,7 +222,10 @@ export const store = new Vuex.Store({
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.deleteeAgentPlayerUrl, data);
     },
 
-
+    getAgentPlayerList({ commit, state }, agentId) {
+      const data = { AgentId: agentId }
+      return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getAgentPlayerListUrl, data);
+    },
 
     findUser({ commit, state }, param) {
       let playerDetails = { Role: null, Category: null, Class: null, Status: null };

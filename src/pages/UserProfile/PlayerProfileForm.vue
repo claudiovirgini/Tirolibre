@@ -328,6 +328,4 @@ import MapAutocomplete from '@/components/GoogleMaps/MapAutocomplete'
 
 }
 </script>
-<style>
 
-</style>
