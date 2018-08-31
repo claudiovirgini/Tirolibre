@@ -1,65 +1,71 @@
 <template lang="html">
 
   <div class="container">
+    <md-dialog-confirm :md-active.sync="showConfirmDelete"
+                       md-title="Cancellazione Giocatore"
+                       md-content="Attenzione! cancellando il giocatore dal tuo portafoglio non potrai più recuperarlo"
+                       md-confirm-text="OK"
+                       md-cancel-text="Annulla"
+                       @md-cancel="onCancelDelete"
+                       @md-confirm="onConfirmDelete" />
     <md-dialog :md-active.sync="showDialog" c>
-        <md-dialog-title>
-          <div>
-            <div style="float:left">
-              Gestione calciatore
-            </div>
-            <div style="float:right">
-              <a href="#" class="close" @click="showDialog = false"/>
-                </div>
+      <md-dialog-title>
+        <div>
+          <div style="float:left">
+            Gestione calciatore
           </div>
+          <div style="float:right">
+            <a href="#" class="close" @click="showDialog = false" />
+          </div>
+        </div>
 
-        </md-dialog-title>
+      </md-dialog-title>
 
-          <agent-player-profile-form :playerId="selectedPlayerId" />
-        <!-- <md-tabs md-dynamic-height>
-          <md-tab md-label="Info">
-            <agent-player-profile-form :playerId="selectedPlayerId" />
-          </md-tab>
+      <agent-player-profile-form :playerId="selectedPlayerId" />
+      <!-- <md-tabs md-dynamic-height>
+      <md-tab md-label="Info">
+        <agent-player-profile-form :playerId="selectedPlayerId" />
+      </md-tab>
 
-        </md-tabs> -->
-
-        <!--<md-dialog-actions>
-          <md-button class="md-primary" @click="showDialog = false">Close</md-button>
-          <md-button class="md-primary" @click="showDialog = false">Save</md-button>
-        </md-dialog-actions>-->
+    </md-tabs> -->
+      <!--<md-dialog-actions>
+      <md-button class="md-primary" @click="showDialog = false">Close</md-button>
+      <md-button class="md-primary" @click="showDialog = false">Save</md-button>
+    </md-dialog-actions>-->
     </md-dialog>
 
     <div class="row row-eq-height">
       <div class="col">
         <md-card md-with-hover>
 
-        <md-card-content>
-          <md-button class="md-icon-button md-raised md-primary md-fab" @click="AddNewPlayer">
-            <md-icon>add</md-icon>
-          </md-button>
-          <p>
-            Aggiungi
-          </p>
-    </md-card-content>
+          <md-card-content>
+            <md-button class="md-icon-button md-raised md-primary md-fab" @click="AddNewPlayer">
+              <md-icon>add</md-icon>
+            </md-button>
+            <p>
+              Aggiungi
+            </p>
+          </md-card-content>
 
         </md-card>
       </div>
 
       <div class="col" v-for="card in portfolio" :key="card.Name">
         <md-card md-with-hover>
-      <md-card-header>
-        <md-card-header-text>
-          <div class="md-title">{{ card.Name }} {{ card.Surname }}</div>
-          <div class="md-subhead">{{ card.Role != null  ? card.Role : 'No Role' }}</div>
-        </md-card-header-text>
-        <md-card-media md-medium>
-          <picture-box :picUrl="card.FilePlayerImage" :picType="0"></picture-box>
-        </md-card-media>
-      </md-card-header>
-      <md-card-actions>
-        <md-button class="md-primary tiro"  @click="EditPlayer(card.Id)" >Modifica</md-button>
-        <md-button class="btn btn-success " @click="DeletePlayer(card.Id)" >Cancella</md-button>
-      </md-card-actions>
-    </md-card>
+          <md-card-header>
+            <md-card-header-text>
+              <div class="md-title">{{ card.Name }} {{ card.Surname }}</div>
+              <div class="md-subhead">{{ card.Role != null  ? card.Role : 'No Role' }}</div>
+            </md-card-header-text>
+            <md-card-media md-medium>
+              <picture-box :picUrl="card.FilePlayerImage" :picType="0"></picture-box>
+            </md-card-media>
+          </md-card-header>
+          <md-card-actions>
+            <md-button class="md-primary tiro" @click="EditPlayer(card.Id)">Modifica</md-button>
+            <md-button class="btn btn-success " @click="selectedPlayerId=card.Id;showConfirmDelete=true">Cancella</md-button>
+          </md-card-actions>
+        </md-card>
       </div>
     </div>
   </div>
@@ -86,12 +92,36 @@ export default {
   },
   data() {
     return {
+      showConfirmDelete : false,
       selectedPlayerId: null,
       portfolio: [],
       showDialog: false,
     }
   },
-  methods: {
+    methods: {
+      onConfirmDelete() {
+        var self = this;
+        serverBus.$emit('showLoading', true);
+        this.$store.dispatch('deletePlayerAgent', this.selectedPlayerId).then(res => {
+          this.$store.dispatch('getAgentPlayerList', this.$store.state.authentication.user.Id).then(res => {
+            this.portfolio = res.data;
+            this.profileLoaded = true;
+            this.showConfirmDelete = false;
+            serverBus.$emit('showLoading', false);
+          }).catch(error => {
+            alert('Si è verificato un errore');
+            serverBus.$emit('showLoading', false)
+              this.showConfirmDelete = false;
+            });
+        }).catch(error => {
+          alert('Si è verificato un errore');
+          serverBus.$emit('showLoading', false)
+            this.showConfirmDelete = false;
+          });
+      },
+      onCancelDelete() {
+        this.showConfirmDelete = false;
+      },
     AddNewPlayer: function() {
       this.selectedPlayerId = null;
       this.showDialog = true;
@@ -100,22 +130,7 @@ export default {
       this.selectedPlayerId = playerId;
       this.showDialog = true;
     },
-    DeletePlayer: function(playerId) {
-      serverBus.$emit('showLoading', true);
-      this.$store.dispatch('deletePlayerAgent', playerId).then(res => {
-        this.$store.dispatch('getAgentPlayerList', this.$store.state.authentication.user.Id).then(res => {
-          this.portfolio = res.data;
-          this.profileLoaded = true;
-          serverBus.$emit('showLoading', false);
-        }).catch(error => {
-          alert('Si è verificato un errore');
-          serverBus.$emit('showLoading', false)
-        });
-      }).catch(error => {
-        alert('Si è verificato un errore');
-        serverBus.$emit('showLoading', false)
-      });
-    }
+
   },
   created() {
     serverBus.$on('addedNewPlayerAgent', () => {
