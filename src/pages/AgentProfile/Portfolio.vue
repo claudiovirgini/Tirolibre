@@ -11,15 +11,16 @@
               <a href="#" class="close" @click="showDialog = false"/>
                 </div>
           </div>
-              
+
         </md-dialog-title>
 
-        <md-tabs md-dynamic-height>
+          <agent-player-profile-form :playerId="selectedPlayerId" />
+        <!-- <md-tabs md-dynamic-height>
           <md-tab md-label="Info">
             <agent-player-profile-form :playerId="selectedPlayerId" />
           </md-tab>
 
-        </md-tabs>
+        </md-tabs> -->
 
         <!--<md-dialog-actions>
           <md-button class="md-primary" @click="showDialog = false">Close</md-button>
@@ -32,7 +33,7 @@
         <md-card md-with-hover>
 
         <md-card-content>
-          <md-button class="md-icon-button md-raised md-primary md-fab " @click="AddNewPlayer()">
+          <md-button class="md-icon-button md-raised md-primary md-fab" @click="AddNewPlayer">
             <md-icon>add</md-icon>
           </md-button>
           <p>
@@ -47,7 +48,7 @@
         <md-card md-with-hover>
       <md-card-header>
         <md-card-header-text>
-          <div class="md-title">{{ card.Name }}</div>
+          <div class="md-title">{{ card.Name }} {{ card.Surname }}</div>
           <div class="md-subhead">{{ card.Role != null  ? card.Role : 'No Role' }}</div>
         </md-card-header-text>
         <md-card-media md-medium>
@@ -65,105 +66,128 @@
 </template>
 
 <script>
-  import axios from 'axios'
-  import AgentPlayerProfileForm from '@/pages/AgentProfile/AgentPlayerProfileForm.vue'
-  import PictureBox from '@/components/PictureBox/PictureBox'
-  import {
-    serverBus
-  } from '@/main';
+import axios from 'axios'
+import AgentPlayerProfileForm from '@/pages/AgentProfile/AgentPlayerProfileForm.vue'
+import PictureBox from '@/components/PictureBox/PictureBox'
+import {
+  serverBus
+} from '@/main';
 
 export default {
-    name: 'Portfolio',
-    props: {
-      userList: {
-        type: Array 
-      },
+  name: 'Portfolio',
+  props: {
+    userList: {
+      type: Array
     },
-    components: {
-      AgentPlayerProfileForm,
-      PictureBox
-    },
+  },
+  components: {
+    AgentPlayerProfileForm,
+    PictureBox
+  },
   data() {
     return {
-      selectedPlayerId : null,
-      portfolio : [],
+      selectedPlayerId: null,
+      portfolio: [],
       showDialog: false,
     }
   },
-    methods: {
-      AddNewPlayer: function () {
-        this.selectedPlayerId = null;
-        this.showDialog = true;
-      },
-      EditPlayer: function (playerId) {
-        this.selectedPlayerId = playerId;
-        this.showDialog = true;
-      },
-      DeletePlayer: function (playerId) {
-        serverBus.$emit('showLoading', true);
-        this.$store.dispatch('deletePlayerAgent', playerId).then(res => {
-          this.$store.dispatch('getAgentPlayerList', this.$store.state.authentication.user.Id).then(res => {
-            this.portfolio = res.data;
-            this.profileLoaded = true;
-            serverBus.$emit('showLoading', false);
-          }).catch(error => { alert('Si è verificato un errore'); serverBus.$emit('showLoading', false) });
-        }).catch(error => { alert('Si è verificato un errore'); serverBus.$emit('showLoading', false) });
-      }
+  methods: {
+    AddNewPlayer: function() {
+      this.selectedPlayerId = null;
+      this.showDialog = true;
     },
-    created() {
-      serverBus.$on('addedNewPlayerAgent', () => {
-        serverBus.$emit('showLoading', true);
+    EditPlayer: function(playerId) {
+      this.selectedPlayerId = playerId;
+      this.showDialog = true;
+    },
+    DeletePlayer: function(playerId) {
+      serverBus.$emit('showLoading', true);
+      this.$store.dispatch('deletePlayerAgent', playerId).then(res => {
         this.$store.dispatch('getAgentPlayerList', this.$store.state.authentication.user.Id).then(res => {
           this.portfolio = res.data;
           this.profileLoaded = true;
-          this.showDialog = false;
           serverBus.$emit('showLoading', false);
-        }).catch(error => { alert('Si è verificato un errore'); serverBus.$emit('showLoading', false) });
+        }).catch(error => {
+          alert('Si è verificato un errore');
+          serverBus.$emit('showLoading', false)
+        });
+      }).catch(error => {
+        alert('Si è verificato un errore');
+        serverBus.$emit('showLoading', false)
       });
-    },
-      mounted() {
-        //if (this.$store.state.authentication.user == null)
-        //  this.$router.go('/')
-        //else
-        serverBus.$emit('showLoading', true);
-        this.$store.dispatch('getAgentPlayerList', this.$store.state.authentication.user.Id).then(res => {
-          this.portfolio = res.data;
-          //this.profileLoaded = true;
-          serverBus.$emit('showLoading', false);
-        }).catch(error => { alert('Si è verificato un errore'); serverBus.$emit('showLoading', false) });
-      },
+    }
+  },
+  created() {
+    serverBus.$on('addedNewPlayerAgent', () => {
+      serverBus.$emit('showLoading', true);
+      this.$store.dispatch('getAgentPlayerList', this.$store.state.authentication.user.Id).then(res => {
+        this.portfolio = res.data;
+        this.profileLoaded = true;
+        this.showDialog = false;
+        serverBus.$emit('showLoading', false);
+      }).catch(error => {
+        alert('Si è verificato un errore');
+        serverBus.$emit('showLoading', false)
+      });
+    });
+  },
+  mounted() {
+    //if (this.$store.state.authentication.user == null)
+    //  this.$router.go('/')
+    //else
+    serverBus.$emit('showLoading', true);
+    this.$store.dispatch('getAgentPlayerList', this.$store.state.authentication.user.Id).then(res => {
+      this.portfolio = res.data;
+      //this.profileLoaded = true;
+      serverBus.$emit('showLoading', false);
+    }).catch(error => {
+      alert('Si è verificato un errore');
+      serverBus.$emit('showLoading', false)
+    });
+  },
 }
 </script>
 
 <style scoped lang="scss">
-
-  .close {
+.md-dialog {
+    max-width: 768px;
+}
+.md-card {
+    .md-card-header {
+        background-color: #FFF;
+    }
+    .md-title {
+        font-size: 22px;
+    }
+}
+.close {
     position: absolute;
     right: 32px;
     top: 32px;
     width: 32px;
     height: 32px;
     opacity: 0.3;
-  }
+}
 
-    .close:hover {
-      opacity: 1;
-    }
+.close:hover {
+    opacity: 1;
+}
 
-    .close:before, .close:after {
-      position: absolute;
-      left: 15px;
-      content: ' ';
-      height: 33px;
-      width: 2px;
-      background-color: #333;
-    }
+.close:after,
+.close:before {
+    position: absolute;
+    left: 15px;
+    content: ' ';
+    height: 33px;
+    width: 2px;
+    background-color: #333;
+}
 
-    .close:before {
-      transform: rotate(45deg);
-    }
+.close:before {
+    transform: rotate(45deg);
+}
 
-    .close:after {
-      transform: rotate(-45deg);
-    }
+.close:after {
+    transform: rotate(-45deg);
+}
 </style>

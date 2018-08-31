@@ -5,7 +5,7 @@
         <div class="container">
           <div class="row">
             <Logo />
-            <div class="col-md-12 text-center">
+            <div class="col-xs-12 col-md-8 mx-auto text-center shadow-lg rounded">
               <div class="who">
                 <!-- I'm a ... -->
                 <div class="buttons">
@@ -191,7 +191,7 @@ export default {
 }
 
 .pusher {
-    background-image: url("/assets/images/bg-footer.jpg");
+    background-image: url("../../assets/images/bg-footer.jpg");
     background-repeat: no-repeat;
     background-position: 50% 300px;
     background-size: cover;
@@ -202,7 +202,7 @@ export default {
     // background-color: #d7e5e8;
     background-color: #FFF;
     // background-image: url("https://www.higuests.com/assets/images/alfred_001.png");
-    background-image: url("/assets/images/logo-footer.png");
+    background-image: url("../../assets/images/logo-footer.png");
     background-repeat: no-repeat;
     background-position: 50% 110%;
     background-size: 200px auto;
@@ -211,6 +211,18 @@ export default {
     min-height: 600px;
     overflow: hidden;
     box-shadow: 0 1rem 3rem rgba(0,0,0,.175);
+    &:before {
+        content: "";
+        position: absolute;
+        // z-index: -1;
+        left: 0;
+        top: 300px;
+        right: 0;
+        bottom: 150px;
+        -webkit-transform: skewY(-12deg);
+        transform: skewY(-12deg);
+        background: #323a5a linear-gradient(192deg,#00832e,#222d49);
+    }
 }
 // .switch-field input:checked+label {
 .switch-field label {
@@ -369,7 +381,8 @@ export default {
         }
     }
     .switch-title {
-        color: #1057a0;
+        // color: #1057a0;
+        color: #FFF;
     }
 
     .switch-field input:checked + label {

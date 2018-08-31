@@ -2,7 +2,7 @@
 <div>
   <md-card class="md-card-profile">
     <div class="md-card-avatar">
-      <picture-box :picUrl="imagefile" :picType="profile" ></picture-box>
+      <picture-box :picUrl="imagefile" :picType="profile"></picture-box>
       <!--<img class="img" :src="imagefile">-->
     </div>
     <md-card-content>
@@ -31,13 +31,13 @@
 </div>
 </template>
 <script>
-  import PictureBox from '@/components/PictureBox/PictureBox'
-  export default {
-    name: 'AgentCard',
-    components: {
-      PictureBox
-    },
-    props: {
+import PictureBox from '@/components/PictureBox/PictureBox'
+export default {
+  name: 'AgentCard',
+  components: {
+    PictureBox
+  },
+  props: {
     agentdata: {
       type: Object
     }
@@ -50,12 +50,12 @@
       imageBaseUrl: this.$store.state.configurations.imageRootUrl,
     }
   },
-    computed: {
-      profile: {
-        get() {
-          return (this.agentdata != null) ? this.agentdata.Profile : -1;
-        }
-      },
+  computed: {
+    profile: {
+      get() {
+        return (this.agentdata != null) ? this.agentdata.Profile : -1;
+      }
+    },
     name: {
       get() {
         return this.agentdata != null ? this.agentdata.Name : '';
@@ -78,6 +78,11 @@
 <style>
 iframe {
   height: inherit !important;
+}
+
+.md-card-avatar {
+  width: 100px;
+  height: 100px;
 }
 
 .card-title {

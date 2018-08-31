@@ -20,7 +20,7 @@ export default {
 <style scoped lang="scss">
 h1 {
     font-weight: 700;
-    font-size: 1.5em;
+    font-size: 1.8em;
     span {
         text-transform: uppercase;
     }

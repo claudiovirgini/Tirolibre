@@ -17,8 +17,9 @@
       <!-- <li class="nav-item user-img">
         <img v-bind:src="imageUrl" style="height:33px !important" />
       </li> -->
-      <li class="nav-item user"  @click="goToProfile()">
-        <label >Benvenuto {{name}}</label>
+      <li class="nav-item user" @click="goToProfile()">
+        <i class="material-icons">person_pin</i>
+        <label>Benvenuto {{name}}</label>
         <!--<router-link class="nav-link" @click="goToProfile()">Benvenuto {{name}}</router-link>-->
       </li>
       <!-- <li class="nav-item logout">
@@ -126,7 +127,7 @@ export default {
       this.$store.dispatch('logout')
       this.$router.push('/')
     },
-    goToProfile: function () {
+    goToProfile: function() {
       var actualProfile = this.$store.state.authentication.user.Profile;
       if (actualProfile == 0) this.$router.push('/player')
       if (actualProfile == 1) this.$router.push('/team')
@@ -271,6 +272,10 @@ header[role=banner] {
     float: right;
     margin: 3px 30px 3px 3px;
     cursor: pointer;
+    padding-top: 10px;
+    label {
+        vertical-align: super;
+    }
     li {
         display: inline-block;
         list-style: none;
@@ -306,7 +311,7 @@ header[role=banner] {
     float: right;
     margin-right: 5%;
     width: 44px;
-    height: 100%;
+    height: 44px;
     background: url("../assets/images/cd-icon-menu.svg") no-repeat center center;
     cursor: pointer;
 

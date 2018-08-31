@@ -1,117 +1,117 @@
 <template>
-    <md-card style="overflow-y:auto">
-      <!--<md-card-header :data-background-color="dataBackgroundColor">
+<md-card style="overflow-y:auto">
+  <!--<md-card-header :data-background-color="dataBackgroundColor">
       <h4 class="title">Aggiorna Profilo</h4>
       <p class="category">Completa il tuo profilo</p>
     </md-card-header>-->
 
-      <md-card-content>
-        <div class="md-layout-item md-size-100 text-right">
-          <md-button class="md-raised md-success" v-on:click="saveProfile()">Aggiorna Profilo</md-button>
-        </div>
-        <div class="md-layout">
-          <div class="md-layout-item md-small-size-100 md-size-50">
-            <md-field>
-              <label>Nome</label>
-              <md-input v-model="name" type="text"></md-input>
-            </md-field>
-          </div>
-          <div class="md-layout-item md-small-size-100 md-size-50">
-            <md-field>
-              <label>Cognome</label>
-              <md-input v-model="surname" type="text"></md-input>
-            </md-field>
-          </div>
-          <div class="md-layout-item md-small-size-100 md-size-33">
-            <md-field>
-              <label>Classe</label>
-              <md-input v-model="yearClass" type="number"></md-input>
-            </md-field>
-          </div>
-          <div class="md-layout-item md-small-size-100 md-size-33">
-            <md-field>
-              <label>Nazionalità</label>
-              <md-input v-model="nationality" type="text"></md-input>
-            </md-field>
-          </div>
-          <div class="md-layout-item md-small-size-100 md-size-33">
-            <md-field>
-              <label for="ruolo">Ruolo</label>
-              <md-select v-model="roleSelected" id="ruolo">
-                <md-option v-for="role in roleList" v-bind:value="role.text">
-                  {{ role.text }}
-                </md-option>
-              </md-select>
-            </md-field>
-          </div>
-          <div class="md-layout-item md-small-size-100 md-size-33">
-            <md-field>
-              <map-autocomplete place-holder="Dove ti trovi" :initial-address="city" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress"></map-autocomplete>
-            </md-field>
-          </div>
-          <!--<div class="md-layout-item md-small-size-100 md-size-33">
+  <md-card-content>
+    <div class="md-layout-item md-size-100 text-right">
+      <md-button class="md-raised md-success" v-on:click="saveProfile()">Salva Profilo</md-button>
+    </div>
+    <div class="md-layout">
+      <div class="md-layout-item md-small-size-100 md-size-50">
+        <md-field>
+          <label>Nome</label>
+          <md-input v-model="name" type="text"></md-input>
+        </md-field>
+      </div>
+      <div class="md-layout-item md-small-size-100 md-size-50">
+        <md-field>
+          <label>Cognome</label>
+          <md-input v-model="surname" type="text"></md-input>
+        </md-field>
+      </div>
+      <div class="md-layout-item md-small-size-100 md-size-33">
+        <md-field>
+          <label>Classe</label>
+          <md-input v-model="yearClass" type="number"></md-input>
+        </md-field>
+      </div>
+      <div class="md-layout-item md-small-size-100 md-size-33">
+        <md-field>
+          <label>Nazionalità</label>
+          <md-input v-model="nationality" type="text"></md-input>
+        </md-field>
+      </div>
+      <div class="md-layout-item md-small-size-100 md-size-33">
+        <md-field>
+          <label for="ruolo">Ruolo</label>
+          <md-select v-model="roleSelected" id="ruolo">
+            <md-option v-for="role in roleList" v-bind:value="role.text">
+              {{ role.text }}
+            </md-option>
+          </md-select>
+        </md-field>
+      </div>
+      <div class="md-layout-item md-small-size-100 md-size-33">
+        <md-field>
+          <map-autocomplete place-holder="Dove ti trovi" :initial-address="city" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress"></map-autocomplete>
+        </md-field>
+      </div>
+      <!--<div class="md-layout-item md-small-size-100 md-size-33">
             <md-field>
               <label>Dove Cerchi</label>
               <md-input v-model="researchPlace" type="text"></md-input>
             </md-field>
           </div>-->
-          <div class="md-layout-item md-small-size-100 md-size-33">
-            <md-field>
-              <label for="status">Status</label>
-              <md-select v-model="actualStatus" id="status">
-                <md-option v-for="status in statusList" v-bind:value="status.text">
-                  {{ status.text }}
-                </md-option>
-              </md-select>
+      <div class="md-layout-item md-small-size-100 md-size-33">
+        <md-field>
+          <label for="status">Status</label>
+          <md-select v-model="actualStatus" id="status">
+            <md-option v-for="status in statusList" v-bind:value="status.text">
+              {{ status.text }}
+            </md-option>
+          </md-select>
 
-            </md-field>
-          </div>
-          <div class="md-layout-item md-small-size-100 md-size-33">
-            <md-field>
-              <label>Telefono</label>
-              <md-input v-model="phoneNumber" type="number"></md-input>
-            </md-field>
-          </div>
-          <div class="md-layout-item md-small-size-100 md-size-33">
-            <md-field>
-              <label>Peso</label>
-              <md-input v-model="weigth" type="number"></md-input>
-            </md-field>
-          </div>
-          <div class="md-layout-item md-small-size-100 md-size-33">
-            <md-field>
-              <label>Altezza</label>
-              <md-input v-model="heigth" type="number"></md-input>
-            </md-field>
-          </div>
-          <div class="md-layout-item md-small-size-100 md-size-33">
-            <md-field>
-              <label>Nome Squadra ultimo campionato</label>
-              <md-input v-model="experience1" type="text"></md-input>
-            </md-field>
-          </div>
-          <div class="md-layout-item md-small-size-100 md-size-33">
-            <md-field>
-              <label>Nome Squadra altre esperienze</label>
-              <md-input v-model="experience2" type="text" :disabled="(playerdata != null && playerdata.Experiences != null) && (playerdata.Experiences>0)"></md-input>
-            </md-field>
-          </div>
-          <div class="md-layout-item md-small-size-100 md-size-33">
-            <md-field>
-              <label>Nome Squadra altre esperienze</label>
-              <md-input v-model="experience3" type="text"></md-input>
-            </md-field>
-          </div>
-          <div class="md-layout-item md-size-100">
-            <md-field maxlength="5">
-              <label>About Me</label>
-              <md-textarea v-model="aboutMe"></md-textarea>
-            </md-field>
-          </div>
+        </md-field>
+      </div>
+      <div class="md-layout-item md-small-size-100 md-size-33">
+        <md-field>
+          <label>Telefono</label>
+          <md-input v-model="phoneNumber" type="number"></md-input>
+        </md-field>
+      </div>
+      <div class="md-layout-item md-small-size-100 md-size-33">
+        <md-field>
+          <label>Peso</label>
+          <md-input v-model="weigth" type="number"></md-input>
+        </md-field>
+      </div>
+      <div class="md-layout-item md-small-size-100 md-size-33">
+        <md-field>
+          <label>Altezza</label>
+          <md-input v-model="heigth" type="number"></md-input>
+        </md-field>
+      </div>
+      <div class="md-layout-item md-small-size-100 md-size-33">
+        <md-field>
+          <label>Nome Squadra ultimo campionato</label>
+          <md-input v-model="experience1" type="text"></md-input>
+        </md-field>
+      </div>
+      <div class="md-layout-item md-small-size-100 md-size-33">
+        <md-field>
+          <label>Nome Squadra altre esperienze</label>
+          <md-input v-model="experience2" type="text" :disabled="(playerdata != null && playerdata.Experiences != null) && (playerdata.Experiences>0)"></md-input>
+        </md-field>
+      </div>
+      <div class="md-layout-item md-small-size-100 md-size-33">
+        <md-field>
+          <label>Nome Squadra altre esperienze</label>
+          <md-input v-model="experience3" type="text"></md-input>
+        </md-field>
+      </div>
+      <div class="md-layout-item md-size-100">
+        <md-field maxlength="5">
+          <label>About Me</label>
+          <md-textarea v-model="aboutMe"></md-textarea>
+        </md-field>
+      </div>
 
-        </div>
-      </md-card-content>
-  </md-card >
+    </div>
+  </md-card-content>
+</md-card>
 </template>
 <script>
   import {serverBus} from '@/main';
@@ -246,7 +246,7 @@
         get() {
           if ((this.playerdata != null) && (this.playerdata.Roles != null) && (this.playerdata.Roles.length > 0))
             return this.playerdata.Roles[0].RoleName
-        
+
         },
         set(value) {
           if ((this.playerdata != null) && (this.playerdata.Roles != null) && (this.playerdata.Roles.length > 0))
@@ -320,7 +320,7 @@
           }
         }
       },
-     
+
     },
     created() {
       this.$store.dispatch('getRoleList', {}).then(res => {
@@ -366,7 +366,7 @@
     }
   </script>
 <style>
-  .md-menu-content.md-select-menu {
-    z-index: 100;
-  }
+.md-menu-content.md-select-menu {
+  z-index: 100;
+}
 </style>

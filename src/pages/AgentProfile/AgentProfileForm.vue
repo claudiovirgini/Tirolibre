@@ -41,7 +41,7 @@
         <div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
             <!--<label>Dove ti Trovi</label>-->
-            <map-autocomplete  place-holder="Dove ti trovi" :initial-address="city" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress"></map-autocomplete>
+            <map-autocomplete place-holder="Dove ti trovi" :initial-address="city" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress"></map-autocomplete>
 
             <!--<md-input v-model="city" type="text"></md-input>-->
           </md-field>
@@ -101,7 +101,7 @@
           </md-field>
         </div>
         <div class="md-layout-item md-size-100 text-right">
-          <md-button class="md-raised md-success"  v-on:click="saveProfile()" >Aggiorna Profilo</md-button>
+          <md-button class="md-raised md-success" v-on:click="saveProfile()">Aggiorna Profilo</md-button>
         </div>
       </div>
 
@@ -110,148 +110,155 @@
 </form>
 </template>
 <script>
-  import { serverBus } from '@/main';
+import {
+  serverBus
+} from '@/main';
 
 import MapAutocomplete from '@/components/GoogleMaps/MapAutocomplete'
-  export default {
-    name: 'AgentProfileForm',
-    components: {
-      MapAutocomplete
-    },
-    props: {
+export default {
+  name: 'AgentProfileForm',
+  components: {
+    MapAutocomplete
+  },
+  props: {
     agentdata: {
-        type: Object
+      type: Object
     },
     dataBackgroundColor: {
       type: String,
       default: ''
     }
-    },
+  },
 
-    methods: {
-      setCorrectAddress: function (address) { 
-        this.city = address;
-      },
-      setInvalidAddress: function () {
-      },
-      saveProfile: function () {
-        serverBus.$emit('showLoading', true);
-        this.$store.dispatch('saveAgentProfile', this.agentdata).then(res => {
-          serverBus.$emit('showLoading', false);
-            alert('Salvataggio OK')
-        }).catch(error => {
-          alert('Si è verificato un errore'); serverBus.$emit('showLoading', false); })
-      },
+  methods: {
+    setCorrectAddress: function(address) {
+      this.city = address;
     },
+    setInvalidAddress: function() {},
+    saveProfile: function() {
+      serverBus.$emit('showLoading', true);
+      this.$store.dispatch('saveAgentProfile', this.agentdata).then(res => {
+        serverBus.$emit('showLoading', false);
+        alert('Salvataggio OK')
+      }).catch(error => {
+        alert('Si è verificato un errore');
+        serverBus.$emit('showLoading', false);
+      })
+    },
+  },
   computed: {
-      name: {
-        get() {
-          return (this.agentdata != null) ? this.agentdata.Name : '';
-        },
-        set(value) {
-          this.agentdata.Name = value;
-        }
+    name: {
+      get() {
+        return (this.agentdata != null) ? this.agentdata.Name : '';
       },
-      surname: {
-        get() {
-          return (this.agentdata != null) ? this.agentdata.Surname : '';
-        },
-        set(value) {
-          this.agentdata.Surname = value;
-        }
+      set(value) {
+        this.agentdata.Name = value;
+      }
+    },
+    surname: {
+      get() {
+        return (this.agentdata != null) ? this.agentdata.Surname : '';
       },
+      set(value) {
+        this.agentdata.Surname = value;
+      }
+    },
 
-      biografy: {
-        get() {
-          return (this.agentdata != null) ? this.agentdata.Biografy : '';
-        },
-        set(value) {
-          this.agentdata.Biografy = value;
-        }
+    biografy: {
+      get() {
+        return (this.agentdata != null) ? this.agentdata.Biografy : '';
       },
-      actualStatus: {
-        get() {
-          return (this.agentdata != null) ? this.agentdata.ActualStatus : '';
-        },
-        set(value) {
-          this.agentdata.ActualStatus = value;
-        }
+      set(value) {
+        this.agentdata.Biografy = value;
+      }
+    },
+    actualStatus: {
+      get() {
+        return (this.agentdata != null) ? this.agentdata.ActualStatus : '';
       },
-      city: {
-        get() {
-          return (this.agentdata != null && this.agentdata.Address != null) ? this.agentdata.Address.FullAddress : '';
-        },
-        set(value) {
-          this.agentdata.Address = { FullAddressJson: JSON.stringify(value), FullAddress: value.formatted_address, Location : null};
-        }
+      set(value) {
+        this.agentdata.ActualStatus = value;
+      }
+    },
+    city: {
+      get() {
+        return (this.agentdata != null && this.agentdata.Address != null) ? this.agentdata.Address.FullAddress : '';
       },
-      phoneNumber: {
-        get() {
-          return (this.agentdata != null) ? this.agentdata.PhoneNumber : '';
-        },
-        set(value) {
-          this.agentdata.PhoneNumber = value;
-        }
+      set(value) {
+        this.agentdata.Address = {
+          FullAddressJson: JSON.stringify(value),
+          FullAddress: value.formatted_address,
+          Location: null
+        };
+      }
+    },
+    phoneNumber: {
+      get() {
+        return (this.agentdata != null) ? this.agentdata.PhoneNumber : '';
       },
-      //weigth: {
-      //  get() {
-      //    return (this.playerdata != null) ? this.playerdata.Weigth : '';
-      //  },
-      //  set(value) {
-      //    this.playerdata.Weigth = value;
-      //  }
-      //},
-      //heigth: {
-      //  get() {
-      //    return (this.playerdata != null) ? this.playerdata.Heigth : '';
-      //  },
-      //  set(value) {
-      //    this.playerdata.Heigth = value;
-      //  }
-      //},
-      //nationality: {
-      //  get() {
-      //    return (this.playerdata != null) ? this.playerdata.Nationality : '';
-      //  },
-      //  set(value) {
-      //    this.playerdata.Nationality = value;
-      //  }
-      //},
+      set(value) {
+        this.agentdata.PhoneNumber = value;
+      }
+    },
+    //weigth: {
+    //  get() {
+    //    return (this.playerdata != null) ? this.playerdata.Weigth : '';
+    //  },
+    //  set(value) {
+    //    this.playerdata.Weigth = value;
+    //  }
+    //},
+    //heigth: {
+    //  get() {
+    //    return (this.playerdata != null) ? this.playerdata.Heigth : '';
+    //  },
+    //  set(value) {
+    //    this.playerdata.Heigth = value;
+    //  }
+    //},
+    //nationality: {
+    //  get() {
+    //    return (this.playerdata != null) ? this.playerdata.Nationality : '';
+    //  },
+    //  set(value) {
+    //    this.playerdata.Nationality = value;
+    //  }
+    //},
 
-      //yearClass : {
-      //  get() {
-      //    var returned = 'not available'
-      //    if (this.playerdata != null && this.playerdata.BornDate) {
-      //      var temp = new Date(this.playerdata.BornDate);
-      //      returned = temp.getFullYear()
-      //    }
-      //    return returned;
-      //  },
-      //  set(value) {
-      //    if (this.playerdata.BornDate != null) {
-      //      this.playerdata.BornDate = new Date(this.playerdata.BornDate);
-      //    }
-      //    else {
-      //      this.playerdata.BornDate = new Date('01/01/2000');
-      //    }
-      //    this.playerdata.BornDate.setFullYear(value)
-      //  }
-      //},
-      //roleSelected: {
-      //  get() {
-      //    if ((this.playerdata != null) && (this.playerdata.Roles != null) && (this.playerdata.Roles.length > 0))
-      //      return this.playerdata.Roles[0].RoleName
-      //    else return 'not available';
-      //  },
-      //  set(value) {
-      //    if ((this.playerdata != null) && (this.playerdata.Roles != null) && (this.playerdata.Roles.length > 0))
-      //      return this.playerdata.Roles[0].RoleName = value;
-      //    else {
-      //      this.playerdata.Roles = [];
-      //      this.playerdata.Roles.push({ Id: 0, RoleName: value })
-      //    }
-      //  }
-      //},
+    //yearClass : {
+    //  get() {
+    //    var returned = 'not available'
+    //    if (this.playerdata != null && this.playerdata.BornDate) {
+    //      var temp = new Date(this.playerdata.BornDate);
+    //      returned = temp.getFullYear()
+    //    }
+    //    return returned;
+    //  },
+    //  set(value) {
+    //    if (this.playerdata.BornDate != null) {
+    //      this.playerdata.BornDate = new Date(this.playerdata.BornDate);
+    //    }
+    //    else {
+    //      this.playerdata.BornDate = new Date('01/01/2000');
+    //    }
+    //    this.playerdata.BornDate.setFullYear(value)
+    //  }
+    //},
+    //roleSelected: {
+    //  get() {
+    //    if ((this.playerdata != null) && (this.playerdata.Roles != null) && (this.playerdata.Roles.length > 0))
+    //      return this.playerdata.Roles[0].RoleName
+    //    else return 'not available';
+    //  },
+    //  set(value) {
+    //    if ((this.playerdata != null) && (this.playerdata.Roles != null) && (this.playerdata.Roles.length > 0))
+    //      return this.playerdata.Roles[0].RoleName = value;
+    //    else {
+    //      this.playerdata.Roles = [];
+    //      this.playerdata.Roles.push({ Id: 0, RoleName: value })
+    //    }
+    //  }
+    //},
     //  researchPlace: {
     //    get() {
     //      if ((this.playerdata != null) && (this.playerdata.ResearchPlaces != null) && (this.playerdata.ResearchPlaces.length > 0))
