@@ -1,10 +1,5 @@
 <template>
 <md-card style="overflow-y:auto">
-  <!--<md-card-header :data-background-color="dataBackgroundColor">
-      <h4 class="title">Aggiorna Profilo</h4>
-      <p class="category">Completa il tuo profilo</p>
-    </md-card-header>-->
-
   <md-card-content>
     <div class="md-layout-item md-size-100 text-right">
       <md-button class="md-raised md-success" v-on:click="saveProfile()">Salva Profilo</md-button>

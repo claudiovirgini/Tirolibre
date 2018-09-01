@@ -2,7 +2,7 @@
   <div class="content">
     <div class="md-layout">
       <div class="md-layout-item md-medium-size-100 md-size-66">
-        <player-profile-form data-background-color="green"  :playerdata="playerdata" v-if="profileLoaded">
+        <player-profile-form data-background-color="green"  :playerObject="playerdata" v-if="profileLoaded">
 
         </player-profile-form>
       </div>
