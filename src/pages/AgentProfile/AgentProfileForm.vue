@@ -139,7 +139,7 @@ export default {
       serverBus.$emit('showLoading', true);
       this.$store.dispatch('saveAgentProfile', this.agentdata).then(res => {
         serverBus.$emit('showLoading', false);
-        alert('Salvataggio OK')
+        // alert('Salvataggio OK')
       }).catch(error => {
         alert('Si è verificato un errore');
         serverBus.$emit('showLoading', false);

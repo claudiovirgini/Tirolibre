@@ -173,7 +173,7 @@ export const store = new Vuex.Store({
       const data = { Email: authData.email, Password: authData.password, Environment: this.state.configurations.environment, Profile: authData.profile }
       axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.signupUrl, data)
         .then(res => {
-           alert('Signup OK');
+           // alert('Signup OK');
           })
         .catch(error => alert(error.response.data.error_description));
     },

@@ -12,7 +12,7 @@
       <md-dialog-title>
         <div>
           <div style="float:left">
-            Gestione calciatore
+            Profilo nuovo calciatore
           </div>
           <div style="float:right">
             <a href="#" class="close" @click="showDialog = false" />
@@ -34,22 +34,25 @@
     </md-dialog-actions>-->
     </md-dialog>
 
-    <div class="row row-eq-height">
+    <div class="row">
       <div class="col">
         <md-card md-with-hover>
 
           <md-card-content>
+            <h3>gestisci i tuoi calciatori e mantieni aggiornate le loro informazioni</h3>
             <md-button class="md-icon-button md-raised md-primary md-fab" @click="AddNewPlayer">
               <md-icon>add</md-icon>
             </md-button>
             <p>
-              Aggiungi
+              Aggiungi calciatore
             </p>
           </md-card-content>
 
         </md-card>
       </div>
+    </div>
 
+        <div class="row row-eq-height">
       <div class="col" v-for="card in portfolio" :key="card.Name">
         <md-card md-with-hover>
           <md-card-header>
@@ -62,8 +65,13 @@
             </md-card-media>
           </md-card-header>
           <md-card-actions>
-            <md-button class="md-primary tiro" @click="EditPlayer(card.Id)">Modifica</md-button>
-            <md-button class="btn btn-success " @click="selectedPlayerId=card.Id;showConfirmDelete=true">Cancella</md-button>
+            <md-button class="md-success tiro" @click="EditPlayer(card.Id)">
+              <i class="md-icon md-icon-font material-icons md-theme-default">edit</i>
+                Modifica
+            </md-button>
+            <md-button class="btn btn-success " @click="selectedPlayerId=card.Id;showConfirmDelete=true">
+              <i class="md-icon md-icon-font material-icons md-theme-default">delete</i>
+              Cancella</md-button>
           </md-card-actions>
         </md-card>
       </div>
@@ -92,36 +100,36 @@ export default {
   },
   data() {
     return {
-      showConfirmDelete : false,
+      showConfirmDelete: false,
       selectedPlayerId: null,
       portfolio: [],
       showDialog: false,
     }
   },
-    methods: {
-      onConfirmDelete() {
-        var self = this;
-        serverBus.$emit('showLoading', true);
-        this.$store.dispatch('deletePlayerAgent', this.selectedPlayerId).then(res => {
-          this.$store.dispatch('getAgentPlayerList', this.$store.state.authentication.user.Id).then(res => {
-            this.portfolio = res.data;
-            this.profileLoaded = true;
-            this.showConfirmDelete = false;
-            serverBus.$emit('showLoading', false);
-          }).catch(error => {
-            alert('Si è verificato un errore');
-            serverBus.$emit('showLoading', false)
-              this.showConfirmDelete = false;
-            });
+  methods: {
+    onConfirmDelete() {
+      var self = this;
+      serverBus.$emit('showLoading', true);
+      this.$store.dispatch('deletePlayerAgent', this.selectedPlayerId).then(res => {
+        this.$store.dispatch('getAgentPlayerList', this.$store.state.authentication.user.Id).then(res => {
+          this.portfolio = res.data;
+          this.profileLoaded = true;
+          this.showConfirmDelete = false;
+          serverBus.$emit('showLoading', false);
         }).catch(error => {
           alert('Si è verificato un errore');
           serverBus.$emit('showLoading', false)
-            this.showConfirmDelete = false;
-          });
-      },
-      onCancelDelete() {
+          this.showConfirmDelete = false;
+        });
+      }).catch(error => {
+        alert('Si è verificato un errore');
+        serverBus.$emit('showLoading', false)
         this.showConfirmDelete = false;
-      },
+      });
+    },
+    onCancelDelete() {
+      this.showConfirmDelete = false;
+    },
     AddNewPlayer: function() {
       this.selectedPlayerId = null;
       this.showDialog = true;
@@ -164,8 +172,14 @@ export default {
 </script>
 
 <style scoped lang="scss">
+h3 {
+    color: #2c3e50;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 1.2rem;
+}
 .md-dialog {
-    max-width: 768px;
+    max-width: 868px;
 }
 .md-card {
     .md-card-header {

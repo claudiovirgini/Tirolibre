@@ -41,7 +41,7 @@
       </div>
       <div class="md-layout-item md-small-size-100 md-size-33">
         <md-field>
-          <map-autocomplete place-holder="Dove ti trovi" :initial-address="city" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress"></map-autocomplete>
+          <map-autocomplete place-holder="Località attuale" :initial-address="city" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress"></map-autocomplete>
         </md-field>
       </div>
       <!--<div class="md-layout-item md-small-size-100 md-size-33">
@@ -99,8 +99,9 @@
       </div>
       <div class="md-layout-item md-size-100">
         <md-field maxlength="5">
-          <label>About Me</label>
-          <md-textarea v-model="aboutMe"></md-textarea>
+          <label>Note</label>
+          <md-textarea v-model="aboutMe" placeholder="Segna qui gli appunti sul calciatore. Es: club che hanno mostrato interesse, club a cui presentarlo, budget richiesto..."></md-textarea>
+          <md-icon>description</md-icon>
         </md-field>
       </div>
 
@@ -139,7 +140,7 @@
         this.$store.dispatch('addOrUpdateAgentPlayer', { agentId: this.$store.state.authentication.user.Id, player: this.playerdata }).then(res => {
           serverBus.$emit('showLoading', false);
           if (this.playerId == null) serverBus.$emit('addedNewPlayerAgent', true);
-          alert('Salvataggio OK')
+          // alert('Salvataggio OK')
         }).catch(error => {
           alert('Si è verificato un errore'); serverBus.$emit('showLoading', false);
         })

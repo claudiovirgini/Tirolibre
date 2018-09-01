@@ -7,24 +7,7 @@
     </div>
     <md-card-content>
       <h4 class="card-title">{{ name+' '+surname }}</h4>
-      <h6 class="category text-gray">Profile</h6>
-      <hr>
-      <div class="text-center">
-        <div class="row">
-          <div class="col-lg-6">
-            <h5>
-                Ruolo
-                <!--<br><small>{{ role }}</small>-->
-              </h5>
-          </div>
-          <div class="col-lg-6">
-            <h5>
-                Classe
-                <!--<br><small>{{ yearClass }}</small>-->
-              </h5>
-          </div>
-        </div>
-      </div>
+      <h6 class="category text-gray">{{ profile }}</h6>
     </md-card-content>
 
   </md-card>
@@ -42,9 +25,6 @@ export default {
       type: Object
     }
   },
-  //mounted() {
-  //  alert('mike : '+this.test)
-  //},
   data() {
     return {
       imageBaseUrl: this.$store.state.configurations.imageRootUrl,

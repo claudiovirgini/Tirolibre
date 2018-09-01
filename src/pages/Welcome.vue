@@ -7,9 +7,7 @@
         <div class="row">
           <Logo />
           <div class="col-md-12 text-center">
-            Ciao!
             <hr>
-
               {{msg}}
             <!-- <span>Picked: {{ what }} // {{ where }}</span>
 
