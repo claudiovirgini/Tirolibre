@@ -6,7 +6,7 @@
             <div class="row">
               <Logo />
               <div class="col-md-12">
-                <form class="shadow-lg">
+                <form class="">
                   <div class="col-md-6">
                     <div class="md-layout-item">
                       <md-field>
@@ -21,7 +21,7 @@
                   </div>
                   <div class="col-md-6">
                     <label>
-                      <!--Dove cerchi-->
+                      <!-- Dove cerchi -->
                       <map-autocomplete place-holder="Dove cerchi?" :initialAddress="selectedAddressString" startactualpos="false" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress"></map-autocomplete>
                       <!--<input placeholder="Dove cerchi?" tabindex="2" />-->
                     </label>
@@ -34,7 +34,7 @@
                 Più filtri
            </button> -->
             <div class="row collapse filter-panel show" id="filterTeam" v-if="profileSelected === 1">
-              <div class="col-md-4">
+              <div class="col">
                 <md-field>
                   <label for="category">Categoria</label>
                   <md-select v-model="categorySelected" id="category">
@@ -44,11 +44,14 @@
                   </md-select>
                 </md-field>
               </div>
-              <div class="col-md-4" style="padding-top:10px;text-align:center">
+              <div class="col" style="padding-top:10px;text-align:center">
                 <button @click="updateRadius(-5)" class="button_plus">-</button> <vue-slider style="float:left;width:70%;padding-top:13px" ref="slider" v-model="radius"></vue-slider><button @click="updateRadius(5)" class="button_plus">+</button>
               </div>
-              <div class="col-md-4">
-                <button @click="findTeam()" class="btn"><i class="fa fa-search"></i> Cerca</button>
+              <div class="col">
+                <md-button @click="findTeam()" class="md-success btn btn-success btn-lg btn-block">
+                  <i class="md-icon md-icon-font material-icons md-theme-default">search</i>
+                  Cerca
+                </md-button>
               </div>
             </div>
 
@@ -57,7 +60,7 @@
                 Più filtri
            </button> -->
             <div class="row collapse filter-panel show" id="filterPlayer" v-if="profileSelected === 0">
-              <div class="col-md-4">
+              <div class="col">
                 <md-field>
                   <label for="ruolo">Ruolo</label>
                   <md-select v-model="roleSelected" id="ruolo">
@@ -67,7 +70,7 @@
                   </md-select>
                 </md-field>
               </div>
-              <div class="col-md-4">
+              <div class="col">
                 <md-field>
                   <label for="classe">Classe</label>
                   <md-select v-model="classeSelected" id="classe">
@@ -77,7 +80,7 @@
                   </md-select>
                 </md-field>
               </div>
-              <div class="col-md-4">
+              <div class="col">
                 <md-field>
                   <label for="status">Status</label>
                   <md-select v-model="statusSelected" id="status">
@@ -88,36 +91,44 @@
 
                 </md-field>
               </div>
-              <div class="col-md-4">
+              <div class="col">
                 <md-field>
                   <label for="category">Categoria</label>
                   <md-select v-model="categorySelected" id="category">
-                    <md-option v-for="category in categoryList" v-bind:value="category.value">
+                    <md-option v-for="category in categoryList"  v-bind:value="category.value">
                       {{ category.text }}
                     </md-option>
                   </md-select>
 
                 </md-field>
               </div>
-              <div class="col-md-4">
+
+              <div class="col">
                 <md-field>
                   <label for="country">Nazionalità</label>
                   <md-select v-model="countrySelected" id="country">
+
                     <md-option v-for="country in countriesList" v-bind:value="country.value">
+
                       {{ country.text }}
+                      <!-- <button @click="findPlayer()" class="btn btn-success btn-lg btn-block"><i class="fa fa-search"></i> Cerca</button> -->
                     </md-option>
-                  </md-select>
+                </md-select>
 
                 </md-field>
               </div>
-              <div class="col-md-4">
-                <button @click="findPlayer()" class="btn btn-outline-success btn-lg btn-block"><i class="fa fa-search"></i> Cerca</button>
+              <div class="col">
+                <md-button @click="findPlayer()" class="md-success btn btn-success btn-lg btn-block">
+                  <i class="md-icon md-icon-font material-icons md-theme-default">search</i>
+                  Cerca
+                </md-button>
+                <!-- <button @click="findPlayer()" class="btn btn-success btn-lg btn-block"><i class="fa fa-search"></i> Cerca</button> -->
               </div>
-            </div>
+          </div>
 
               <div class="row">
                 <div class="col-md-4 mt-4 col-xs-6 d-flex align-items-stretch" v-for="item in items" :key="item.id">
-                  <div class="card profile-card-5" @click="showProfile(item)">
+                  <div class="card profile-card-5 col" @click="showProfile(item)">
                     <div class="card-img-block">
                       <picture-box :picUrl="getImagePathForItem(item)" :picType="item.profile"></picture-box>
                       <!--<img class="card-img-top" :src="getImagePathForItem(item)" alt="Card image cap">-->
@@ -167,7 +178,7 @@
 <script>
 import PictureBox from '@/components/PictureBox/PictureBox'
 import Logo from '@/components/Logo'
-  import UserProfile from '@/pages/UserProfile/PlayerProfileView.vue'
+import UserProfile from '@/pages/UserProfile/PlayerProfileView.vue'
 import {
   serverBus
 } from '@/main';
@@ -202,14 +213,14 @@ export default {
       roleList: [],
       classList: [],
       categoryList: [],
-      countriesList:[],
+      countriesList: [],
       profileList: [],
       profileSelected: null,
       roleSelected: null,
       classeSelected: null,
       categorySelected: null,
       statusSelected: null,
-      countrySelected : null,
+      countrySelected: null,
       playerIdSelected: 0,
       items: [],
       userProfile: false,
@@ -304,7 +315,6 @@ export default {
     this.$store.dispatch('getCountriesList', {}).then(res => {
       this.countriesList = res;
     })
-    
     this.$store.dispatch('getProfileList', {}).then(res => {
       this.profileList = res;
       setTimeout(function() {
@@ -331,6 +341,11 @@ export default {
 //         display: none;
 //     }
 // }
+.filter-panel {
+    &:hover {
+        // box-shadow: 0 1rem 3rem rgba(0,0,0,.175)!important;
+    }
+}
 .pusher {
     background-image: url("/assets/images/bg-footer.jpg");
     background-repeat: no-repeat;
@@ -371,6 +386,9 @@ h1 {
         border: 1px solid #E4E4E4;
         border-radius: 5px;
         font-size: 0;
+        &:hover {
+            box-shadow: 0 1rem 3rem rgba(0,0,0,.175)!important;
+        }
     }
 
     form > div {

@@ -129,4 +129,9 @@ h1 {
   background-color: rgba(1, 14, 27, .7);
   color: #FFF;
 }
+
+.btn-success {
+  background-color: #00832e;
+  color: #FFF;
+}
 </style>

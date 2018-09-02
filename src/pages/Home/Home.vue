@@ -47,7 +47,7 @@
                 </div>
               </div>
               <div class="where">
-                <div class="row">
+                <div class="">
                   <md-field class="col-md-6 mx-auto" v-bind:class="[hasErrorWhere ? 'hasErrorWhat' : '']">
                     <!--<md-icon style="float:left">location_on</md-icon>-->
                      <label for="where" class="label-autocomplete">- DOVE STAI CERCANDO -</label>
