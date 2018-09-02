@@ -33,7 +33,7 @@
                     <div class="switch-title">- cerco -</div>
                     <div class="switch-content player form-check form-check-inline">
                       <input type="radio" id="switch_4_left" name="what" value="calciatore" class="form-check-input" @click="selectItem" v-model="what" checked />
-                      <label for="switch_4_left">calciatore</label>
+                      <label for="switch_4_left">calciatore                      </label>
                     </div>
                     <div class="switch-content club form-check form-check-inline">
                       <input type="radio" id="switch_4_center" name="what" value="CLUB" class="form-check-input" @click="selectItem" v-model="what" />

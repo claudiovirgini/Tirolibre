@@ -1,61 +1,65 @@
 <template>
-<form class="cd-form">
-  <p class="fieldset">
-    <label class="image-replace cd-username" for="signup-username">Username</label>
-    <input class="full-width has-padding has-border" id="signup-username" v-model="name" type="text" placeholder="Username">
-    <span class="cd-error-message">Error message here!</span>
-  </p>
+  <form class="cd-form">
+    <p class="fieldset">
+      <label class="image-replace cd-username" for="signup-username">Nome</label>
+      <input class="full-width has-padding has-border" id="signup-username" v-model="name" type="text" placeholder="Nome">
+      <span class="cd-error-message">Error message here!</span>
+    </p>
+    <p class="fieldset" v-if="profile == 0 || profile == 2">
+      <label class="image-replace cd-username" for="signup-username">Cognome</label>
+      <input class="full-width has-padding has-border" id="signup-username" v-model="surname" type="text" placeholder="Cognome">
+      <span class="cd-error-message">Error message here!</span>
+    </p>
+    <p class="fieldset">
+      <label class="image-replace cd-email" for="signup-email">E-mail</label>
+      <input class="full-width has-padding has-border" id="signup-email" type="email" v-model="email" placeholder="E-mail">
+      <span class="cd-error-message">Error message here!</span>
+    </p>
 
-  <p class="fieldset">
-    <label class="image-replace cd-email" for="signup-email">E-mail</label>
-    <input class="full-width has-padding has-border" id="signup-email" type="email" v-model="email" placeholder="E-mail">
-    <span class="cd-error-message">Error message here!</span>
-  </p>
+    <p class="fieldset">
+      <label class="image-replace cd-password" for="signup-password">Password</label>
+      <input class="full-width has-padding has-border" id="signup-password" type="text" v-model="password" placeholder="Password">
+      <a href="#0" class="hide-password">Hide</a>
+      <span class="cd-error-message">Error message here!</span>
+    </p>
 
-  <p class="fieldset">
-    <label class="image-replace cd-password" for="signup-password">Password</label>
-    <input class="full-width has-padding has-border" id="signup-password" type="text" v-model="password" placeholder="Password">
-    <a href="#0" class="hide-password">Hide</a>
-    <span class="cd-error-message">Error message here!</span>
-  </p>
+    <p class="fieldset">
 
-  <p class="fieldset">
-
-    <div class="type">
-      <!-- I'm a ... -->
-      <div class="buttons">
-        <div class="switch-field">
-          <!-- <div class="switch-title">-Io sono-</div> -->
-          <div class="switch-content player form-check form-check-inline">
-            <input type="radio" id="switch_3_left" name="who" value="0" v-model="profile" class="form-check-input" checked />
-            <label for="switch_3_left" class="calciatore form-check-label">calciatore</label>
-          </div>
-          <div class="switch-content club form-check form-check-inline">
-            <input type="radio" id="switch_3_center" name="who" value="1" v-model="profile" class="form-check-input" />
-            <label for="switch_3_center" class="calciatore form-check-label">team</label>
-          </div>
-          <div class="switch-content agent form-check form-check-inline">
-            <input type="radio" id="switch_3_right" name="who" value="2" v-model="profile" class="form-check-input" />
-            <label for="switch_3_right" class="calciatore form-check-label">agente</label>
+      <div class="type">
+        <!-- I'm a ... -->
+        <div class="buttons">
+          <div class="switch-field">
+            <!-- <div class="switch-title">-Io sono-</div> -->
+            <div class="switch-content player form-check form-check-inline">
+              <input type="radio" id="switch_3_left" name="who" value="0" v-model="profile" class="form-check-input" checked />
+              <label for="switch_3_left" class="calciatore form-check-label">calciatore</label>
+            </div>
+            <div class="switch-content club form-check form-check-inline">
+              <input type="radio" id="switch_3_center" name="who" value="1" v-model="profile" class="form-check-input" />
+              <label for="switch_3_center" class="calciatore form-check-label">team</label>
+            </div>
+            <div class="switch-content agent form-check form-check-inline">
+              <input type="radio" id="switch_3_right" name="who" value="2" v-model="profile" class="form-check-input" />
+              <label for="switch_3_right" class="calciatore form-check-label">agente</label>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-  </p>
+    </p>
 
 
-  <p class="fieldset">
-    <!-- <input type="checkbox" id="accept-terms"> -->
-    <!-- <label for="accept-terms">I agree to the <a href="#0">Terms</a></label> -->
-    <md-checkbox v-model="terms">I agree to the <a href="#">Terms</a></md-checkbox>
+    <p class="fieldset">
+      <!-- <input type="checkbox" id="accept-terms"> -->
+      <!-- <label for="accept-terms">I agree to the <a href="#0">Terms</a></label> -->
+      <md-checkbox v-model="terms">I agree to the <a href="#">Terms</a></md-checkbox>
 
-  </p>
+    </p>
 
-  <p class="fieldset">
-    <input class="full-width has-padding" type="submit" value="Crea account" @click="signup()">
-  </p>
-</form>
+    <p class="fieldset">
+      <input class="full-width has-padding" type="submit" value="Crea account" @click="signup()">
+    </p>
+  </form>
 
 <!-- <a href="#0" class="cd-close-form">Close</a> -->
 </template>
@@ -68,6 +72,7 @@ export default {
   data() {
     return {
       name: '',
+      surname: '',
       email: '',
       profile: 0,
       password: '',
@@ -81,17 +86,50 @@ export default {
         pwd: pwd,
       }
       //console.log(formData)
-      this.$store.dispatch('signup', {
-        email: this.$data.email,
-        password: this.$data.password,
-        name: this.$data.name,
-        profile: this.$data.profile
-      })
+      this.$store.dispatch('signup', {email: this.email,password: this.password,name: this.name,profile: this.profile,surname : this.surname})
     },
   }
 }
 </script>
 <style scoped lang="scss">
+  .switch-content.player {
+    label
+
+  {
+    &:before
+
+  {
+    background-image: url("../../assets/images/player.png");
+  }
+
+  }
+  }
+
+  .switch-content.club {
+    label
+
+  {
+    &:before
+
+  {
+    background-image: url("../../assets/images/club.png");
+  }
+
+  }
+  }
+
+  .switch-content.agent {
+    label
+
+  {
+    &:before
+
+  {
+    background-image: url("../../assets/images/agent.png");
+  }
+
+  }
+  }
 header[role=banner] {
     position: relative;
     height: 50px;

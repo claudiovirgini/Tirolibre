@@ -43,16 +43,7 @@ export default {
   },
   mounted() {
     alert(this.$route.query.cf)
-    axios.post(this.$store.state.configurations.serviceBaseUrl + '/api/Account/ConfirmEmail', {
-        Environment: this.$store.state.configurations.environment,
-        ConfirmationCode: this.$route.query.cf
-      })
-      .then(response => {
-        alert('Activation OK')
-      })
-      .catch(error => {
-        alert('Activation KO')
-      })
+    this.$store.dispatch('confirmEmail', this.$route.query.cf)
   }
 }
 </script>

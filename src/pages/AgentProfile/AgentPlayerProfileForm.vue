@@ -19,14 +19,22 @@
       </div>
       <div class="md-layout-item md-small-size-100 md-size-33">
         <md-field>
-          <label>Classe</label>
-          <md-input v-model="yearClass" type="number"></md-input>
+          <label for="class">Classe</label>
+          <md-select v-model="yearClass" id="class">
+            <md-option v-for="cla in classList" v-bind:value="cla.value">
+              {{ cla.text }}
+            </md-option>
+          </md-select>
         </md-field>
       </div>
       <div class="md-layout-item md-small-size-100 md-size-33">
         <md-field>
-          <label>Nazionalità</label>
-          <md-input v-model="nationality" type="text"></md-input>
+          <label for="ruolo">Nazionalità</label>
+          <md-select v-model="nationality" id="country">
+            <md-option v-for="country in countriesList" v-bind:value="country.text">
+              {{ country.text }}
+            </md-option>
+          </md-select>
         </md-field>
       </div>
       <div class="md-layout-item md-small-size-100 md-size-33">
@@ -39,17 +47,10 @@
           </md-select>
         </md-field>
       </div>
-      <div class="md-layout-item md-small-size-100 md-size-33">
-        <md-field>
-          <map-autocomplete place-holder="Località attuale" :initial-address="city" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress"></map-autocomplete>
-        </md-field>
+      <div class="md-layout-item md-small-size-100 md-size-33" style="padding-top:10px">
+          <map-autocomplete place-holder="Località attuale" :initial-address="city" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress" v-if="showAddressComponent"></map-autocomplete>
       </div>
-      <!--<div class="md-layout-item md-small-size-100 md-size-33">
-            <md-field>
-              <label>Dove Cerchi</label>
-              <md-input v-model="researchPlace" type="text"></md-input>
-            </md-field>
-          </div>-->
+
       <div class="md-layout-item md-small-size-100 md-size-33">
         <md-field>
           <label for="status">Status</label>
@@ -77,6 +78,29 @@
         <md-field>
           <label>Altezza</label>
           <md-input v-model="heigth" type="number"></md-input>
+        </md-field>
+      </div>
+      <div class="md-layout-item md-small-size-100 md-size-33">
+        <md-field>
+          <label for="categoria">Categoria Attuale</label>
+          <md-select v-model="lastCategory" id="categoria">
+            <md-option v-for="category in categoryList" v-bind:value="category.text">
+              {{ category.text }}
+            </md-option>
+          </md-select>
+
+        </md-field>
+      </div>
+      <div class="md-layout-item md-small-size-100 md-size-50">
+        <md-field>
+          <label>Transfer Market Link</label>
+          <md-input v-model="externalLink" type="text"></md-input>
+        </md-field>
+      </div>
+      <div class="md-layout-item md-small-size-100 md-size-50">
+        <md-field>
+          <label>Link video</label>
+          <md-input v-model="videoLink" type="text"></md-input>
         </md-field>
       </div>
       <div class="md-layout-item md-small-size-100 md-size-33">
@@ -124,9 +148,13 @@
     },
     data() {
       return {
+        showAddressComponent: true,
+        countriesList: [],
+        categoryList:[],
         roleList: [],
         statusList : [],
         playerdata: {},
+        classList:[]
       }
     },
     methods: {
@@ -187,6 +215,22 @@
           this.playerdata.AboutMe = value;
         }
       },
+      externalLink: {
+        get() {
+          return (this.playerdata != null) ? this.playerdata.ExternalLink : '';
+        },
+        set(value) {
+          this.playerdata.ExternalLink = value;
+        }
+      },
+      lastCategory: {
+        get() {
+          return (this.playerdata != null) ? this.playerdata.LastCategory : '';
+        },
+        set(value) {
+          this.playerdata.LastCategory = value;
+        }
+      },
       actualStatus: {
         get() {
           return (this.playerdata != null) ? this.playerdata.ActualStatus : '';
@@ -197,7 +241,16 @@
       },
       city: {
         get() {
-          return (this.playerdata != null && this.playerdata.Address != null) ? this.playerdata.Address.FullAddress : '';
+          //alert(this.playerdata.Address.FullAddress)
+          var returned = ''
+          if (this.playerdata != null && this.playerdata.Address != null) {
+            returned = this.playerdata.Address.FullAddress
+            
+          } else {
+            returned = '';
+          }
+          //alert(returned)
+          return returned
         },
         set(value) {
           this.playerdata.Address = { FullAddressJson: JSON.stringify(value), FullAddress: value.formatted_address, Location: null };
@@ -230,12 +283,10 @@
         },
         set(value) {
           if (this.playerdata.BornDate != null) {
-            this.playerdata.BornDate = new Date(this.playerdata.BornDate);
-          }
-          else {
+            this.playerdata.BornDate = new Date('01/06/' + value);
+          } else {
             this.playerdata.BornDate = new Date('01/01/2000');
           }
-          this.playerdata.BornDate.setFullYear(value)
         }
       },
       roleSelected: {
@@ -316,7 +367,24 @@
           }
         }
       },
-
+      videoLink: {
+        get() {
+          if ((this.playerdata != null) && (this.playerdata.Videos != null) && (this.playerdata.Videos.length > 0))
+            return this.playerdata.Videos[0].VideoUrl
+          else return '';
+        },
+        set(value) {
+          if ((this.playerdata != null) && (this.playerdata.Videos != null) && (this.playerdata.Videos.length > 0))
+            return this.playerdata.Videos[0].VideoUrl = value;
+          else {
+            this.playerdata.Videos = [];
+            this.playerdata.Videos.push({
+              Id: 0,
+              VideoUrl: value
+            })
+          }
+        }
+      },
     },
     created() {
       this.$store.dispatch('getRoleList', {}).then(res => {
@@ -324,6 +392,15 @@
       });
       this.$store.dispatch('getStatus', {}).then(res => {
         this.statusList = res;
+      })
+      this.$store.dispatch('getCountriesList', {}).then(res => {
+        this.countriesList = res;
+      });
+      this.$store.dispatch('getClassList', {}).then(res => {
+        this.classList = res;
+      })
+      this.$store.dispatch('getCategories', {}).then(res => {
+        this.categoryList = res;
       })
     },
     mounted() {
@@ -349,10 +426,12 @@
         }
       }
       else {
+        this.showAddressComponent = false;
         serverBus.$emit('showLoading', true);
         this.$store.dispatch('getPlayerAgentProfile',  this.playerId ).then(res => {
           serverBus.$emit('showLoading', false);
           this.playerdata = res.data;
+          this.showAddressComponent = true;
         }).catch(error => {
           alert('Si è verificato un errore'); serverBus.$emit('showLoading', false);
         })

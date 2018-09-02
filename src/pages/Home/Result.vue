@@ -92,8 +92,19 @@
                 <md-field>
                   <label for="category">Categoria</label>
                   <md-select v-model="categorySelected" id="category">
-                    <md-option v-for="category in categoryList"  v-bind:value="category.value">
+                    <md-option v-for="category in categoryList" v-bind:value="category.value">
                       {{ category.text }}
+                    </md-option>
+                  </md-select>
+
+                </md-field>
+              </div>
+              <div class="col-md-4">
+                <md-field>
+                  <label for="country">Nazionalità</label>
+                  <md-select v-model="countrySelected" id="country">
+                    <md-option v-for="country in countriesList" v-bind:value="country.value">
+                      {{ country.text }}
                     </md-option>
                   </md-select>
 
@@ -102,7 +113,7 @@
               <div class="col-md-4">
                 <button @click="findPlayer()" class="btn btn-outline-success btn-lg btn-block"><i class="fa fa-search"></i> Cerca</button>
               </div>
-          </div>
+            </div>
 
               <div class="row">
                 <div class="col-md-4 mt-4 col-xs-6 d-flex align-items-stretch" v-for="item in items" :key="item.id">
@@ -191,12 +202,14 @@ export default {
       roleList: [],
       classList: [],
       categoryList: [],
+      countriesList:[],
       profileList: [],
       profileSelected: null,
       roleSelected: null,
       classeSelected: null,
       categorySelected: null,
       statusSelected: null,
+      countrySelected : null,
       playerIdSelected: 0,
       items: [],
       userProfile: false,
@@ -288,6 +301,10 @@ export default {
     this.$store.dispatch('getClassList', {}).then(res => {
       this.classList = res;
     })
+    this.$store.dispatch('getCountriesList', {}).then(res => {
+      this.countriesList = res;
+    })
+    
     this.$store.dispatch('getProfileList', {}).then(res => {
       this.profileList = res;
       setTimeout(function() {

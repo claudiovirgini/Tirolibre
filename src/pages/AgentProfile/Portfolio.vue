@@ -8,7 +8,7 @@
                        md-cancel-text="Annulla"
                        @md-cancel="onCancelDelete"
                        @md-confirm="onConfirmDelete" />
-    <md-dialog :md-active.sync="showDialog" c>
+    <md-dialog :md-active.sync="showDialog" >
       <md-dialog-title>
         <div>
           <div style="float:left">

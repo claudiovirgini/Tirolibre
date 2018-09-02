@@ -19,14 +19,22 @@
       </div>
       <div class="md-layout-item md-small-size-100 md-size-33">
         <md-field>
-          <label>Classe</label>
-          <md-input v-model="yearClass" type="number"></md-input>
+          <label for="ruolo">Class</label>
+          <md-select v-model="yearClass" id="ruolo">
+            <md-option v-for="cla in classList" v-bind:value="cla.value">
+              {{ cla.text }}
+            </md-option>
+          </md-select>
         </md-field>
       </div>
       <div class="md-layout-item md-small-size-100 md-size-33">
         <md-field>
-          <label>Nazionalità</label>
-          <md-input v-model="nationality" type="text"></md-input>
+          <label for="ruolo">Nazionalità</label>
+          <md-select v-model="nationality" id="country">
+            <md-option v-for="country in countriesList" v-bind:value="country.text">
+              {{ country.text }}
+            </md-option>
+          </md-select>
         </md-field>
       </div>
       <div class="md-layout-item md-small-size-100 md-size-33">
@@ -39,17 +47,9 @@
           </md-select>
         </md-field>
       </div>
-      <div class="md-layout-item md-small-size-100 md-size-33">
-        <md-field>
-          <map-autocomplete place-holder="Dove ti trovi" :initial-address="city" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress"></map-autocomplete>
-        </md-field>
+      <div class="md-layout-item md-small-size-100 md-size-33" style="padding-top:10px">
+        <map-autocomplete v-if="showAddressComponent" place-holder="Località attuale" :initial-address="city" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress"></map-autocomplete>
       </div>
-      <!--<div class="md-layout-item md-small-size-100 md-size-33">
-              <md-field>
-                <label>Dove Cerchi</label>
-                <md-input v-model="researchPlace" type="text"></md-input>
-              </md-field>
-            </div>-->
       <div class="md-layout-item md-small-size-100 md-size-33">
         <md-field>
           <label for="status">Status</label>
@@ -77,6 +77,29 @@
         <md-field>
           <label>Altezza</label>
           <md-input v-model="heigth" type="number"></md-input>
+        </md-field>
+      </div>
+      <div class="md-layout-item md-small-size-100 md-size-33">
+        <md-field>
+          <label for="categoria">Categoria Attuale</label>
+          <md-select v-model="lastCategory" id="categoria">
+            <md-option v-for="category in categoryList" v-bind:value="category.text">
+              {{ category.text }}
+            </md-option>
+          </md-select>
+
+        </md-field>
+      </div>
+      <div class="md-layout-item md-small-size-100 md-size-50">
+        <md-field>
+          <label>Transfer Market Link</label>
+          <md-input v-model="externalLink" type="text"></md-input>
+        </md-field>
+      </div>
+      <div class="md-layout-item md-small-size-100 md-size-50">
+        <md-field>
+          <label>Link video</label>
+          <md-input v-model="videoLink" type="text"></md-input>
         </md-field>
       </div>
       <div class="md-layout-item md-small-size-100 md-size-33">
@@ -125,8 +148,12 @@ export default {
   },
   data() {
     return {
+      showAddressComponent : true,
       roleList: [],
       statusList: [],
+      categoryList: [],
+      countriesList:[],
+      classList : [],
       playerdata: {},
     }
   },
@@ -139,7 +166,6 @@ export default {
       serverBus.$emit('showLoading', true);
       this.$store.dispatch('savePlayerProfile', this.playerdata).then(res => {
         serverBus.$emit('showLoading', false);
-        // alert('Salvataggio OK')
       }).catch(error => {
         alert('Si è verificato un errore');
         serverBus.$emit('showLoading', false);
@@ -179,6 +205,14 @@ export default {
         this.playerdata.Heigth = value;
       }
     },
+    externalLink: {
+      get() {
+        return (this.playerdata != null) ? this.playerdata.ExternalLink : '';
+      },
+      set(value) {
+        this.playerdata.ExternalLink = value;
+      }
+    },    
     aboutMe: {
       get() {
         return (this.playerdata != null) ? this.playerdata.AboutMe : '';
@@ -223,6 +257,14 @@ export default {
         this.playerdata.PhoneNumber = value;
       }
     },
+    lastCategory: {
+      get() {
+        return (this.playerdata != null) ? this.playerdata.LastCategory : '';
+      },
+      set(value) {
+        this.playerdata.LastCategory = value;
+      }
+    },
     yearClass: {
       get() {
         var returned = ''
@@ -234,11 +276,10 @@ export default {
       },
       set(value) {
         if (this.playerdata.BornDate != null) {
-          this.playerdata.BornDate = new Date(this.playerdata.BornDate);
+          this.playerdata.BornDate = new Date('01/06/' + value);
         } else {
           this.playerdata.BornDate = new Date('01/01/2000');
         }
-        this.playerdata.BornDate.setFullYear(value)
       }
     },
     roleSelected: {
@@ -277,6 +318,26 @@ export default {
         }
       }
     },
+
+    
+    videoLink: {
+    get() {
+      if ((this.playerdata != null) && (this.playerdata.Videos != null) && (this.playerdata.Videos.length > 0))
+        return this.playerdata.Videos[0].VideoUrl
+      else return '';
+    },
+    set(value) {
+      if ((this.playerdata != null) && (this.playerdata.Videos != null) && (this.playerdata.Videos.length > 0))
+        return this.playerdata.Videos[0].VideoUrl = value;
+      else {
+        this.playerdata.Videos = [];
+        this.playerdata.Videos.push({
+          Id: 0,
+          VideoUrl: value
+        })
+      }
+    }
+  },
     experience1: {
       get() {
         if ((this.playerdata != null) && (this.playerdata.Experiences != null) && (this.playerdata.Experiences.length > 0))
@@ -338,59 +399,30 @@ export default {
   },
   created() {
     var self = this;
+    this.showAddressComponent = false;
 
     this.$store.dispatch('getStatus', {}).then(res => {
       self.statusList = res;
 
     });
+
     self.$store.dispatch('getRoleList', {}).then(res1 => {
       self.roleList = res1;
-      //self.playerdata = self.playerObject;
-
-
     })
+    self.$store.dispatch('getClassList', {}).then(res2 => {
+      self.classList = res2;
+    })
+    self.$store.dispatch('getCategories', {}).then(res3 => {
+      self.categoryList = res3;
+    })
+    this.$store.dispatch('getCountriesList', {}).then(res4 => {
+      self.countriesList = res4;
+    });
     setTimeout(function() {
       self.playerdata = self.playerObject;
+      self.showAddressComponent = true;
     }, 50);
   },
-  //mounted() {
-  //  this.playerdata = this.playerObject;
-  //}
-
-  //mounted() {
-  //  //this.playerdata = this.playerObject
-  //  if (this.playerObject == null) {
-  //    this.playerdata = {
-  //      FilePlayerImage: '',
-  //      FilePlayerCardImage: '',
-  //      Surname: '',
-  //      BornDate: null, Weigth: null,
-  //      Heigth: null,
-  //      Foot: null,
-  //      ActualStatus: null,
-  //      ActualDivision: null,
-  //      City: null,
-  //      Age: null,
-  //      AboutMe: null,
-  //      Divisions: [],
-  //      Experiences: [],
-  //      ResearchPlaces: [],
-  //      Roles: [],
-  //      Videos: [],
-  //      Name: null
-  //    }
-  //  }
-  //  else {
-  //    serverBus.$emit('showLoading', true);
-  //    this.$store.dispatch('getPlayerProfile', this.playerObject).then(res => {
-  //      serverBus.$emit('showLoading', false);
-  //      this.playerdata = res.data;
-  //    }).catch(error => {
-  //      alert('Si è verificato un errore'); serverBus.$emit('showLoading', false);
-  //    })
-  //  }
-  //},
-
 }
 </script>
 <style>

@@ -20,12 +20,12 @@
             <md-input v-model="surname" type="text"></md-input>
           </md-field>
         </div>
-        <!--<div class="md-layout-item md-small-size-100 md-size-33">
+        <div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
             <label>Classe</label>
             <md-input v-model="yearClass" type="number"></md-input>
           </md-field>
-        </div>-->
+        </div>
         <!--<div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
             <label>Nazionalità</label>

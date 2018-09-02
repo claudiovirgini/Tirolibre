@@ -33,7 +33,20 @@ export default {
       inputComponentName: 'inputMap_'
     }
   },
-  computed: {
+    computed: {
+      InitialAddress: {
+        get() {
+          return this.initialAddress;
+        },
+        set(value) {
+          if (value.length > 0) {
+            this.hasError = false,
+              this._placeSelected = value[0]
+            this.$emit('setCorrectAddress', value[0]);
+          }
+        }
+
+      },
     placeSelected: {
       get() {
         return this._placeSelected;
@@ -51,15 +64,20 @@ export default {
   created() {
     this.$store.dispatch('makeid').then(res => {
       this.inputComponentName = 'inputMap_' + res;
+     
+    }).catch(error => alert(error.response.data.error_description));
 
+    },
+    mounted() {
       if (this.startactualpos == "true") {
         this.findMyPosition()
       }
-    }).catch(error => alert(error.response.data.error_description));
-    if (this.initialAddress != null) {
-      this.checkAddressValidity(this.initialAddress);
-    }
-  },
+      else {
+        if (this.initialAddress != null) {
+          this.checkAddressValidity(this.initialAddress);
+        }
+      }
+    },
   methods: {
     keyhandler: function(event) {
 
@@ -92,12 +110,7 @@ export default {
           };
         });
     },
-    /**
-     * When the location found
-     * @param {Object} addressData Data of the found location
-     * @param {Object} placeResultData PlaceResult object
-     * @param {String} id Input container ID
-     */
+
     getAddressData: function(addressData, placeResultData, id) {
       this.checkAddressValidity(addressData.locality);
       this.$emit('placeChanged', this.placeSelected);
