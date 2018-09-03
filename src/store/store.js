@@ -6,7 +6,7 @@ import VueAxios from 'vue-axios'
 import axios from 'axios'
 import fs from "fs"
 import path from 'path'
-import { serverBus } from '../main';
+import { serverBus } from '@/main';
 
 Vue.use(Vuex)
 Vue.use(VueAxios, axios)
@@ -20,6 +20,8 @@ export const store = new Vuex.Store({
     playerSelected: '',
     configurations: {
       //serviceBaseUrl: 'http://localhost:61610/',
+      //serviceBaseUrl: 'http://localhost:114/',
+
       serviceBaseUrl: 'http://testservice.tirolibre.it',
       imageRootUrl: 'http://tirolibre.it/CDN/',
       //serviceBaseUrl: 'http://testservice.tirolibre.it',
@@ -28,7 +30,9 @@ export const store = new Vuex.Store({
       confirmEmailUrl: '/api/Account/ConfirmEmail',
       getPlayerInfoUrl: '/api/Player/GetPlayerInfo',
       savePlayerInfoUrl: '/api/Player/SavePlayerInfo',
-      getTeamAroundPoint: '/api/Player/GetTeamsAroundPoint',
+      getTeamAroundPointUrl: '/api/Player/GetTeamsAroundPoint',
+      getPlayerAroundPointUrl: '/api/Player/GetPlayersAroundPoint',
+
       FindUserUrl: '/api/Player/FindUser',
 
       getAgentInfoUrl: '/api/Agent/GetAgentInfo',
@@ -59,8 +63,9 @@ export const store = new Vuex.Store({
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         localStorage.removeItem('userImageUrl');
-
         state.authentication.token = null;
+        serverBus.$emit('loggedOut', {});
+
       } else {
         localStorage.setItem('user', data.userInfo);
         localStorage.setItem('userImageUrl', data.imageUrl);
@@ -69,6 +74,7 @@ export const store = new Vuex.Store({
         state.authentication.user = JSON.parse(data.userInfo);
         state.authentication.userImageUrl = data.imageUrl;
         state.authentication.token = data.token;
+        serverBus.$emit('loggedIn', {});
       }
     },
 
@@ -411,32 +417,22 @@ export const store = new Vuex.Store({
     },
     login({ commit, dispatch }, authData) {
       serverBus.$emit('showLoading', true);
-
       const data = "grant_type=password&userName=" + authData.email + "&password=" + authData.pwd;
       axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.loginUrl, data)
         .then(res => {
           serverBus.$emit('showLoading', false);
           commit('SET_AUTH', { token: res.data.access_token, userInfo: res.data.user, imageUrl: res.data.imageUrl });
-          serverBus.$emit('route', 'user');
+          return true;
         })
-        .catch(error => alert(error.response.data.error_description));
+        .catch(error => alert('Error'+JSON.stringify(error)));
     },
     signup({ commit, dispatch }, authData) {
-      serverBus.$emit('showLoading', true);
       const data = { Email: authData.email, Password: authData.password, Environment: this.state.configurations.environment, Profile: authData.profile,Name : authData.name,Surname : authData.surname }
-      axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.signupUrl, data)
-        .then(res => {
-          serverBus.$emit('showLoading', false);
-          })
-        .catch(error => alert(JSON.stringify(error.response.data.ExceptionMessage)));
+      return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.signupUrl, data)
     },
     confirmEmail({ commit, dispatch }, code) {
       const data = { Code: code, Environment: this.state.configurations.environment }
       axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.confirmEmailUrl, data)
-        .then(res => {
-          alert('Confirmation OK');
-        })
-        .catch(error => alert(JSON.stringify(error.response.data.ExceptionMessage)));
     },
     fetchUser({ commit, state }) {
       const token = localStorage.getItem('token');
@@ -454,7 +450,7 @@ export const store = new Vuex.Store({
     },
     getTeamAroundPoint({ commit, state }, params) {
       const data = { Latitudine: params.lat, Longitudine: params.lng, Radius: params.rad, Top: params.top  }
-      return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getTeamAroundPoint,data);
+      return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getTeamAroundPointUrl,data);
     },
     savePlayerProfile({ commit, state }, player) {
       const data = { Player: player }
@@ -465,6 +461,10 @@ export const store = new Vuex.Store({
     getAgentProfile({ commit, state }, agentId) {
       const data = { AgentId: agentId }
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getAgentInfoUrl, data);
+    },
+    getPlayerAroundPoint({ commit, state }, params) {
+      const data = { Latitudine: params.lat, Longitudine: params.lng, Radius: params.rad, Top: params.top }
+      return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getPlayerAroundPointUrl, data);
     },
     getPlayerAgentProfile({ commit, state }, playerId) {
       const data = { PlayerId: playerId }

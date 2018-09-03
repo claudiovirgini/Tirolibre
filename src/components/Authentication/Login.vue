@@ -26,6 +26,12 @@
 </div>
 </template>
 <script>
+  import Vue from 'vue'
+  import Router from 'vue-router'
+
+Vue.use(Router)
+  import { serverBus } from '@/main';
+
 export default {
   name: 'Login',
   data() {
@@ -44,8 +50,9 @@ export default {
         email: email,
         pwd: pwd,
       }
-      //console.log(formData)
-      this.$store.dispatch('login', { email: email, pwd: pwd })
+      this.$store.dispatch('login', { email: email, pwd: pwd }).then(res => {
+        serverBus.$emit('showMessage', 'Benvenuto!!');
+      }).catch(error => alert('login error : '+JSON.stringify(error)));
 
       $('.cd-user-modal').removeClass('is-visible');
     },

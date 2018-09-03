@@ -16,7 +16,7 @@
       <md-icon>person</md-icon>
       <p>Player Profile</p>
     </sidebar-link>
-    <sidebar-link to="/maps" v-if="isPlayerProfile">
+    <sidebar-link to="/maps" v-if="isPlayerProfile || isAgentProfile">
       <md-icon>location_on</md-icon>
       <p>Maps</p>
     </sidebar-link>

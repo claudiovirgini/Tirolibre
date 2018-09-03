@@ -30,6 +30,7 @@
 <script>
 import axios from 'axios'
 import Logo from '@/components/Logo'
+import { serverBus } from '@/main';
 
 export default {
   name: 'Home',
@@ -42,8 +43,9 @@ export default {
     }
   },
   mounted() {
-    alert(this.$route.query.cf)
-    this.$store.dispatch('confirmEmail', this.$route.query.cf)
+    this.$store.dispatch('confirmEmail', this.$route.query.cf).then(res => {
+      serverBus.$emit('showMessage', 'Ora sei attivo puoi effettuare Login');
+    }).catch(error => serverBus.$emit('showError', 'Si è verificato un errore in fase di attivazione'));
   }
 }
 </script>

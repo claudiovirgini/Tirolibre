@@ -70,11 +70,12 @@ import {
   ScaleOut
 } from 'vue-loading-spinner'
 
-import {
-  serverBus
-} from '../main';
+import {serverBus} from '@/main';
 
 import Vue from 'vue'
+import { setTimeout } from 'timers';
+  import Toasted from 'vue-toasted';
+  Vue.use(Toasted)
 
 export default {
   name: 'Header',
@@ -97,6 +98,7 @@ export default {
   computed: {
     isAuthenticated: {
       get() {
+        
         return this.$store.state.authentication.isAuth;
       }
     },
@@ -117,6 +119,32 @@ export default {
     this.$store.dispatch('fetchUser')
     serverBus.$on('showLoading', (isToShow) => {
       this.showLoading(isToShow);
+      
+    });
+    serverBus.$on('showMessage', (message) => {
+      //alert(message)
+      this.$toasted.show(message, {
+        theme: "outline",
+        position: "top-center",
+        duration: 5000,
+        fullWidth: true,
+        type: 'success'
+      });
+    });
+    serverBus.$on('showError', (message) => {
+      //alert(message)
+      this.$toasted.show(message, {
+        //theme: "primary",
+        position: "top-center",
+        duration: 5000,
+        fullWidth: true,
+        type: 'error'
+      });
+    });
+    var self = this;
+
+    serverBus.$on('loggedIn', () => {
+      self.goToProfile();
     });
   },
   methods: {
@@ -127,7 +155,8 @@ export default {
       this.$store.dispatch('logout')
       this.$router.push('/')
     },
-    goToProfile: function() {
+
+    goToProfile: function () {
       var actualProfile = this.$store.state.authentication.user.Profile;
       if (actualProfile == 0) this.$router.push('/player')
       if (actualProfile == 1) this.$router.push('/team')

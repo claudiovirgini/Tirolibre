@@ -52,7 +52,7 @@
       </div>
     </div>
 
-        <div class="row row-eq-height">
+    <div class="row row-eq-height">
       <div class="col" v-for="card in portfolio" :key="card.Name">
         <md-card md-with-hover>
           <md-card-header>

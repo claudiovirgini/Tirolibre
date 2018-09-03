@@ -65,6 +65,7 @@
 </template>
 <script>
 import Vue from 'vue'
+import { serverBus } from '@/main';
 
 
 export default {
@@ -85,8 +86,12 @@ export default {
         email: email,
         pwd: pwd,
       }
-      //console.log(formData)
-      this.$store.dispatch('signup', {email: this.email,password: this.password,name: this.name,profile: this.profile,surname : this.surname})
+      serverBus.$emit('showLoading', true);
+      this.$store.dispatch('signup', { email: this.email, password: this.password, name: this.name, profile: this.profile, surname: this.surname })
+        .then(res => {
+          serverBus.$emit('showLoading', false);
+          alert("Ti abbiamo inviato una mail per attivarti")
+      }).catch(error => alert('Si è verificato un errore'));
     },
   }
 }

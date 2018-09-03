@@ -24,6 +24,7 @@
     "vue-material": "1.0.0-beta-8",
     "vue-router": "3.0.1",
     "vue-slider-component": "^2.7.6",
+    "vue-toasted": "^1.1.24",
     "vue-youtube-embed": "^2.2.1",
     "vuex": "^3.0.1"
   },
