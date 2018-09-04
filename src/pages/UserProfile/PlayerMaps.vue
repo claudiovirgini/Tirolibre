@@ -11,9 +11,76 @@
     <!--<div class="col-lg-4 col-md-12 col-sm-12" style="padding-top:10px;text-align:center">
         <button @click="findTeams()" class="btn"><i class="fa fa-search" ></i> Cerca</button>
       </div>-->
+
+  </div>
+
+  <div class="row">
+
+    <div class="col">
+      <md-field>
+        <label for="ruolo">Ruolo</label>
+        <md-select v-model="roleSelected" id="ruolo">
+          <md-option v-for="role in roleList" v-bind:value="role.value">
+            {{ role.text }}
+          </md-option>
+        </md-select>
+      </md-field>
+    </div>
+    <div class="col">
+      <md-field>
+        <label for="classe">Classe</label>
+        <md-select v-model="classeSelected" id="classe">
+          <md-option v-for="classe in classList" v-bind:value="classe.value">
+            {{ classe.text }}
+          </md-option>
+        </md-select>
+      </md-field>
+    </div>
+    <div class="col">
+      <md-field>
+        <label for="status">Status</label>
+        <md-select v-model="statusSelected" id="status">
+          <md-option v-for="status in statusList" v-bind:value="status.value">
+            {{ status.text }}
+          </md-option>
+        </md-select>
+
+      </md-field>
+    </div>
+    <div class="col">
+      <md-field>
+        <label for="category">Categoria</label>
+        <md-select v-model="categorySelected" id="category">
+          <md-option v-for="category in categoryList" v-bind:value="category.value">
+            {{ category.text }}
+          </md-option>
+        </md-select>
+
+      </md-field>
+    </div>
+
+    <div class="col">
+      <md-field>
+        <label for="country">Nazionalità</label>
+        <md-select v-model="countrySelected" id="country">
+
+          <md-option v-for="country in countriesList" v-bind:value="country.value">
+
+            {{ country.text }}
+            <!-- <button @click="findPlayer()" class="btn btn-success btn-lg btn-block"><i class="fa fa-search"></i> Cerca</button> -->
+          </md-option>
+        </md-select>
+
+      </md-field>
+    </div>
+    <div class="col">
+      <md-button @click="findPlayerList()" class="md-success btn btn-success btn-block">
+        <i class="md-icon md-icon-font material-icons md-theme-default">search</i> Cerca
+      </md-button>
+    </div>
   </div>
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-4 d-none d-sm-block">
       <!--<div class="row">
     <div class="col">
       <md-card md-with-hover>
@@ -46,20 +113,49 @@
             </md-card-header>
             <md-card-actions>
               <md-button class="md-success tiro" @click="showInfoWindowById(team.Id)">
-                <i class="md-icon md-icon-font material-icons md-theme-default">edit</i>
-                Show
+                <i class="md-icon md-icon-font material-icons md-theme-default">edit</i> Show
               </md-button>
             </md-card-actions>
           </md-card>
         </div>
       </div>
-      <div class="row row-eq-height" >
+      <div class="row row-eq-height user-list">
         <div class="col" v-for="player in players" :key="player.Id">
+
+          <md-card class="md-card-profile">
+            <div class="md-card-avatar">
+              <!-- <picture-box :picUrl="imagefile" :picType="profile"></picture-box> -->
+              <!--<img class="img" :src="imagefile">-->
+            </div>
+            <md-card-content>
+              <h4 class="card-title"> name+surname </h4>
+              <h6 class="category text-gray">Profile</h6>
+              <hr>
+              <div class="text-center">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <h5>
+                          Ruolo
+                          <br><small>attaccante</small>
+                        </h5>
+                  </div>
+                  <div class="col-lg-6">
+                    <h5>
+                          Classe
+                          <br><small>2000</small>
+                        </h5>
+                  </div>
+                </div>
+              </div>
+            </md-card-content>
+
+          </md-card>
           <md-card md-with-hover>
             <md-card-header>
               <md-card-header-text>
                 <div class="md-title">{{ player.Name }} </div>
-                <!--<div class="md-subhead">{{ card.Role != null  ? card.Role : 'No Role' }}</div>-->
+                <div class="md-subhead"><i class="md-icon md-icon-font material-icons md-theme-default">place</i>{{ player.FullAddress }}</div>
+                <!-- <div class="md-subhead">{{ card.Role != null ? card.Role : 'No Role' }}</div> -->
               </md-card-header-text>
               <md-card-media md-medium>
                 <picture-box :picUrl="player.PlayerImage" :picType="0"></picture-box>
@@ -67,8 +163,7 @@
             </md-card-header>
             <md-card-actions>
               <md-button class="md-success tiro" @click="showInfoWindowById(player.Id)">
-                <i class="md-icon md-icon-font material-icons md-theme-default">edit</i>
-                Show
+                <i class="md-icon md-icon-font material-icons md-theme-default">touch_app</i> Mostra
               </md-button>
             </md-card-actions>
           </md-card>
@@ -80,25 +175,25 @@
       <div id="map"></div>
     </div>
   </div>
- 
+
 </div>
 </template>
 
 <script>
 import vueSlider from 'vue-slider-component'
-  import MapAutocomplete from '@/components/GoogleMaps/MapAutocomplete'
-  import PictureBox from '@/components/PictureBox/PictureBox'
+import MapAutocomplete from '@/components/GoogleMaps/MapAutocomplete'
+import PictureBox from '@/components/PictureBox/PictureBox'
 
 //import axios from 'axios'
 import {
   serverBus
 } from '../../main';
 
-  export default {
+export default {
   name: 'PlayerMaps',
   data() {
     return {
-      profile:-1,
+      profile: -1,
       city: '',
       _mapCircle: null,
       _amount: 0,
@@ -110,7 +205,15 @@ import {
       actualTimer: null,
       marker: new google.maps.Marker(),
       markers: [],
-      infoWindows: []
+      infoWindows: [],
+      statusList: [],
+      roleList: [],
+      classList: [],
+      categoryList: [],
+      countriesList: [],
+      profileList: [],
+      profileSelected: null,
+      placeSelected: null
     }
   },
   components: {
@@ -133,7 +236,7 @@ import {
         };
         this._mapCircle = this.getCircle(this.map, value, this.actualPos)
         if (this.actualTimer != null) clearTimeout(this.actualTimer);
-        this.actualTimer = setTimeout(function () {
+        this.actualTimer = setTimeout(function() {
           var profileUserLogged = self.$store.state.authentication.user.Profile;
           if (profileUserLogged == 0) self.findTeams();
           if (profileUserLogged == 2) self.findPlayers();
@@ -155,16 +258,20 @@ import {
       }
     }
   },
-    mounted() {
-      this.profile = this.$store.state.authentication.user.Profile;
+  mounted() {
+    this.profile = this.$store.state.authentication.user.Profile;
+  },
+  methods: {
+    showInfoWindowById: function(Id) {
+      var markerToOpen = this.markers.filter(function(x) {
+        return x.id == Id
+      })[0];
+      var infoWindowToOpen = this.infoWindows.filter(function(x) {
+        return x.id == Id
+      })[0];
+      for (var i = 0; i < this.infoWindows.length; i++) this.infoWindows[i].info.close()
+      infoWindowToOpen.info.open(this.map, markerToOpen.marker);
     },
-    methods: {
-      showInfoWindowById: function (Id) {
-        var markerToOpen = this.markers.filter(function (x) { return x.id == Id })[0];
-        var infoWindowToOpen = this.infoWindows.filter(function (x) { return x.id == Id })[0];
-        for (var i = 0; i < this.infoWindows.length; i++)   this.infoWindows[i].info.close()
-        infoWindowToOpen.info.open(this.map, markerToOpen.marker);
-      },
 
     increaseAmount: function() {
       if (this.amount < 100)
@@ -174,22 +281,22 @@ import {
       if (this.amount > 0)
         this.amount = this.amount - 5;
     },
-    findPlayers: function () {
+    findPlayers: function() {
       var self = this;
       if ((this.actualPos != null) && (this.amount != null)) {
         serverBus.$emit('showLoading', true);
         this.$store.dispatch('getPlayerAroundPoint', {
-          lat: this.actualPos.lat,
-          lng: this.actualPos.lng,
-          rad: this.amount * 4,
-          top: 100
-        })
+            lat: this.actualPos.lat,
+            lng: this.actualPos.lng,
+            rad: this.amount * 4,
+            top: 100
+          })
           .then(res => {
             self.players = res.data
             for (var i = 0; i < self.markers.length; i++) {
               self.markers[i].marker.setMap(null);
             }
-            res.data.forEach(function (player) {
+            res.data.forEach(function(player) {
               let point = {
                 lat: player.Latitudine,
                 lng: player.Longitudine
@@ -213,17 +320,23 @@ import {
                 animation: google.maps.Animation.DROP,
                 title: player.Name
               });
-              google.maps.event.addListener(markerMap, 'click', function () {
-                for (var i = 0; i < self.infoWindows.length; i++)   self.infoWindows[i].info.close()
+              google.maps.event.addListener(markerMap, 'click', function() {
+                for (var i = 0; i < self.infoWindows.length; i++) self.infoWindows[i].info.close()
                 infowindow.open(map, markerMap);
               });
               // Event that closes the Info Window with a click on the map
-              google.maps.event.addListener(map, 'click', function () {
+              google.maps.event.addListener(map, 'click', function() {
                 infowindow.close();
               });
               markerMap.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
-              self.markers.push({ marker: markerMap, id: player.Id });
-              self.infoWindows.push({ info: infowindow, id: player.Id })
+              self.markers.push({
+                marker: markerMap,
+                id: player.Id
+              });
+              self.infoWindows.push({
+                info: infowindow,
+                id: player.Id
+              })
             });
             serverBus.$emit('showLoading', false);
           })
@@ -273,8 +386,8 @@ import {
                 animation: google.maps.Animation.DROP,
                 title: team.TeamName
               });
-              google.maps.event.addListener(markerMap, 'click', function () {
-                for (var i = 0; i < self.infoWindows.length; i++)   self.infoWindows[i].info.close()
+              google.maps.event.addListener(markerMap, 'click', function() {
+                for (var i = 0; i < self.infoWindows.length; i++) self.infoWindows[i].info.close()
                 infowindow.open(map, markerMap);
               });
               // Event that closes the Info Window with a click on the map
@@ -282,8 +395,14 @@ import {
                 infowindow.close();
               });
               markerMap.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
-              self.markers.push({ marker: markerMap, id: team.Id });
-              self.infoWindows.push({ info: infowindow, id: team.Id })
+              self.markers.push({
+                marker: markerMap,
+                id: team.Id
+              });
+              self.infoWindows.push({
+                info: infowindow,
+                id: team.Id
+              })
             });
             serverBus.$emit('showLoading', false);
           })
@@ -344,6 +463,44 @@ import {
       }
       this._mapCircle = this.getCircle(this.map, this.amount, this.actualPos)
     },
+    findPlayerList: function() {
+      //        alert('status : ' + this.statusSelected + ' - class : ' + this.classeSelected + ' - Role : ' + this.roleSelected + ' - ProfileSelected : ' + this.profileSelected + ' - categorySelected : ' + this.categorySelected)
+      let findPlayerDetails = {
+        status: this.statusSelected,
+        role: this.roleSelected,
+        class: this.classeSelected,
+        category: this.categorySelected
+      };
+      this.findUsers(this.profileSelected, this.placeSelected, 100, findPlayerDetails, null);
+    }
+
+  },
+  created() {
+    if (this.place != null) this.placeSelected = this.place;
+    var self = this;
+    this.$store.dispatch('getCategories', {}).then(res => {
+      self.categoryList = res
+    })
+    this.$store.dispatch('getRoleList', {}).then(res => {
+      this.roleList = res
+    })
+    this.$store.dispatch('getStatus', {}).then(res => {
+      this.statusList = res;
+    })
+    this.$store.dispatch('getClassList', {}).then(res => {
+      this.classList = res;
+    })
+    this.$store.dispatch('getCountriesList', {}).then(res => {
+      this.countriesList = res;
+    })
+    this.$store.dispatch('getProfileList', {}).then(res => {
+      this.profileList = res;
+      setTimeout(function() {
+        let temp = self.profileList.filter(d => d.text === self.what);
+        self.profileSelected = temp[0].value;
+        self.findTeam();
+      }, 500);
+    })
 
   }
 
@@ -351,6 +508,15 @@ import {
 </script>
 
 <style scoped lang="scss">
+.md-card {
+    .md-card-header {
+        background-color: #FFF;
+    }
+}
+.user-list {
+    max-height: 600px;
+    overflow: auto;
+}
 .button_plus {
     float: left;
     background-color: #3498db;

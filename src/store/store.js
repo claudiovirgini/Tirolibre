@@ -139,7 +139,7 @@ export const store = new Vuex.Store({
     getClassList: function () {
       let classilst = [];
       classilst.push({ text: 'Tutto', value: 0 });
-      for (let i = 0; i < 15; i++) {
+      for (let i = 0; i < 56; i++) {
         var myDate = new Date();
         let classToAdd = myDate.getFullYear() - 3 - i;
         classilst.push({ text: classToAdd, value: classToAdd});
@@ -463,7 +463,7 @@ export const store = new Vuex.Store({
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getAgentInfoUrl, data);
     },
     getPlayerAroundPoint({ commit, state }, params) {
-      const data = { Latitudine: params.lat, Longitudine: params.lng, Radius: params.rad, Top: params.top }
+      const data = { Latitudine: params.lat, Longitudine: params.lng, Radius: params.rad, Top: params.top, Role:params.role, Category: params.category, Class: params.class }
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getPlayerAroundPointUrl, data);
     },
     getPlayerAgentProfile({ commit, state }, playerId) {
