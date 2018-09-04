@@ -58,23 +58,8 @@
 
       </md-field>
     </div>
-
     <div class="col">
-      <md-field>
-        <label for="country">Nazionalità</label>
-        <md-select v-model="countrySelected" id="country">
-
-          <md-option v-for="country in countriesList" v-bind:value="country.value">
-
-            {{ country.text }}
-            <!-- <button @click="findPlayer()" class="btn btn-success btn-lg btn-block"><i class="fa fa-search"></i> Cerca</button> -->
-          </md-option>
-        </md-select>
-
-      </md-field>
-    </div>
-    <div class="col">
-      <md-button @click="findPlayerList()" class="md-success btn btn-success btn-block">
+      <md-button @click="findPlayers()" class="md-success btn btn-success btn-block">
         <i class="md-icon md-icon-font material-icons md-theme-default">search</i> Cerca
       </md-button>
     </div>
@@ -213,7 +198,11 @@ export default {
       countriesList: [],
       profileList: [],
       profileSelected: null,
-      placeSelected: null
+      placeSelected: null,
+      roleSelected: null,
+      classeSelected: null,
+      categorySelected: null,
+      statusSelected: null,
     }
   },
   components: {
@@ -289,6 +278,10 @@ export default {
             lat: this.actualPos.lat,
             lng: this.actualPos.lng,
             rad: this.amount * 4,
+            role: this.role,
+            category: this.category,
+            class: this.class,
+            status: this.status,
             top: 100
           })
           .then(res => {
@@ -462,16 +455,6 @@ export default {
         this._mapCircle.setMap(null)
       }
       this._mapCircle = this.getCircle(this.map, this.amount, this.actualPos)
-    },
-    findPlayerList: function() {
-      //        alert('status : ' + this.statusSelected + ' - class : ' + this.classeSelected + ' - Role : ' + this.roleSelected + ' - ProfileSelected : ' + this.profileSelected + ' - categorySelected : ' + this.categorySelected)
-      let findPlayerDetails = {
-        status: this.statusSelected,
-        role: this.roleSelected,
-        class: this.classeSelected,
-        category: this.categorySelected
-      };
-      this.findUsers(this.profileSelected, this.placeSelected, 100, findPlayerDetails, null);
     }
 
   },

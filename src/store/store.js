@@ -463,7 +463,7 @@ export const store = new Vuex.Store({
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getAgentInfoUrl, data);
     },
     getPlayerAroundPoint({ commit, state }, params) {
-      const data = { Latitudine: params.lat, Longitudine: params.lng, Radius: params.rad, Top: params.top, Role:params.role, Category: params.category, Class: params.class }
+      const data = { Latitudine: params.lat, Longitudine: params.lng, Radius: params.rad, Top: params.top, Role:params.role, Category: params.category, Class: params.class, Status: params.status }
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getPlayerAroundPointUrl, data);
     },
     getPlayerAgentProfile({ commit, state }, playerId) {
