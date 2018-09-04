@@ -65,7 +65,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-4 d-none d-sm-block">
+    <div class="col-md-3 d-none d-sm-block">
       <!--<div class="row">
     <div class="col">
       <md-card md-with-hover>
@@ -105,29 +105,29 @@
         </div>
       </div>
       <div class="row row-eq-height user-list">
-        <div class="col" v-for="player in players" :key="player.Id">
+        <div class="col-12" v-for="player in players" :key="player.Id">
 
           <md-card class="md-card-profile">
             <div class="md-card-avatar">
+              <picture-box :picUrl="player.PlayerImage" :picType="0"></picture-box>
               <!-- <picture-box :picUrl="imagefile" :picType="profile"></picture-box> -->
-              <!--<img class="img" :src="imagefile">-->
             </div>
             <md-card-content>
-              <h4 class="card-title"> name+surname </h4>
-              <h6 class="category text-gray">Profile</h6>
+              <h4 class="card-title"> {{ player.Name }} </h4>
+              <h6 class="category text-gray">{{ player.Category }}</h6>
               <hr>
               <div class="text-center">
                 <div class="row">
                   <div class="col-lg-6">
                     <h5>
                           Ruolo
-                          <br><small>attaccante</small>
+                          <br><small>{{ player.Role }}</small>
                         </h5>
                   </div>
                   <div class="col-lg-6">
                     <h5>
                           Classe
-                          <br><small>2000</small>
+                          <br><small>{{ player.Class }}</small>
                         </h5>
                   </div>
                 </div>
@@ -135,12 +135,10 @@
             </md-card-content>
 
           </md-card>
-          <md-card md-with-hover>
+          <!-- <md-card md-with-hover>
             <md-card-header>
               <md-card-header-text>
                 <div class="md-title">{{ player.Name }} </div>
-                <div class="md-subhead"><i class="md-icon md-icon-font material-icons md-theme-default">place</i>{{ player.FullAddress }}</div>
-                <!-- <div class="md-subhead">{{ card.Role != null ? card.Role : 'No Role' }}</div> -->
               </md-card-header-text>
               <md-card-media md-medium>
                 <picture-box :picUrl="player.PlayerImage" :picType="0"></picture-box>
@@ -151,7 +149,7 @@
                 <i class="md-icon md-icon-font material-icons md-theme-default">touch_app</i> Mostra
               </md-button>
             </md-card-actions>
-          </md-card>
+          </md-card> -->
         </div>
       </div>
 
