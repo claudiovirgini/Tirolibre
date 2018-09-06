@@ -189,6 +189,10 @@ h3 {
         font-size: 22px;
     }
 }
+.img-thumbnail {
+    max-width: 100%;
+    min-width: 100%;
+}
 .close {
     position: absolute;
     right: 32px;

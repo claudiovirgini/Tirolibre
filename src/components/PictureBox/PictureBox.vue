@@ -30,8 +30,8 @@ export default {
     }
   },
   methods: {
-    imageLoadError: function () {
-      
+    imageLoadError: function() {
+
       this.isDefaultPlayer = false;
       this.isDefaulTeam = false;
       if (this.picType === 0) //calciatore
@@ -44,7 +44,7 @@ export default {
         this.isDefaultAgent = true;
     }
   },
-    mounted() {
+  mounted() {
     //this.isDefaultPlayer = true;
     //alert(require('~src/assets/img/faces/marc.jpg'))
     //if (this.$store.state.authentication.user == null)
@@ -66,7 +66,7 @@ export default {
 }
 
 .imgDefaultPlayer {
-  content: url("../../assets/img/defaultFace.jpg");
+  content: url("../../assets/img/defaultFace.png");
 }
 
 .imgDefaultCardPlayer {
@@ -76,7 +76,8 @@ export default {
 .imgDefaultTeam {
   content: url("../../assets/img/vue-logo.png");
 }
-  .imgDefaultAgent {
-    content: url("../../assets/img/defaultFace.jpg");
-  }
+
+.imgDefaultAgent {
+  content: url("../../assets/img/defaultFace.png");
+}
 </style>

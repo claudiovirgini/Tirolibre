@@ -65,7 +65,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-3 d-none d-sm-block">
+    <div class="col-md-3">
       <!--<div class="row">
     <div class="col">
       <md-card md-with-hover>
@@ -107,7 +107,7 @@
       <div class="row row-eq-height user-list">
         <div class="col-12" v-for="player in players" :key="player.Id">
 
-          <md-card class="md-card-profile">
+          <md-card class="md-card-profile" @click.native="showInfoWindowById(player.Id)">
             <div class="md-card-avatar">
               <picture-box :picUrl="player.PlayerImage" :picType="0"></picture-box>
               <!-- <picture-box :picUrl="imagefile" :picType="profile"></picture-box> -->
@@ -154,7 +154,7 @@
       </div>
 
     </div>
-    <div class="col-md-8">
+    <div class="col-md-9 d-none d-sm-block">
       <div id="map"></div>
     </div>
   </div>
@@ -197,7 +197,7 @@ export default {
       profileList: [],
       profileSelected: null,
       placeSelected: null,
-      _roleSelected: "mike",
+      _roleSelected: null,
       classeSelected: null,
       categorySelected: null,
       statusSelected: null,
@@ -408,7 +408,7 @@ export default {
             serverBus.$emit('showLoading', false);
           })
           .catch(error => {
-            alert('Si è verificato un errore');
+            // alert('Si è verificato un errore');
             serverBus.$emit('showLoading', false);
           })
       }
@@ -500,13 +500,21 @@ export default {
 
 <style scoped lang="scss">
 .md-card {
+    cursor: pointer;
     .md-card-header {
         background-color: #FFF;
     }
 }
+.img-thumbnail {
+    max-width: 100%;
+    min-width: 100%;
+}
 .user-list {
-    max-height: 600px;
+    max-height: 550px;
     overflow: auto;
+}
+#map {
+    max-height: 550px;
 }
 .button_plus {
     float: left;
