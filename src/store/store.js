@@ -19,10 +19,10 @@ export const store = new Vuex.Store({
     where: '',
     playerSelected: '',
     configurations: {
-      //serviceBaseUrl: 'http://localhost:61610/',
+      serviceBaseUrl: 'http://localhost:61610/',
       //serviceBaseUrl: 'http://localhost:114/',
 
-      serviceBaseUrl: 'http://testservice.tirolibre.it',
+      //serviceBaseUrl: 'http://testservice.tirolibre.it',
       imageRootUrl: 'http://tirolibre.it/CDN/',
       //serviceBaseUrl: 'http://testservice.tirolibre.it',
       loginUrl   : '/auth/login',
@@ -463,7 +463,8 @@ export const store = new Vuex.Store({
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getAgentInfoUrl, data);
     },
     getPlayerAroundPoint({ commit, state }, params) {
-      const data = { Latitudine: params.lat, Longitudine: params.lng, Radius: params.rad, Top: params.top, Role:params.role, Category: params.category, Class: params.class, Status: params.status }
+      alert(params.status)
+      const data = { Latitudine: params.lat, Longitudine: params.lng, Radius: params.rad, Top: params.top, Role: params.role, Category: params.category, Class: params.class, Status: params.status }
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getPlayerAroundPointUrl, data);
     },
     getPlayerAgentProfile({ commit, state }, playerId) {

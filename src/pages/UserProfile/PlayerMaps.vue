@@ -19,7 +19,7 @@
     <div class="col">
       <md-field>
         <label for="ruolo">Ruolo</label>
-        <md-select v-model="roleSelected" id="ruolo">
+        <md-select v-model="_roleSelected" id="ruolo">
           <md-option v-for="role in roleList" v-bind:value="role.value">
             {{ role.text }}
           </md-option>
@@ -30,7 +30,7 @@
       <md-field>
         <label for="classe">Classe</label>
         <md-select v-model="classeSelected" id="classe">
-          <md-option v-for="classe in classList" v-bind:value="classe.value">
+          <md-option v-for="classe in classList" v-bind:value="classe.text">
             {{ classe.text }}
           </md-option>
         </md-select>
@@ -197,7 +197,7 @@ export default {
       profileList: [],
       profileSelected: null,
       placeSelected: null,
-      roleSelected: null,
+      _roleSelected: "mike",
       classeSelected: null,
       categorySelected: null,
       statusSelected: null,
@@ -243,6 +243,14 @@ export default {
       set(value) {
         this._map = value;
       }
+    },
+    roleSelected: {
+      get() {
+        return this._roleSelected;
+      },
+      set(value) {
+        this._roleSelected = value;
+      }
     }
   },
   mounted() {
@@ -272,14 +280,16 @@ export default {
       var self = this;
       if ((this.actualPos != null) && (this.amount != null)) {
         serverBus.$emit('showLoading', true);
+        //this._roleSelected = 'Portiere';
+        //alert(this._roleSelected)
         this.$store.dispatch('getPlayerAroundPoint', {
             lat: this.actualPos.lat,
             lng: this.actualPos.lng,
             rad: this.amount * 4,
-            role: this.role,
-            category: this.category,
-            class: this.class,
-            status: this.status,
+            role: this._roleSelected,
+            category: this.categorySelected,
+            class: this.classeSelected,
+            status: this.statusSelected,
             top: 100
           })
           .then(res => {
