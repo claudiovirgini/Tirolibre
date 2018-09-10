@@ -1,62 +1,70 @@
 <template>
-<header role="banner" class="masthead mb-auto">
-  <a class="navbar-brand float-left" href="#">
-    <img src="../assets/images/TiroLibreLogo_black.png" class="d-inline-block align-top" alt="TiroLibre" width="150px;">
-  </a>
-  <nav class="main-nav isNotAuthenticated" v-if="!isAuthenticated">
-    <ul>
-      <!--<li><button type="button" v-on:click="show(true)">accedi</button></li>-->
-      <li><a class="cd-signin" href="#">Accedi</a></li>
-      <li><a class="cd-signup" href="#0">Registrati</a></li>
-    </ul>
-  </nav>
-
-  <div class="isAuthenticated" v-if="isAuthenticated">
-
-    <ul>
-      <!-- <li class="nav-item user-img">
-        <img v-bind:src="imageUrl" style="height:33px !important" />
-      </li> -->
-      <li class="nav-item user" @click="goToProfile()">
-        <i class="material-icons">person_pin</i>
-        <label>Benvenuto {{name}}</label>
-        <!--<router-link class="nav-link" @click="goToProfile()">Benvenuto {{name}}</router-link>-->
-      </li>
-      <!-- <li class="nav-item logout">
-        <a class="cd-signup" v-on:click="logout()" title="Logout"><i class="fas fa-power-off"></i></a>
-      </li> -->
-    </ul>
-  </div>
-  <!--<md-dialog :md-active.sync="showDialog">
-
-  </md-dialog>-->
-  <div class="cd-user-modal">
-    <div class="cd-user-modal-container">
-      <ul class="cd-switcher">
-        <li><a href="#0">Accedi</a></li>
-        <li><a href="#0">Registrati</a></li>
+  <header role="banner" class="masthead mb-auto">
+    <a class="navbar-brand float-left" href="#">
+      <img src="../assets/images/TiroLibreLogo_black.png" class="d-inline-block align-top" alt="TiroLibre" width="150px;">
+    </a>
+    <nav class="main-nav isNotAuthenticated" v-if="!isAuthenticated">
+      <ul>
+        <li><a class="cd-signin" href="#" @click="showLogin=true;showSignup=false">Accedi</a></li>
+        <li><a class="cd-signup" href="#" @click="showLogin=false;showSignup=true">Registrati</a></li>
       </ul>
-      <div id="cd-login">
-        <Login />
-      </div>
-      <div id="cd-signup">
-        <Signup />
-      </div>
-      <div id="cd-reset-password">
-        <RecoveryPwd></RecoveryPwd>
-      </div>
-      <a href="#0" class="cd-close-form">Close</a>
+    </nav>
+
+    <div class="isAuthenticated" v-if="isAuthenticated">
+      <ul>
+        <li class="nav-item user" @click="goToProfile()">
+          <i class="material-icons">person_pin</i>
+          <label>Benvenuto {{name}}</label>
+        </li>
+      </ul>
     </div>
-  </div>
-  <div id=preloderH v-if="isLoading">
-    <div class=loaderH>
-      <!--<hour-glass></hour-glass>-->
-      <!--<rotate-square4></rotate-square4>-->
-      <!--<rotate-square2></rotate-square2>-->
-      <scale-out></scale-out>
+    <md-dialog :md-active="showLogin || showSignup">
+      <md-dialog-title>{{showLogin==true ? 'LOGIN' : 'SIGNUP'}}</md-dialog-title>
+      <md-dialog-content>
+        <md-tabs md-dynamic-height>
+          <md-tab md-label="Login" @click="showLogin=true;showSignup=false">
+            <div id="cd-login">
+              <Login />
+            </div>
+
+          </md-tab>
+
+          <md-tab md-label="Signup"  @click="showLogin=false;showSignup=true">
+
+            <div id="cd-signup">
+              <Signup />
+            </div>
+
+          </md-tab>
+
+        </md-tabs>
+      </md-dialog-content>
+    </md-dialog>
+    <!--<div class="cd-user-modal">
+      <div class="cd-user-modal-container">
+        <ul class="cd-switcher">
+          <li><a href="#0">Accedi</a></li>
+          <li><a href="#0">Registrati</a></li>
+        </ul>
+        <div id="cd-login">
+          <Login />
+        </div>
+        <div id="cd-signup">
+          <Signup />
+        </div>
+        <div id="cd-reset-password">
+          <RecoveryPwd></RecoveryPwd>
+        </div>
+        <a href="#0" class="cd-close-form">Close</a>
+      </div>
+    </div>-->
+
+    <div id=preloderH v-if="isLoading">
+      <div class=loaderH>
+        <scale-out></scale-out>
+      </div>
     </div>
-  </div>
-</header>
+  </header>
 </template>
 
 <script>
@@ -92,7 +100,9 @@ export default {
     return {
       isLoading: false,
       remind: null,
-      showDialog: false
+      showDialog: false,
+      showLogin: false,
+      showSignup: false
     }
   },
   computed: {
@@ -169,8 +179,11 @@ export default {
  <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 /***LOADER **********/
+  #md-content {
+    overflow-y:scroll
+  }
 
-#preloderH {
+  #preloderH {
     position: fixed;
     width: 100%;
     height: 100%;
@@ -179,7 +192,7 @@ export default {
     z-index: 999999;
     background: #fff;
     opacity: 0.6;
-}
+  }
 
 .loaderH {
     width: 40px;
@@ -421,6 +434,7 @@ header[role=banner] {
 
     .main-nav a.cd-signin,
     .main-nav a.cd-signup {
+   
         padding: 0.6em 1em;
         border: 1px solid rgba(0, 0, 0, 0.5);
         border-radius: 50em;
@@ -803,13 +817,13 @@ xsigin/signup popup
 #cd-login,
 #cd-reset-password,
 #cd-signup {
-    display: none;
+    /*display: none;*/
 }
 
 #cd-login.is-selected,
 #cd-reset-password.is-selected,
 #cd-signup.is-selected {
-    display: block;
+    /*display: block;*/
 }
 
 // .switch-field input:checked+label {

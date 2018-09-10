@@ -2,7 +2,7 @@ import DashboardLayout from '@/components/Dashboard/DashboardLayout.vue'
 
 //                       Player Profile                                           //
 import PlayerProfileManager from '@/pages/UserProfile/PlayerProfileManager.vue'
-import PlayerMaps from '@/pages/UserProfile/PlayerMaps.vue'
+import DashboardMaps from '@/pages/DashboardMaps.vue'
 import PlayerMarket from '@/pages/UserProfile/PlayerMarket.vue'
 import PlayerProfileView from '@/pages/UserProfile/PlayerProfileView.vue'
 import UpgradeToPRO from '@/pages/UserProfile/UpgradeToPRO.vue'
@@ -62,7 +62,7 @@ const routes = [
         meta: {
           hideFooter: true
         },
-        component: PlayerMaps
+        component: DashboardMaps
 
       },
       {

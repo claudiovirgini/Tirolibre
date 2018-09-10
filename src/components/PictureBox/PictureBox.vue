@@ -25,14 +25,16 @@ export default {
   computed: {
     fullPath: {
       get() {
-        //alert()
+        if ((this.picUrl == null) || (this.picUrl == '')) {
+          this.isDefaultPlayer = true;
+        } else { this.isDefaultPlayer = false; }
         return this.$store.state.configurations.imageRootUrl + this.picUrl;
       }
     }
   },
   methods: {
     imageLoadError: function() {
-      this.isDefaultPlayer = true
+      //this.isDefaultPlayer = true
       //this.isDefaultPlayer = false;
       //this.isDefaulTeam = false;
       //if (this.picType === 0) //calciatore

@@ -170,10 +170,10 @@ import PictureBox from '@/components/PictureBox/PictureBox'
 //import axios from 'axios'
 import {
   serverBus
-} from '../../main';
+} from '@/main';
 
 export default {
-  name: 'PlayerMaps',
+    name: 'DashboardMaps',
   data() {
     return {
       profile: -1,

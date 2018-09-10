@@ -1,5 +1,5 @@
 <template>
-  <form class="cd-form">
+  <div class="cd-form">
     <p class="fieldset">
       <label class="image-replace cd-username" for="signup-username">Nome</label>
       <input class="full-width has-padding has-border" id="signup-username" v-model="name" type="text" placeholder="Nome">
@@ -45,21 +45,15 @@
           </div>
         </div>
       </div>
-
     </p>
-
-
     <p class="fieldset">
-      <!-- <input type="checkbox" id="accept-terms"> -->
-      <!-- <label for="accept-terms">I agree to the <a href="#0">Terms</a></label> -->
       <md-checkbox v-model="terms">I agree to the <a href="#">Terms</a></md-checkbox>
-
     </p>
 
     <p class="fieldset">
-      <input class="full-width has-padding" type="submit" value="Crea account" @click="signup()">
+      <input class="full-width has-padding" type="submit" value="Crea account" :disabled="!terms"  @click="signup()">
     </p>
-  </form>
+  </div>
 
 <!-- <a href="#0" class="cd-close-form">Close</a> -->
 </template>

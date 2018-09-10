@@ -54,10 +54,12 @@ import { serverBus } from '@/main';
     },
 
     mounted() {
+      serverBus.$emit('showLoading', true);
       this.playerId = this.$route.query.playerId
       this.$store.dispatch('getPlayerProfile', this.playerId).then(res => {
         this.playerdata = res.data
-      }).catch(error => alert('Si è verificato un errore'))
+        serverBus.$emit('showLoading', false);
+      }).catch(error => { alert('Si è verificato un errore'); serverBus.$emit('showLoading', false); })
     }
 }
 </script>

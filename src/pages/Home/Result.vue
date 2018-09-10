@@ -237,7 +237,7 @@ export default {
     },
 
     getImagePathForItem: function(item) {
-      return this.$store.state.configurations.imageRootUrl + item.fullpath;
+      return item.fullpath;
     },
 
     findUsers: function(profile, address, radiusP, filterPlayer, filterTeam) {
