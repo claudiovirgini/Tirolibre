@@ -2,7 +2,7 @@
 <div>
   <md-card class="md-card-profile">
     <div class="md-card-avatar">
-      <picture-box :picUrl="imagefile" :picType="profile" ></picture-box>
+      <!--<picture-box :picUrl="imagefile" :picType="profile" ></picture-box>-->
       <!--<img class="img" :src="imagefile">-->
     </div>
     <md-card-content>
@@ -68,9 +68,9 @@
     },
     imagefile: {
       get() {
-        return this.playerdata != null && this.playerdata.FilePlayerImage != null ?
-          this.$store.state.configurations.imageRootUrl + this.playerdata.FilePlayerImage :
-          '@/src/assets/img/faces/marc.jpg';
+        var returned = this.playerdata != null ? this.playerdata.FilePlayerImage : null;
+        alert(returned);
+        //return returned;
       }
     },
     role: {

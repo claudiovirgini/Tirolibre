@@ -133,13 +133,13 @@ export default {
     });
     serverBus.$on('showError', (message) => {
       //alert(message)
-      this.$toasted.show(message, {
-        //theme: "primary",
-        position: "top-center",
-        duration: 5000,
-        fullWidth: true,
-        type: 'error'
-      });
+      //this.$toasted.show(message, {
+      //  //theme: "primary",
+      //  position: "top-center",
+      //  duration: 5000,
+      //  fullWidth: true,
+      //  type: 'error'
+      //});
     });
     var self = this;
 

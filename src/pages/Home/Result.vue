@@ -107,11 +107,8 @@
                 <md-field>
                   <label for="country">Nazionalità</label>
                   <md-select v-model="countrySelected" id="country">
-
                     <md-option v-for="country in countriesList" v-bind:value="country.value">
-
                       {{ country.text }}
-                      <!-- <button @click="findPlayer()" class="btn btn-success btn-lg btn-block"><i class="fa fa-search"></i> Cerca</button> -->
                     </md-option>
                 </md-select>
 
@@ -147,16 +144,6 @@
                       <p class="card-text level" v-if="item.profile === 1">
                         <i class="fas fa-trophy"></i> {{ item.level }}
                       </p>
-
-
-                      <!-- <div class="md-layout-item md-size-100 text-center">
-                        <md-button class="md-raised md-success">
-                           <router-link class="total-btn" :to="{ name: 'Player', params: { profile: card.name }, query: {user: card.name}}">
-                           <div class="total-btn" @click="showProfile(item)">
-                            Apri profilo
-                          </div>
-                        </md-button>
-                      </div> -->
                     </div>
                   </div>
                 </div>
@@ -170,7 +157,6 @@
             </div>
           </div>
       </section>
-      <userProfile v-if="userProfile" :playerId="playerIdSelected" />
 </div>
 </template>
 
@@ -178,7 +164,6 @@
 <script>
 import PictureBox from '@/components/PictureBox/PictureBox'
 import Logo from '@/components/Logo'
-import UserProfile from '@/pages/UserProfile/PlayerProfileView.vue'
 import {
   serverBus
 } from '@/main';
@@ -190,7 +175,6 @@ export default {
   name: 'Result',
   components: {
     Logo,
-    UserProfile,
     PictureBox,
     MapAutocomplete,
     vueSlider
@@ -247,14 +231,15 @@ export default {
     setInvalidAddress: function() {
 
     },
-    showProfile: function(item) {
-      this.cardResult = false
-      this.userProfile = true
-      this.playerIdSelected = item.id;
+    showProfile: function (item) {
+      alert(item.id)
+      this.$router.push('playerProfile?playerId='+item.id)
     },
+
     getImagePathForItem: function(item) {
       return this.$store.state.configurations.imageRootUrl + item.fullpath;
     },
+
     findUsers: function(profile, address, radiusP, filterPlayer, filterTeam) {
       serverBus.$emit('showLoading', true);
       this.$store.dispatch('findUser', {

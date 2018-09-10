@@ -1,5 +1,5 @@
 <template>
-<img :src="picUrl" class="img-thumbnail" v-bind:class="{ 'imgDefaultPlayer': isDefaultPlayer,'imgDefaultTeam':isDefaulTeam,'imgDefaultAgent':isDefaultAgent,'imgDefaultCardPlayer':isDefaulCardPlayer  }" @error="imageLoadError" />
+    <img :src="fullPath" class="img-thumbnail" v-bind:class="{ 'imgDefaultPlayer': isDefaultPlayer,'imgDefaultTeam':isDefaulTeam,'imgDefaultAgent':isDefaultAgent,'imgDefaultCardPlayer':isDefaulCardPlayer  }" @error="imageLoadError" />
 </template>
 
 <script>
@@ -25,26 +25,28 @@ export default {
   computed: {
     fullPath: {
       get() {
-        return null;
+        //alert()
+        return this.$store.state.configurations.imageRootUrl + this.picUrl;
       }
     }
   },
   methods: {
     imageLoadError: function() {
-
-      this.isDefaultPlayer = false;
-      this.isDefaulTeam = false;
-      if (this.picType === 0) //calciatore
-        this.isDefaultPlayer = true;
-      if (this.picType === 100) //calciatore card
-        this.isDefaulCardPlayer = true;
-      if (this.picType === 1) //team
-        this.isDefaulTeam = true;
-      if (this.picType === 2) //team
-        this.isDefaultAgent = true;
+      this.isDefaultPlayer = true
+      //this.isDefaultPlayer = false;
+      //this.isDefaulTeam = false;
+      //if (this.picType === 0) //calciatore
+      //  this.isDefaultPlayer = true;
+      //if (this.picType === 100) //calciatore card
+      //  this.isDefaulCardPlayer = true;
+      //if (this.picType === 1) //team
+      //  this.isDefaulTeam = true;
+      //if (this.picType === 2) //team
+      //  this.isDefaultAgent = true;
     }
   },
-  mounted() {
+    mounted() {
+      //if ((this.picUrl == null) || (this.picUrl == '')) this.isDefaultPlayer = true;
     //this.isDefaultPlayer = true;
     //alert(require('~src/assets/img/faces/marc.jpg'))
     //if (this.$store.state.authentication.user == null)

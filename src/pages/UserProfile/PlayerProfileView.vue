@@ -15,38 +15,47 @@
 </template>
 
 <script>
-  
+
 import UserCard from '@/pages/UserProfile/PlayerProfileViewCard.vue'
   import UserInfo from '@/pages/UserProfile/PlayerProfileViewForm.vue'
+
 import { serverBus } from '@/main';
 
-export default {
-  name: 'PlayerProfileView',
-  components: {
-    UserCard,
-    UserInfo
+  export default {
+    name: 'PlayerProfileView',
+    components: {
+      UserCard,
+      UserInfo
     },
     data() {
       return {
-        playerdata: {}
+        playerdata: {},
+        fullPathPlayerImage: null,
+        infoPage: {
+          url: '',
+          type : '',
+          title: 'About me',
+          description : '',
+          image: null
+        }
       }
     },
 
-  props: {
-      playerId: {
-        type: Number
+    //props: {
+    //  playerId: {
+    //    type: Number
+    //  }
+    //},
+    methods: {
+      playerProfile: function () {
+        this.cardResult = false
+        this.userProfile = true
       }
     },
-  methods: {
-    playerProfile: function() {
-      this.cardResult = false
-      this.userProfile = true
-      console.log("player " + this.$store.state.id)
-    }
-  },
 
     mounted() {
-    this.$store.dispatch('getPlayerProfile', this.playerId).then(res => {
+      this.playerId = this.$route.query.playerId
+      this.$store.dispatch('getPlayerProfile', this.playerId).then(res => {
         this.playerdata = res.data
       }).catch(error => alert('Si è verificato un errore'))
     }

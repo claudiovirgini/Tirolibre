@@ -303,13 +303,14 @@ export default {
                 lng: player.Longitudine
               };
               let contentString = '<div class="card" style="width: 18rem;">' +
-                '<img class="card-img-top" style="max-width: 250px; margin: 0 auto;" src="' + self.$store.state.configurations.imageRootUrl + player.PlayerImage + '" alt="' + player.Name + '">' +
+                //'<picture-box :picUrl="'+player.PlayerImage+'" :picType="0"></picture-box>'+
+                '<img class="card-img-top" style="max-width: 150px; margin: 0 auto;" src="' + (player.PlayerImage != null && player.PlayerImage != '' ? self.$store.state.configurations.imageRootUrl + player.PlayerImage : '../../assets/img/defaultFace.png')+ '" alt="' + player.Name + '">' +
                 '<div class="card-body">' +
                 '<h5 class="card-title">' + player.Name + '</h5>' +
                 '<p class="card-text">' +
                 player.Catogory +
                 '</p>' +
-                '<a href="#" class="btn btn-primary" style="color: #FFF;"> Visita il Profilo </a>' +
+                '<a href="/#/playerProfile?playerId=' + player.Id+'" class="btn btn-primary" style="color: #FFF;"> Visita il Profilo </a>' +
                 '</div>' +
                 '</div>';
               let infowindow = new google.maps.InfoWindow({
@@ -486,9 +487,10 @@ export default {
     })
     this.$store.dispatch('getProfileList', {}).then(res => {
       this.profileList = res;
-      setTimeout(function() {
-        let temp = self.profileList.filter(d => d.text === self.what);
-        self.profileSelected = temp[0].value;
+      setTimeout(function () {
+        //alert(self.what)
+        //let temp = self.profileList.filter(d => d.text === self.what);
+        //self.profileSelected = temp[0].value;
         self.findTeam();
       }, 500);
     })

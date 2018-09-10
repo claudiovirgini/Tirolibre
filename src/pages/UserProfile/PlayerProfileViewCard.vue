@@ -57,11 +57,7 @@
     computed: {
       videoId: {
         get() {
-          return this.playerdata != null && this.playerdata.Videos != null && this.playerdata.Videos.length > 0 ?
-            getIdFromURL(this.playerdata.Videos[0].VideoUrl) :
-            '';
-          //'https://www.youtube.com/embed/RYd8EUYfJWw';
-
+          return this.playerdata != null && this.playerdata.Videos != null && this.playerdata.Videos.length > 0 ?  getIdFromURL(this.playerdata.Videos[0].VideoUrl) : '';
         }
       },
       videoUrl: {
@@ -69,8 +65,6 @@
           return this.playerdata != null && this.playerdata.Videos != null && this.playerdata.Videos.length > 0 ?
             this.playerdata.Videos[0].VideoUrl :
             '';
-          //'https://www.youtube.com/embed/RYd8EUYfJWw';
-
         }
       },
       profile: {
@@ -80,9 +74,7 @@
       },
       imagefile: {
         get() {
-          return this.playerdata != null && this.playerdata.FilePlayerImage != null ?
-            this.$store.state.configurations.imageRootUrl + this.playerdata.FilePlayerImage :
-            '@/assets/img/faces/marc.jpg';
+          return this.playerdata != null ? this.playerdata.FilePlayerImage  : null
         }
       },
       name: {

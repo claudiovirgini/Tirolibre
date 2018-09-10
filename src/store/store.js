@@ -4,8 +4,6 @@ import Vuex from 'vuex'
 import Router from 'vue-router'
 import VueAxios from 'vue-axios'
 import axios from 'axios'
-import fs from "fs"
-import path from 'path'
 import { serverBus } from '@/main';
 
 Vue.use(Vuex)
@@ -19,8 +17,8 @@ export const store = new Vuex.Store({
     where: '',
     playerSelected: '',
     configurations: {
-      serviceBaseUrl: 'http://localhost:61610/',
-      //serviceBaseUrl: 'http://localhost:114/',
+      //serviceBaseUrl: 'http://localhost:61610/',
+      serviceBaseUrl: 'http://localhost:114/',
 
       //serviceBaseUrl: 'http://testservice.tirolibre.it',
       imageRootUrl: 'http://tirolibre.it/CDN/',
@@ -463,7 +461,6 @@ export const store = new Vuex.Store({
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getAgentInfoUrl, data);
     },
     getPlayerAroundPoint({ commit, state }, params) {
-      alert(params.status)
       const data = { Latitudine: params.lat, Longitudine: params.lng, Radius: params.rad, Top: params.top, Role: params.role, Category: params.category, Class: params.class, Status: params.status }
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getPlayerAroundPointUrl, data);
     },
