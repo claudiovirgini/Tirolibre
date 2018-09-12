@@ -6,26 +6,6 @@
           <div class="row">
             <Logo />
             <div class="col-xs-12 col-md-8 mx-auto text-center shadow-lg rounded">
-              <div class="who">
-                <!-- I'm a ... -->
-                <div class="buttons">
-                  <div class="switch-field">
-                    <div class="switch-title">- Io sono -</div>
-                    <div class="switch-content player form-check form-check-inline">
-                      <input type="radio" id="who-calciatore" name="who" value="who-calciatore" class="form-check-input" v-model="who" checked />
-                      <label for="who-calciatore">Calciatore</label>
-                    </div>
-                    <div class="switch-content club form-check form-check-inline">
-                      <input type="radio" id="who-team" name="who" value="who-team" class="form-check-input" v-model="who" />
-                      <label for="who-team">Club</label>
-                    </div>
-                    <div class="switch-content agent form-check form-check-inline">
-                      <input type="radio" id="who-agente" name="who" value="who-agente" class="form-check-input" v-model="who" />
-                      <label for="who-agente">Agente</label>
-                    </div>
-                  </div>
-                </div>
-              </div>
 
               <div class="what" >
                 <div class="buttons">
@@ -33,15 +13,15 @@
                     <div class="switch-title">- cerco -</div>
                     <div class="switch-content player form-check form-check-inline">
                       <input type="radio" id="switch_4_left" name="what" value="calciatore" class="form-check-input" @click="selectItem" v-model="what" checked />
-                      <label for="switch_4_left">calciatore                      </label>
+                      <label class="player" for="switch_4_left">calciatore</label>
                     </div>
                     <div class="switch-content club form-check form-check-inline">
                       <input type="radio" id="switch_4_center" name="what" value="CLUB" class="form-check-input" @click="selectItem" v-model="what" />
-                      <label for="switch_4_center">club</label>
+                      <label class="club" for="switch_4_center">club</label>
                     </div>
                     <div class="switch-content agent form-check form-check-inline">
                       <input type="radio" id="switch_4_right" name="what" value="agente" class="form-check-input" @click="selectItem" v-model="what" />
-                      <label for="switch_4_right">agente</label>
+                      <label class="agent" for="switch_4_right">agente</label>
                     </div>
                   </div>
                 </div>
@@ -57,7 +37,11 @@
               </div>
               <div class="form-group">
                 <div class="col-md-6 mx-auto">
-                  <button type="button" @click="findUsers"  class="btn btn-outline-success btn-lg btn-block">Inizia <i class="fa fa-chevron-circle-right"></i></button>
+                  <md-button @click="findUsers" class="md-success btn btn-success btn-lg btn-block">
+                    Inizia
+                      <!-- <i class="md-icon md-icon-font material-icons md-theme-default">arrow_forward_ios</i> -->
+                  </md-button>
+                  <!-- <button type="button" @click="findUsers"  class="btn btn-outline-success btn-lg btn-block">Inizia <i class="fa fa-chevron-circle-right"></i></button> -->
                 </div>
               </div>
             </div>
@@ -212,7 +196,7 @@ export default {
     overflow: hidden;
     box-shadow: 0 1rem 3rem rgba(0,0,0,.175);
     &:before {
-        content: "";
+        // content: "";
         position: absolute;
         // z-index: -1;
         left: 0;
@@ -345,7 +329,7 @@ export default {
 }
 .what {
     .switch-content {
-        background: #bcd0e5;
+        background-color: rgba(24,133,2,.3);
         label {
             &:before {
                 background-color: #FFF;
@@ -356,6 +340,30 @@ export default {
             &:hover {
                 background-color: #1057a0;
                 color: #FFF;
+            }
+        }
+        label.player {
+            &:before {
+                border: 2px solid #178501;
+            }
+            &:hover {
+                background-color: #178501;
+            }
+        }
+        label.club {
+            &:before {
+                border: 2px solid #1057a0;
+            }
+            &:hover {
+                background-color: #1057a0;
+            }
+        }
+        label.agent {
+            &:before {
+                border: 2px solid #ffa000;
+            }
+            &:hover {
+                background-color: #ffa000;
             }
         }
     }
@@ -386,9 +394,17 @@ export default {
     }
 
     .switch-field input:checked + label {
-        background-color: #1057a0;
         -webkit-box-shadow: none;
         box-shadow: none;
+    }
+    .switch-field input:checked + label.player {
+        background-color: #178501;
+    }
+    .switch-field input:checked + label.club {
+        background-color: #1057a0;
+    }
+    .switch-field input:checked + label.agent {
+        background-color: #ffa000;
     }
     .switch-field {
         label {
@@ -401,7 +417,7 @@ export default {
 }
 .where {
     .md-field {
-        background-color: #4b5a65;
+        // background-color: #4b5a65;
         padding: 20px;
         border-radius: 10px;
     }

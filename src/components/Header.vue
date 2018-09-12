@@ -1,46 +1,46 @@
 <template>
-  <header role="banner" class="masthead mb-auto">
-    <a class="navbar-brand float-left" href="#">
+<header role="banner" class="masthead mb-auto">
+  <a class="navbar-brand float-left" href="#">
       <img src="../assets/images/TiroLibreLogo_black.png" class="d-inline-block align-top" alt="TiroLibre" width="150px;">
     </a>
-    <nav class="main-nav isNotAuthenticated" v-if="!isAuthenticated">
-      <ul>
-        <li><a class="cd-signin" href="#" @click="showLogin=true;showSignup=false">Accedi</a></li>
-        <li><a class="cd-signup" href="#" @click="showLogin=false;showSignup=true">Registrati</a></li>
-      </ul>
-    </nav>
+  <nav class="main-nav isNotAuthenticated" v-if="!isAuthenticated">
+    <ul>
+      <li><a class="cd-signin" href="#" @click="showLogin=true;showSignup=false">Accedi</a></li>
+      <li><a class="cd-signup" href="#" @click="showLogin=false;showSignup=true">Registrati</a></li>
+    </ul>
+  </nav>
 
-    <div class="isAuthenticated" v-if="isAuthenticated">
-      <ul>
-        <li class="nav-item user" @click="goToProfile()">
-          <i class="material-icons">person_pin</i>
-          <label>Benvenuto {{name}}</label>
-        </li>
-      </ul>
-    </div>
-    <md-dialog :md-active="showLogin || showSignup">
-      <md-dialog-title>{{showLogin==true ? 'LOGIN' : 'SIGNUP'}}</md-dialog-title>
-      <md-dialog-content>
-        <md-tabs md-dynamic-height>
-          <md-tab md-label="Login" @click="showLogin=true;showSignup=false">
-            <div id="cd-login">
-              <Login />
-            </div>
+  <div class="isAuthenticated" v-if="isAuthenticated">
+    <ul>
+      <li class="nav-item user" @click="goToProfile()">
+        <i class="material-icons">person_pin</i>
+        <label>Benvenuto {{name}}</label>
+      </li>
+    </ul>
+  </div>
+  <md-dialog :md-active="showLogin || showSignup">
+    <md-dialog-title>{{showLogin==true ? 'LOGIN' : 'SIGNUP'}}</md-dialog-title>
+    <md-dialog-content>
+      <md-tabs md-dynamic-height>
+        <md-tab md-label="Login" @click="showLogin=true;showSignup=false">
+          <div id="cd-login">
+            <Login />
+          </div>
 
-          </md-tab>
+        </md-tab>
 
-          <md-tab md-label="Signup"  @click="showLogin=false;showSignup=true">
+        <md-tab md-label="Signup" @click="showLogin=false;showSignup=true">
 
-            <div id="cd-signup">
-              <Signup />
-            </div>
+          <div id="cd-signup">
+            <Signup />
+          </div>
 
-          </md-tab>
+        </md-tab>
 
-        </md-tabs>
-      </md-dialog-content>
-    </md-dialog>
-    <!--<div class="cd-user-modal">
+      </md-tabs>
+    </md-dialog-content>
+  </md-dialog>
+  <!--<div class="cd-user-modal">
       <div class="cd-user-modal-container">
         <ul class="cd-switcher">
           <li><a href="#0">Accedi</a></li>
@@ -59,12 +59,12 @@
       </div>
     </div>-->
 
-    <div id=preloderH v-if="isLoading">
-      <div class=loaderH>
-        <scale-out></scale-out>
-      </div>
+  <div id=preloderH v-if="isLoading">
+    <div class=loaderH>
+      <scale-out></scale-out>
     </div>
-  </header>
+  </div>
+</header>
 </template>
 
 <script>
@@ -78,12 +78,16 @@ import {
   ScaleOut
 } from 'vue-loading-spinner'
 
-import {serverBus} from '@/main';
+import {
+  serverBus
+} from '@/main';
 
 import Vue from 'vue'
-import { setTimeout } from 'timers';
-  import Toasted from 'vue-toasted';
-  Vue.use(Toasted)
+import {
+  setTimeout
+} from 'timers';
+import Toasted from 'vue-toasted';
+Vue.use(Toasted)
 
 export default {
   name: 'Header',
@@ -108,7 +112,7 @@ export default {
   computed: {
     isAuthenticated: {
       get() {
-        
+
         return this.$store.state.authentication.isAuth;
       }
     },
@@ -129,7 +133,7 @@ export default {
     this.$store.dispatch('fetchUser')
     serverBus.$on('showLoading', (isToShow) => {
       this.showLoading(isToShow);
-      
+
     });
     serverBus.$on('showMessage', (message) => {
       //alert(message)
@@ -166,7 +170,7 @@ export default {
       this.$router.push('/')
     },
 
-    goToProfile: function () {
+    goToProfile: function() {
       var actualProfile = this.$store.state.authentication.user.Profile;
       if (actualProfile == 0) this.$router.push('/player')
       if (actualProfile == 1) this.$router.push('/team')
@@ -179,11 +183,11 @@ export default {
  <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 /***LOADER **********/
-  #md-content {
-    overflow-y:scroll
-  }
+#md-content {
+    overflow-y: scroll;
+}
 
-  #preloderH {
+#preloderH {
     position: fixed;
     width: 100%;
     height: 100%;
@@ -192,7 +196,7 @@ export default {
     z-index: 999999;
     background: #fff;
     opacity: 0.6;
-  }
+}
 
 .loaderH {
     width: 40px;
@@ -434,7 +438,7 @@ header[role=banner] {
 
     .main-nav a.cd-signin,
     .main-nav a.cd-signup {
-   
+
         padding: 0.6em 1em;
         border: 1px solid rgba(0, 0, 0, 0.5);
         border-radius: 50em;
@@ -461,6 +465,7 @@ header[role=banner] {
 xsigin/signup popup
 
 -------------------------------- */
+
 .cd-user-modal {
     position: fixed;
     top: 0;

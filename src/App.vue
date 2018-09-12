@@ -28,6 +28,7 @@ export default {
   /* margin-top: 60px; */
 }
 
+
 body,
 html {
   height: 100%;
@@ -63,9 +64,6 @@ ul {
   padding: 0;
   margin: 0;
 }
-
-
-
 
 
 
@@ -133,5 +131,13 @@ h1 {
 .btn-success {
   background-color: #00832e;
   color: #FFF;
+}
+
+.md-dialog-container {
+  max-width: 100%;
+}
+
+.md-list-item .md-list-item-container .md-ripple>span {
+  padding: 0 15px;
 }
 </style>

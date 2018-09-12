@@ -1,65 +1,65 @@
 <template>
-  <div class="cd-form">
-    <p class="fieldset">
-      <label class="image-replace cd-username" for="signup-username">Nome</label>
-      <input class="full-width has-padding has-border" id="signup-username" v-model="name" type="text" placeholder="Nome">
-      <span class="cd-error-message">Error message here!</span>
-    </p>
-    <p class="fieldset" v-if="profile == 0 || profile == 2">
-      <label class="image-replace cd-username" for="signup-username">Cognome</label>
-      <input class="full-width has-padding has-border" id="signup-username" v-model="surname" type="text" placeholder="Cognome">
-      <span class="cd-error-message">Error message here!</span>
-    </p>
-    <p class="fieldset">
-      <label class="image-replace cd-email" for="signup-email">E-mail</label>
-      <input class="full-width has-padding has-border" id="signup-email" type="email" v-model="email" placeholder="E-mail">
-      <span class="cd-error-message">Error message here!</span>
-    </p>
+<div class="cd-form">
+  <p class="fieldset">
+    <label class="image-replace cd-username" for="signup-username">Nome</label>
+    <input class="full-width has-padding has-border" id="signup-username" v-model="name" type="text" placeholder="Nome">
+    <span class="cd-error-message">Error message here!</span>
+  </p>
+  <p class="fieldset" v-if="profile == 0 || profile == 2">
+    <label class="image-replace cd-username" for="signup-username">Cognome</label>
+    <input class="full-width has-padding has-border" id="signup-username" v-model="surname" type="text" placeholder="Cognome">
+    <span class="cd-error-message">Error message here!</span>
+  </p>
+  <p class="fieldset">
+    <label class="image-replace cd-email" for="signup-email">E-mail</label>
+    <input class="full-width has-padding has-border" id="signup-email" type="email" v-model="email" placeholder="E-mail">
+    <span class="cd-error-message">Error message here!</span>
+  </p>
 
-    <p class="fieldset">
-      <label class="image-replace cd-password" for="signup-password">Password</label>
-      <input class="full-width has-padding has-border" id="signup-password" type="text" v-model="password" placeholder="Password">
-      <a href="#0" class="hide-password">Hide</a>
-      <span class="cd-error-message">Error message here!</span>
-    </p>
+  <p class="fieldset">
+    <label class="image-replace cd-password" for="signup-password">Password</label>
+    <input class="full-width has-padding has-border" id="signup-password" type="text" v-model="password" placeholder="Password">
+    <a href="#0" class="hide-password">Hide</a>
+    <span class="cd-error-message">Error message here!</span>
+  </p>
 
-    <p class="fieldset">
+  <p class="fieldset">
 
-      <div class="type">
-        <!-- I'm a ... -->
-        <div class="buttons">
-          <div class="switch-field">
-            <!-- <div class="switch-title">-Io sono-</div> -->
-            <div class="switch-content player form-check form-check-inline">
-              <input type="radio" id="switch_3_left" name="who" value="0" v-model="profile" class="form-check-input" checked />
-              <label for="switch_3_left" class="calciatore form-check-label">calciatore</label>
-            </div>
-            <div class="switch-content club form-check form-check-inline">
-              <input type="radio" id="switch_3_center" name="who" value="1" v-model="profile" class="form-check-input" />
-              <label for="switch_3_center" class="calciatore form-check-label">team</label>
-            </div>
-            <div class="switch-content agent form-check form-check-inline">
-              <input type="radio" id="switch_3_right" name="who" value="2" v-model="profile" class="form-check-input" />
-              <label for="switch_3_right" class="calciatore form-check-label">agente</label>
-            </div>
+    <div class="type">
+      <div class="buttons">
+        <div class="switch-field">
+          <div class="switch-content player form-check form-check-inline">
+            <input type="radio" id="switch_3_left" name="who" value="0" v-model="profile" class="form-check-input" checked />
+            <label for="switch_3_left" class="calciatore form-check-label">calciatore</label>
+          </div>
+          <div class="switch-content club form-check form-check-inline">
+            <input type="radio" id="switch_3_center" name="who" value="1" v-model="profile" class="form-check-input" />
+            <label for="switch_3_center" class="calciatore form-check-label">team</label>
+          </div>
+          <div class="switch-content agent form-check form-check-inline">
+            <input type="radio" id="switch_3_right" name="who" value="2" v-model="profile" class="form-check-input" />
+            <label for="switch_3_right" class="calciatore form-check-label">agente</label>
           </div>
         </div>
       </div>
-    </p>
-    <p class="fieldset">
-      <md-checkbox v-model="terms">I agree to the <a href="#">Terms</a></md-checkbox>
-    </p>
+    </div>
+  </p>
+  <p class="fieldset">
+    <md-checkbox v-model="terms">I agree to the <a href="#">Terms</a></md-checkbox>
+  </p>
 
-    <p class="fieldset">
-      <input class="full-width has-padding" type="submit" value="Crea account" :disabled="!terms"  @click="signup()">
-    </p>
-  </div>
+  <p class="fieldset">
+    <input class="full-width has-padding" type="submit" value="Crea account" :disabled="!terms" @click="signup()">
+  </p>
+</div>
 
 <!-- <a href="#0" class="cd-close-form">Close</a> -->
 </template>
 <script>
 import Vue from 'vue'
-import { serverBus } from '@/main';
+import {
+  serverBus
+} from '@/main';
 
 
 export default {
@@ -81,60 +81,53 @@ export default {
         pwd: pwd,
       }
       serverBus.$emit('showLoading', true);
-      this.$store.dispatch('signup', { email: this.email, password: this.password, name: this.name, profile: this.profile, surname: this.surname })
+      this.$store.dispatch('signup', {
+          email: this.email,
+          password: this.password,
+          name: this.name,
+          profile: this.profile,
+          surname: this.surname
+        })
         .then(res => {
           serverBus.$emit('showLoading', false);
           alert("Ti abbiamo inviato una mail per attivarti")
-      }).catch(error => alert('Si è verificato un errore'));
+        }).catch(error => alert('Si è verificato un errore'));
     },
   }
 }
 </script>
 <style scoped lang="scss">
-  .switch-content.player {
-    label
+.switch-content.player {
+    label {
+        &:before {
+            background-image: url("../../assets/images/player.png");
+        }
 
-  {
-    &:before
+    }
+}
 
-  {
-    background-image: url("../../assets/images/player.png");
-  }
+.switch-content.club {
+    label {
+        &:before {
+            background-image: url("../../assets/images/club.png");
+        }
 
-  }
-  }
+    }
+}
 
-  .switch-content.club {
-    label
+.switch-content.agent {
+    label {
+        &:before {
+            background-image: url("../../assets/images/agent.png");
+        }
 
-  {
-    &:before
-
-  {
-    background-image: url("../../assets/images/club.png");
-  }
-
-  }
-  }
-
-  .switch-content.agent {
-    label
-
-  {
-    &:before
-
-  {
-    background-image: url("../../assets/images/agent.png");
-  }
-
-  }
-  }
+    }
+}
 header[role=banner] {
     position: relative;
     height: 50px;
     background: transparent;
-    #cd-logo 
-    {
+    #cd-logo {
         float: left;
         margin: 4px 0 0 5%;
         /* reduce logo size on mobile and make sure it is left aligned with the transform-origin property */
@@ -148,8 +141,7 @@ header[role=banner] {
         -ms-transform: scale(0.8);
         -o-transform: scale(0.8);
         transform: scale(0.8);
-        a 
-        {
+        a {
             color: #212121;
         }
 
@@ -176,8 +168,7 @@ header[role=banner] {
     header[role=banner] {
         height: 60px;
         background-color: #FFF;
-        #cd-logo 
-        {
+        #cd-logo {
             margin: 20px 0 0 5%;
             -webkit-transform: scale(1);
             -moz-transform: scale(1);
@@ -195,8 +186,7 @@ header[role=banner] {
         height: auto;
         background: none;
         cursor: pointer;
-        ul 
-        {
+        ul {
             position: static;
             width: auto;
             -webkit-transform: translateY(0);
@@ -239,8 +229,7 @@ header[role=banner] {
         padding: 0.6em 1em;
         border: 1px solid rgba(0, 0, 0, 0.5);
         border-radius: 50em;
-        &:hover 
-        {
+        &:hover {
             color: rgba(0, 0, 0, 0.5) !important;
         }
 
@@ -250,8 +239,7 @@ header[role=banner] {
         background: #088039;
         color: #FFF !important;
         border: none;
-        &:hover 
-        {
+        &:hover {
             color: #FFF !important;
         }
 
@@ -349,8 +337,7 @@ header[role=banner] {
     line-height: 50px;
     background: #d2d8d8;
     color: #809191;
-    &:hover 
-    {
+    &:hover {
         color: #809191 !important;
     }
 
@@ -359,8 +346,7 @@ header[role=banner] {
 .cd-user-modal-container .cd-switcher a.selected {
     background: #FFF;
     color: #505260;
-    &:hover 
-    {
+    &:hover {
         color: #505260 !important;
     }
 
@@ -641,14 +627,12 @@ header[role=banner] {
 }
 
 // .switch-field input:checked + label {
-.switch-field label 
-{
+.switch-field label {
     position: relative;
 }
 
 // .switch-field input:checked + label:before {
-.switch-field label:before 
-{
+.switch-field label:before {
     content: '';
     width: 100%;
     height: 100px;
@@ -675,8 +659,7 @@ header[role=banner] {
 .switch-field-input {
     padding: 10px 0;
     overflow: hidden;
-    label 
-    {
+    label {
         margin: 15px 30px;
     }
 
@@ -684,8 +667,7 @@ header[role=banner] {
 
 .switch-content-input {
     margin-top: 20px;
-    input 
-    {
+    input {
         border-radius: 50px;
         // border: 2px solid #01a084;
         // margin-left: 60px;
@@ -710,13 +692,10 @@ header[role=banner] {
 }
 
 .type {
-    .switch-content 
-    {
+    .switch-content {
         background: #c0d6bb;
-        label 
-        {
-            &:before 
-            {
+        label {
+            &:before {
                 background-color: #FFF;
                 padding: 5px;
                 border-radius: 10px;
@@ -731,8 +710,7 @@ header[role=banner] {
     }
 
     .switch-field {
-        label 
-        {
+        label {
             background-color: #FFF;
             color: #168600;
             text-transform: uppercase;

@@ -1,16 +1,23 @@
 <template>
 <div style="padding:15px">
-  <div class="row" style="padding-bottom:10px">
-    <div class="col-lg-4 col-md-6 col-sm-12">
+  <div class="row search-form">
+
+    <div class="col-md-6 col-sm-12">
       <map-autocomplete place-holder="Luogo di ricerca" :initial-address="city" startactualpos="true" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress"></map-autocomplete>
     </div>
-    <div class="col-lg-4 col-md-6 col-sm-12" style="padding-top:10px;text-align:center">
+    <div class="col-md-6 col-sm-12" style="padding-top:10px;text-align:center">
       <button @click="decreaseAmount()" class="button_plus">-</button>
       <vue-slider style="float:left;width:70%;padding-top:13px" ref="slider" v-model="amount"></vue-slider><button @click="increaseAmount()" class="button_plus">+</button>
     </div>
-    <!--<div class="col-lg-4 col-md-12 col-sm-12" style="padding-top:10px;text-align:center">
-        <button @click="findTeams()" class="btn"><i class="fa fa-search" ></i> Cerca</button>
-      </div>-->
+    <!-- <div class="col-lg-4 col-md-12 col-sm-12" style="padding-top:10px;text-align:center">
+      <button @click="findTeams()" class="btn"><i class="fa fa-search" ></i> Cerca</button>
+    </div> -->
+    <div class="gws-flights-form__search-button-wrapper">
+      <button @click="findPlayers()" class="gws-flights-form__search-button gws-flights-fab__mini" role="button" tabindex="0">
+        <i class="md-icon md-icon-font material-icons">search</i>
+        <span class="gws-flights-fab__text">Cerca</span>
+      </button>
+    </div>
 
   </div>
 
@@ -58,14 +65,14 @@
 
       </md-field>
     </div>
-    <div class="col">
+    <!-- <div class="col">
       <md-button @click="findPlayers()" class="md-success btn btn-success btn-block">
         <i class="md-icon md-icon-font material-icons md-theme-default">search</i> Cerca
       </md-button>
-    </div>
+    </div> -->
   </div>
   <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-4">
       <!--<div class="row">
     <div class="col">
       <md-card md-with-hover>
@@ -107,10 +114,9 @@
       <div class="row row-eq-height user-list">
         <div class="col-12" v-for="player in players" :key="player.Id">
 
-          <md-card class="md-card-profile" @click.native="showInfoWindowById(player.Id)">
+          <!-- <md-card class="md-card-profile" @click.native="showInfoWindowById(player.Id)">
             <div class="md-card-avatar">
               <picture-box :picUrl="player.PlayerImage" :picType="0"></picture-box>
-              <!-- <picture-box :picUrl="imagefile" :picType="profile"></picture-box> -->
             </div>
             <md-card-content>
               <h4 class="card-title"> {{ player.Name }} </h4>
@@ -134,7 +140,29 @@
               </div>
             </md-card-content>
 
-          </md-card>
+          </md-card> -->
+
+
+          <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
+            <stats-card data-background-color="green" @click.native="showInfoWindowById(player.Id)">
+              <template slot="header">
+                            <!-- <md-icon >store</md-icon> -->
+                            <picture-box :picUrl="player.PlayerImage" :picType="0"></picture-box>
+                          </template>
+
+              <template slot="content">
+                            <p class="category">{{ player.Role }} Attaccante</p>
+                            <h3 class="title">{{ player.Name }} </h3>
+                          </template>
+
+              <template slot="footer">
+                            <div class="stats">
+                                <md-icon>date_range</md-icon>
+                                {{ player.Class }} 1999
+                            </div>
+                          </template>
+            </stats-card>
+          </div>
           <!-- <md-card md-with-hover>
             <md-card-header>
               <md-card-header-text>
@@ -154,7 +182,7 @@
       </div>
 
     </div>
-    <div class="col-md-9 d-none d-sm-block">
+    <div class="col-md-8 d-none d-sm-block">
       <div id="map"></div>
     </div>
   </div>
@@ -166,6 +194,9 @@
 import vueSlider from 'vue-slider-component'
 import MapAutocomplete from '@/components/GoogleMaps/MapAutocomplete'
 import PictureBox from '@/components/PictureBox/PictureBox'
+import {
+  StatsCard
+} from '@/components'
 
 //import axios from 'axios'
 import {
@@ -173,7 +204,7 @@ import {
 } from '@/main';
 
 export default {
-    name: 'DashboardMaps',
+  name: 'DashboardMaps',
   data() {
     return {
       profile: -1,
@@ -206,7 +237,8 @@ export default {
   components: {
     vueSlider,
     MapAutocomplete,
-    PictureBox
+    PictureBox,
+    StatsCard
   },
   computed: {
 
@@ -304,13 +336,14 @@ export default {
               };
               let contentString = '<div class="card" style="width: 18rem;">' +
                 //'<picture-box :picUrl="'+player.PlayerImage+'" :picType="0"></picture-box>'+
-                '<img class="card-img-top" style="max-width: 150px; margin: 0 auto;" src="' + (player.PlayerImage != null && player.PlayerImage != '' ? self.$store.state.configurations.imageRootUrl + player.PlayerImage : '../../assets/img/defaultFace.png')+ '" alt="' + player.Name + '">' +
+                '<img class="card-img-top" style="max-width: 150px; margin: 0 auto;" src="' + (player.PlayerImage != null && player.PlayerImage != '' ? self.$store.state.configurations.imageRootUrl + player.PlayerImage :
+                  '../../assets/img/defaultFace.png') + '" alt="' + player.Name + '">' +
                 '<div class="card-body">' +
                 '<h5 class="card-title">' + player.Name + '</h5>' +
                 '<p class="card-text">' +
                 player.Catogory +
                 '</p>' +
-                '<a href="/#/playerProfile?playerId=' + player.Id+'" class="btn btn-primary" style="color: #FFF;"> Visita il Profilo </a>' +
+                '<a href="/#/playerProfile?playerId=' + player.Id + '" class="btn btn-primary" style="color: #FFF;"> Visita il Profilo </a>' +
                 '</div>' +
                 '</div>';
               let infowindow = new google.maps.InfoWindow({
@@ -487,7 +520,7 @@ export default {
     })
     this.$store.dispatch('getProfileList', {}).then(res => {
       this.profileList = res;
-      setTimeout(function () {
+      setTimeout(function() {
         //alert(self.what)
         //let temp = self.profileList.filter(d => d.text === self.what);
         //self.profileSelected = temp[0].value;
@@ -505,6 +538,16 @@ export default {
     cursor: pointer;
     .md-card-header {
         background-color: #FFF;
+        img {
+            margin-right: 0;
+            border-radius: initial;
+
+        }
+    }
+    .md-card-content {
+        h3 {
+            color: #3c4653;
+        }
     }
 }
 .img-thumbnail {
@@ -518,9 +561,75 @@ export default {
 #map {
     max-height: 550px;
 }
+.search-form {
+    border-radius: 2px;
+    box-sizing: border-box;
+    min-width: auto;
+    padding: 10px 32px 48px;
+    position: relative;
+    z-index: initial;
+    margin: 0 -15px;
+    background: darken(#178501, 10%);
+}
+.gws-flights-form__search-button-wrapper {
+    align-items: center;
+    bottom: calc(-40px/2);
+    display: flex;
+    flex-direction: column;
+    left: 0;
+    margin: 0 auto;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    .gws-flights-fab__mini {
+        border-radius: 20px;
+        height: 40px;
+        min-width: 40px;
+    }
+    .gws-flights-form__search-button {
+        background-color: #178501;
+        pointer-events: auto;
+        align-items: center;
+        border: none;
+        border-radius: 28px;
+        box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2), 0 6px 10px 0 rgba(0,0,0,0.14), 0 1px 18px 0 rgba(0,0,0,0.12);
+        box-sizing: border-box;
+        color: #fff;
+        cursor: pointer;
+        display: flex;
+        height: 56px;
+        min-width: 56px;
+        outline: none;
+        padding: 0 8px;
+        position: relative;
+        user-select: none;
+        &::before {
+            border-radius: inherit;
+            content: '';
+            display: block;
+            height: 100%;
+            left: 0;
+            position: absolute;
+            top: 0;
+            width: 100%;
+        }
+        &:hover {
+            box-shadow: 0 5px 5px -3px rgba(0,0,0,0.2), 0 8px 10px 1px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12);
+            outline: none;
+        }
+        span {
+            padding: 0 16px 0 8px;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 0 26px 0 24px;
+            text-transform: uppercase;
+            -webkit-user-select: none;
+        }
+    }
+}
 .button_plus {
     float: left;
-    background-color: #3498db;
+    background-color: #188502;
     /* Green */
     border: none;
     color: white;
@@ -549,5 +658,15 @@ export default {
 
 .md-theme-default a:not(.md-button):hover {
     color: #FFF !important;
+}
+
+@media only screen and (min-width: 767px) {
+    .search-form {
+        min-width: 852px;
+        margin: 0 76px;
+        div {
+            margin-top: 0;
+        }
+    }
 }
 </style>
