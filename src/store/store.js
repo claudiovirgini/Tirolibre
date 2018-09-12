@@ -18,16 +18,21 @@ export const store = new Vuex.Store({
     playerSelected: '',
     configurations: {
       //serviceBaseUrl: 'http://localhost:61610/',
-      serviceBaseUrl: 'http://localhost:114/',
+      //serviceBaseUrl: 'http://localhost:114/',
 
-      //serviceBaseUrl: 'http://testservice.tirolibre.it',
+      serviceBaseUrl: 'http://testservice.tirolibre.it',
       imageRootUrl: 'http://tirolibre.it/CDN/',
       //serviceBaseUrl: 'http://testservice.tirolibre.it',
       loginUrl   : '/auth/login',
       signupUrl: '/api/Account/Register',
       confirmEmailUrl: '/api/Account/ConfirmEmail',
+
       getPlayerInfoUrl: '/api/Player/GetPlayerInfo',
       savePlayerInfoUrl: '/api/Player/SavePlayerInfo',
+
+      getTeamInfoUrl: '/api/Team/GetTeamInfo',
+      saveTeamInfoUrl: '/api/Team/SaveTeamInfo',
+
       getTeamAroundPointUrl: '/api/Player/GetTeamsAroundPoint',
       getPlayerAroundPointUrl: '/api/Player/GetPlayersAroundPoint',
 
@@ -441,6 +446,15 @@ export const store = new Vuex.Store({
       }
     },
 
+    getTeamProfile({ commit, state }, teamId) {
+      const data = { TeamId: teamId }
+      return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getTeamInfoUrl, data);
+    },
+    //saveTeamProfile({ commit, state }, team) {
+    //  const data = { Team: team }
+    //  return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.saveTeam
+    //  InfoUrl, data);
+    //},
 
     getPlayerProfile({ commit, state }, playerId) {
       const data = { PlayerId: playerId }
