@@ -232,7 +232,6 @@ export default {
 
     },
     showProfile: function (item) {
-      alert(item.id)
       this.$router.push('playerProfile?playerId='+item.id)
     },
 

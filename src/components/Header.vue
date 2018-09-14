@@ -158,6 +158,7 @@ export default {
     var self = this;
 
     serverBus.$on('loggedIn', () => {
+      this.showLogin = false;
       self.goToProfile();
     });
   },
