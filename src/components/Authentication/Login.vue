@@ -1,7 +1,7 @@
 <template>
 <div>
   <!-- log in form -->
-  <form class="cd-form">
+  <div class="cd-form">
     <p class="fieldset">
       <label class="image-replace cd-email" for="signin-email">E-mail</label>
       <input class="full-width has-padding has-border" id="signin-email" type="email" v-model="userLoginEmail" placeholder="E-mail">
@@ -18,9 +18,13 @@
       <md-checkbox v-model="remind">Ricordami</md-checkbox>
     </p>
     <p class="fieldset">
-      <input class="full-width" type="submit" value="Login" @click="login(userLoginEmail,userLoginPWD)">
+      <md-button  class="md-success btn btn-success btn-lg btn-block" @click="login(userLoginEmail,userLoginPWD)"> 
+        Login
+        <!-- <i class="md-icon md-icon-font material-icons md-theme-default">arrow_forward_ios</i> -->
+      </md-button>
+      <!--<input class="md-button md-success btn btn-success btn-lg btn-block md-theme-default" type="button" value="Login" @click="login(userLoginEmail,userLoginPWD)">-->
     </p>
-  </form>
+  </div>
 
   <p class="cd-form-bottom-message"><a href="#0">Dimenticato la password?</a></p>
 </div>
@@ -51,10 +55,10 @@ export default {
         pwd: pwd,
       }
       this.$store.dispatch('login', { email: email, pwd: pwd }).then(res => {
-        serverBus.$emit('showMessage', 'Benvenuto!!');
-      }).catch(error => alert('login error : '+JSON.stringify(error)));
+        
+      })
 
-      $('.cd-user-modal').removeClass('is-visible');
+      //$('.cd-user-modal').removeClass('is-visible');
     },
   }
 }

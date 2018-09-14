@@ -19,7 +19,16 @@
     </ul>
   </div>
   <md-dialog :md-active="showLogin || showSignup">
-    <md-dialog-title>{{showLogin==true ? 'LOGIN' : 'SIGNUP'}}</md-dialog-title>
+    <md-dialog-title>
+      <div style="float:left">
+        {{showLogin==true ? 'LOGIN' : 'SIGNUP'}}
+      </div>
+      <div style="float:right">
+        <md-button @click="showLogin=showSignup=false;">
+          <i  class="fa fa-times fa-2x" aria-hidden="true"></i>
+        </md-button>
+        </div>
+</md-dialog-title>
     <md-dialog-content>
       <md-tabs md-dynamic-height>
         <md-tab md-label="Login" @click="showLogin=true;showSignup=false">
@@ -40,25 +49,6 @@
       </md-tabs>
     </md-dialog-content>
   </md-dialog>
-  <!--<div class="cd-user-modal">
-      <div class="cd-user-modal-container">
-        <ul class="cd-switcher">
-          <li><a href="#0">Accedi</a></li>
-          <li><a href="#0">Registrati</a></li>
-        </ul>
-        <div id="cd-login">
-          <Login />
-        </div>
-        <div id="cd-signup">
-          <Signup />
-        </div>
-        <div id="cd-reset-password">
-          <RecoveryPwd></RecoveryPwd>
-        </div>
-        <a href="#0" class="cd-close-form">Close</a>
-      </div>
-    </div>-->
-
   <div id=preloderH v-if="isLoading">
     <div class=loaderH>
       <scale-out></scale-out>
@@ -112,8 +102,7 @@ export default {
   computed: {
     isAuthenticated: {
       get() {
-
-        return this.$store.state.authentication.isAuth;
+         return this.$store.state.authentication.isAuth;
       }
     },
     name: {
@@ -146,14 +135,13 @@ export default {
       });
     });
     serverBus.$on('showError', (message) => {
-      //alert(message)
-      //this.$toasted.show(message, {
-      //  //theme: "primary",
-      //  position: "top-center",
-      //  duration: 5000,
-      //  fullWidth: true,
-      //  type: 'error'
-      //});
+      this.$toasted.show(message, {
+        //theme: "primary",
+        position: "top-center",
+        duration: 3000,
+        fullWidth: true,
+        type: 'error'
+      });
     });
     var self = this;
 

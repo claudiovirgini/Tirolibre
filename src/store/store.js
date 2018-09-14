@@ -19,11 +19,10 @@ export const store = new Vuex.Store({
     configurations: {
       //serviceBaseUrl: 'http://localhost:61610/',
       //serviceBaseUrl: 'http://localhost:114/',
-
       serviceBaseUrl: 'http://testservice.tirolibre.it',
       imageRootUrl: 'http://tirolibre.it/CDN/',
       //serviceBaseUrl: 'http://testservice.tirolibre.it',
-      loginUrl   : '/auth/login',
+      loginUrl: '/auth/login',
       signupUrl: '/api/Account/Register',
       confirmEmailUrl: '/api/Account/ConfirmEmail',
 
@@ -43,7 +42,7 @@ export const store = new Vuex.Store({
       saveAgentInfoUrl: '/api/Agent/SaveAgentInfo',
       getPlayerAgentInfoUrl: '/api/Agent/GetPlayerAgentInfo',
       addOrUpdateAgentPlayeroUrl: '/api/Agent/AddOrUpdateAgentPlayer',
-      deleteeAgentPlayerUrl  : '/api/Agent/DeleteeAgentPlayer',
+      deleteeAgentPlayerUrl: '/api/Agent/DeleteeAgentPlayer',
 
 
       environment: 1
@@ -52,14 +51,13 @@ export const store = new Vuex.Store({
     authentication: {
       token: null,
       user: null,
-      userImageUrl : null,
+      userImageUrl: null,
       isAuth: false
     }
   },
 
   mutations: {
-
-    SET_AUTH(state,data) {
+    SET_AUTH(state, data) {
       if (data === null) {
         state.authentication.isAuth = false;
         state.authentication.user = null;
@@ -67,6 +65,7 @@ export const store = new Vuex.Store({
         localStorage.removeItem('user');
         localStorage.removeItem('userImageUrl');
         state.authentication.token = null;
+
         serverBus.$emit('loggedOut', {});
 
       } else {
@@ -77,22 +76,12 @@ export const store = new Vuex.Store({
         state.authentication.user = JSON.parse(data.userInfo);
         state.authentication.userImageUrl = data.imageUrl;
         state.authentication.token = data.token;
+
         serverBus.$emit('loggedIn', {});
       }
-    },
-
-    SET_WHO(state, who) {
-      state.who = who;
-    },
-    SET_WHAT(state, what) {
-      state.what = what;
-    },
-    SET_WHERE(state, where) {
-      state.where = where;
-    },
-    SET_PLAYER(state, player) {
-      state.playerSelected = player;
     }
+
+
   },
   actions: {
     getRoleList: function() {
@@ -111,7 +100,7 @@ export const store = new Vuex.Store({
       roleRilst.push({ text: 'Prima Punta', value: 11 });
       return roleRilst;
     },
-    getStatus: function () {
+    getStatus: function() {
       let statusLlst = [];
       statusLlst.push({ text: 'Tutto', value: -1 });
       statusLlst.push({ text: 'Svincolato', value: 0 });
@@ -121,7 +110,7 @@ export const store = new Vuex.Store({
       statusLlst.push({ text: 'Contratto a 4 anni', value: 4 });
       return statusLlst;
     },
-    getCategories: function () {
+    getCategories: function() {
       let categoryLlst = [];
       categoryLlst.push({ text: 'Tutte le categorie', value: -1 });
       categoryLlst.push({ text: 'Seria A', value: 0 });
@@ -139,17 +128,17 @@ export const store = new Vuex.Store({
       categoryLlst.push({ text: 'Scuola calcio', value: 12 });
       return categoryLlst;
     },
-    getClassList: function () {
+    getClassList: function() {
       let classilst = [];
       classilst.push({ text: 'Tutto', value: 0 });
       for (let i = 0; i < 56; i++) {
         var myDate = new Date();
         let classToAdd = myDate.getFullYear() - 3 - i;
-        classilst.push({ text: classToAdd, value: classToAdd});
+        classilst.push({ text: classToAdd, value: classToAdd });
       }
       return classilst;
     },
-    getCountriesList: function () {
+    getCountriesList: function() {
       var countryList = [
         { text: 'Afghanistan', value: 'AF' },
         { text: 'Åland Islands', value: 'AX' },
@@ -397,7 +386,7 @@ export const store = new Vuex.Store({
       ];
       return countryList;
     },
-    getProfileList: function () {
+    getProfileList: function() {
       let profileList = [];
       profileList.push({ text: 'Tutto', value: -1 });
       profileList.push({ text: 'calciatore', value: 0 });
@@ -407,7 +396,7 @@ export const store = new Vuex.Store({
       // profileList.push({ text: 'direttore Sportivo', value: 4 });
       return profileList;
     },
-    makeid: function () {
+    makeid: function() {
       var text = "";
       var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
       for (var i = 0; i < 5; i++)
@@ -425,9 +414,12 @@ export const store = new Vuex.Store({
         .then(res => {
           serverBus.$emit('showLoading', false);
           commit('SET_AUTH', { token: res.data.access_token, userInfo: res.data.user, imageUrl: res.data.imageUrl });
-          return true;
         })
-        .catch(error => alert('Error'+JSON.stringify(error)));
+        .catch(error => {
+          
+          serverBus.$emit('showError', 'Login Failed');
+          serverBus.$emit('showLoading', false);
+        })
     },
     signup({ commit, dispatch }, authData) {
       const data = { Email: authData.email, Password: authData.password, Environment: this.state.configurations.environment, Profile: authData.profile,Name : authData.name,Surname : authData.surname }
