@@ -73,7 +73,7 @@ h3,
 h4,
 h5,
 h6 {
-  color: #20509e;
+  color: #FFF;
   margin: 0;
   font-weight: 500;
   /* font-family: "Futura", sans-serif; */
@@ -89,6 +89,7 @@ h2 {
 
 h3 {
   font-size: 30px;
+  color: #FFF;
 }
 
 h4 {
@@ -112,7 +113,7 @@ p {
 h1 {
   float: left;
   width: 100%;
-  color: #232323;
+  color: #FFF;
   margin-bottom: 30px;
   font-size: 14px;
 }
@@ -128,9 +129,14 @@ h1 {
   color: #FFF;
 }
 
+.btn-radius {
+  border-radius: 50px !important;
+}
+
 .btn-success {
-  background-color: #00832e;
-  color: #FFF;
+  background-color: #f5ff00;
+  color: #000;
+  border-color: #f3fd0a;
 }
 
 .md-dialog-container {
@@ -139,5 +145,10 @@ h1 {
 
 .md-list-item .md-list-item-container .md-ripple>span {
   padding: 0 15px;
+}
+
+.main-panel {
+  background-image: url("./assets/images/black-bg.jpg");
+  background-size: cover;
 }
 </style>

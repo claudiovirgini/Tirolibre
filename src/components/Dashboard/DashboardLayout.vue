@@ -8,7 +8,7 @@
     <md-icon>dashboard</md-icon>
     <p>Dashboard</p>
   </sidebar-link> -->
-    <sidebar-link to="/agent"  v-if="isAgentProfile">
+    <sidebar-link to="/agent" v-if="isAgentProfile">
       <md-icon>person</md-icon>
       <p>Agent Profile</p>
     </sidebar-link>
@@ -58,23 +58,25 @@
 </template>
 <style lang="scss">
 .nav-item.active p {
-    color: #FFF;
+    color: #212121;
 }
 </style>
 <style>
-  .fade-enter-active,
-  .fade-leave-active {
-    transition: opacity .1s
-  }
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity .1s
+}
 
-  .fade-enter,
-  .fade-leave-to
-  /* .fade-leave-active in <2.1.8 */ {
-    opacity: 0
-  }
+.fade-enter,
+.fade-leave-to
+/* .fade-leave-active in <2.1.8 */
+
+  {
+  opacity: 0
+}
 </style>
 <script>
-  import TopNavbar from '@/components/Dashboard/TopNavbar.vue'
+import TopNavbar from '@/components/Dashboard/TopNavbar.vue'
 //import ContentFooter from './ContentFooter.vue'
 //import DashboardContent from './Content.vue'
 //import MobileMenu from '@/components/Dashboard/MobileMenu.vue'
@@ -85,19 +87,19 @@ export default {
     //DashboardContent,
     //ContentFooter,
     //MobileMenu
-    },
-    data() {
-      return {
-        isPlayerProfile: false,
-        isTeamProfile: false,
-        isAgentProfile: false,
-      }
-    },
-    created() {
-      var profile = this.$store.state.authentication.user.Profile;
-      if (profile == 0) this.isPlayerProfile = true;
-      if (profile == 1) this.isTeamProfile = true;
-      if (profile == 2) this.isAgentProfile = true;
+  },
+  data() {
+    return {
+      isPlayerProfile: false,
+      isTeamProfile: false,
+      isAgentProfile: false,
+    }
+  },
+  created() {
+    var profile = this.$store.state.authentication.user.Profile;
+    if (profile == 0) this.isPlayerProfile = true;
+    if (profile == 1) this.isTeamProfile = true;
+    if (profile == 2) this.isAgentProfile = true;
   },
   methods: {
     logout: function() {

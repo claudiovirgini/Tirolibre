@@ -10,7 +10,42 @@
               <div class="what" >
                 <div class="buttons">
                   <div class="switch-field"  v-bind:class="[hasErrorWhat ? 'hasErrorWhat' : '']">
-                    <div class="switch-title">- cerco -</div>
+                    <!-- <div class="switch-title">
+                      <p>
+                        Ciao, Benvenuto su TiroLibre!
+                      </p>
+                        <p>
+                          Seleziona le tue preferenze
+                        </p>
+                    </div> -->
+                      <div class="switch-title">Sono alla ricerca di un ...</div>
+
+                      <div id="example">
+                        <carousel-3d :controls-visible="true">
+                          <!-- <slide v-for="(slide, i) in slides" :index="i">
+                            <img src="https://placehold.it/360x270">
+                          </slide> -->
+                          <slide :index="0">
+                            <div class="switch-content player form-check form-check-inline">
+                            <input type="radio" id="switch_4_left" name="what" value="calciatore" class="form-check-input" @click="selectItem" v-model="what" checked />
+                            <label class="player" for="switch_4_left">calciatore</label>
+                          </div>
+                         </slide>
+                         <slide :index="1">
+                         <div class="switch-content club form-check form-check-inline">
+                           <input type="radio" id="switch_4_center" name="what" value="CLUB" class="form-check-input" @click="selectItem" v-model="what" />
+                           <label class="club" for="switch_4_center">club</label>
+                         </div>
+                         </slide>
+                         <slide :index="2">
+                         <div class="switch-content agent form-check form-check-inline">
+                           <input type="radio" id="switch_4_right" name="what" value="agente" class="form-check-input" @click="selectItem" v-model="what" />
+                           <label class="agent" for="switch_4_right">agente</label>
+                         </div>
+                         </slide>
+                        </carousel-3d>
+                      </div>
+<!--
                     <div class="switch-content player form-check form-check-inline">
                       <input type="radio" id="switch_4_left" name="what" value="calciatore" class="form-check-input" @click="selectItem" v-model="what" checked />
                       <label class="player" for="switch_4_left">calciatore</label>
@@ -22,7 +57,7 @@
                     <div class="switch-content agent form-check form-check-inline">
                       <input type="radio" id="switch_4_right" name="what" value="agente" class="form-check-input" @click="selectItem" v-model="what" />
                       <label class="agent" for="switch_4_right">agente</label>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
               </div>
@@ -30,14 +65,14 @@
                 <div class="">
                   <md-field class="col-md-6 mx-auto" v-bind:class="[hasErrorWhere ? 'hasErrorWhat' : '']">
                     <!--<md-icon style="float:left">location_on</md-icon>-->
-                     <label for="where" class="label-autocomplete">- DOVE STAI CERCANDO -</label>
+                     <label for="where" class="label-autocomplete">In che zona cerchi?</label>
                     <map-autocomplete id="where" class="col-12" place-holder="Dove stai cercando" startactualpos="true" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress"></map-autocomplete>
                   </md-field>
                 </div>
               </div>
               <div class="form-group">
                 <div class="col-md-6 mx-auto">
-                  <md-button @click="findUsers" class="md-success btn btn-success btn-lg btn-block">
+                  <md-button @click="findUsers" class="md-success btn btn-success btn-lg btn-block btn-radius">
                     Inizia
                       <!-- <i class="md-icon md-icon-font material-icons md-theme-default">arrow_forward_ios</i> -->
                   </md-button>
@@ -68,6 +103,10 @@ import Logo from '@/components/Logo'
 import Result from '@/pages/Home/Result.vue'
 import MapAutocomplete from '@/components/GoogleMaps/MapAutocomplete'
 import {
+  Carousel3d,
+  Slide
+} from 'vue-carousel-3d'
+import {
   fail
 } from 'assert';
 
@@ -78,7 +117,9 @@ export default {
   components: {
     Logo,
     Result,
-    MapAutocomplete
+    MapAutocomplete,
+    Carousel3d,
+    Slide
   },
   data() {
     return {
@@ -89,7 +130,8 @@ export default {
       isValidAddress: null,
       hasErrorWhere: false,
       hasErrorWhat: false,
-      _placeSelected: null
+      _placeSelected: null,
+      slides: 3
     }
   },
   computed: {
@@ -166,6 +208,11 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+.carousel-3d-slide {
+    text-align: center;
+    background-color: #303F9F;
+    background-image: url("../../assets/images/bg-footer.jpg");
+}
 .hasErrorWhat {
     border: 2px red solid;
     border-radius: 5px;
@@ -186,10 +233,11 @@ export default {
     // background-color: #d7e5e8;
     background-color: #FFF;
     // background-image: url("https://www.higuests.com/assets/images/alfred_001.png");
-    background-image: url("../../assets/images/logo-footer.png");
+    // background-image: url("../../assets/images/logo-footer.png");
+
+    background-image: url("../../assets/images/black-bg.jpg");
     background-repeat: no-repeat;
-    background-position: 50% 110%;
-    background-size: 200px auto;
+    background-size: cover;
     padding-bottom: 220px;
     border-radius: 0 0 9000px 6000px /1500px;
     min-height: 600px;
@@ -198,14 +246,15 @@ export default {
     &:before {
         // content: "";
         position: absolute;
-        // z-index: -1;
+        z-index: 999;
         left: 0;
         top: 300px;
         right: 0;
-        bottom: 150px;
-        -webkit-transform: skewY(-12deg);
-        transform: skewY(-12deg);
-        background: #323a5a linear-gradient(192deg,#00832e,#222d49);
+        bottom: 0;
+        background-image: url("../../assets/images/logo-footer.png");
+        background-repeat: no-repeat;
+        background-position: bottom;
+        background-size: 200px auto;
     }
 }
 // .switch-field input:checked+label {
@@ -227,9 +276,10 @@ export default {
 }
 
 .switch-content {
+    top: 50%;
     height: 20px;
-    margin-bottom: 50px;
-    margin-top: 80px;
+    // margin-bottom: 50px;
+    // margin-top: 80px;
     padding-bottom: 0;
     padding-top: 40px;
     border-radius: 5px;
@@ -269,6 +319,7 @@ export default {
     font-size: 18px;
     text-transform: uppercase;
     padding: 10px;
+    color: #aaa !important;
 }
 
 .who {
@@ -329,13 +380,13 @@ export default {
 }
 .what {
     .switch-content {
-        background-color: rgba(24,133,2,.3);
+        // background-color: rgba(24,133,2,.3);
         label {
             &:before {
                 background-color: #FFF;
                 padding: 5px;
                 border-radius: 10px;
-                border: 2px solid #1057a0;
+                border: 1px solid #1057a0;
             }
             &:hover {
                 background-color: #1057a0;
@@ -344,7 +395,7 @@ export default {
         }
         label.player {
             &:before {
-                border: 2px solid #178501;
+                border: 1px solid #178501;
             }
             &:hover {
                 background-color: #178501;
@@ -352,7 +403,7 @@ export default {
         }
         label.club {
             &:before {
-                border: 2px solid #1057a0;
+                border: 1px solid #1057a0;
             }
             &:hover {
                 background-color: #1057a0;
@@ -360,7 +411,7 @@ export default {
         }
         label.agent {
             &:before {
-                border: 2px solid #ffa000;
+                border: 1px solid #ffa000;
             }
             &:hover {
                 background-color: #ffa000;
@@ -502,10 +553,16 @@ h1 {
 }
 /* Large Mobile :480px. */
 @media only screen and (max-width: 767px) {
-
+    .carousel-3d-slide {
+        width: 80% !important;
+        left: 10%;
+    }
+    .switch-field label {
+        float: none;
+    }
     .switch-field label:before {
-        top: -40px;
-        left: 150px;
+        // top: -40px;
+        // left: 150px;
     }
     .form-check-inline {
         display: block;

@@ -26,7 +26,7 @@ h1 {
     }
 }
 h3 {
-    color: #000;
+    color: #FFF;
     span {
         text-transform: uppercase;
         font-weight: 700;

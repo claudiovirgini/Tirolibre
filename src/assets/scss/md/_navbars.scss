@@ -3,20 +3,20 @@
   padding: 10px 15px;
   border-radius: 3px;
 
-  &.md-transparent{
+  &.md-transparent {
     background-color: transparent !important;
     box-shadow: none;
 
-    .md-title,
-    .md-list .md-list-item-content,
     &,
+    &:focus,
     &:hover,
-    &:focus{
-      color: $black-color !important;
+    .md-list .md-list-item-content,
+    .md-title {
+      color: $white-color !important;
     }
   }
 
-  .notification{
+  .notification {
     position: absolute;
     top: 5px;
     border: 1px solid #FFF;
@@ -25,7 +25,7 @@
     background: #f44336;
     color: #FFFFFF;
     min-width: 20px;
-    padding: 0px 5px;
+    padding: 0 5px;
     height: 20px;
     border-radius: 10px;
     text-align: center;
@@ -35,77 +35,83 @@
   }
 
   .navbar-nav {
-    > li > .dropdown-menu{
-        margin-top: -20px;
+    > li > .dropdown-menu {
+      margin-top: -20px;
     }
 
-    > li.open > .dropdown-menu{
-        margin-top: 0;
+    > li.open > .dropdown-menu {
+      margin-top: 0;
     }
 
     > .active > a {
       &,
-      &:hover,
-      &:focus {
+      &:focus,
+      &:hover {
         color: inherit;
         background-color: rgba(255, 255, 255, 0.1);
       }
     }
+
     > .disabled > a {
       &,
-      &:hover,
-      &:focus {
+      &:focus,
+      &:hover {
         color: inherit;
         background-color: transparent;
         opacity: 0.9;
       }
     }
-    .profile-photo{
-        padding: 0 5px 0;
-        .profile-photo-small{
-            height: 40px;
-            width: 40px;
-        }
+
+    .profile-photo {
+      padding: 0 5px;
+
+      .profile-photo-small {
+        height: 40px;
+        width: 40px;
+      }
     }
   }
-
-
   // default color for dropdown
   @include dropdown-colors($brand-primary);
   @include toolbar-colors($gray-light);
-  .md-toolbar-toggle .icon-bar{
+
+  .md-toolbar-toggle .icon-bar {
     color: inherit !important;
   }
 
-  &.md-primary{
+  &.md-primary {
     @include dropdown-colors($brand-primary);
     @include toolbar-colors($brand-primary);
   }
-  &.md-danger{
+
+  &.md-danger {
     @include dropdown-colors($brand-danger);
     @include toolbar-colors($brand-danger);
   }
-  &.md-warning{
+
+  &.md-warning {
     @include dropdown-colors($brand-warning);
     @include toolbar-colors($brand-warning);
   }
-  &.md-info{
+
+  &.md-info {
     @include dropdown-colors($brand-info);
     @include toolbar-colors($brand-info);
   }
-  &.md-success{
+
+  &.md-success {
     @include dropdown-colors($brand-success);
     @include toolbar-colors($brand-success);
   }
 
-  &.navbar-transparent{
-      background-color: transparent;
-      box-shadow: none;
-      border-bottom: 0;
+  &.navbar-transparent {
+    background-color: transparent;
+    box-shadow: none;
+    border-bottom: 0;
 
-      .logo-container .brand{
-          color: $white-color;
-      }
+    .logo-container .brand {
+      color: $white-color;
+    }
   }
 
   .md-toolbar-row {
@@ -114,25 +120,25 @@
     padding-right: 15px;
   }
 
-  .md-button{
+  .md-button {
     margin: 0;
   }
 
-  .md-toolbar-toggle .md-button-content{
+  .md-toolbar-toggle .md-button-content {
     display: block;
     align-items: unset;
   }
 
-  .notification{
+  .notification {
     position: absolute;
-    top: 0px;
+    top: 0;
     border: 1px solid #FFF;
     right: 7px;
     font-size: 9px;
     background: #f44336;
     color: #FFFFFF;
     min-width: 20px;
-    padding: 0px 5px;
+    padding: 0 5px;
     height: 20px;
     border-radius: 10px;
     text-align: center;
@@ -141,11 +147,11 @@
     display: block;
   }
 
-  &.md-theme-default.md-transparent,
   &.md-theme-default,
   &.md-theme-default .md-title,
+  &.md-theme-default.md-transparent,
   &.md-theme-default.md-transparent .md-title {
-    color: $gray;
+    color: $white-color;
   }
 
   .md-title {
@@ -172,115 +178,104 @@
       border: 1px solid;
       border-radius: 1px;
 
-      & + .icon-bar{
+      & + .icon-bar {
         margin-top: 4px;
       }
     }
   }
 
-  .md-list{
+  .md-list {
     flex-flow: row;
-    padding-right: 5px;
-    padding-left: 5px;
-    padding-top: 0;
-    padding-bottom: 0;
+    padding: 0 5px;
     color: inherit !important;
     background-color: transparent !important;
 
-    &:hover .md-list-item > a,
+    & > a:hover,
     &:focus .md-list-item > a,
-    & > a:hover {
+    &:hover .md-list-item > a {
       background-color: transparent !important;
     }
 
-    .md-list-item > a:not(:last-child){
+    .md-list-item > a:not(:last-child) {
       margin-right: 5px;
     }
   }
 
-  .md-field{
+  .md-field {
     padding: 0;
     margin: 0;
 
     &:after,
-    &:before{
+    &:before {
       bottom: 5px;
     }
 
-    .md-input{
+    .md-input {
       margin-top: 6px;
     }
 
-    label{
+    label {
       top: 15px;
     }
 
     &.md-focused label,
-    &.md-has-value label{
+    &.md-has-value label {
       top: -4px;
     }
   }
 
-  .md-collapse{
+  .md-collapse {
     display: flex;
     width: 100%;
     justify-content: flex-end;
   }
 }
 
-.md-menu-content{
+.md-menu-content {
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
   border-radius: $border-radius-base !important;
   overflow: hidden;
 
-  .md-list .md-list-item a{
+  .md-list .md-list-item a {
     font-size: 10px;
   }
 }
 
-
-
-
-
-
-.md-list-item a{
+.md-list-item a {
   color: inherit !important;
   padding-top: 15px;
   padding-bottom: 15px;
-
   font-weight: $font-weight-default;
   font-size: $mdb-btn-font-size-base;
   text-transform: uppercase;
   overflow: visible;
-
   border-radius: $border-radius-base;
   position: relative;
   display: block;
   padding: 0;
   text-decoration: none;
 
-  &:hover,
-  &:focus {
+  &:focus,
+  &:hover {
     color: inherit;
     background-color: transparent;
   }
 
-
-  .material-icons,
-  .fa{
-        font-size: 20px;
+  .fa,
+  .material-icons {
+    font-size: 20px;
   }
 
-  &.btn:not(.btn-just-icon){
-      .fa{
-        position: relative;
-        top: 2px;
-        margin-top: -4px;
-        margin-right: 4px;
-      }
+  &.btn:not(.btn-just-icon) {
+    .fa {
+      position: relative;
+      top: 2px;
+      margin-top: -4px;
+      margin-right: 4px;
+    }
   }
 }
 
-.md-list-item{
+.md-list-item {
   list-style: none;
 }

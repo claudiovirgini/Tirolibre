@@ -5,7 +5,7 @@
           <div class="container">
             <div class="row">
               <Logo />
-              <div class="col-md-12">
+              <div class="col-md-12 search-form">
                 <form class="">
                   <div class="col-md-6">
                     <div class="md-layout-item">
@@ -231,8 +231,8 @@ export default {
     setInvalidAddress: function() {
 
     },
-    showProfile: function (item) {
-      this.$router.push('playerProfile?playerId='+item.id)
+    showProfile: function(item) {
+      this.$router.push('playerProfile?playerId=' + item.id)
     },
 
     getImagePathForItem: function(item) {
@@ -325,6 +325,76 @@ export default {
 //         display: none;
 //     }
 // }
+.search-form {
+    border-radius: 2px;
+    box-sizing: border-box;
+    min-width: auto;
+    padding: 10px 32px 48px;
+    position: relative;
+    z-index: initial;
+    margin: 0 -15px;
+    border: 1px solid darken(#f5ff00, 10%);
+    border-radius: 15px;
+}
+.gws-flights-form__search-button-wrapper {
+    align-items: center;
+    bottom: calc(-40px/2);
+    display: flex;
+    flex-direction: column;
+    left: 0;
+    margin: 0 auto;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    .gws-flights-fab__mini {
+        border-radius: 20px;
+        height: 40px;
+        min-width: 40px;
+    }
+    .gws-flights-form__search-button {
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        background-color: #f5ff00;
+        pointer-events: auto;
+        align-items: center;
+        border: none;
+        border-radius: 28px;
+        box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2), 0 6px 10px 0 rgba(0,0,0,0.14), 0 1px 18px 0 rgba(0,0,0,0.12);
+        box-sizing: border-box;
+        color: #000;
+        cursor: pointer;
+        display: flex;
+        height: 56px;
+        min-width: 56px;
+        outline: none;
+        padding: 0 8px;
+        position: relative;
+        user-select: none;
+        &::before {
+            border-radius: inherit;
+            content: '';
+            display: block;
+            height: 100%;
+            left: 0;
+            position: absolute;
+            top: 0;
+            width: 100%;
+        }
+        &:hover {
+            box-shadow: 0 5px 5px -3px rgba(0,0,0,0.2), 0 8px 10px 1px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12);
+            outline: none;
+        }
+        span {
+            padding: 0 16px 0 8px;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 0 26px 0 24px;
+            text-transform: uppercase;
+            -webkit-user-select: none;
+        }
+    }
+}
 .filter-panel {
     &:hover {
         // box-shadow: 0 1rem 3rem rgba(0,0,0,.175)!important;
@@ -339,18 +409,27 @@ export default {
 }
 .main-header {
     width: 100%;
-    // background-color: #d7e5e8;
-    background-color: #FFF;
-    // background-image: url("https://www.higuests.com/assets/images/alfred_001.png");
-    background-image: url("/assets/images/logo-footer.png");
+    background-image: url("../../assets/images/black-bg.jpg");
     background-repeat: no-repeat;
-    background-position: 50% 110%;
-    background-size: 200px auto;
+    background-size: cover;
     padding-bottom: 220px;
     border-radius: 0 0 9000px 6000px /1500px;
     min-height: 600px;
     overflow: hidden;
     box-shadow: 0 1rem 3rem rgba(0,0,0,.175);
+    &:before {
+        // content: "";
+        position: absolute;
+        z-index: 999;
+        left: 0;
+        top: 300px;
+        right: 0;
+        bottom: 0;
+        background-image: url("../../assets/images/logo-footer.png");
+        background-repeat: no-repeat;
+        background-position: bottom;
+        background-size: 200px auto;
+    }
 }
 h1 {
     text-transform: uppercase;

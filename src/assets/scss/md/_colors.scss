@@ -11,6 +11,21 @@
 
 @import "~vue-material/dist/theme/all"; // Apply the theme
 
+$yellow-50: #feffe4 !default;
+$yellow-100: #fdffbc !default;
+$yellow-200: #fcff8f !default;
+$yellow-300: #fafe62 !default;
+$yellow-400: #f9fe40 !default;
+$yellow-500: #f8fe1e !default;
+$yellow-600: #f7fe1a !default;
+$yellow-700: #f6fe16 !default;
+$yellow-800: #f5fe12 !default;
+$yellow-900: #f3fd0a !default;
+$yellow-A100: #ffffff !default;
+$yellow-A200: #fefff3 !default;
+$yellow-A400: #fcffc0 !default;
+$yellow-A700: #fbffa7 !default;
+$yellow: $yellow-500 !default;
 
 $red-50: #ffebee !default;
 $red-100: #ffcdd2 !default;

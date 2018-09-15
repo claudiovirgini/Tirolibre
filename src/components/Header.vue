@@ -1,7 +1,7 @@
 <template>
 <header role="banner" class="masthead mb-auto">
   <a class="navbar-brand float-left" href="#">
-      <img src="../assets/images/TiroLibreLogo_black.png" class="d-inline-block align-top" alt="TiroLibre" width="150px;">
+      <img src="../assets/images/TiroLibreLogo_white.png" class="d-inline-block align-top" alt="TiroLibre" width="150px;">
     </a>
   <nav class="main-nav isNotAuthenticated" v-if="!isAuthenticated">
     <ul>
@@ -25,10 +25,10 @@
       </div>
       <div style="float:right">
         <md-button @click="showLogin=showSignup=false;">
-          <i  class="fa fa-times fa-2x" aria-hidden="true"></i>
+          <i class="fa fa-times fa-2x" aria-hidden="true"></i>
         </md-button>
-        </div>
-</md-dialog-title>
+      </div>
+    </md-dialog-title>
     <md-dialog-content>
       <md-tabs md-dynamic-height>
         <md-tab md-label="Login" @click="showLogin=true;showSignup=false">
@@ -102,7 +102,7 @@ export default {
   computed: {
     isAuthenticated: {
       get() {
-         return this.$store.state.authentication.isAuth;
+        return this.$store.state.authentication.isAuth;
       }
     },
     name: {
@@ -290,7 +290,7 @@ header[role=banner] {
     header[role=banner] {
         height: auto;
         max-height: 60px;
-        background-color: #FFF;
+        background-color: #212121;
 
         #cd-logo {
             margin: 20px 0 0 5%;
@@ -308,6 +308,7 @@ header[role=banner] {
     margin: 3px 30px 3px 3px;
     cursor: pointer;
     padding-top: 10px;
+    color: #FFF;
     label {
         vertical-align: super;
     }
@@ -421,7 +422,7 @@ header[role=banner] {
             height: auto;
             line-height: normal;
             background: transparent;
-            color: rgba(0, 0, 0, 0.5) !important;
+            color: rgba(255, 255, 255, 0.5) !important;
         }
     }
 
@@ -429,24 +430,25 @@ header[role=banner] {
     .main-nav a.cd-signup {
 
         padding: 0.6em 1em;
-        border: 1px solid rgba(0, 0, 0, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.5);
         border-radius: 50em;
         &:hover {
-            color: rgba(0, 0, 0, 0.5) !important;
+            color: rgba(0, 0, 0, 0.9) !important;
+            background-color: #FFF;
         }
     }
 
     .main-nav a.cd-signup {
-        background: #088039;
-        color: #FFF !important;
+        background: #f5ff00;
+        color: #000 !important;
         border: none;
         &:hover {
-            color: #FFF !important;
+            color: #000 !important;
         }
     }
 
     .main-nav a.cd-signin {
-        color: rgba(0, 0, 0, 0.5);
+        color: rgba(255, 255, 255, 0.5);
     }
 }
 /* --------------------------------

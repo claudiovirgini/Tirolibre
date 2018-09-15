@@ -1,82 +1,82 @@
 <template>
-  <div style="padding:15px">
-    <div class="row search-form">
+<div style="padding:15px">
+  <div class="row search-form">
 
-      <div class="col-md-6 col-sm-12">
-        <map-autocomplete place-holder="Luogo di ricerca" :initial-address="city" startactualpos="true" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress"></map-autocomplete>
-      </div>
-      <div class="col-md-6 col-sm-12" style="padding-top:10px;text-align:center">
-        <button @click="decreaseAmount()" class="button_plus">-</button>
-        <vue-slider style="float:left;width:70%;padding-top:13px" ref="slider" v-model="amount"></vue-slider><button @click="increaseAmount()" class="button_plus">+</button>
-      </div>
-      <!-- <div class="col-lg-4 col-md-12 col-sm-12" style="padding-top:10px;text-align:center">
+    <div class="col-md-6 col-sm-12">
+      <map-autocomplete place-holder="Luogo di ricerca" :initial-address="city" startactualpos="true" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress"></map-autocomplete>
+    </div>
+    <div class="col-md-6 col-sm-12" style="padding-top:10px;text-align:center">
+      <button @click="decreaseAmount()" class="button_plus">-</button>
+      <vue-slider style="float:left;width:70%;padding-top:13px" ref="slider" v-model="amount"></vue-slider><button @click="increaseAmount()" class="button_plus">+</button>
+    </div>
+    <!-- <div class="col-lg-4 col-md-12 col-sm-12" style="padding-top:10px;text-align:center">
       <button @click="findTeams()" class="btn"><i class="fa fa-search" ></i> Cerca</button>
     </div> -->
-      <div class="gws-flights-form__search-button-wrapper">
-        <button @click="findPlayers()" class="gws-flights-form__search-button gws-flights-fab__mini" role="button" tabindex="0">
-          <i class="md-icon md-icon-font material-icons">search</i>
-          <span class="gws-flights-fab__text">Cerca</span>
-        </button>
-      </div>
+    <div class="gws-flights-form__search-button-wrapper">
+      <button @click="findPlayers()" class="gws-flights-form__search-button gws-flights-fab__mini" role="button" tabindex="0">
+        <i class="md-icon md-icon-font material-icons">search</i>
+        <span class="gws-flights-fab__text">Cerca</span>
+      </button>
+    </div>
+
+  </div>
+  <div class="row" v-if="profile==0">
+    <div style="height:30px">
 
     </div>
-    <div class="row"  v-if="profile==0">
-      <div style="height:30px">
-
-      </div>
+  </div>
+  <div class="row" v-if="profile==1 || profile==2">
+    <div class="col">
+      <md-field>
+        <label for="ruolo">Ruolo</label>
+        <md-select v-model="_roleSelected" id="ruolo">
+          <md-option v-for="role in roleList" v-bind:value="role.value">
+            {{ role.text }}
+          </md-option>
+        </md-select>
+      </md-field>
     </div>
-      <div class="row" v-if="profile==1 || profile==2">
-        <div class="col">
-          <md-field>
-            <label for="ruolo">Ruolo</label>
-            <md-select v-model="_roleSelected" id="ruolo">
-              <md-option v-for="role in roleList" v-bind:value="role.value">
-                {{ role.text }}
-              </md-option>
-            </md-select>
-          </md-field>
-        </div>
-        <div class="col">
-          <md-field>
-            <label for="classe">Classe</label>
-            <md-select v-model="classeSelected" id="classe">
-              <md-option v-for="classe in classList" v-bind:value="classe.text">
-                {{ classe.text }}
-              </md-option>
-            </md-select>
-          </md-field>
-        </div>
-        <div class="col">
-          <md-field>
-            <label for="status">Status</label>
-            <md-select v-model="statusSelected" id="status">
-              <md-option v-for="status in statusList" v-bind:value="status.value">
-                {{ status.text }}
-              </md-option>
-            </md-select>
+    <div class="col">
+      <md-field>
+        <label for="classe">Classe</label>
+        <md-select v-model="classeSelected" id="classe">
+          <md-option v-for="classe in classList" v-bind:value="classe.text">
+            {{ classe.text }}
+          </md-option>
+        </md-select>
+      </md-field>
+    </div>
+    <div class="col">
+      <md-field>
+        <label for="status">Status</label>
+        <md-select v-model="statusSelected" id="status">
+          <md-option v-for="status in statusList" v-bind:value="status.value">
+            {{ status.text }}
+          </md-option>
+        </md-select>
 
-          </md-field>
-        </div>
-        <div class="col">
-          <md-field>
-            <label for="category">Categoria</label>
-            <md-select v-model="categorySelected" id="category">
-              <md-option v-for="category in categoryList" v-bind:value="category.value">
-                {{ category.text }}
-              </md-option>
-            </md-select>
+      </md-field>
+    </div>
+    <div class="col">
+      <md-field>
+        <label for="category">Categoria</label>
+        <md-select v-model="categorySelected" id="category">
+          <md-option v-for="category in categoryList" v-bind:value="category.value">
+            {{ category.text }}
+          </md-option>
+        </md-select>
 
-          </md-field>
-        </div>
-        <!-- <div class="col">
+      </md-field>
+    </div>
+    <!-- <div class="col">
         <md-button @click="findPlayers()" class="md-success btn btn-success btn-block">
           <i class="md-icon md-icon-font material-icons md-theme-default">search</i> Cerca
         </md-button>
       </div> -->
-      </div>
-      <div class="row">
-        <div class="col-md-4">
-          <!--<div class="row">
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <!--<div class="row">
           <div class="col">
             <md-card md-with-hover>
 
@@ -94,32 +94,31 @@
           </div>
         </div>-->
 
-          <div class="row row-eq-height" v-if="profile==0">
-            <div class="col" v-for="team in teams" :key="team.Id">
-              <md-card md-with-hover>
-                <md-card-header>
-                  <md-card-header-text>
-                    <div class="md-title">{{ team.TeamName }} </div>
-                    <!--<div class="md-subhead">{{ card.Role != null  ? card.Role : 'No Role' }}</div>-->
-                  </md-card-header-text>
-                  <md-card-media md-medium>
-                    <picture-box :picUrl="team.TeamLogo" :picType="0"></picture-box>
-                    Ty
-                    rd
-                  </md-card-media>
-                </md-card-header>
-                <md-card-actions>
-                  <md-button class="md-success tiro" @click="showInfoWindowById(team.Id)">
-                    <i class="md-icon md-icon-font material-icons md-theme-default">edit</i> Show
-                  </md-button>
-                </md-card-actions>
-              </md-card>
-            </div>
-          </div>
-          <div class="row row-eq-height user-list">
-            <div class="col-12" v-for="player in players" :key="player.Id">
+      <div class="row row-eq-height" v-if="profile==0">
+        <div class="col" v-for="team in teams" :key="team.Id">
+          <md-card md-with-hover>
+            <md-card-header>
+              <md-card-header-text>
+                <div class="md-title">{{ team.TeamName }} </div>
+                <!--<div class="md-subhead">{{ card.Role != null  ? card.Role : 'No Role' }}</div>-->
+              </md-card-header-text>
+              <md-card-media md-medium>
+                <picture-box :picUrl="team.TeamLogo" :picType="0"></picture-box>
+                Ty rd
+              </md-card-media>
+            </md-card-header>
+            <md-card-actions>
+              <md-button class="md-success tiro" @click="showInfoWindowById(team.Id)">
+                <i class="md-icon md-icon-font material-icons md-theme-default">edit</i> Show
+              </md-button>
+            </md-card-actions>
+          </md-card>
+        </div>
+      </div>
+      <div class="row row-eq-height user-list">
+        <div class="col-12" v-for="player in players" :key="player.Id">
 
-              <!-- <md-card class="md-card-profile" @click.native="showInfoWindowById(player.Id)">
+          <!-- <md-card class="md-card-profile" @click.native="showInfoWindowById(player.Id)">
               <div class="md-card-avatar">
                 <picture-box :picUrl="player.PlayerImage" :picType="0"></picture-box>
               </div>
@@ -148,27 +147,27 @@
             </md-card> -->
 
 
-              <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
-                <stats-card data-background-color="green" @click.native="showInfoWindowById(player.Id)">
-                  <template slot="header">
+          <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
+            <stats-card data-background-color="yellow" @click.native="showInfoWindowById(player.Id)">
+              <template slot="header">
                     <!-- <md-icon >store</md-icon> -->
                     <picture-box :picUrl="player.PlayerImage" :picType="0"></picture-box>
                   </template>
 
-                  <template slot="content">
+              <template slot="content">
                     <p class="category">{{ player.Role }} Attaccante</p>
                     <h3 class="title">{{ player.Name }} </h3>
                   </template>
 
-                  <template slot="footer">
+              <template slot="footer">
                     <div class="stats">
                       <md-icon>date_range</md-icon>
                       {{ player.Class }} 1999
                     </div>
                   </template>
-                </stats-card>
-              </div>
-              <!-- <md-card md-with-hover>
+            </stats-card>
+          </div>
+          <!-- <md-card md-with-hover>
               <md-card-header>
                 <md-card-header-text>
                   <div class="md-title">{{ player.Name }} </div>
@@ -183,16 +182,16 @@
                 </md-button>
               </md-card-actions>
             </md-card> -->
-            </div>
-          </div>
-
-        </div>
-        <div class="col-md-8 d-none d-sm-block">
-          <div id="map"></div>
         </div>
       </div>
 
     </div>
+    <div class="col-md-8 d-none d-sm-block">
+      <div id="map"></div>
+    </div>
+  </div>
+
+</div>
 </template>
 
 <script>
@@ -261,7 +260,7 @@ export default {
           };
           this._mapCircle = this.getCircle(this.map, value, this.actualPos)
           if (this.actualTimer != null) clearTimeout(this.actualTimer);
-          this.actualTimer = setTimeout(function () {
+          this.actualTimer = setTimeout(function() {
             var profileUserLogged = self.$store.state.authentication.user.Profile;
             if (profileUserLogged == 0) self.findTeams();
             if (profileUserLogged == 2) self.findPlayers();
@@ -390,7 +389,7 @@ export default {
           })
       }
     },
-    
+
     findTeams: function() {
       var self = this;
       if ((this.actualPos != null) && (this.amount != null)) {
@@ -412,7 +411,7 @@ export default {
                 lat: team.Latitudine,
                 lng: team.Longitudine
               };
-              
+
               let contentString = '<div class="card" style="width: 18rem;">' +
                 '<img class="card-img-top" style="max-width: 250px; margin: 0 auto;" src="' + self.$store.state.configurations.imageRootUrl + team.Logo + '" alt="' + team.TeamName + '">' +
                 '<div class="card-body">' +
@@ -432,7 +431,7 @@ export default {
                 animation: google.maps.Animation.DROP,
                 title: team.TeamName
               });
-             
+
               google.maps.event.addListener(markerMap, 'click', function() {
                 for (var i = 0; i < self.infoWindows.length; i++) self.infoWindows[i].info.close()
                 infowindow.open(map, markerMap);
@@ -442,17 +441,17 @@ export default {
                 infowindow.close();
               });
               markerMap.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
-            
+
               self.markers.push({
                 marker: markerMap,
                 id: team.Id
               });
-             
+
               self.infoWindows.push({
                 info: infowindow,
                 id: team.Id
               })
-              
+
             });
             serverBus.$emit('showLoading', false);
           })
@@ -478,7 +477,8 @@ export default {
         this.setNewPointOnMap(value, this.map, this.radius)
         var profileUserLogged = this.$store.state.authentication.user.Profile;
         if (profileUserLogged == 0) this.findTeams();
-        if (profileUserLogged == 2) this.findPlayers();      }
+        if (profileUserLogged == 2) this.findPlayers();
+      }
     },
     setInvalidAddress: function() {
 
@@ -587,7 +587,8 @@ export default {
     position: relative;
     z-index: initial;
     margin: 0 -15px;
-    background: darken(#178501, 10%);
+    border: 1px solid darken(#f5ff00, 10%);
+    border-radius: 15px;
 }
 .gws-flights-form__search-button-wrapper {
     align-items: center;
@@ -605,14 +606,14 @@ export default {
         min-width: 40px;
     }
     .gws-flights-form__search-button {
-        background-color: #178501;
+        background-color: #f5ff00;
         pointer-events: auto;
         align-items: center;
         border: none;
         border-radius: 28px;
         box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2), 0 6px 10px 0 rgba(0,0,0,0.14), 0 1px 18px 0 rgba(0,0,0,0.12);
         box-sizing: border-box;
-        color: #fff;
+        color: #212121;
         cursor: pointer;
         display: flex;
         height: 56px;
@@ -647,10 +648,9 @@ export default {
 }
 .button_plus {
     float: left;
-    background-color: #188502;
-    /* Green */
+    background-color: #f1ff00;
     border: none;
-    color: white;
+    color: #212121;
     /*padding: 15px 32px;*/
     text-align: center;
     text-decoration: none;
