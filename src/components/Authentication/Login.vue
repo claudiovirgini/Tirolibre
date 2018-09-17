@@ -58,7 +58,6 @@ export default {
         
       })
 
-      //$('.cd-user-modal').removeClass('is-visible');
     },
   }
 }

@@ -2,12 +2,12 @@
 <div>
   <md-card class="md-card-profile">
     <div class="md-card-avatar">
-      <picture-box :picUrl="imagefile" :picType="profile"></picture-box>
+      <picture-box :picUrl="imagefile" :picType="1"></picture-box>
       <!--<img class="img" :src="imagefile">-->
     </div>
     <md-card-content>
-      <h4 class="card-title">{{ name+' '+surname }}</h4>
-      <h6 class="category text-gray">{{ profile }}</h6>
+      <h4 class="card-title">{{name}}</h4>
+      <h6 class="category text-gray">{{category}}</h6>
     </md-card-content>
 
   </md-card>
@@ -23,29 +23,17 @@ export default {
   props: {
     teamdata: {
       type: Object
-    }
-  },
-  data() {
-    return {
-      imageBaseUrl: this.$store.state.configurations.imageRootUrl,
+    },
+    category: {
+      type: String
     }
   },
   computed: {
-    profile: {
-      get() {
-        return (this.teamdata != null) ? this.teamdata.Profile : -1;
-      }
-    },
     name: {
       get() {
         return this.teamdata != null ? this.teamdata.Name : '';
       }
     },
-    //surname: {
-    //  get() {
-    //    return this.teamdata != null ? this.teamdata.Surname : '';
-    //  }
-    //},
     imagefile: {
       get() {
         return this.teamdata != null ? this.teamdata.FileLogo : null;

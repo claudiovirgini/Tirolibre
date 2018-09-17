@@ -1,15 +1,19 @@
 <template>
-<div>
-
+  <!--<div>-->
   <div class="inputWithIcon inputIconBg">
-    <vue-google-autocomplete ref="address" style="width:95%;float:right" :id="inputComponentName" v-on:keyup="keyhandler" classname="form-control" :placeholder="placeHolder" v-on:placechanged="getAddressData" types="(cities)" v-bind:class="[hasError ? 'inputError' : '']"
-      country="it">
-    </vue-google-autocomplete>
-    <i class="fa fa-map-marker fa-lg fa-fw" aria-hidden="true" style="height:36px;cursor:pointer" @click="findMyPosition"></i>
+    <div>
+      <vue-google-autocomplete ref="address"
+                               style="border : 0 solid black"
+                               :id="inputComponentName"
+                               v-on:keyup="keyhandler"
+                               :placeholder="placeHolder"
+                               v-on:placechanged="getAddressData"
+                               types="(cities)"
+                               country="it">
+      </vue-google-autocomplete>
+      <i class="fa fa-map-marker fa-lg fa-fw" aria-hidden="true" style="height:36px;cursor:pointer" @click="findMyPosition"></i>
+    </div>
   </div>
-
-
-</div>
 </template>
 
 <script>
@@ -141,29 +145,29 @@ export default {
     /*box-shadow:2px 2px red ;*/
 }
 
-.form-control {
+/*.form-control {
     background-color: #FFF;
     background-image: none;
-}
+}*/
 input[type=text] {
     width: 100%;
-    border: 2px solid #aaa;
-    border-radius: 4px;
-    margin: 8px 0;
+    /*border: 2px solid #aaa;
+    border-radius: 4px;*/
+    /*margin: 8px 0;*/
     outline: none;
-    padding: 8px;
-    box-sizing: border-box;
+    padding: 8px 0px 8px 30px;
+    /*box-sizing: border-box;*/
     transition: 0.3s;
 }
 
-input[type=text]:focus {
+/*input[type=text]:focus {
     border-color: dodgerBlue;
     box-shadow: 0 0 8px 0 dodgerBlue;
 }
 
 .inputWithIcon input[type=text] {
     padding-left: 40px;
-}
+}*/
 
 .inputWithIcon {
     position: relative;
@@ -173,12 +177,12 @@ input[type=text]:focus {
     position: absolute;
     left: 0;
     top: 8px;
-    padding: 9px 8px;
-    color: #aaa;
+    /*padding: 9px 8px;*/
+    /*color: #aaa;*/
     transition: 0.3s;
 }
 
-.inputWithIcon input[type=text]:focus + i {
+/*.inputWithIcon input[type=text]:focus + i {
     color: dodgerBlue;
 }
 
@@ -187,10 +191,10 @@ input[type=text]:focus {
     color: #fff;
     padding: 9px 4px;
     border-radius: 4px 0 0 4px;
-}
+}*/
 
-.inputWithIcon.inputIconBg input[type=text]:focus + i {
+/*.inputWithIcon.inputIconBg input[type=text]:focus + i {
     color: #fff;
     background-color: dodgerBlue;
-}
+}*/
 </style>

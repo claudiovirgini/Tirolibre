@@ -38,10 +38,10 @@
             <md-input v-model="roleSelected" type="text"></md-input>
           </md-field>
         </div>-->
-        <div class="md-layout-item md-small-size-100 md-size-33">
+        <div class="md-layout-item md-small-size-100 md-size-50">
           <md-field>
             <!--<label>Dove ti Trovi</label>-->
-            <map-autocomplete place-holder="Dove ti trovi" :initial-address="city" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress"></map-autocomplete>
+            <map-autocomplete place-holder="Dove ti Trovi" :initial-address="city" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress"></map-autocomplete>
           </md-field>
         </div>
         <!--<div class="md-layout-item md-small-size-100 md-size-33">
@@ -157,10 +157,10 @@ export default {
 
     city: {
       get() {
-        return (this.agentdata != null && this.agentdata.Address != null) ? this.agentdata.Address.FullAddress : '';
+        return (this.teamdata != null && this.teamdata.Address != null) ? this.teamdata.Address.FullAddress : '';
       },
       set(value) {
-        this.agentdata.Address = {
+        this.teamdata.Address = {
           FullAddressJson: JSON.stringify(value),
           FullAddress: value.formatted_address,
           Location: null

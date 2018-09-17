@@ -97,6 +97,7 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+
 .switch-content.player {
     label {
         &:before {

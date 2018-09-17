@@ -30,7 +30,7 @@ export const store = new Vuex.Store({
       savePlayerInfoUrl: '/api/Player/SavePlayerInfo',
 
       getTeamInfoUrl: '/api/Team/GetTeamInfo',
-      saveTeamInfoUrl: '/api/Team/SaveTeamInfo',
+      saveTeamProfileUrl: '/api/Team/SaveTeamInfo',
 
       getTeamAroundPointUrl: '/api/Player/GetTeamsAroundPoint',
       getPlayerAroundPointUrl: '/api/Player/GetPlayersAroundPoint',
@@ -127,6 +127,52 @@ export const store = new Vuex.Store({
       categoryLlst.push({ text: 'Primavera', value: 11 });
       categoryLlst.push({ text: 'Scuola calcio', value: 12 });
       return categoryLlst;
+    },
+      getCategoryDescription: function(categoryId) {
+        var returned = '';
+        switch (categoryId) {
+      case 0:
+        returned = 'Seria A';
+        break;
+      case 1:
+        returned = 'Seria B';
+        break;
+      case 2:
+        returned = 'Seria C';
+        break;
+      case 3:
+        returned = 'Seria D';
+        break;
+      case 4:
+        returned = 'Eccellenza';
+        break;
+      case 5:
+        returned = 'Promozione';
+        break;
+      case 6:
+        returned = 'Prima Categoria';
+        break;
+      case 7:
+        returned = 'Seconda Categoria';
+         break;
+      case 8:
+        returned = 'Terza Categoria';
+         break;
+      case 9:
+        returned = 'Juniores';
+        break;
+      case 10:
+        returned = 'Allievi Nazionali';
+        break;
+      case 11:
+        returned = 'Primavera';
+        break;
+      case 12:
+        returned = 'Scuola calcio';
+        break;
+      default:
+        returned = '';
+      }
     },
     getClassList: function() {
       let classilst = [];
@@ -442,11 +488,10 @@ export const store = new Vuex.Store({
       const data = { TeamId: teamId }
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getTeamInfoUrl, data);
     },
-    //saveTeamProfile({ commit, state }, team) {
-    //  const data = { Team: team }
-    //  return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.saveTeam
-    //  InfoUrl, data);
-    //},
+    saveTeamProfile({ commit, state }, team) {
+      const data = { Team: team }
+      return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.saveTeamProfileUrl, data);
+    },
 
     getPlayerProfile({ commit, state }, playerId) {
       const data = { PlayerId: playerId }

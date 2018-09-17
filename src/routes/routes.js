@@ -9,6 +9,10 @@ import UpgradeToPRO from '@/pages/UserProfile/UpgradeToPRO.vue'
 //                       END Player Profile                                       //
 
 
+import TeamProfileManager from '@/pages/TeamProfile/TeamProfileManager.vue'
+
+
+
 import AgentProfileManager from '@/pages/AgentProfile/AgentProfileManager.vue'
 import Portfolio from '@/pages/AgentProfile/Portfolio.vue'
 
@@ -55,6 +59,11 @@ const routes = [
         path: 'player',
         name: 'Player Profile',
         component: PlayerProfileManager
+      },
+      {
+        path: 'team',
+        name: 'Team Profile',
+        component: TeamProfileManager
       },
       {
         path: 'maps',
