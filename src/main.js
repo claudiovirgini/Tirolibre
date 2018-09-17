@@ -16,12 +16,13 @@ import GlobalComponents from './globalComponents'
 import GlobalDirectives from './globalDirectives'
 import Notifications from './components/NotificationPlugin'
 import BackToTop from 'vue-backtotop'
-import Carousel3d from 'vue-carousel-3d';
+import Carousel3d from 'vue-carousel-3d'
 
 // MaterialDashboard plugin
 import MaterialDashboard from './material-dashboard'
 
 import Chartist from 'chartist'
+
 
 // configure router
 const router = new VueRouter({
@@ -35,7 +36,7 @@ Vue.use(GlobalComponents)
 Vue.use(GlobalDirectives)
 Vue.use(Notifications)
 Vue.use(BackToTop)
-Vue.use(Carousel3d);
+Vue.use(Carousel3d)
 
 
 // global library setup

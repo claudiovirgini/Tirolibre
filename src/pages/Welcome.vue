@@ -30,7 +30,9 @@
 <script>
 import axios from 'axios'
 import Logo from '@/components/Logo'
-import { serverBus } from '@/main';
+import {
+  serverBus
+} from '@/main';
 
 export default {
   name: 'Home',
@@ -60,13 +62,12 @@ export default {
     min-height: 100vh;
 }
 .main-header {
-    // background-color: #d7e5e8;
+    width: 100%;
     background-color: #FFF;
-    // background-image: url("https://www.higuests.com/assets/images/alfred_001.png");
-    background-image: url("../assets/images/logo-footer.png");
+    background-image: url("../assets/images/black-bg.png");
     background-repeat: no-repeat;
-    background-position: 50% 110%;
-    background-size: 200px auto;
+    background-size: cover;
+    background-position: bottom;
     padding-bottom: 220px;
     border-radius: 0 0 9000px 6000px /1500px;
     min-height: 600px;

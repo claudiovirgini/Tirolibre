@@ -148,7 +148,7 @@ h1 {
 }
 
 .main-panel {
-  background-image: url("./assets/images/black-bg.jpg");
+  background-image: url("./assets/images/black-bg.png");
   background-size: cover;
 }
 </style>

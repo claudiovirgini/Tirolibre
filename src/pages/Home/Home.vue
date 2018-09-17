@@ -235,9 +235,10 @@ export default {
     // background-image: url("https://www.higuests.com/assets/images/alfred_001.png");
     // background-image: url("../../assets/images/logo-footer.png");
 
-    background-image: url("../../assets/images/black-bg.jpg");
+    background-image: url("../../assets/images/black-bg.png");
     background-repeat: no-repeat;
     background-size: cover;
+    background-position: bottom;
     padding-bottom: 220px;
     border-radius: 0 0 9000px 6000px /1500px;
     min-height: 600px;

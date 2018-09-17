@@ -171,8 +171,6 @@ export default {
 
  <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-
-
 /***LOADER **********/
 #md-content {
     overflow-y: scroll;
@@ -250,7 +248,7 @@ header[role=banner] {
     position: relative;
     height: auto;
     max-height: 50px;
-    background: transparent;
+    background: #212121;
     .navbar-brand {
         margin: 3px 0 3px 30px;
     }
@@ -379,9 +377,9 @@ header[role=banner] {
         height: 50px;
         line-height: 50px;
         padding-left: 5%;
-        background: #292a34;
+        background: #f8fe1e;
         border-top: 1px solid #3b3d4b;
-        color: #FFF !important;
+        color: #212121 !important;
     }
 }
 @media only screen and (min-width: 768px) {

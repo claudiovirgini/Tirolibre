@@ -136,10 +136,13 @@ import {
   serverBus
 } from '@/main';
 import MapAutocomplete from '@/components/GoogleMaps/MapAutocomplete'
+import VueCropper from 'vue-cropperjs'
+
 export default {
   name: 'PlayerProfileForm',
   components: {
-    MapAutocomplete
+    MapAutocomplete,
+    VueCropper
   },
   props: {
     playerObject: {
@@ -148,13 +151,15 @@ export default {
   },
   data() {
     return {
-      showAddressComponent : true,
+      showAddressComponent: true,
       roleList: [],
       statusList: [],
       categoryList: [],
-      countriesList:[],
-      classList : [],
+      countriesList: [],
+      classList: [],
       playerdata: {},
+      imgSrc: '',
+      cropImg: '',
     }
   },
   methods: {
@@ -171,6 +176,32 @@ export default {
         serverBus.$emit('showLoading', false);
       })
     },
+    setImage(e) {
+      const file = e.target.files[0];
+      if (!file.type.includes('image/')) {
+        alert('Please select an image file');
+        return;
+      }
+      if (typeof FileReader === 'function') {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          this.imgSrc = event.target.result;
+          // rebuild cropperjs with the updated source
+          this.$refs.cropper.replace(event.target.result);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        alert('Sorry, FileReader API not supported');
+      }
+    },
+    cropImage() {
+      // get image data for post processing, e.g. upload or setting image src
+      this.cropImg = this.$refs.cropper.getCroppedCanvas().toDataURL();
+    },
+    rotate() {
+      // guess what this does :)
+      this.$refs.cropper.rotate(90);
+    }
   },
   computed: {
     name: {
@@ -212,7 +243,7 @@ export default {
       set(value) {
         this.playerdata.ExternalLink = value;
       }
-    },    
+    },
     aboutMe: {
       get() {
         return (this.playerdata != null) ? this.playerdata.AboutMe : '';
@@ -319,25 +350,25 @@ export default {
       }
     },
 
-    
+
     videoLink: {
-    get() {
-      if ((this.playerdata != null) && (this.playerdata.Videos != null) && (this.playerdata.Videos.length > 0))
-        return this.playerdata.Videos[0].VideoUrl
-      else return '';
-    },
-    set(value) {
-      if ((this.playerdata != null) && (this.playerdata.Videos != null) && (this.playerdata.Videos.length > 0))
-        return this.playerdata.Videos[0].VideoUrl = value;
-      else {
-        this.playerdata.Videos = [];
-        this.playerdata.Videos.push({
-          Id: 0,
-          VideoUrl: value
-        })
+      get() {
+        if ((this.playerdata != null) && (this.playerdata.Videos != null) && (this.playerdata.Videos.length > 0))
+          return this.playerdata.Videos[0].VideoUrl
+        else return '';
+      },
+      set(value) {
+        if ((this.playerdata != null) && (this.playerdata.Videos != null) && (this.playerdata.Videos.length > 0))
+          return this.playerdata.Videos[0].VideoUrl = value;
+        else {
+          this.playerdata.Videos = [];
+          this.playerdata.Videos.push({
+            Id: 0,
+            VideoUrl: value
+          })
+        }
       }
-    }
-  },
+    },
     experience1: {
       get() {
         if ((this.playerdata != null) && (this.playerdata.Experiences != null) && (this.playerdata.Experiences.length > 0))

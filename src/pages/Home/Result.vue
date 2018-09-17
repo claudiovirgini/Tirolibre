@@ -409,9 +409,10 @@ export default {
 }
 .main-header {
     width: 100%;
-    background-image: url("../../assets/images/black-bg.jpg");
+    background-image: url("../../assets/images/black-bg.png");
     background-repeat: no-repeat;
     background-size: cover;
+    background-position: bottom;
     padding-bottom: 220px;
     border-radius: 0 0 9000px 6000px /1500px;
     min-height: 600px;

@@ -94,77 +94,49 @@
           </div>
         </div>-->
 
-      <div class="row row-eq-height" v-if="profile==0">
-        <div class="col" v-for="team in teams" :key="team.Id">
-          <md-card md-with-hover>
-            <md-card-header>
-              <md-card-header-text>
-                <div class="md-title">{{ team.TeamName }} </div>
-                <!--<div class="md-subhead">{{ card.Role != null  ? card.Role : 'No Role' }}</div>-->
-              </md-card-header-text>
-              <md-card-media md-medium>
+      <div class="row row-eq-height user-list" v-if="profile==0">
+        <div class="col-12" v-for="team in teams" :key="team.Id">
+
+          <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
+            <stats-card data-background-color="yellow" @click.native="showInfoWindowById(team.Id)">
+              <template slot="header">
                 <picture-box :picUrl="team.TeamLogo" :picType="0"></picture-box>
-                Ty rd
-              </md-card-media>
-            </md-card-header>
-            <md-card-actions>
-              <md-button class="md-success tiro" @click="showInfoWindowById(team.Id)">
-                <i class="md-icon md-icon-font material-icons md-theme-default">edit</i> Show
-              </md-button>
-            </md-card-actions>
-          </md-card>
+              </template>
+              <template slot="content">
+                <p class="category">{{ team.Catogory }} </p>
+                <h3 class="title">{{ team.TeamName }} </h3>
+              </template>
+              <template slot="footer">
+                <div class="stats">
+                  <md-icon>place</md-icon>
+                  {{ team.FullAddress }}
+                </div>
+              </template>
+            </stats-card>
+          </div>
         </div>
       </div>
       <div class="row row-eq-height user-list">
         <div class="col-12" v-for="player in players" :key="player.Id">
 
-          <!-- <md-card class="md-card-profile" @click.native="showInfoWindowById(player.Id)">
-              <div class="md-card-avatar">
-                <picture-box :picUrl="player.PlayerImage" :picType="0"></picture-box>
-              </div>
-              <md-card-content>
-                <h4 class="card-title"> {{ player.Name }} </h4>
-                <h6 class="category text-gray">{{ player.Category }}</h6>
-                <hr>
-                <div class="text-center">
-                  <div class="row">
-                    <div class="col-lg-6">
-                      <h5>
-                            Ruolo
-                            <br><small>{{ player.Role }}</small>
-                          </h5>
-                    </div>
-                    <div class="col-lg-6">
-                      <h5>
-                            Classe
-                            <br><small>{{ player.Class }}</small>
-                          </h5>
-                    </div>
-                  </div>
-                </div>
-              </md-card-content>
-
-            </md-card> -->
-
-
           <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
             <stats-card data-background-color="yellow" @click.native="showInfoWindowById(player.Id)">
               <template slot="header">
-                    <!-- <md-icon >store</md-icon> -->
-                    <picture-box :picUrl="player.PlayerImage" :picType="0"></picture-box>
-                  </template>
+                <!-- <md-icon >store</md-icon> -->
+                <picture-box :picUrl="player.PlayerImage" :picType="0"></picture-box>
+              </template>
 
               <template slot="content">
                     <p class="category">{{ player.Role }} Attaccante</p>
                     <h3 class="title">{{ player.Name }} </h3>
-                  </template>
+                </template>
 
               <template slot="footer">
-                    <div class="stats">
-                      <md-icon>date_range</md-icon>
-                      {{ player.Class }} 1999
-                    </div>
-                  </template>
+                <div class="stats">
+                  <md-icon>date_range</md-icon>
+                  {{ player.Class }} 1999
+                </div>
+              </template>
             </stats-card>
           </div>
           <!-- <md-card md-with-hover>
