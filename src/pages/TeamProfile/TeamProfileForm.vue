@@ -14,90 +14,121 @@
             <md-input v-model="name" type="text"></md-input>
           </md-field>
         </div>
-        <!--<div class="md-layout-item md-small-size-100 md-size-50">
-          <md-field>
-            <label>Cognome</label>
-            <md-input v-model="surname" type="text"></md-input>
-          </md-field>
-        </div>-->
-        <!--<div class="md-layout-item md-small-size-100 md-size-33">
-          <md-field>
-            <label>Classe</label>
-            <md-input v-model="yearClass" type="number"></md-input>
-          </md-field>
-        </div>-->
-        <!--<div class="md-layout-item md-small-size-100 md-size-33">
-          <md-field>
-            <label>Nazionalità</label>
-            <md-input v-model="nationality"  type="text"></md-input>
-          </md-field>
-        </div>
-        <div class="md-layout-item md-small-size-100 md-size-33">
-          <md-field>
-            <label>Ruolo</label>
-            <md-input v-model="roleSelected" type="text"></md-input>
-          </md-field>
-        </div>-->
         <div class="md-layout-item md-small-size-100 md-size-50">
           <md-field>
             <!--<label>Dove ti Trovi</label>-->
             <map-autocomplete place-holder="Dove ti Trovi" :initial-address="city" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress"></map-autocomplete>
           </md-field>
         </div>
-        <!--<div class="md-layout-item md-small-size-100 md-size-33">
+        <div class="md-layout-item md-small-size-100 md-size-50">
           <md-field>
-            <label>Dove Cerchi</label>
-            <md-input v-model="researchPlace" type="text"></md-input>
+            <label for="year">Anno Fondazione</label>
+            <md-select v-model="foundation" id="year">
+              <md-option v-for="year in yearList" v-bind:value="year">
+                {{ year }}
+              </md-option>
+            </md-select>
           </md-field>
-        </div>-->
-        <!--<div class="md-layout-item md-small-size-100 md-size-33">
+          <!--<md-field>
+            <label>Anno Fondazione</label>
+            <md-input v-model="foundation" type="number" maxlength="4"></md-input>
+          </md-field>-->
+        </div>
+        <div class="md-layout-item md-small-size-100 md-size-50">
           <md-field>
-            <label>Status</label>
-            <md-input v-model="actualStatus" type="text"></md-input>
+            <label>Web Site</label>
+            <md-input v-model="website" type="text"></md-input>
           </md-field>
-        </div>-->
-        <!--<div class="md-layout-item md-small-size-100 md-size-33">
+        </div>
+        <div class="md-layout-item md-small-size-100 md-size-33">
+          <md-field>
+            <label>Facebook</label>
+            <md-input v-model="facebook" type="text"></md-input>
+          </md-field>
+        </div>
+        <div class="md-layout-item md-small-size-100 md-size-33">
+          <md-field>
+            <label>Twitter</label>
+            <md-input v-model="twitter" type="text"></md-input>
+          </md-field>
+        </div>
+        <div class="md-layout-item md-small-size-100 md-size-33">
+          <md-field>
+            <label>LinkedIn</label>
+            <md-input v-model="linkedin" type="text"></md-input>
+          </md-field>
+        </div>
+
+        <div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
             <label>Telefono</label>
-            <md-input v-model="phoneNumber" type="number"></md-input>
+            <md-input v-model="contactPhone" type="text"></md-input>
           </md-field>
-        </div>-->
+        </div>
+        <div class="md-layout-item md-small-size-100 md-size-33">
+          <md-field>
+            <label>Cellulare</label>
+            <md-input v-model="contactCell" type="text"></md-input>
+          </md-field>
+        </div>
+        <div class="md-layout-item md-small-size-100 md-size-33">
+          <md-field>
+            <label>Mail Alernativa</label>
+            <md-input v-model="contactEmail" type="text"></md-input>
+          </md-field>
+        </div>
+        <div class="md-layout-item md-small-size-100 md-size-33">
+          <md-field>
+            <label for="casftegory">Category</label>
+            <md-select v-model="cat" id="casftegory">
+              <md-option v-for="myCat in categoryList" v-bind:value="myCat.value">
+                {{ myCat.text }}
+              </md-option>
+            </md-select>
+          </md-field>
+        </div>
         <!--<div class="md-layout-item md-small-size-100 md-size-33">
-          <md-field>
-            <label>Peso</label>
-            <md-input v-model="weigth" type="number"></md-input>
-          </md-field>
-        </div>
-        <div class="md-layout-item md-small-size-100 md-size-33">
-          <md-field>
-            <label>Altezza</label>
-            <md-input v-model="heigth" type="number"></md-input>
-          </md-field>
-        </div>-->
+    <md-field>
+      <label>Telefono</label>
+      <md-input v-model="phoneNumber" type="number"></md-input>
+    </md-field>
+  </div>-->
         <!--<div class="md-layout-item md-small-size-100 md-size-33">
-          <md-field>
-            <label>Nome Squadra ultimo campionato</label>
-            <md-input v-model="experience1" type="text"></md-input>
-          </md-field>
-        </div>
-        <div class="md-layout-item md-small-size-100 md-size-33">
-          <md-field>
-            <label>Nome Squadra altre esperienze</label>
-            <md-input v-model="experience2" type="text" :disabled="(playerdata != null && playerdata.Experiences != null) && (playerdata.Experiences>0)"></md-input>
-          </md-field>
-        </div>
-        <div class="md-layout-item md-small-size-100 md-size-33">
-          <md-field>
-            <label>Nome Squadra altre esperienze</label>
-            <md-input v-model="experience3" type="text"></md-input>
-          </md-field>
-        </div>-->
+    <md-field>
+      <label>Peso</label>
+      <md-input v-model="weigth" type="number"></md-input>
+    </md-field>
+  </div>
+  <div class="md-layout-item md-small-size-100 md-size-33">
+    <md-field>
+      <label>Altezza</label>
+      <md-input v-model="heigth" type="number"></md-input>
+    </md-field>
+  </div>-->
+        <!--<div class="md-layout-item md-small-size-100 md-size-33">
+    <md-field>
+      <label>Nome Squadra ultimo campionato</label>
+      <md-input v-model="experience1" type="text"></md-input>
+    </md-field>
+  </div>
+  <div class="md-layout-item md-small-size-100 md-size-33">
+    <md-field>
+      <label>Nome Squadra altre esperienze</label>
+      <md-input v-model="experience2" type="text" :disabled="(playerdata != null && playerdata.Experiences != null) && (playerdata.Experiences>0)"></md-input>
+    </md-field>
+  </div>
+  <div class="md-layout-item md-small-size-100 md-size-33">
+    <md-field>
+      <label>Nome Squadra altre esperienze</label>
+      <md-input v-model="experience3" type="text"></md-input>
+    </md-field>
+  </div>-->
         <!--<div class="md-layout-item md-size-100">
-          <md-field maxlength="5">
-            <label>Biografy</label>
-            <md-textarea v-model="biografy"></md-textarea>
-          </md-field>
-        </div>-->
+    <md-field maxlength="5">
+      <label>Biografy</label>
+      <md-textarea v-model="biografy"></md-textarea>
+    </md-field>
+  </div>-->
         <div class="md-layout-item md-size-100 text-right">
           <md-button class="md-raised md-success" v-on:click="saveProfile()">Aggiorna Profilo</md-button>
         </div>
@@ -117,23 +148,45 @@ export default {
   name: 'TeamProfileForm',
   components: {
     MapAutocomplete
-  },
-  props: {
-    teamdata: {
-      type: Object
     },
+    data() {
+      return {
+        yearList: [],
+        categoryList : [],
+        teamdata: {}
+      }
+    },
+  props: {
+    //teamdata: {
+    //  type: Object
+    //},
     dataBackgroundColor: {
       type: String,
       default: ''
     }
   },
-
-  methods: {
+    mounted() {
+      var self = this;
+      var currentYear = (new Date).getFullYear();
+      for (var i = 0; i < 200; i++) {
+        this.yearList.push(currentYear - i)
+      }
+      serverBus.$emit('showLoading', true);
+      this.$store.dispatch('getTeamProfile', this.$store.state.authentication.user.Id).then(res => {
+        self.teamdata = res.data;
+        self.$store.dispatch('getCategories', {}).then(listCategories => {
+          self.categoryList = listCategories;
+          serverBus.$emit('showLoading', false);
+        })
+      }).catch(error => { alert('Si è verificato un errore'); serverBus.$emit('showLoading', false) });
+    },
+    methods: {
     setCorrectAddress: function(address) {
       this.city = address;
     },
     setInvalidAddress: function() {},
-    saveProfile: function() {
+    saveProfile: function () {
+      alert(this.teamdata.DataFondation )
       serverBus.$emit('showLoading', true);
       this.$store.dispatch('saveTeamProfile', this.teamdata).then(res => {
         serverBus.$emit('showLoading', false);
@@ -144,7 +197,8 @@ export default {
       })
     },
   },
-  computed: {
+    computed: {
+
     name: {
       get() {
         return (this.teamdata != null) ? this.teamdata.Name : '';
@@ -153,8 +207,22 @@ export default {
         this.teamdata.Name = value;
       }
     },
-
-
+    foundation: {
+      get() {
+        return (this.teamdata != null && this.teamdata.DataFondation != -1) ? this.teamdata.DataFondation : '';
+      },
+      set(value) {
+        this.teamdata.DataFondation = value;
+      }
+    },
+    cat: {
+        get() {
+          return (this.teamdata != null && this.teamdata.Category != -1) ? this.teamdata.Category : '';
+        },
+        set(value) {
+          this.teamdata.Category = value;
+        }
+    },
     city: {
       get() {
         return (this.teamdata != null && this.teamdata.Address != null) ? this.teamdata.Address.FullAddress : '';
@@ -166,39 +234,70 @@ export default {
           Location: null
         };
       }
+      },
+      contactCell: {
+        get() {
+          return (this.teamdata != null && this.teamdata.Contact != null) ? this.teamdata.Contact.Mobile : '';
+        },
+        set(value) {
+          if (this.teamdata.Contact == null) this.teamdata.Contact = { Phone: '', Mobile: '', Email: '' }
+          this.teamdata.Contact.Mobile = value;
+        }
+      },
+      contactPhone: {
+        get() {
+          return (this.teamdata != null && this.teamdata.Contact != null) ? this.teamdata.Contact.Phone : '';
+        },
+        set(value) {
+          if (this.teamdata.Contact == null) this.teamdata.Contact = { Phone: '', Mobile: '', Email: '' }
+          this.teamdata.Contact.Phone = value;
+        }
+      },
+      contactEmail: {
+        get() {
+          return (this.teamdata != null && this.teamdata.Contact != null) ? this.teamdata.Contact.Email : '';
+        },
+        set(value) {
+          if (this.teamdata.Contact == null) this.teamdata.Contact = { Phone: '', Mobile: '', Email: '' }
+          this.teamdata.Contact.Email = value;
+        }
+      },
+    linkedin: {
+      get() {
+        return (this.teamdata != null && this.teamdata.Social != null)  ? this.teamdata.Social.LinkedInUrl : '';
+      },
+      set(value) {
+        if (this.teamdata.Social == null) this.teamdata.Social = { LinkedInUrl: '', TwitterUrl: '', WebSiteUrl: '', FacebookUrl:''}
+        this.teamdata.Social.LinkedInUrl = value;
+      }
     },
-    //phoneNumber: {
-    //  get() {
-    //    return (this.agentdata != null) ? this.agentdata.PhoneNumber : '';
-    //  },
-    //  set(value) {
-    //    this.agentdata.PhoneNumber = value;
-    //  }
-    //},
-    //weigth: {
-    //  get() {
-    //    return (this.playerdata != null) ? this.playerdata.Weigth : '';
-    //  },
-    //  set(value) {
-    //    this.playerdata.Weigth = value;
-    //  }
-    //},
-    //heigth: {
-    //  get() {
-    //    return (this.playerdata != null) ? this.playerdata.Heigth : '';
-    //  },
-    //  set(value) {
-    //    this.playerdata.Heigth = value;
-    //  }
-    //},
-    //nationality: {
-    //  get() {
-    //    return (this.playerdata != null) ? this.playerdata.Nationality : '';
-    //  },
-    //  set(value) {
-    //    this.playerdata.Nationality = value;
-    //  }
-    //},
+    twitter: {
+      get() {
+        return (this.teamdata != null && this.teamdata.Social != null)  ? this.teamdata.Social.TwitterUrl : '';
+      },
+      set(value) {
+        if (this.teamdata.Social == null) this.teamdata.Social = { LinkedInUrl: '', TwitterUrl: '', WebSiteUrl: '', FacebookUrl: '' }
+        this.teamdata.Social.TwitterUrl = value;
+      }
+    },
+    website: {
+      get() {
+        return (this.teamdata != null && this.teamdata.Social != null) ? this.teamdata.Social.WebSiteUrl : '';
+      },
+      set(value) {
+        if (this.teamdata.Social == null) this.teamdata.Social = { LinkedInUrl: '', TwitterUrl: '', WebSiteUrl: '', FacebookUrl: '' }
+        this.teamdata.Social.WebSiteUrl = value;
+      }
+    },
+    facebook: {
+      get() {
+        return (this.teamdata != null && this.teamdata.Social != null)  ? this.teamdata.Social.FacebookUrl : '';
+      },
+      set(value) {
+        if (this.teamdata.Social == null) this.teamdata.Social = { LinkedInUrl: '', TwitterUrl: '', WebSiteUrl: '', FacebookUrl: '' }
+        this.teamdata.Social.FacebookUrl = value;
+      }
+    },
 
     //yearClass : {
     //  get() {

@@ -2,7 +2,7 @@
   <div class="content">
     <div class="md-layout">
       <div class="md-layout-item md-medium-size-100 md-size-66">
-        <team-profile-form data-background-color="green"  :teamdata="teamData"   v-if="profileLoaded">
+        <team-profile-form data-background-color="green"     v-if="profileLoaded">
 
         </team-profile-form>
       </div>
@@ -35,20 +35,21 @@ import { serverBus } from '@/main';
     },
 
     mounted() {
+      this.profileLoaded = true
       //if (this.$store.state.authentication.user == null)
       //  this.$router.go('/')
       //else
-      var self = this;
-      serverBus.$emit('showLoading', true);
-      this.$store.dispatch('getTeamProfile', this.$store.state.authentication.user.Id).then(res => {
-        self.teamData = res.data;
-        self.$store.dispatch('getCategories', {}).then(listCategories => {
-          self.categoryName = (listCategories.filter(function (x) { return x.value == self.teamData.Category })[0]).text;
-          self.profileLoaded = true;
-          serverBus.$emit('showLoading', false);
-        })
+      //var self = this;
+      //serverBus.$emit('showLoading', true);
+      //this.$store.dispatch('getTeamProfile', this.$store.state.authentication.user.Id).then(res => {
+      //  self.teamData = res.data;
+      //  self.$store.dispatch('getCategories', {}).then(listCategories => {
+      //    self.categoryName = (listCategories.filter(function (x) { return x.value == self.teamData.Category })[0]).text;
+      //    self.profileLoaded = true;
+      //    serverBus.$emit('showLoading', false);
+      //  })
 
-        }).catch(error => { alert('Si è verificato un errore'); serverBus.$emit('showLoading', false) });
+      //  }).catch(error => { alert('Si è verificato un errore'); serverBus.$emit('showLoading', false) });
     }
   }
 </script>
