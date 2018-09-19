@@ -29,7 +29,7 @@
     <div class="col">
       <md-field>
         <label for="ruolo">Ruolo</label>
-        <md-select v-model="_roleSelected" id="ruolo">
+        <md-select v-model="roleSelected" id="ruolo">
           <md-option v-for="role in roleList" v-bind:value="role.value">
             {{ role.text }}
           </md-option>
@@ -263,8 +263,14 @@ export default {
       }
     }
   },
-  mounted() {
-    this.profile = this.$store.state.authentication.user.Profile;
+    mounted() {
+      var self = this;
+      this.profile = this.$store.state.authentication.user.Profile;
+      setTimeout(function() {
+        if (self.profile == 0) self.findTeams()
+        else self.findPlayers()
+      }, 500);
+
   },
   methods: {
     showInfoWindowById: function(Id) {
@@ -286,17 +292,16 @@ export default {
       if (this.amount > 0)
         this.amount = this.amount - 5;
     },
-    findPlayers: function() {
+    findPlayers: function () {
+      
       var self = this;
       if ((this.actualPos != null) && (this.amount != null)) {
         serverBus.$emit('showLoading', true);
-        //this._roleSelected = 'Portiere';
-        //alert(this._roleSelected)
         this.$store.dispatch('getPlayerAroundPoint', {
             lat: this.actualPos.lat,
             lng: this.actualPos.lng,
             rad: this.amount * 4,
-            role: this._roleSelected,
+            role: this.roleSelected,
             category: this.categorySelected,
             class: this.classeSelected,
             status: this.statusSelected,
@@ -361,7 +366,6 @@ export default {
           })
       }
     },
-
     findTeams: function() {
       var self = this;
       if ((this.actualPos != null) && (this.amount != null)) {
@@ -433,7 +437,8 @@ export default {
           })
       }
     },
-    setCorrectAddress: function(value) {
+
+    setCorrectAddress: function (value) {
       let newPos = {
         lat: value.geometry.location.lat(),
         lng: value.geometry.location.lng()

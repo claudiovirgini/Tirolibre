@@ -24,6 +24,7 @@
 import Vue from 'vue'
 import VueGoogleAutocomplete from 'vue-google-autocomplete'
 import axios from 'axios'
+import { setTimeout } from 'timers';
 export default {
   name: 'MapAutocomplete',
   props: ['initialAddress', 'placeHolder', 'startactualpos'],
@@ -34,13 +35,15 @@ export default {
     return {
       _placeSelected: null,
       hasError: true,
-      inputComponentName: 'inputMap_'
+      inputComponentName: 'inputMap_',
+      _initialAddress : this.initialAddress
     }
-  },
+    },
+
     computed: {
       InitialAddress: {
         get() {
-          return this.initialAddress;
+          return this._initialAddress;
         },
         set(value) {
           if (value.length > 0) {
