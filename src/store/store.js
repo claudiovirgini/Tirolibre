@@ -18,8 +18,8 @@ export const store = new Vuex.Store({
     playerSelected: '',
     configurations: {
       //serviceBaseUrl: 'http://localhost:61610/',
-      serviceBaseUrl: 'http://localhost:114/',
-      //serviceBaseUrl: 'http://testservice.tirolibre.it',
+      //serviceBaseUrl: 'http://localhost:114/',
+      serviceBaseUrl: 'http://testservice.tirolibre.it',
       imageRootUrl: 'http://tirolibre.it/CDN/',
       //serviceBaseUrl: 'http://testservice.tirolibre.it',
       loginUrl: '/auth/login',
@@ -44,6 +44,11 @@ export const store = new Vuex.Store({
       addOrUpdateAgentPlayeroUrl: '/api/Agent/AddOrUpdateAgentPlayer',
       deleteeAgentPlayerUrl: '/api/Agent/DeleteeAgentPlayer',
 
+
+      getMyMessagesUrl: '/api/Messages/GetMyMessages',
+      getMyNewMessagesUrl: '/api/Messages/GetMyNewMessages',
+      sendMessageUrl: '/api/Messages/SendMessage',
+      deleteMessageUrl: '/api/Messages/DeleteMessage',
 
       environment: 1
 
@@ -128,7 +133,7 @@ export const store = new Vuex.Store({
       categoryLlst.push({ text: 'Scuola calcio', value: 12 });
       return categoryLlst;
     },
-      getCategoryDescription: function(categoryId) {
+    getCategoryDescription: function(categoryId) {
         var returned = '';
         switch (categoryId) {
       case 0:
@@ -505,8 +510,6 @@ export const store = new Vuex.Store({
       const data = { Player: player }
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.savePlayerInfoUrl, data);
     },
-
-
     getAgentProfile({ commit, state }, agentId) {
       const data = { AgentId: agentId }
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getAgentInfoUrl, data);
@@ -531,12 +534,10 @@ export const store = new Vuex.Store({
       const data = { AgentPlayerId: playerId }
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.deleteeAgentPlayerUrl, data);
     },
-
     getAgentPlayerList({ commit, state }, agentId) {
       const data = { AgentId: agentId }
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getAgentPlayerListUrl, data);
     },
-
     findUser({ commit, state }, param) {
       let playerDetails = { Role: null, Category: null, Class: null, Status: null };
       let teamDetails = { Category: null };
@@ -551,7 +552,26 @@ export const store = new Vuex.Store({
       }
       let dataParam = { PlayerDetail: playerDetails, TeamDetail: teamDetails, Profile: param.profile, Radius: param.radius, FullAddressJson: param.place };
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.FindUserUrl, dataParam);
-    }
+    },
+
+    getMyMessages({ commit, state }, params) {
+      const data = { BaseUserId: params.baseUserId, Top: params.top }
+      return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getMyMessagesUrl, data);
+    },
+    getMyNewMessages({ commit, state }, params) {
+      const data = { BaseUserId: params.baseUserId, Top: params.top }
+      return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getMyNewMessagesUrl, data);
+    },
+    deleteMessage({ commit, state }, messageId) {
+      const data = { MessageId: messageId }
+      return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.deleteMessageUrl, data);
+    },
+
+    sendMessage({ commit, state }, params) {
+      const data = { BodyMessage: params.bodyMessage, ObjectMessage: params.objectMessage, SenderBaseUserId: params.senderBaseUserId, ReceiverBaseUserId: params.receiverBaseUserId}
+      return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.sendMessageUrl, data);
+    },
+
   }
 
 })

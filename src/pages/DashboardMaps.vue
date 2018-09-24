@@ -76,27 +76,8 @@
   </div>
   <div class="row">
     <div class="col-md-4">
-      <!--<div class="row">
-          <div class="col">
-            <md-card md-with-hover>
-
-              <md-card-content>
-                <h3>gestisci i tuoi calciatori e mantieni aggiornate le loro informazioni</h3>
-                <md-button class="md-icon-button md-raised md-primary md-fab" @click="AddNewPlayer">
-                  <md-icon>add</md-icon>
-                </md-button>
-                <p>
-                  Aggiungi calciatore
-                </p>
-              </md-card-content>
-
-            </md-card>
-          </div>
-        </div>-->
-
       <div class="row row-eq-height user-list" v-if="profile==0">
         <div class="col-12" v-for="team in teams" :key="team.Id">
-
           <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
             <stats-card data-background-color="yellow" @click.native="showInfoWindowById(team.Id)">
               <template slot="header">

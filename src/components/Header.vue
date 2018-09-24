@@ -1,7 +1,7 @@
 <template>
 <header role="banner" class="masthead mb-auto">
   <a class="navbar-brand float-left" href="#">
-      <img src="../assets/images/TiroLibreLogo_white.png" class="d-inline-block align-top" alt="TiroLibre" width="150px;">
+      <img src="../assets/images/TiroLibreLogo_white.png" class="d-inline-block align-top" alt="TiroLibre" width="150px">
     </a>
   <nav class="main-nav isNotAuthenticated" v-if="!isAuthenticated">
     <ul>
@@ -13,6 +13,8 @@
   <div class="isAuthenticated" v-if="isAuthenticated">
     <ul>
       <li class="nav-item user" @click="goToProfile()">
+          <i class="material-icons" @click="getMyMessages()" >mail_outline</i>
+          <i v-if="showMessageSection" style="padding-right:35px">{{_numMessages}}</i>
         <i class="material-icons">person_pin</i>
         <label>Benvenuto {{name}}</label>
       </li>
@@ -58,6 +60,9 @@
 </template>
 
 <script>
+  import VueMaterial from 'vue-material'
+  import 'vue-material/dist/vue-material.min.css'
+  //import 'vue-material/dist/theme/default-dark.css'
 import Login from '@/components/Authentication/Login'
 import Signup from '@/components/Authentication/Signup'
 import RecoveryPwd from '@/components/Authentication/RecoveryPwd'
@@ -92,14 +97,25 @@ export default {
   },
   data() {
     return {
+      showMessageSection: false,
+      handlerTimer: null,
       isLoading: false,
       remind: null,
       showDialog: false,
       showLogin: false,
-      showSignup: false
+      showSignup: false,
+      _numMessages : 0
     }
   },
-  computed: {
+    computed: {
+    numMessages: {
+      get() {
+        return this._numMessages != null ? this._numMessages : 0;
+      },
+      set(value) {
+        this._numMessages = value;
+      }
+    },
     isAuthenticated: {
       get() {
         return this.$store.state.authentication.isAuth;
@@ -118,7 +134,8 @@ export default {
     },
 
   },
-  created() {
+    created() {
+    this.showMessageSection = true;
     this.$store.dispatch('fetchUser')
     serverBus.$on('showLoading', (isToShow) => {
       this.showLoading(isToShow);
@@ -149,16 +166,49 @@ export default {
       this.showLogin = false;
       self.goToProfile();
     });
+    this.intervalCheckMessage();
   },
-  methods: {
+    methods: {
+      intervalCheckMessage: function () {
+        var self = this;
+        this.getMyMessages();
+        this.handlerTimer = setInterval(function () {
+          self.getMyMessages();
+        },5000);
+    },
+
     showLoading: function(isToShow) {
       this.isLoading = isToShow;
     },
-    logout: function() {
+    logout: function () {
+      clearInterval(handlerTimer);
       this.$store.dispatch('logout')
       this.$router.push('/')
     },
-
+   
+    getMyMessages: function () {
+      var self = this;
+    
+      this.$store.dispatch('getMyNewMessages', {
+        baseUserId: this.$store.state.authentication.user.Id,
+        top: 100
+      })
+        .then(res => {
+          if ((res.data != null)) {
+            let lng = res.data.length;
+            var newMessages = res.data.filter(function (x) { return x.IsNew == true });
+            this.showMessageSection = false;
+            self.numMessages = lng;
+            self.showMessageSection = true;
+            serverBus.$emit('fetchMessage', lng)
+            if (newMessages.length > 0) { serverBus.$emit('newMessage', newMessages); }
+          }
+      })
+      .catch(error => {
+        serverBus.$emit('showError', 'Si è verificato un errore ' + JSON.stringify(error));
+        serverBus.$emit('showLoading', false);
+      })
+    },
     goToProfile: function() {
       var actualProfile = this.$store.state.authentication.user.Profile;
       if (actualProfile == 0) this.$router.push('/player')
@@ -171,6 +221,9 @@ export default {
 
  <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+
+
+
 /***LOADER **********/
 #md-content {
     overflow-y: scroll;

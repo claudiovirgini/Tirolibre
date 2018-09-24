@@ -3,6 +3,7 @@ import DashboardLayout from '@/components/Dashboard/DashboardLayout.vue'
 //                       Player Profile                                           //
 import PlayerProfileManager from '@/pages/UserProfile/PlayerProfileManager.vue'
 import DashboardMaps from '@/pages/DashboardMaps.vue'
+import MessageManager from '@/pages/MessageManager.vue'
 import PlayerMarket from '@/pages/UserProfile/PlayerMarket.vue'
 import PlayerProfileView from '@/pages/UserProfile/PlayerProfileView.vue'
 import UpgradeToPRO from '@/pages/UserProfile/UpgradeToPRO.vue'
@@ -72,6 +73,15 @@ const routes = [
           hideFooter: true
         },
         component: DashboardMaps
+
+      },
+      {
+        path: 'messages',
+        name: 'Messages',
+        meta: {
+          hideFooter: true
+        },
+        component: MessageManager
 
       },
       {

@@ -22,7 +22,7 @@
                   <div class="col-md-6">
                     <label>
                       <!-- Dove cerchi -->
-                      <map-autocomplete place-holder="Dove cerchi?" :initialAddress="selectedAddressString" startactualpos="false" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress"></map-autocomplete>
+                      <map-autocomplete place-holder="Dove cerchi?" input-component-name="gmap12" :initialAddress="selectedAddressString" startactualpos="false" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress"></map-autocomplete>
                       <!--<input placeholder="Dove cerchi?" tabindex="2" />-->
                     </label>
                   </div>

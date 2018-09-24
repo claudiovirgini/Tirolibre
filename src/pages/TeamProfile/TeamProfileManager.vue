@@ -18,7 +18,7 @@
                 </div>
                 <div class="md-layout-item md-small-size-100 md-size-50">
                   <md-field>
-                    <map-autocomplete place-holder="Dove ti Trovi" :initial-address="city" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress"></map-autocomplete>
+                    <map-autocomplete place-holder="Dove ti Trovi"  input-component-name="gmap1" :initial-address="city" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress"></map-autocomplete>
                   </md-field>
                 </div>
                 <div class="md-layout-item md-small-size-100 md-size-50">
@@ -85,7 +85,7 @@
                 </div>
                 <div class="md-layout-item md-small-size-100 md-size-50">
                   <md-field>
-                    <map-autocomplete place-holder="Indirizzo Stadio" :initial-address="stadiumAddress" v-on:setCorrectAddress="setCorrectAddressStadium" v-on:setInvalidAddress="setInvalidAddressStadium"></map-autocomplete>
+                    <map-autocomplete place-holder="Indirizzo Stadio" input-component-name="gmap2" :initial-address="stadiumAddress" v-on:setCorrectAddress="setCorrectAddressStadium" v-on:setInvalidAddress="setInvalidAddressStadium"></map-autocomplete>
                   </md-field>
                 </div>
                 <div class="md-layout-item md-size-100 text-right">

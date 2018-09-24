@@ -24,6 +24,10 @@
       <md-icon>location_on</md-icon>
       <p>Maps</p>
     </sidebar-link>
+    <sidebar-link to="/messages" v-if="isPlayerProfile || isAgentProfile || isTeamProfile">
+      <md-icon>mail_outline</md-icon>
+      <p>Messaggi</p><p style="color:white;padding-left:15px" v-if="showMessageNumber">{{numMessages}}</p>
+    </sidebar-link>
     <sidebar-link to="/market" v-if="isPlayerProfile">
       <md-icon>import_export</md-icon>
       <p>Market</p>
@@ -84,7 +88,9 @@ import TopNavbar from '@/components/Dashboard/TopNavbar.vue'
 //import ContentFooter from './ContentFooter.vue'
 //import DashboardContent from './Content.vue'
 //import MobileMenu from '@/components/Dashboard/MobileMenu.vue'
-
+  import {
+    serverBus
+  } from '@/main';
 export default {
   components: {
     TopNavbar,
@@ -97,13 +103,23 @@ export default {
       isPlayerProfile: false,
       isTeamProfile: false,
       isAgentProfile: false,
+      numMessages: 0,
+      showMessageNumber: true
     }
   },
-  created() {
+    created() {
+      var self = this;
     var profile = this.$store.state.authentication.user.Profile;
     if (profile == 0) this.isPlayerProfile = true;
     if (profile == 1) this.isTeamProfile = true;
     if (profile == 2) this.isAgentProfile = true;
+    serverBus.$on('fetchMessage', function (numMessage) {
+      //self.showMessageNumber = false;
+      self.numMessages = numMessage;
+      //alert(this.numMessages)
+
+      //self.showMessageNumber = true;
+    });
   },
   methods: {
     logout: function() {

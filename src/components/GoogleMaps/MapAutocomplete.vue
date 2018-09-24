@@ -27,7 +27,7 @@ import axios from 'axios'
 import { setTimeout } from 'timers';
 export default {
   name: 'MapAutocomplete',
-  props: ['initialAddress', 'placeHolder', 'startactualpos'],
+    props: ['initialAddress', 'placeHolder', 'startactualpos','inputComponentName'],
   components: {
     VueGoogleAutocomplete
   },
@@ -35,7 +35,7 @@ export default {
     return {
       _placeSelected: null,
       hasError: true,
-      inputComponentName: 'inputMap_',
+      //inputComponentName: 'inputMap_',
       _initialAddress : this.initialAddress
     }
     },
@@ -69,10 +69,10 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch('makeid').then(res => {
-      this.inputComponentName = 'inputMap_' + res;
+    //this.$store.dispatch('makeid').then(res => {
+    //  this.inputComponentName = 'inputMap_' + res;
      
-    }).catch(error => alert(error.response.data.error_description));
+    //}).catch(error => alert(error.response.data.error_description));
 
     },
     mounted() {
