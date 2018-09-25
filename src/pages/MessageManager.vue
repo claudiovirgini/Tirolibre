@@ -13,7 +13,7 @@
             <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
               <stats-card data-background-color="yellow">
                 <template slot="header">
-                  <picture-box  :picType="0"></picture-box>
+                  <picture-box :picUrl="message.BaseUser.UserImageUrl" :picType="0"></picture-box>
                 </template>
                 <template slot="content">
                   <h3 class="title">{{ message.ObjectMessage }} </h3>
@@ -92,26 +92,7 @@ export default {
       this.getMyMessages();
   },
   methods: {
-    sendMessage: function () {
-      var self = this;
-      if ((this.actualPos != null) && (this.amount != null)) {
-        serverBus.$emit('showLoading', true);
-        this.$store.dispatch('sendMessage', {
-          bodyMessage: "Body Message",
-          objectMessage:"Object Message",
-          senderBaseUserId: this.$store.state.authentication.user.Id,
-          receiverBaseUserId: this.$store.state.authentication.user.Id,
-          })
-          .then(res => {
-            alert('Message Correctly Sent')
-            serverBus.$emit('showLoading', false);
-          })
-          .catch(error => {
-            serverBus.$emit('showError', 'Si è verificato un errore');
-            serverBus.$emit('showLoading', false);
-          })
-      }
-    },
+   
     getMyMessages: function () {
       var self = this;
       //serverBus.$emit('showLoading', true);

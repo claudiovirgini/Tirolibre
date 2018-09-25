@@ -185,7 +185,26 @@ export default {
       this.$store.dispatch('logout')
       this.$router.push('/')
     },
-   
+    sendMessage: function () {
+      var self = this;
+      if ((this.actualPos != null) && (this.amount != null)) {
+        serverBus.$emit('showLoading', true);
+        this.$store.dispatch('sendMessage', {
+          bodyMessage: "Body Message",
+          objectMessage: "Object Message",
+          senderBaseUserId: this.$store.state.authentication.user.Id,
+          receiverBaseUserId: this.$store.state.authentication.user.Id,
+        })
+          .then(res => {
+            alert('Message Correctly Sent')
+            serverBus.$emit('showLoading', false);
+          })
+          .catch(error => {
+            serverBus.$emit('showError', 'Si è verificato un errore');
+            serverBus.$emit('showLoading', false);
+          })
+      }
+    },
     getMyMessages: function () {
       var self = this;
     
