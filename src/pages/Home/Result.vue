@@ -125,27 +125,31 @@
 
               <div class="row">
                 <div class="col-md-4 mt-4 col-xs-6 d-flex align-items-stretch" v-for="item in items" :key="item.id">
-                  <div class="card profile-card-5 col" @click="showProfile(item)">
-                    <div class="card-img-block">
-                      <picture-box :picUrl="getImagePathForItem(item)" :picType="item.profile"></picture-box>
-                      <!--<img class="card-img-top" :src="getImagePathForItem(item)" alt="Card image cap">-->
+                  <div class="card profile-card-5 col">
+                    <div  @click="showProfile(item)">
+                      <div class="card-img-block">
+                        <picture-box :picUrl="item.fullpath" :picType="item.profile"></picture-box>
+                        <!--<img class="card-img-top" :src="getImagePathForItem(item)" alt="Card image cap">-->
+                      </div>
+                      <div class="card-body pt-0">
+                        <h3 class="card-title">
+                          {{item.name }}
+                        </h3>
+                        <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+                        <p class="card-text" v-if="item.Profile === 0">
+                          {{ item.role }} | {{ item.age }}
+                        </p>
+                        <p class="card-text" v-if="item.profile === 1">
+                          {{ item.fulladdress }}
+                        </p>
+                        <p class="card-text level" v-if="item.profile === 1">
+                          <i class="fas fa-trophy"></i> {{ item.level }}
+                        </p>
+                      </div>
                     </div>
-                    <div class="card-body pt-0">
-                      <h3 class="card-title">
-                        {{item.name }}
-                      </h3>
-                      <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
-                      <p class="card-text" v-if="item.Profile === 0">
-                        {{ item.role }} | {{ item.age }}
-                      </p>
-                      <p class="card-text" v-if="item.profile === 1">
-                        {{ item.fulladdress }}
-                      </p>
-                      <p class="card-text level" v-if="item.profile === 1">
-                        <i class="fas fa-trophy"></i> {{ item.level }}
-                      </p>
-                    </div>
+                    <i class="material-icons" @click.prevent="sendMessage(item)">mail_outline</i>
                   </div>
+                 
                 </div>
               </div>
 
@@ -219,6 +223,9 @@ export default {
       if ((this.radius + amount) < 0) this.radius = 0;
       if (this.radius + amount > 100) this.radius = 1000;
     },
+    sendMessage: function (item) {
+      serverBus.$emit('sendMessage', { userId: item.Id, imageUrl: item.fullpath });
+    },
     mdSelected: function(val) {
       //if ((this.profileSelected != null) && (this.placeSelected != null))
       //  this.findUsers(this.profileSelected, this.placeSelected, 100);
@@ -235,9 +242,6 @@ export default {
       this.$router.push('playerProfile?playerId=' + item.id)
     },
 
-    getImagePathForItem: function(item) {
-      return item.fullpath;
-    },
 
     findUsers: function(profile, address, radiusP, filterPlayer, filterTeam) {
       serverBus.$emit('showLoading', true);

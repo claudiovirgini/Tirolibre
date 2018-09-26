@@ -8,22 +8,22 @@
     <div class="row" v-if="showResult">
       <div class="col-md-4">
         <div class="row row-eq-height user-list" >
-          <div class="col-12" v-for="message in _messageList" :key="message.Id">
+          <div class="col-12" v-for="sender in userSenderList" :key="sender.Id">
             <!--<p class="category">{{ message.ObjectMessage }} </p>-->
-            <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
+            <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100" @click="selectThread(sender.Sender.Id)">
               <stats-card data-background-color="yellow">
                 <template slot="header">
-                  <picture-box :picUrl="message.BaseUser.UserImageUrl" :picType="0"></picture-box>
+                  <picture-box :picUrl="sender.Sender.UserImageUrl" :picType="0"></picture-box>
                 </template>
                 <template slot="content">
-                  <h3 class="title">{{ message.ObjectMessage }} </h3>
-                  <p class="category">{{ message.BodyMessage }} </p>
+                  <h3 class="title">{{ sender.Sender.Name }} </h3>
+                  <p class="category">{{ sender.NumMessages }} </p>
 
                 </template>
                 <template slot="footer">
                   <div class="stats">
                     <md-icon>place</md-icon>
-                    {{ message.SendDate }}
+                    {{ sender.LastTime }}
                   </div>
                 </template>
               </stats-card>
@@ -31,7 +31,15 @@
           </div>
         </div>
       </div>
-      <div class="col-md-8 d-none d-sm-block">
+      <!--<div style="background-color:yellow;width:300px;height:50px" v-if="showResultThread==true">
+        {{threadMessageList}}
+      </div>-->
+      <div class="col-md-8" v-if="showResultThread==true">
+        <div style="padding:20px;width:100%;background-color:white" v-for="message in threadMessageList" :key="message.Id">
+          <div class="row">
+            {{message.BodyMessage}}
+          </div>
+        </div>
       </div>
     </div>
 
@@ -62,8 +70,10 @@ export default {
     name: 'MessageManager',
   data() {
     return {
-      showResult : false,
-      _messageList : []
+      showResult: false,
+      showResultThread:false,
+      userSenderList : [],
+      threadMessageList : []
     }
   },
   components: {
@@ -92,17 +102,35 @@ export default {
       this.getMyMessages();
   },
   methods: {
-   
+    selectThread: function (userId) {
+      var self = this;
+      this.$store.dispatch('getThreadMessage', {
+        senderId: this.$store.state.authentication.user.Id,
+        receiverId: userId,
+        top: 100
+      })
+        .then(res => {
+          self.showResultThread = false;
+          
+          self.threadMessageList = res.data;
+          //serverBus.$emit('showLoading', false);
+          self.showResultThread = true;
+        })
+        .catch(error => {
+          serverBus.$emit('showError', 'Si è verificato un errore ' + JSON.stringify(error));
+          serverBus.$emit('showLoading', false);
+        })
+    },
     getMyMessages: function () {
       var self = this;
       //serverBus.$emit('showLoading', true);
-      this.$store.dispatch('getMyMessages', {
+      this.$store.dispatch('getMyNewMessagesSender', {
         baseUserId: this.$store.state.authentication.user.Id,
         top: 100
       })
       .then(res => {
         self.showResult = false;
-        self._messageList = res.data;
+        self.userSenderList = res.data;
         //serverBus.$emit('showLoading', false);
         self.showResult = true;
       })

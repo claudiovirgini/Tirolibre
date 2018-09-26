@@ -19,7 +19,7 @@ export const store = new Vuex.Store({
     configurations: {
       //serviceBaseUrl: 'http://localhost:61610/',
       //serviceBaseUrl: 'http://localhost/',
-      serviceBaseUrl: 'http://testservice.tirolibre.it',
+      serviceBaseUrl: 'http://www.testservice.tirolibre.it',
       imageRootUrl: 'http://tirolibre.it/CDN/',
       //serviceBaseUrl: 'http://testservice.tirolibre.it',
       loginUrl: '/auth/login',
@@ -48,6 +48,8 @@ export const store = new Vuex.Store({
       getMyMessagesUrl: '/api/Messages/GetMyMessages',
       getMyNewMessagesUrl: '/api/Messages/GetMyNewMessages',
       sendMessageUrl: '/api/Messages/SendMessage',
+      getMyNewMessagesSenderUrl: '/api/Messages/GetMyMessagesSender',
+      getThreadMessageUrl: '/api/Messages/GetThreadMessage',
       deleteMessageUrl: '/api/Messages/DeleteMessage',
 
       environment: 1
@@ -562,12 +564,21 @@ export const store = new Vuex.Store({
       const data = { BaseUserId: params.baseUserId, Top: params.top }
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getMyNewMessagesUrl, data);
     },
+    getMyNewMessagesSender({ commit, state }, params) {
+      const data = { BaseUserId: params.baseUserId, Top: params.top }
+      return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getMyNewMessagesSenderUrl, data);
+    },
+    getThreadMessage({ commit, state }, params) {
+      const data = { SenderBaseUserId: params.senderId, ReceiverBaseUserId: params.receiverId, Top: params.top }
+      return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getThreadMessageUrl, data);
+    },
     deleteMessage({ commit, state }, messageId) {
       const data = { MessageId: messageId }
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.deleteMessageUrl, data);
     },
 
     sendMessage({ commit, state }, params) {
+      alert(JSON.stringify(params))
       const data = { BodyMessage: params.bodyMessage, ObjectMessage: params.objectMessage, SenderBaseUserId: params.senderBaseUserId, ReceiverBaseUserId: params.receiverBaseUserId}
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.sendMessageUrl, data);
     },

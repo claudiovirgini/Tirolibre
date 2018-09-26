@@ -1,9 +1,10 @@
 <template>
 <div class="content">
   <div class="md-layout mt-5">
-
+   
     <div class="md-layout-item md-medium-size-100 md-size-33">
       <user-card :playerdata="playerdata" />
+      <button @click="sendMessage()">SEND MESSAGE</button>
     </div>
     <div class="md-layout-item md-medium-size-100 md-size-66">
       <user-info data-background-color="yellow" :playerdata="playerdata" />
@@ -51,6 +52,9 @@ export default {
     playerProfile: function() {
       this.cardResult = false
       this.userProfile = true
+    },
+    sendMessage: function () {
+      serverBus.$emit('sendMessage', { userId: this.playerdata.Id, imageUrl: this.playerdata.UserImageUrl });
     }
   },
 
