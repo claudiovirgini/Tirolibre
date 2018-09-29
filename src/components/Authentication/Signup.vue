@@ -45,7 +45,7 @@
     </div>
   </p>
   <p class="fieldset">
-    <md-checkbox v-model="terms">I agree to the <a href="#">Terms</a></md-checkbox>
+    <md-checkbox v-model="terms">Accetto i </md-checkbox><a href="https://app.termly.io/document/terms-of-use-for-saas/a53abb66-f8fa-4c05-bac5-528c8dac29ce" target="_self">Termini e Condizioni</a>
   </p>
 
   <p class="fieldset">
@@ -97,7 +97,6 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-
 .switch-content.player {
     label {
         &:before {

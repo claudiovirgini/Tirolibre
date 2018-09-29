@@ -10,15 +10,15 @@
   </sidebar-link> -->
     <sidebar-link to="/agent" v-if="isAgentProfile">
       <md-icon>person</md-icon>
-      <p>Agent Profile</p>
+      <p>Profilo</p>
     </sidebar-link>
     <sidebar-link to="/player" v-if="isPlayerProfile">
       <md-icon>person</md-icon>
-      <p>Player Profile</p>
+      <p>Profilo</p>
     </sidebar-link>
     <sidebar-link to="/team" v-if="isTeamProfile">
       <md-icon>person</md-icon>
-      <p>Team Profile</p>
+      <p>Profilo</p>
     </sidebar-link>
     <sidebar-link to="/maps" v-if="isPlayerProfile || isAgentProfile || isTeamProfile">
       <md-icon>location_on</md-icon>
@@ -26,12 +26,13 @@
     </sidebar-link>
     <sidebar-link to="/messages" v-if="isPlayerProfile || isAgentProfile || isTeamProfile">
       <md-icon>mail_outline</md-icon>
-      <p>Messaggi</p><p style="color:white;padding-left:15px" v-if="showMessageNumber">{{numMessages}}</p>
+      <p>Messaggi</p>
+      <p class="notification" v-if="showMessageNumber">{{numMessages}}</p>
     </sidebar-link>
-    <sidebar-link to="/market" v-if="isPlayerProfile">
+    <!-- <sidebar-link to="/market" v-if="isPlayerProfile">
       <md-icon>import_export</md-icon>
       <p>Market</p>
-    </sidebar-link>
+    </sidebar-link> -->
     <sidebar-link to="/portfolio" v-if="isAgentProfile">
       <md-icon>supervised_user_circle</md-icon>
       <p>Portfolio</p>
@@ -64,33 +65,14 @@
   </div>
 </div>
 </template>
-<style lang="scss">
-.nav-item.active p {
-    color: #212121;
-}
-</style>
-<style>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity .1s
-}
-
-.fade-enter,
-.fade-leave-to
-/* .fade-leave-active in <2.1.8 */
-
-  {
-  opacity: 0
-}
-</style>
 <script>
 import TopNavbar from '@/components/Dashboard/TopNavbar.vue'
 //import ContentFooter from './ContentFooter.vue'
 //import DashboardContent from './Content.vue'
 //import MobileMenu from '@/components/Dashboard/MobileMenu.vue'
-  import {
-    serverBus
-  } from '@/main';
+import {
+  serverBus
+} from '@/main';
 export default {
   components: {
     TopNavbar,
@@ -107,13 +89,13 @@ export default {
       showMessageNumber: true
     }
   },
-    created() {
-      var self = this;
+  created() {
+    var self = this;
     var profile = this.$store.state.authentication.user.Profile;
     if (profile == 0) this.isPlayerProfile = true;
     if (profile == 1) this.isTeamProfile = true;
     if (profile == 2) this.isAgentProfile = true;
-    serverBus.$on('fetchMessage', function (numMessage) {
+    serverBus.$on('fetchMessage', function(numMessage) {
       //self.showMessageNumber = false;
       self.numMessages = numMessage;
       //alert(this.numMessages)
@@ -129,3 +111,23 @@ export default {
   }
 }
 </script>
+
+
+<style scoped lang="scss">
+.nav-item.active p {
+    color: #212121;
+}
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.1s;
+}
+/* .fade-leave-active in <2.1.8 */
+.fade-enter,
+.fade-leave-to {
+    opacity: 0;
+}
+.notification {
+    padding-left: 20px;
+    font-weight: 700 !important;
+}
+</style>

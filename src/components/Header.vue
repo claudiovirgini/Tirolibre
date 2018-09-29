@@ -1,103 +1,108 @@
 <template>
-  <header role="banner" class="masthead mb-auto">
-    <a class="navbar-brand float-left" href="#">
+<header role="banner" class="masthead mb-auto">
+  <a class="navbar-brand float-left" href="#">
       <img src="../assets/images/TiroLibreLogo_white.png" class="d-inline-block align-top" alt="TiroLibre" width="150px">
     </a>
-    <nav class="main-nav isNotAuthenticated" v-if="!isAuthenticated">
-      <ul>
-        <li><a class="cd-signin" href="#" @click="showLogin=true;showSignup=false">Accedi</a></li>
-        <li><a class="cd-signup" href="#" @click="showLogin=false;showSignup=true">Registrati</a></li>
-      </ul>
-    </nav>
+  <nav class="main-nav isNotAuthenticated" v-if="!isAuthenticated">
+    <ul>
+      <li><a class="cd-signin" href="#" @click="showLogin=true;showSignup=false">Accedi</a></li>
+      <li><a class="cd-signup" href="#" @click="showLogin=false;showSignup=true">Registrati</a></li>
+    </ul>
+  </nav>
 
-    <div class="isAuthenticated" v-if="isAuthenticated">
-      <ul>
-        <li class="nav-item user" @click="goToProfile()">
-          <i class="material-icons" @click="getMyMessages()">mail_outline</i>
-          <i v-if="showMessageSection" style="padding-right:35px">{{_numMessages}}</i>
-          <i class="material-icons">person_pin</i>
-          <label>Benvenuto {{name}}</label>
+  <div class="isAuthenticated" v-if="isAuthenticated">
+    <ul>
+      <router-link to="/messages">
+        <li class="nav-item user goToMessage" @click="getMyMessages()">
+          <i class="material-icons">mail_outline</i>
+          <!-- <span class="notification">5</span> -->
+          <i v-if="showMessageSection" class="notification">{{_numMessages}}</i>
         </li>
-      </ul>
-    </div>
-    <md-dialog :md-active="showLogin || showSignup">
-      <md-dialog-title>
-        <div style="float:left">
-          {{showLogin==true ? 'LOGIN' : 'SIGNUP'}}
-        </div>
-        <div style="float:right">
-          <md-button @click="showLogin=showSignup=false;">
-            <i class="fa fa-times fa-2x" aria-hidden="true"></i>
-          </md-button>
-        </div>
-      </md-dialog-title>
-      <md-dialog-content>
-        <md-tabs md-dynamic-height>
-          <md-tab md-label="Login" @click="showLogin=true;showSignup=false">
-            <div id="cd-login">
-              <Login />
-            </div>
-
-          </md-tab>
-
-          <md-tab md-label="Signup" @click="showLogin=false;showSignup=true">
-
-            <div id="cd-signup">
-              <Signup />
-            </div>
-
-          </md-tab>
-
-        </md-tabs>
-      </md-dialog-content>
-    </md-dialog>
-
-    <md-dialog :md-active="showSendMessage" style="width:50%">
-      <md-dialog-title>
-        <div style="float:left">
-          SEND MESSAGE
-        </div>
-        <div style="float:right">
-          <md-button @click="showSendMessage=false;">
-            <i class="fa fa-times fa-2x" aria-hidden="true"></i>
-          </md-button>
-        </div>
-      </md-dialog-title>
-      <md-dialog-content>
-        <div class="md-card-avatar">
-
-          <picture-box :picUrl="selectedUserForMessage.imageUrl" :picType="0"></picture-box>
-        </div>
-        <div class="md-layout-item md-size-100">
-          <md-field maxlength="5">
-            <label>Messaggio</label>
-            <md-textarea v-model="body" placeholder="messaggio"></md-textarea>
-          </md-field>
-        </div>
-      </md-dialog-content>
-      <md-dialog-footer style="text-align:center">
-        <md-button @click="sendMessage(body)">
-          SEND MESSAGE
-        </md-button>
-      </md-dialog-footer>
-    </md-dialog>
-
-    <div id=preloderH v-if="isLoading">
-      <div class=loaderH>
-        <scale-out></scale-out>
+      </router-link>
+      <li class="nav-item user" @click="goToProfile()">
+        <i class="material-icons">person_pin</i>
+        <label>Benvenuto {{name}}</label>
+      </li>
+    </ul>
+  </div>
+  <md-dialog :md-active="showLogin || showSignup">
+    <md-dialog-title>
+      <div style="float:left">
+        {{showLogin==true ? 'ACCEDI' : 'REGISTRATI'}}
       </div>
+      <div style="float:right">
+        <md-button @click="showLogin=showSignup=false;">
+          <i class="fa fa-times fa-2x" aria-hidden="true"></i>
+        </md-button>
+      </div>
+    </md-dialog-title>
+    <md-dialog-content>
+      <md-tabs md-dynamic-height>
+        <md-tab md-label="Accedi" @click="showLogin=true;showSignup=false">
+          <div id="cd-login">
+            <Login />
+          </div>
+
+        </md-tab>
+
+        <md-tab md-label="Registrati" @click="showLogin=false;showSignup=true">
+
+          <div id="cd-signup">
+            <Signup />
+          </div>
+
+        </md-tab>
+
+      </md-tabs>
+    </md-dialog-content>
+  </md-dialog>
+
+  <md-dialog :md-active="showSendMessage" style="width:50%">
+    <md-dialog-title>
+      <div style="float:left">
+        SEND MESSAGE
+      </div>
+      <div style="float:right">
+        <md-button @click="showSendMessage=false;">
+          <i class="fa fa-times fa-2x" aria-hidden="true"></i>
+        </md-button>
+      </div>
+    </md-dialog-title>
+    <md-dialog-content>
+      <div class="md-card-avatar">
+
+        <picture-box :picUrl="selectedUserForMessage.imageUrl" :picType="0"></picture-box>
+      </div>
+      <div class="md-layout-item md-size-100">
+        <md-field maxlength="5">
+          <label>Messaggio</label>
+          <md-textarea v-model="body" placeholder="messaggio"></md-textarea>
+        </md-field>
+      </div>
+    </md-dialog-content>
+    <md-dialog-footer style="text-align:center">
+      <md-button @click="sendMessage(body)">
+        SEND MESSAGE
+      </md-button>
+    </md-dialog-footer>
+  </md-dialog>
+
+  <div id=preloderH v-if="isLoading">
+    <div class=loaderH>
+      <scale-out></scale-out>
     </div>
-  </header>
+  </div>
+</header>
 </template>
 
 <script>
-  import VueMaterial from 'vue-material'
-  import 'vue-material/dist/vue-material.min.css'
-  //import 'vue-material/dist/theme/default-dark.css'
+import VueMaterial from 'vue-material'
+import 'vue-material/dist/vue-material.min.css'
+//import 'vue-material/dist/theme/default-dark.css'
 import Login from '@/components/Authentication/Login'
 import Signup from '@/components/Authentication/Signup'
-  import RecoveryPwd from '@/components/Authentication/RecoveryPwd'
-  import PictureBox from '@/components/PictureBox/PictureBox'
+import RecoveryPwd from '@/components/Authentication/RecoveryPwd'
+import PictureBox from '@/components/PictureBox/PictureBox'
 
 import {
   RotateSquare4,
@@ -139,12 +144,15 @@ export default {
       showLogin: false,
       showSignup: false,
       _numMessages: 0,
-      selectedUserForMessage: { userId: -1, imageUrl: '' },
+      selectedUserForMessage: {
+        userId: -1,
+        imageUrl: ''
+      },
       showSendMessage: false,
-      body : '',
+      body: '',
     }
   },
-    computed: {
+  computed: {
     numMessages: {
       get() {
         return this._numMessages != null ? this._numMessages : 0;
@@ -171,104 +179,108 @@ export default {
     },
 
   },
-    created() {
-      this.showMessageSection = true;
-      this.$store.dispatch('fetchUser')
-      serverBus.$on('showLoading', (isToShow) => {
-        this.showLoading(isToShow);
+  created() {
+    this.showMessageSection = true;
+    this.$store.dispatch('fetchUser')
+    serverBus.$on('showLoading', (isToShow) => {
+      this.showLoading(isToShow);
 
+    });
+    serverBus.$on('showMessage', (message) => {
+      //alert(message)
+      this.$toasted.show(message, {
+        theme: "outline",
+        position: "top-center",
+        duration: 5000,
+        fullWidth: true,
+        type: 'success'
       });
-      serverBus.$on('showMessage', (message) => {
-        //alert(message)
-        this.$toasted.show(message, {
-          theme: "outline",
-          position: "top-center",
-          duration: 5000,
-          fullWidth: true,
-          type: 'success'
-        });
+    });
+    serverBus.$on('showError', (message) => {
+      this.$toasted.show(message, {
+        //theme: "primary",
+        position: "top-center",
+        duration: 3000,
+        fullWidth: true,
+        type: 'error'
       });
-      serverBus.$on('showError', (message) => {
-        this.$toasted.show(message, {
-          //theme: "primary",
-          position: "top-center",
-          duration: 3000,
-          fullWidth: true,
-          type: 'error'
-        });
-      });
+    });
+    var self = this;
+
+    serverBus.$on('loggedIn', () => {
+      this.showLogin = false;
+      self.goToProfile();
+    });
+    serverBus.$on('sendMessage', (user) => {
+      self.selectedUserForMessage = user;
+      self.showSendMessage = true;
+
+    });
+    this.intervalCheckMessage();
+  },
+  methods: {
+    intervalCheckMessage: function() {
       var self = this;
-
-      serverBus.$on('loggedIn', () => {
-        this.showLogin = false;
-        self.goToProfile();
-      });
-      serverBus.$on('sendMessage', (user) => {
-        self.selectedUserForMessage = user;
-        self.showSendMessage = true;
-        
-      });
-      this.intervalCheckMessage();
-    },
-    methods: {
-      intervalCheckMessage: function () {
-        var self = this;
-        this.getMyMessages();
-        this.handlerTimer = setInterval(function () {
-          self.getMyMessages();
-        },5000);
+      this.getMyMessages();
+      this.handlerTimer = setInterval(function() {
+        self.getMyMessages();
+      }, 5000);
     },
 
     showLoading: function(isToShow) {
       this.isLoading = isToShow;
     },
-    logout: function () {
+    logout: function() {
       clearInterval(handlerTimer);
       this.$store.dispatch('logout')
       this.$router.push('/')
     },
-      sendMessage: function (body) {
+    sendMessage: function(body) {
       var self = this;
 
-        //serverBus.$emit('showLoading', true);
-        self.$store.dispatch('sendMessage', {
+      //serverBus.$emit('showLoading', true);
+      self.$store.dispatch('sendMessage', {
           bodyMessage: body,
           objectMessage: "OBJECT TEST",
           senderBaseUserId: this.$store.state.authentication.user.Id,
           receiverBaseUserId: this.selectedUserForMessage.userId
         })
-          .then(res => {
-            alert('Message Correctly Sent')
-            serverBus.$emit('showLoading', false);
-          })
-          .catch(error => {
-            serverBus.$emit('showError', 'Si è verificato un errore');
-            serverBus.$emit('showLoading', false);
-          })
+        .then(res => {
+          alert('Message Correctly Sent')
+          serverBus.$emit('showLoading', false);
+        })
+        .catch(error => {
+          serverBus.$emit('showError', 'Si è verificato un errore');
+          serverBus.$emit('showLoading', false);
+        })
 
     },
-    getMyMessages: function () {
+    getMyMessages: function() {
       var self = this;
-    
+
       this.$store.dispatch('getMyNewMessages', {
-        baseUserId: this.$store.state.authentication.user.Id,
-        top: 100
-      })
+          baseUserId: this.$store.state.authentication.user.Id,
+          top: 100
+        })
         .then(res => {
           if ((res.data != null)) {
             let lng = res.data.length;
-            var newMessages = res.data.filter(function (x) { return x.IsNew == true });
+            var newMessages = res.data.filter(function(x) {
+              return x.IsNew == true
+            });
             this.showMessageSection = false;
             self.numMessages = lng;
             self.showMessageSection = true;
             serverBus.$emit('fetchMessage', lng)
-            if (newMessages.length > 0) { serverBus.$emit('newMessage', newMessages); }
+            if (newMessages.length > 0) {
+              serverBus.$emit('newMessage', newMessages);
+            }
           }
-      })
-      .catch(error => {
-        serverBus.$emit('showError', 'Si è verificato un errore ' + JSON.stringify(error));
-        serverBus.$emit('showLoading', false);
-      })
+        })
+        .catch(error => {
+          serverBus.$emit('showError', 'Si è verificato un errore ' + JSON.stringify(error));
+          serverBus.$emit('showLoading', false);
+        })
     },
     goToProfile: function() {
       var actualProfile = this.$store.state.authentication.user.Profile;
@@ -282,9 +294,6 @@ export default {
 
  <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-
-
-
 /***LOADER **********/
 #md-content {
     overflow-y: scroll;
@@ -1092,5 +1101,30 @@ xsigin/signup popup
 
 .switch-field label:last-of-type {
     border-radius: 0 4px 4px 0;
+}
+
+.goToMessage {
+    position: relative;
+    margin-right: 25px;
+    i {
+        color: #FFF !important;
+    }
+    .notification {
+        position: absolute;
+        top: -10px;
+        border: 1px solid #FFF;
+        right: -10px;
+        font-size: 9px;
+        background: #f44336;
+        color: #FFFFFF;
+        min-width: 20px;
+        padding: 0 5px;
+        height: 20px;
+        border-radius: 10px;
+        text-align: center;
+        line-height: 19px;
+        vertical-align: middle;
+        display: block;
+    }
 }
 </style>

@@ -87,6 +87,8 @@
     <!-- result -->
     <result v-if="cardResult" :what='what' :who='who' :place="placeSelected" />
     <!-- /.result -->
+
+    <Footer />
   </div>
 
   <!--<span>Picked: {{ who }} // {{ what }} // {{ where }}</span>
@@ -102,6 +104,7 @@ import axios from 'axios'
 import Logo from '@/components/Logo'
 import Result from '@/pages/Home/Result.vue'
 import MapAutocomplete from '@/components/GoogleMaps/MapAutocomplete'
+import Footer from '@/components/Footer'
 import {
   Carousel3d,
   Slide
@@ -119,7 +122,8 @@ export default {
     Result,
     MapAutocomplete,
     Carousel3d,
-    Slide
+    Slide,
+    Footer
   },
   data() {
     return {

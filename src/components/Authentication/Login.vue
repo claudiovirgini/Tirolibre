@@ -14,12 +14,12 @@
       <span class="cd-error-message">Error message here!</span>
     </p>
 
-    <p class="fieldset">
+    <!-- <p class="fieldset">
       <md-checkbox v-model="remind">Ricordami</md-checkbox>
-    </p>
+    </p> -->
     <p class="fieldset">
-      <md-button  class="md-success btn btn-success btn-lg btn-block" @click="login(userLoginEmail,userLoginPWD)"> 
-        Login
+      <md-button class="md-success btn btn-success btn-lg btn-block" @click="login(userLoginEmail,userLoginPWD)">
+        Accedi
         <!-- <i class="md-icon md-icon-font material-icons md-theme-default">arrow_forward_ios</i> -->
       </md-button>
       <!--<input class="md-button md-success btn btn-success btn-lg btn-block md-theme-default" type="button" value="Login" @click="login(userLoginEmail,userLoginPWD)">-->
@@ -30,11 +30,13 @@
 </div>
 </template>
 <script>
-  import Vue from 'vue'
-  import Router from 'vue-router'
+import Vue from 'vue'
+import Router from 'vue-router'
 
 Vue.use(Router)
-  import { serverBus } from '@/main';
+import {
+  serverBus
+} from '@/main';
 
 export default {
   name: 'Login',
@@ -44,18 +46,21 @@ export default {
       userLoginPWD: '',
       remind: true
     }
-    },
-    mounted()  {
+  },
+  mounted() {
 
-    },
+  },
   methods: {
     login: function(email, pwd) {
       const formData = {
         email: email,
         pwd: pwd,
       }
-      this.$store.dispatch('login', { email: email, pwd: pwd }).then(res => {
-        
+      this.$store.dispatch('login', {
+        email: email,
+        pwd: pwd
+      }).then(res => {
+
       })
 
     },
@@ -63,9 +68,6 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-
-
-
 header[role=banner] {
     position: relative;
     height: 50px;
