@@ -44,7 +44,7 @@
       </div>
     </div>
   </p>
-  <p class="fieldset">
+  <p class="fieldset terms">
     <md-checkbox v-model="terms">Accetto i </md-checkbox><a href="https://app.termly.io/document/terms-of-use-for-saas/a53abb66-f8fa-4c05-bac5-528c8dac29ce" target="_self">Termini e Condizioni</a>
   </p>
 
@@ -121,6 +121,18 @@ export default {
             background-image: url("../../assets/images/agent.png");
         }
 
+    }
+}
+.terms {
+    .md-checkbox {
+        margin-right: 5px;
+    }
+    a {
+        margin-top: 15px;
+        display: inline-block;
+        vertical-align: top;
+        color: #75849a !important;
+        text-decoration: underline;
     }
 }
 header[role=banner] {

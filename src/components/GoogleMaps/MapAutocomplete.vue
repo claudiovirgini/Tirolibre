@@ -1,19 +1,12 @@
 <template>
-  <!--<div>-->
-  <div class="inputWithIcon inputIconBg">
-    <div>
-      <vue-google-autocomplete ref="address"
-                               style="border : 0 solid black"
-                               :id="inputComponentName"
-                               v-on:keyup="keyhandler"
-                               :placeholder="placeHolder"
-                               v-on:placechanged="getAddressData"
-                               types="(cities)"
-                               country="it">
-      </vue-google-autocomplete>
-      <i class="fa fa-map-marker fa-lg fa-fw" aria-hidden="true" style="height:36px;cursor:pointer" @click="findMyPosition"></i>
-    </div>
+<!--<div>-->
+<div class="inputWithIcon inputIconBg">
+  <div>
+    <vue-google-autocomplete ref="address" style="border : 0 solid black" :id="inputComponentName" v-on:keyup="keyhandler" :placeholder="placeHolder" v-on:placechanged="getAddressData" types="(cities)" country="it">
+    </vue-google-autocomplete>
+    <i class="fa fa-map-marker fa-lg fa-fw" aria-hidden="true" style="height:36px;cursor:pointer" @click="findMyPosition"></i>
   </div>
+</div>
 </template>
 
 <script>
@@ -24,10 +17,12 @@
 import Vue from 'vue'
 import VueGoogleAutocomplete from 'vue-google-autocomplete'
 import axios from 'axios'
-import { setTimeout } from 'timers';
+import {
+  setTimeout
+} from 'timers';
 export default {
   name: 'MapAutocomplete',
-    props: ['initialAddress', 'placeHolder', 'startactualpos','inputComponentName'],
+  props: ['initialAddress', 'placeHolder', 'startactualpos', 'inputComponentName'],
   components: {
     VueGoogleAutocomplete
   },
@@ -36,24 +31,24 @@ export default {
       _placeSelected: null,
       hasError: true,
       //inputComponentName: 'inputMap_',
-      _initialAddress : this.initialAddress
+      _initialAddress: this.initialAddress
     }
-    },
+  },
 
-    computed: {
-      InitialAddress: {
-        get() {
-          return this._initialAddress;
-        },
-        set(value) {
-          if (value.length > 0) {
-            this.hasError = false,
-              this._placeSelected = value[0]
-            this.$emit('setCorrectAddress', value[0]);
-          }
-        }
-
+  computed: {
+    InitialAddress: {
+      get() {
+        return this._initialAddress;
       },
+      set(value) {
+        if (value.length > 0) {
+          this.hasError = false,
+            this._placeSelected = value[0]
+          this.$emit('setCorrectAddress', value[0]);
+        }
+      }
+
+    },
     placeSelected: {
       get() {
         return this._placeSelected;
@@ -71,20 +66,19 @@ export default {
   created() {
     //this.$store.dispatch('makeid').then(res => {
     //  this.inputComponentName = 'inputMap_' + res;
-     
+
     //}).catch(error => alert(error.response.data.error_description));
 
-    },
-    mounted() {
-      if (this.startactualpos == "true") {
-        this.findMyPosition()
+  },
+  mounted() {
+    if (this.startactualpos == "true") {
+      this.findMyPosition()
+    } else {
+      if (this.initialAddress != null) {
+        this.checkAddressValidity(this.initialAddress);
       }
-      else {
-        if (this.initialAddress != null) {
-          this.checkAddressValidity(this.initialAddress);
-        }
-      }
-    },
+    }
+  },
   methods: {
     keyhandler: function(event) {
 
@@ -158,7 +152,7 @@ input[type=text] {
     border-radius: 4px;*/
     /*margin: 8px 0;*/
     outline: none;
-    padding: 8px 0px 8px 30px;
+    padding: 8px 0 8px 30px;
     /*box-sizing: border-box;*/
     transition: 0.3s;
 }
@@ -178,10 +172,10 @@ input[type=text] {
 
 .inputWithIcon i {
     position: absolute;
-    left: 0;
-    top: 8px;
+    left: -10px;
+    top: 10px;
     /*padding: 9px 8px;*/
-    /*color: #aaa;*/
+    color: #aaa;
     transition: 0.3s;
 }
 
