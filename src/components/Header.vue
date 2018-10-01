@@ -16,7 +16,7 @@
         <li class="nav-item user goToMessage" @click="getMyMessages()">
           <i class="material-icons">mail_outline</i>
           <!-- <span class="notification">5</span> -->
-          <i v-if="showMessageSection" class="notification">{{_numMessages}}</i>
+          <i v-if="showMessageSection==true" class="notification">{{_numMessages}}</i>
         </li>
       </router-link>
       <li class="nav-item user" @click="goToProfile()">
@@ -180,7 +180,7 @@ export default {
 
   },
   created() {
-    this.showMessageSection = true;
+    //this.showMessageSection = true;
     this.$store.dispatch('fetchUser')
     serverBus.$on('showLoading', (isToShow) => {
       this.showLoading(isToShow);
@@ -258,22 +258,19 @@ export default {
     getMyMessages: function() {
       var self = this;
 
-      this.$store.dispatch('getMyNewMessages', {
+      this.$store.dispatch('getCountMessageToNotify', {
           baseUserId: this.$store.state.authentication.user.Id,
-          top: 100
         })
         .then(res => {
           if ((res.data != null)) {
-            let lng = res.data.length;
-            var newMessages = res.data.filter(function(x) {
-              return x.IsNew == true
-            });
-            this.showMessageSection = false;
-            self.numMessages = lng;
-            self.showMessageSection = true;
-            serverBus.$emit('fetchMessage', lng)
-            if (newMessages.length > 0) {
-              serverBus.$emit('newMessage', newMessages);
+            //alert(JSON.stringify(res.data))
+            self.showMessageSection = false;
+            self.numMessages = res.data.NumberUnreadMessages;
+            if (self.numMessages > 0) self.showMessageSection = true;
+            //alert(self.numMessages )
+            serverBus.$emit('fetchMessage', res.data)
+            if (res.data.NumberNewMessages > 0) {
+              serverBus.$emit('newMessage', res.data.NumberNewMessages);
             }
           }
         })
@@ -1109,22 +1106,23 @@ xsigin/signup popup
     i {
         color: #FFF !important;
     }
-    .notification {
-        position: absolute;
-        top: -10px;
-        border: 1px solid #FFF;
-        right: -10px;
-        font-size: 9px;
-        background: #f44336;
-        color: #FFFFFF;
-        min-width: 20px;
-        padding: 0 5px;
-        height: 20px;
-        border-radius: 10px;
-        text-align: center;
-        line-height: 19px;
-        vertical-align: middle;
-        display: block;
-    }
+  .notification {
+    position: absolute;
+    top: -10px;
+    border: 1px solid #FFF;
+    right: -10px;
+    font-size: 9px;
+    background: #f44336;
+    /*background: #f8fe1e;*/
+    color: #FFFFFF;
+    min-width: 20px;
+    padding: 0 5px;
+    height: 20px;
+    border-radius: 10px;
+    text-align: center;
+    line-height: 19px;
+    vertical-align: middle;
+    display: block;
+  }
 }
 </style>

@@ -45,10 +45,10 @@ export const store = new Vuex.Store({
       deleteeAgentPlayerUrl: '/api/Agent/DeleteeAgentPlayer',
 
 
-      getMyMessagesUrl: '/api/Messages/GetMyMessages',
-      getMyNewMessagesUrl: '/api/Messages/GetMyNewMessages',
+      getCountMessageToNotify: '/api/Messages/GetCountMessageToNotify',
+      chatGetUserInfoUrl: '/api/Messages/ChatGetUserInfo',
       sendMessageUrl: '/api/Messages/SendMessage',
-      getMyNewMessagesSenderUrl: '/api/Messages/GetMyMessagesSender',
+      getMyMessagesSenderUrl: '/api/Messages/GetMyMessagesSender',
       getThreadMessageUrl: '/api/Messages/GetThreadMessage',
       deleteMessageUrl: '/api/Messages/DeleteMessage',
 
@@ -556,22 +556,27 @@ export const store = new Vuex.Store({
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.FindUserUrl, dataParam);
     },
 
-    getMyMessages({ commit, state }, params) {
-      const data = { BaseUserId: params.baseUserId, Top: params.top }
-      return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getMyMessagesUrl, data);
+    getCountMessageToNotify({ commit, state }, params) {
+      const data = { BaseUserId: params.baseUserId }
+      return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getCountMessageToNotify, data);
     },
-    getMyNewMessages({ commit, state }, params) {
+    //getMyNewMessages({ commit, state }, params) {
+    //  const data = { BaseUserId: params.baseUserId, Top: params.top }
+    //  return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getMyNewMessagesUrl, data);
+    //},
+    getMyMessagesSender({ commit, state }, params) {
       const data = { BaseUserId: params.baseUserId, Top: params.top }
-      return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getMyNewMessagesUrl, data);
-    },
-    getMyNewMessagesSender({ commit, state }, params) {
-      const data = { BaseUserId: params.baseUserId, Top: params.top }
-      return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getMyNewMessagesSenderUrl, data);
+      return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getMyMessagesSenderUrl, data);
     },
     getThreadMessage({ commit, state }, params) {
       const data = { SenderBaseUserId: params.senderId, ReceiverBaseUserId: params.receiverId, Top: params.top }
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getThreadMessageUrl, data);
     },
+    chatGetUserInfo({ commit, state }, params) {
+      const data = { UserId: params.userId}
+      return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.chatGetUserInfoUrl, data);
+    },
+    
     deleteMessage({ commit, state }, messageId) {
       const data = { MessageId: messageId }
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.deleteMessageUrl, data);

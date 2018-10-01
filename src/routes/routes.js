@@ -82,7 +82,6 @@ const routes = [
           hideFooter: true
         },
         component: MessageManager
-
       },
       {
         path: 'market',

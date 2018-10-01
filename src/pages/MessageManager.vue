@@ -1,130 +1,32 @@
 <template>
 <div style="padding:15px">
-  <div class="row">
-    <div style="height:30px;width:90px;background-color:red" @click="getMyMessages()">
-
-    </div>
-  </div>
-  <div class="row" v-if="showResult">
-    <div class="col-md-4">
-      <div class="row row-eq-height user-list">
-        <div class="col-12" v-for="sender in userSenderList" :key="sender.Id">
-          <!--<p class="category">{{ message.ObjectMessage }} </p>-->
-          <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100" @click="selectThread(sender.Sender.Id)">
-            <stats-card data-background-color="yellow">
-              <template slot="header">
-                  <picture-box :picUrl="sender.Sender.UserImageUrl" :picType="0"></picture-box>
-                </template>
-              <template slot="content">
-                  <h3 class="title">{{ sender.Sender.Name }} </h3>
-                  <p class="category">{{ sender.NumMessages }} </p>
-
-                </template>
-              <template slot="footer">
-                  <div class="stats">
-                    <md-icon>place</md-icon>
-                    {{ sender.LastTime }}
-                  </div>
-                </template>
-            </stats-card>
+  <div id="frame">
+    <div id="sidepanel">
+      <div id="profile">
+        <div class="wrap" v-for="sender in userSenderList" :key="sender.Id">
+          <div @click="selectThread(sender)">
+            <img :src="sender.Sender.UserImageUrl" class="online" alt="" />
+            <p>{{sender.Sender.Name}}</p>
+            <p v-if="sender.NumMessages>0">{{sender.NumMessages}}</p>
           </div>
         </div>
       </div>
     </div>
-    <!--<div style="background-color:yellow;width:300px;height:50px" v-if="showResultThread==true">
-        {{threadMessageList}}
-      </div>-->
-    <div class="col-md-8" v-if="showResultThread==true">
-      <div style="padding:20px;width:100%;background-color:white" v-for="message in threadMessageList" :key="message.Id">
-        <div class="row">
-          {{message.BodyMessage}}
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!--<div class="row" v-if="showResult">
-      <div class="col-md-4">
-        <div class="col-12" v-for="message in _messageList" :key="message.Id">
-          {{message.ObjectMessage}}
-        </div>
-      </div>
-    </div>-->
-
-
-
-  <div id="frame">
-    <div id="sidepanel">
-      <div id="profile">
-        <div class="wrap">
-          <img id="profile-img" src="http://emilcarlsson.se/assets/mikeross.png" class="online" alt="" />
-          <p>Mike Ross</p>
-        </div>
-      </div>
-      <!-- <div id="search">
-        <label for=""><i class="fa fa-search" aria-hidden="true"></i></label>
-        <input type="text" placeholder="Search contacts..." />
-      </div> -->
-      <div id="contacts">
-        <ul v-for="sender in userSenderList" :key="sender.Id">
-          <li class="contact active" @click="selectThread(sender.Sender.Id)">
-            <div class="wrap">
-              <span class="contact-status online"></span>
-              <!-- <span class="contact-status away"></span>
-                <span class="contact-status busy"></span> -->
-              <picture-box :picUrl="sender.Sender.UserImageUrl" :picType="0"></picture-box>
-              <div class="meta">
-                <p class="name">{{ sender.Sender.Name }} </p>
-                <p class="preview">Numero Messaggi: {{ sender.NumMessages }} </p>
-              </div>
-            </div>
-          </li>
-        </ul>
-      </div>
-      <!-- <div id="bottom-bar">
-        <button id="addcontact"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Add contact</span></button>
-        <button id="settings"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Settings</span></button>
-      </div> -->
-    </div>
-    <div class="content">
+    <div class="content" v-if="showResultThread==true">
       <div class="contact-profile">
-        <img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
-        <p>Harvey Specter</p>
+        <img :src="selectedThreadUser.UserImageUrl" alt="" />
+        <p>{{selectedThreadUser.Name}}</p>
       </div>
       <div class="messages">
         <ul>
-          <li class="sent">
-            <img src="http://emilcarlsson.se/assets/mikeross.png" alt="" />
-            <p>How the hell am I supposed to get a jury to believe you when I am not even sure that I do?!</p>
-          </li>
-          <li class="replies">
-            <img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
-            <p>When you're backed against the wall, break the god damn thing down.</p>
-          </li>
-          <li class="replies">
-            <img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
-            <p>Excuses don't win championships.</p>
-          </li>
-          <li class="sent">
-            <img src="http://emilcarlsson.se/assets/mikeross.png" alt="" />
-            <p>Oh yeah, did Michael Jordan tell you that?</p>
-          </li>
-          <li class="replies">
-            <img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
-            <p>No, I told him that.</p>
-          </li>
-          <li class="replies">
-            <img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
-            <p>What are your choices when someone puts a gun to your head?</p>
-          </li>
-          <li class="sent">
-            <img src="http://emilcarlsson.se/assets/mikeross.png" alt="" />
-            <p>What are you talking about? You do what they say or they shoot you.</p>
-          </li>
-          <li class="replies">
-            <img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
-            <p>Wrong. You take the gun, or you pull out a bigger one. Or, you call their bluff. Or, you do any one of a hundred and forty six other things.</p>
-          </li>
+          <div v-for="message in threadMessageList" >
+            <li  v-bind:class="{'sent': message.SenderBaseUser.Id == myUserId,'replies': message.ReceiverBaseUser.Id == myUserId}" >
+              <div>
+                <img :src="message.SenderBaseUser.UserImageUrl" alt="" />
+                <p>{{message.BodyMessage}}</p>
+              </div>
+            </li>
+          </div>
         </ul>
       </div>
       <div class="message-input">
@@ -135,7 +37,6 @@
       </div>
     </div>
   </div>
-
 </div>
 </template>
 
@@ -159,7 +60,8 @@ export default {
       showResult: false,
       showResultThread: false,
       userSenderList: [],
-      threadMessageList: []
+      threadMessageList: [],
+      selectedThreadUser: {}
     }
   },
   components: {
@@ -168,18 +70,14 @@ export default {
     PictureBox,
     StatsCard
   },
-  //computed: {
-  //  messageList : {
-  //    get() {
-  //      return this._messageList != null ? this._messageList : null;
-  //    },
-  //    set(value) {
-  //      this._messageList = value;
-  //      //alert(JSON.stringify(this._messageList))
+  computed: {
+    myUserId : {
+      get() {
+        return this.$store.state.authentication.user.Id
+      }
+    },
 
-  //    }
-  //  }
-  //},
+  },
   mounted() {
     serverBus.$on('newMessage', (messageList) => {
       //alert('newMessage')
@@ -188,8 +86,10 @@ export default {
     this.getMyMessages();
   },
   methods: {
-    selectThread: function(userId) {
+    selectThread: function(sender) {
       var self = this;
+      this.selectedThreadUser = sender.Sender;
+      var userId = sender.Sender.Id;
       this.$store.dispatch('getThreadMessage', {
           senderId: this.$store.state.authentication.user.Id,
           receiverId: userId,
@@ -197,9 +97,12 @@ export default {
         })
         .then(res => {
           self.showResultThread = false;
-
           self.threadMessageList = res.data;
-          //serverBus.$emit('showLoading', false);
+          for (var i = 0; i < self.threadMessageList.length; i++) {
+            self.threadMessageList[i].SenderBaseUser.UserImageUrl = self.$store.state.configurations.imageRootUrl + self.threadMessageList[i].SenderBaseUser.UserImageUrl;
+          }
+          var tempList = self.userSenderList.filter(function(x){ return x.Sender.Id == sender.Sender.Id });
+          if (tempList.length > 0) tempList[0].NumMessages = 0;
           self.showResultThread = true;
         })
         .catch(error => {
@@ -210,14 +113,22 @@ export default {
     getMyMessages: function() {
       var self = this;
       //serverBus.$emit('showLoading', true);
-      this.$store.dispatch('getMyNewMessagesSender', {
+      this.$store.dispatch('getMyMessagesSender', {
           baseUserId: this.$store.state.authentication.user.Id,
           top: 100
         })
         .then(res => {
           self.showResult = false;
           self.userSenderList = res.data;
+          for (var i = 0; i < self.userSenderList.length; i++) {
+            self.userSenderList[i].Sender.UserImageUrl = self.$store.state.configurations.imageRootUrl + self.userSenderList[i].Sender.UserImageUrl;
+          }
           //serverBus.$emit('showLoading', false);
+          
+          if (self.$route.query.playerId != null) {
+            //alert('playerId : ' + self.$route.query.playerId)
+            this.createThreadForNewMessage(self.$route.query.playerId);
+          }
           self.showResult = true;
         })
         .catch(error => {
@@ -225,6 +136,41 @@ export default {
           serverBus.$emit('showLoading', false);
         })
     },
+    createThreadForNewMessage(userId) {
+      this.showResultThread = false;
+      var senderList = this.userSenderList.filter(function (x) { return x.Sender.Id == userId });
+      if (senderList.length > 0) {
+        sender = senderList[0];
+        this.selectThread(sender);
+      }
+      else {
+      
+        var self = this;
+        this.$store.dispatch('chatGetUserInfo', {
+          userId: userId
+        })
+          .then(res => {
+            if (res.data != null) {
+              res.data.UserImageUrl = self.$store.state.configurations.imageRootUrl + res.data.UserImageUrl;
+              var newConversation = { Sender: res.data, NumMessages: 0, LastTime: new Date() };
+              this.userSenderList.push(newConversation);
+             
+              self.showResultThread = true;
+            }
+            else {
+              alert('Error retrieving info for userid : ' + userId)
+            }
+           
+          })
+          .catch(error => {
+            serverBus.$emit('showError', 'Si è verificato un errore ' + JSON.stringify(error));
+            serverBus.$emit('showLoading', false);
+          })
+
+
+
+      }
+    }
   },
   created() {
 
