@@ -1,10 +1,11 @@
 <template>
 <div style="padding:15px">
+  <!--<button  @click="getMyMessages()">REFRESH</button>-->
   <div id="frame">
     <div id="sidepanel">
-      <div id="profile">
-        <div class="wrap" v-for="sender in userSenderList" :key="sender.Id">
-          <div @click="selectThread(sender)">
+      <div id="profile" v-if="showResult" >
+        <div class="wrap" v-for="sender in userSenderList" :key="sender.Id" >
+          <div @click="selectThread(sender.Sender.Id)" >
             <img :src="sender.Sender.UserImageUrl" class="online" alt="" />
             <p>{{sender.Sender.Name}}</p>
             <p v-if="sender.NumMessages>0">{{sender.NumMessages}}</p>
@@ -12,31 +13,38 @@
         </div>
       </div>
     </div>
-    <div class="content" v-if="showResultThread==true">
-      <div class="contact-profile">
+    <div class="content" v-if="showResultThread">
+      <!--<div class="contact-profile">
         <img :src="selectedThreadUser.UserImageUrl" alt="" />
         <p>{{selectedThreadUser.Name}}</p>
       </div>
       <div class="messages">
+        <ul class="messages" v-chat-scroll>
+          <li v-bind:class="{'sent message': message.SenderBaseUser.Id == myUserId,'replies message': message.ReceiverBaseUser.Id == myUserId}" v-for="message in threadMessageList">
+            <p>{{message.SendDate | moment("MM-DD-YYYY")}}{{' : '+message.BodyMessage}}</p>
+          </li>
+        </ul>
+      </div>-->
+        <div class="messages">
         <ul>
-          <div v-for="message in threadMessageList" >
-            <li  v-bind:class="{'sent': message.SenderBaseUser.Id == myUserId,'replies': message.ReceiverBaseUser.Id == myUserId}" >
+          <div v-for="message in threadMessageList" v-chat-scroll>
+            <li :class="{'sent': message.SenderBaseUser.Id == myUserId,'replies': message.ReceiverBaseUser.Id == myUserId}">
               <div>
-                <img :src="message.SenderBaseUser.UserImageUrl" alt="" />
-                <p>{{message.BodyMessage}}</p>
+                <img :src="getImageUrlFromMessage(message)" alt="" />
+                <p>{{message.SendDate | moment("MM-DD-YYYY")}}{{' : '+message.BodyMessage}}</p>
               </div>
             </li>
           </div>
         </ul>
-      </div>
-      <div class="message-input">
-        <div class="wrap">
-          <input type="text" placeholder="Write your message..." />
-          <button class="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
         </div>
-      </div>
+        <div class="message-input">
+          <div class="wrap">
+            <input type="text" placeholder="Write your message..." v-model="messageText" />
+            <button class="submit" @click="sendMessage(messageText)"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+          </div>
+        </div>
     </div>
-  </div>
+    </div>
 </div>
 </template>
 
@@ -61,7 +69,9 @@ export default {
       showResultThread: false,
       userSenderList: [],
       threadMessageList: [],
-      selectedThreadUser: {}
+      selectedThreadUser: null,
+      messageText: '',
+      selectedUserId : 0
     }
   },
   components: {
@@ -79,31 +89,35 @@ export default {
 
   },
   mounted() {
-    serverBus.$on('newMessage', (messageList) => {
-      //alert('newMessage')
-      this.getMyMessages();
-    });
+    serverBus.$on('newMessage', this.newMessageListner);
     this.getMyMessages();
-  },
-  methods: {
-    selectThread: function(sender) {
+    },
+    beforeDestroy() {
+      serverBus.$off('newMessage', this.newMessageListner)
+    },
+    methods: {
+      newMessageListner: function (messageList) {
+        this.getMyMessages();
+      },
+    selectThread: function (userId) {
       var self = this;
-      this.selectedThreadUser = sender.Sender;
-      var userId = sender.Sender.Id;
+      this.selectedThreadUser = this.userSenderList.filter(function (x) { return x.Sender.Id == userId })[0].Sender;
       this.$store.dispatch('getThreadMessage', {
           senderId: this.$store.state.authentication.user.Id,
           receiverId: userId,
           top: 100
         })
         .then(res => {
-          self.showResultThread = false;
+          self.selectedUserId = userId;
+          //self.showResultThread = false;
           self.threadMessageList = res.data;
           for (var i = 0; i < self.threadMessageList.length; i++) {
             self.threadMessageList[i].SenderBaseUser.UserImageUrl = self.$store.state.configurations.imageRootUrl + self.threadMessageList[i].SenderBaseUser.UserImageUrl;
           }
-          var tempList = self.userSenderList.filter(function(x){ return x.Sender.Id == sender.Sender.Id });
+          var tempList = self.userSenderList.filter(function (x) { return x.Sender.Id == userId });
           if (tempList.length > 0) tempList[0].NumMessages = 0;
           self.showResultThread = true;
+
         })
         .catch(error => {
           serverBus.$emit('showError', 'Si è verificato un errore ' + JSON.stringify(error));
@@ -112,65 +126,104 @@ export default {
     },
     getMyMessages: function() {
       var self = this;
-      //serverBus.$emit('showLoading', true);
-      this.$store.dispatch('getMyMessagesSender', {
-          baseUserId: this.$store.state.authentication.user.Id,
-          top: 100
-        })
+      this.$store.dispatch('getMyMessagesSender', {baseUserId: this.$store.state.authentication.user.Id, top: 100})
         .then(res => {
           self.showResult = false;
           self.userSenderList = res.data;
-          for (var i = 0; i < self.userSenderList.length; i++) {
-            self.userSenderList[i].Sender.UserImageUrl = self.$store.state.configurations.imageRootUrl + self.userSenderList[i].Sender.UserImageUrl;
+          for (var i = 0; i < self.userSenderList.length; i++) 
+            self.userSenderList[i].Sender.UserImageUrl = self.$store.state.configurations.imageRootUrl + self.userSenderList[i].Sender.UserImageUrl;          
+          if (self.$route.query.playerId != null)
+            this.createThreadForNewMessage(self.$route.query.playerId).then(function (resp) {
+              self.showResult = true;
+            },
+              function (err) {
+                self.showResult = true;
+              });
+          else {
+            if (self.selectedThreadUser != null) {
+              self.selectThread(self.selectedThreadUser.Id);
+            }
+            self.showResult = true;
+
           }
-          //serverBus.$emit('showLoading', false);
-          
-          if (self.$route.query.playerId != null) {
-            //alert('playerId : ' + self.$route.query.playerId)
-            this.createThreadForNewMessage(self.$route.query.playerId);
-          }
-          self.showResult = true;
         })
         .catch(error => {
           serverBus.$emit('showError', 'Si è verificato un errore ' + JSON.stringify(error));
           serverBus.$emit('showLoading', false);
         })
     },
-    createThreadForNewMessage(userId) {
-      this.showResultThread = false;
+    createThreadForNewMessage : function(userId) {
+      //this.showResultThread = false;
+      this.showResult = false;
       var senderList = this.userSenderList.filter(function (x) { return x.Sender.Id == userId });
+    
       if (senderList.length > 0) {
-        sender = senderList[0];
-        this.selectThread(sender);
+        var sender = senderList[0];
+        this.selectThread(sender.Sender.Id);
+        return new Promise((resolve, reject) => {
+            resolve(response)
+        })
       }
       else {
-      
         var self = this;
-        this.$store.dispatch('chatGetUserInfo', {
-          userId: userId
+        return new Promise((resolve, reject) => {
+          this.$store.dispatch('chatGetUserInfo', {
+            userId: userId
+          })
+            .then(res => {
+              if (res.data != null) {
+                res.data.UserImageUrl = self.$store.state.configurations.imageRootUrl + res.data.UserImageUrl;
+                var newConversation = { Sender: res.data, NumMessages: 0, LastTime: new Date() };
+                self.userSenderList.unshift(newConversation);
+                self.selectedThreadUser = res.data;
+                self.showResultThread = true;
+                self.showResult = true;
+                resolve(true)
+              }
+              else {
+                alert('Error retrieving info for userid : ' + userId)
+                reject
+              }
+            })
+            .catch(error => {
+              serverBus.$emit('showError', 'Si è verificato un errore ' + JSON.stringify(error));
+              serverBus.$emit('showLoading', false);
+              reject
+            })
         })
-          .then(res => {
-            if (res.data != null) {
-              res.data.UserImageUrl = self.$store.state.configurations.imageRootUrl + res.data.UserImageUrl;
-              var newConversation = { Sender: res.data, NumMessages: 0, LastTime: new Date() };
-              this.userSenderList.push(newConversation);
-             
-              self.showResultThread = true;
-            }
-            else {
-              alert('Error retrieving info for userid : ' + userId)
-            }
-           
-          })
-          .catch(error => {
-            serverBus.$emit('showError', 'Si è verificato un errore ' + JSON.stringify(error));
-            serverBus.$emit('showLoading', false);
-          })
-
-
-
       }
+      },
+    getImageUrlFromMessage: function (message) {
+      return message != null && message.SenderBaseUser != null ?  message.SenderBaseUser.UserImageUrl : '';
+    },
+    getUserIdFromMessage: function (message) {
+      return message != null && message.SenderBaseUser != null ? message.SenderBaseUser.Id : 0;
+    },
+    sendMessage: function (messageText) {
+      var self = this;
+      let selectedId = this.selectedThreadUser.Id
+      //this.showResultThread = false;
+      var messageToSend = {
+        bodyMessage: messageText,
+        objectMessage: "OBJECT TEST",
+        senderBaseUserId: this.$store.state.authentication.user.Id,
+        receiverBaseUserId: selectedId
+      }
+      this.$store.dispatch('sendMessage', messageToSend)
+        .then(res => {
+          //alert('Message Correctly Sent')
+          //self.showResultThread = false;
+          //self.threadMessageList.push(messageToSend);
+          //alert(JSON.stringify(messageToSend))
+          //self.showResultThread = true;
+          self.selectThread(self.selectedThreadUser.Id);
+        })
+        .catch(error => {
+          serverBus.$emit('showError', 'Si è verificato un errore');
+
+        })
     }
+
   },
   created() {
 
@@ -898,6 +951,7 @@ img {
 #frame .content .messages ul li.sent p {
     background: #435f7a;
     color: #f5f5f5;
+
 }
 #frame .content .messages ul li.replies img {
     float: right;
@@ -906,6 +960,7 @@ img {
 #frame .content .messages ul li.replies p {
     background: #f5f5f5;
     float: right;
+    text-align:right;
 }
 #frame .content .messages ul li img {
     width: 22px;

@@ -17,6 +17,9 @@ import GlobalDirectives from './globalDirectives'
 import Notifications from './components/NotificationPlugin'
 import BackToTop from 'vue-backtotop'
 import Carousel3d from 'vue-carousel-3d'
+import moment from 'vue-moment'
+import VueChatScroll from 'vue-chat-scroll'
+
 
 // MaterialDashboard plugin
 import MaterialDashboard from './material-dashboard'
@@ -37,7 +40,8 @@ Vue.use(GlobalDirectives)
 Vue.use(Notifications)
 Vue.use(BackToTop)
 Vue.use(Carousel3d)
-
+Vue.use(moment);
+Vue.use(VueChatScroll);
 
 // global library setup
 Object.defineProperty(Vue.prototype, '$Chartist', {

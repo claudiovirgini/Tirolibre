@@ -16,7 +16,9 @@
         <li class="nav-item user goToMessage" @click="getMyMessages()">
           <i class="material-icons">mail_outline</i>
           <!-- <span class="notification">5</span> -->
-          <i v-if="showMessageSection==true" class="notification">{{_numMessages}}</i>
+          <!--v-if="showMessageSection==true"-->
+          {{numMessages>0}}
+          <i v-if="showMessageNumber" class="notification">{{numMessages}}</i>
         </li>
       </router-link>
       <li class="nav-item user" @click="goToProfile()">
@@ -136,14 +138,14 @@ export default {
   },
   data() {
     return {
-      showMessageSection: false,
+      showMessageNumber: false,
       handlerTimer: null,
       isLoading: false,
       remind: null,
       showDialog: false,
       showLogin: false,
       showSignup: false,
-      _numMessages: 0,
+      numMessages: 0,
       selectedUserForMessage: {
         userId: -1,
         imageUrl: ''
@@ -180,7 +182,6 @@ export default {
 
   },
   created() {
-    //this.showMessageSection = true;
     this.$store.dispatch('fetchUser')
     serverBus.$on('showLoading', (isToShow) => {
       this.showLoading(isToShow);
@@ -211,19 +212,25 @@ export default {
       this.showLogin = false;
       self.goToProfile();
     });
-    serverBus.$on('sendMessage', (user) => {
-      self.selectedUserForMessage = user;
-      self.showSendMessage = true;
+    serverBus.$on('sendMessage', (userId) => {
+      this.$router.push('/messages?playerId=' + userId)
 
+    });
+    serverBus.$on('fetchMessage', function (numMessages) {
+      self.showMessageNumber = numMessages.NumberUnreadMessages > 0;
+      self.numMessages = numMessages.NumberUnreadMessages;
+      //alert(this.numMessages)
+
+      //self.showMessageNumber = true;
     });
     this.intervalCheckMessage();
   },
   methods: {
     intervalCheckMessage: function() {
       var self = this;
-      this.getMyMessages();
-      this.handlerTimer = setInterval(function() {
-        self.getMyMessages();
+      this.getMyMessages(this._numMessages);
+      this.handlerTimer = setInterval(function(itemToUpdate) {
+        self.getMyMessages(itemToUpdate);
       }, 5000);
     },
 
@@ -235,39 +242,18 @@ export default {
       this.$store.dispatch('logout')
       this.$router.push('/')
     },
-    sendMessage: function(body) {
+
+    getMyMessages: function (itemToUpdate) {
       var self = this;
-
-      //serverBus.$emit('showLoading', true);
-      self.$store.dispatch('sendMessage', {
-          bodyMessage: body,
-          objectMessage: "OBJECT TEST",
-          senderBaseUserId: this.$store.state.authentication.user.Id,
-          receiverBaseUserId: this.selectedUserForMessage.userId
-        })
-        .then(res => {
-          alert('Message Correctly Sent')
-          serverBus.$emit('showLoading', false);
-        })
-        .catch(error => {
-          serverBus.$emit('showError', 'Si è verificato un errore');
-          serverBus.$emit('showLoading', false);
-        })
-
-    },
-    getMyMessages: function() {
-      var self = this;
-
       this.$store.dispatch('getCountMessageToNotify', {
           baseUserId: this.$store.state.authentication.user.Id,
         })
         .then(res => {
           if ((res.data != null)) {
-            //alert(JSON.stringify(res.data))
-            self.showMessageSection = false;
-            self.numMessages = res.data.NumberUnreadMessages;
-            if (self.numMessages > 0) self.showMessageSection = true;
-            //alert(self.numMessages )
+            //self.showMessageSection = false;
+            //self._numMessages = res.data.NumberUnreadMessages;
+            ////if (this._numMessages > 0) alert('SIII');
+            //self.showMessageSection = true;
             serverBus.$emit('fetchMessage', res.data)
             if (res.data.NumberNewMessages > 0) {
               serverBus.$emit('newMessage', res.data.NumberNewMessages);

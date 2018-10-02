@@ -54,7 +54,7 @@ export default {
       this.userProfile = true
     },
     sendMessage: function () {
-      serverBus.$emit('sendMessage', { userId: this.playerdata.Id, imageUrl: this.playerdata.UserImageUrl });
+      serverBus.$emit('sendMessage',this.playerdata.Id);
     }
   },
 
