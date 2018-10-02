@@ -9,8 +9,9 @@
 
     <p class="fieldset">
       <label class="image-replace cd-password" for="signin-password">Password</label>
-      <input class="full-width has-padding has-border" id="signin-password" type="text" v-model="userLoginPWD" placeholder="Password">
-      <a href="#0" class="hide-password">Hide</a>
+      <input class="full-width has-padding has-border" id="signin-password" :type="passwordFieldType" v-model="userLoginPWD" placeholder="Password">
+      <a href="#0" class="hide-password" @click="switchVisibility"><i class="fas" :class="[passwordIcon]" @click="hidePassword = !hidePassword"></i></a>
+      <!-- <a href="#0" class="hide-password">Hide</a> -->
       <span class="cd-error-message">Error message here!</span>
     </p>
 
@@ -44,7 +45,10 @@ export default {
     return {
       userLoginEmail: '',
       userLoginPWD: '',
-      remind: true
+      remind: true,
+      passwordFieldType: 'password',
+      password: '',
+      hidePassword: true,
     }
   },
   mounted() {
@@ -62,8 +66,15 @@ export default {
       }).then(res => {
 
       })
-
     },
+    switchVisibility() {
+      this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password'
+    }
+  },
+  computed: {
+    passwordIcon() {
+      return this.hidePassword ? 'fa-eye-slash' : 'fa-eye'
+    }
   }
 }
 </script>

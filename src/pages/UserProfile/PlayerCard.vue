@@ -1,10 +1,22 @@
 <template>
 <div>
   <md-card class="md-card-profile">
-    <div class="md-card-avatar">
-      <!--<picture-box :picUrl="imagefile" :picType="profile" ></picture-box>-->
-      <!--<img class="img" :src="imagefile">-->
+    <!--<picture-box :picUrl="imagefile" :picType="profile" ></picture-box>-->
+    <!--<img class="img" :src="imagefile">-->
+    <!-- <div class="md-card-avatar">
       <picture-box :picUrl="imagefile" :picType="profile"></picture-box>
+    </div> -->
+    <div class="card vue-avatar-cropper-demo text-center">
+      <div class="card-body">
+        <picture-box :picUrl="imagefile" :picType="profile" class="card-img avatar"></picture-box>
+        <!-- <img :src="user.avatar" class="card-img avatar" /> -->
+        <div class="card-img-overlay">
+          <button class="btn btn-primary btn-sm" id="pick-avatar">Seleziona una nuova immagine</button>
+        </div>
+        <!-- <h5 class="card-title mb-0">{{ name+' '+surname }}</h5> -->
+      </div>
+      <div class="card-footer text-muted" v-html="message"></div>
+      <avatar-cropper @uploading="handleUploading" @uploaded="handleUploaded" @completed="handleCompleted" @error="handlerError" trigger="#pick-avatar" :labels="{submit: 'OK', cancel: 'Cancel'}" upload-url="https://demo.overtrue.me/upload.php" />
     </div>
     <md-card-content>
       <h4 class="card-title">{{ name+' '+surname }}</h4>
@@ -25,20 +37,6 @@
               </h5>
           </div>
         </div>
-      </div>
-
-      <div class="card vue-avatar-cropper-demo text-center">
-        <div class="card-body">
-
-          <picture-box :picUrl="imagefile" :picType="profile" class="card-img avatar"></picture-box>
-          <!-- <img :src="user.avatar" class="card-img avatar" /> -->
-          <div class="card-img-overlay">
-            <button class="btn btn-primary btn-sm" id="pick-avatar">Seleziona una nuova immagine</button>
-          </div>
-          <h5 class="card-title mb-0">{{ name+' '+surname }}</h5>
-        </div>
-        <div class="card-footer text-muted" v-html="message"></div>
-        <avatar-cropper @uploading="handleUploading" @uploaded="handleUploaded" @completed="handleCompleted" @error="handlerError" trigger="#pick-avatar" upload-url="https://demo.overtrue.me/upload.php" />
       </div>
     </md-card-content>
 
@@ -116,11 +114,15 @@ export default {
     },
     handleUploaded(response) {
       if (response.status == "success") {
-        this.user.avatar = response.url;
+        this.imagefile = response.url
+
+        console.log("-->: " + this.imageBaseUrl)
         // Maybe you need call vuex action to
         // update user avatar, for example:
-        // this.$dispatch('updateUser', {avatar: response.url})
-        this.message = "user avatar updated.";
+        this.$store.$dispatch('updateUser', {
+          avatar: response.url
+        })
+        this.message = "user avatar updated."
       }
     },
     handleCompleted(response, form, xhr) {

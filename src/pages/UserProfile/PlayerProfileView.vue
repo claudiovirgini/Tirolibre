@@ -1,10 +1,13 @@
 <template>
 <div class="content">
   <div class="md-layout mt-5">
-   
+
     <div class="md-layout-item md-medium-size-100 md-size-33">
       <user-card :playerdata="playerdata" />
-      <button @click="sendMessage()">SEND MESSAGE</button>
+      <md-button @click="sendMessage" class="md-success btn btn-success btn-lg btn-radius" v-if="isAuthenticated">
+        <i class="material-icons">email</i> SEND MESSAGE
+      </md-button>
+      <!-- <button @click="sendMessage()" v-if="isAuthenticated">SEND MESSAGE</button> -->
     </div>
     <div class="md-layout-item md-medium-size-100 md-size-66">
       <user-info data-background-color="yellow" :playerdata="playerdata" />
@@ -53,11 +56,20 @@ export default {
       this.cardResult = false
       this.userProfile = true
     },
-    sendMessage: function () {
-      serverBus.$emit('sendMessage', { userId: this.playerdata.Id, imageUrl: this.playerdata.UserImageUrl });
+    sendMessage: function() {
+      serverBus.$emit('sendMessage', {
+        userId: this.playerdata.Id,
+        imageUrl: this.playerdata.UserImageUrl
+      });
     }
   },
-
+  computed: {
+    isAuthenticated: {
+      get() {
+        return this.$store.state.authentication.isAuth;
+      }
+    }
+  },
   mounted() {
     serverBus.$emit('showLoading', true);
     this.playerId = this.$route.query.playerId
