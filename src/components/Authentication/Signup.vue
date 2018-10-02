@@ -18,8 +18,9 @@
 
   <p class="fieldset">
     <label class="image-replace cd-password" for="signup-password">Password</label>
-    <input class="full-width has-padding has-border" id="signup-password" type="text" v-model="password" placeholder="Password">
-    <a href="#0" class="hide-password">Hide</a>
+    <input class="full-width has-padding has-border" id="signup-password" :type="passwordFieldType" v-model="password" placeholder="Password">
+    <a href="#0" class="hide-password" @click="switchVisibility"><i class="fas" :class="[passwordIcon]" @click="hidePassword = !hidePassword"></i></a>
+    <!-- <button type="password" @click="switchVisibility">show / hide</button> -->
     <span class="cd-error-message">Error message here!</span>
   </p>
 
@@ -70,7 +71,9 @@ export default {
       surname: '',
       email: '',
       profile: 0,
+      passwordFieldType: 'password',
       password: '',
+      hidePassword: true,
       terms: ''
     }
   },
@@ -93,6 +96,14 @@ export default {
           alert("Ti abbiamo inviato una mail per attivarti")
         }).catch(error => alert('Si è verificato un errore'));
     },
+    switchVisibility() {
+      this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password'
+    }
+  },
+  computed: {
+    passwordIcon() {
+      return this.hidePassword ? 'fa-eye-slash' : 'fa-eye'
+    }
   }
 }
 </script>

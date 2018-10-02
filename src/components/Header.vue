@@ -1087,28 +1087,29 @@ xsigin/signup popup
 }
 
 .goToMessage {
+    vertical-align: super;
     position: relative;
     margin-right: 25px;
     i {
         color: #FFF !important;
     }
-  .notification {
-    position: absolute;
-    top: -10px;
-    border: 1px solid #FFF;
-    right: -10px;
-    font-size: 9px;
-    background: #f44336;
-    /*background: #f8fe1e;*/
-    color: #FFFFFF;
-    min-width: 20px;
-    padding: 0 5px;
-    height: 20px;
-    border-radius: 10px;
-    text-align: center;
-    line-height: 19px;
-    vertical-align: middle;
-    display: block;
-  }
+    .notification {
+        position: absolute;
+        top: -10px;
+        border: 1px solid #FFF;
+        right: -10px;
+        font-size: 9px;
+        background: #f44336;
+        /*background: #f8fe1e;*/
+        color: #FFFFFF;
+        min-width: 20px;
+        padding: 0 5px;
+        height: 20px;
+        border-radius: 10px;
+        text-align: center;
+        line-height: 19px;
+        vertical-align: middle;
+        display: block;
+    }
 }
 </style>
