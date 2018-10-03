@@ -136,20 +136,20 @@
                           {{item.name }}
                         </h3>
                         <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
-                        <p class="card-text" v-if="item.Profile === 0">
+                        <p class="card-text" v-if="item.profile === 0">
                           {{ item.role }} | {{ item.age }}
                         </p>
                         <p class="card-text" v-if="item.profile === 1">
                           {{ item.fulladdress }}
                         </p>
-                        <p class="card-text level" v-if="item.profile === 1">
+                        <p class="card-text level">
                           <i class="fas fa-trophy"></i> {{ item.level }}
                         </p>
                       </div>
                     </div>
-                    <i class="material-icons" @click.prevent="sendMessage(item)">mail_outline</i>
+                    <!-- <i class="material-icons" @click.prevent="sendMessage(item)">mail_outline</i> -->
                   </div>
-                 
+
                 </div>
               </div>
 
@@ -223,8 +223,11 @@ export default {
       if ((this.radius + amount) < 0) this.radius = 0;
       if (this.radius + amount > 100) this.radius = 1000;
     },
-    sendMessage: function (item) {
-      serverBus.$emit('sendMessage', { userId: item.Id, imageUrl: item.fullpath });
+    sendMessage: function(item) {
+      serverBus.$emit('sendMessage', {
+        userId: item.Id,
+        imageUrl: item.fullpath
+      });
     },
     mdSelected: function(val) {
       //if ((this.profileSelected != null) && (this.placeSelected != null))
