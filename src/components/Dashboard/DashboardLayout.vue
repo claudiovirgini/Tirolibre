@@ -45,7 +45,7 @@
     <md-icon>notifications</md-icon>
     <p>Notifications</p>
   </sidebar-link> -->
-    <sidebar-link to="/upgrade" class="" v-if="isPlayerProfile">
+    <sidebar-link to="/upgrade" class="" v-if="false">
       <md-icon>unarchive</md-icon>
       <p>Upgrade to PRO</p>
     </sidebar-link>

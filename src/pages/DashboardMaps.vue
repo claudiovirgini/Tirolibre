@@ -3,7 +3,7 @@
   <div class="row search-form">
 
     <div class="col-md-6 col-sm-12">
-      <map-autocomplete place-holder="Luogo di ricerca" :initial-address="city" startactualpos="true" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress"></map-autocomplete>
+      <map-autocomplete  input-component-name="gmap3" class="col-12" place-holder="Luogo di ricerca" :initial-address="city" startactualpos="true" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress"></map-autocomplete>
     </div>
     <div class="col-md-6 col-sm-12" style="padding-top:10px;text-align:center">
       <button @click="decreaseAmount()" class="button_plus">-</button>
@@ -81,7 +81,7 @@
           <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
             <stats-card data-background-color="yellow" @click.native="showInfoWindowById(team.Id)">
               <template slot="header">
-                <picture-box :picUrl="team.TeamLogo" :picType="0"></picture-box>
+                <picture-box :picUrl="team.Logo" :picType="0"></picture-box>
               </template>
               <template slot="content">
                 <p class="category">{{ team.Catogory }} </p>
@@ -376,7 +376,7 @@ export default {
                 '<p class="card-text">' +
                 team.Catogory +
                 '</p>' +
-                '<a href="#" class="btn btn-primary" style="color: #FFF;"> Visita il Profilo </a>' +
+                '<a href="/#/messages?playerId=' + team.Id + '" class="btn btn-primary" style="color: #FFF;"><i class="fa fa-paper-plane" aria-hidden="true"></i> Invia un messaggio </a>' +
                 '</div>' +
                 '</div>';
               let infowindow = new google.maps.InfoWindow({

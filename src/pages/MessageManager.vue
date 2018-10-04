@@ -872,7 +872,7 @@ img {
 #frame .content {
     float: right;
     width: 60%;
-    height: 100%;
+    height: 461px;
     overflow: hidden;
     position: relative;
 }

@@ -31,8 +31,8 @@
             </div>
 
             <!-- <button type="button" class="btn btn-light float-right btn-advanced" data-toggle="collapse" data-target="#filterTeam" v-if="profileSelected === 1">
-                Più filtri
-           </button> -->
+       Più filtri
+  </button> -->
             <div class="row collapse filter-panel show" id="filterTeam" v-if="profileSelected === 1">
               <div class="col">
                 <md-field>
@@ -55,10 +55,30 @@
               </div>
             </div>
 
-
+            <div class="row collapse filter-panel show" id="filterTeam" v-if="profileSelected === 2">
+              <!--<div class="col">
+                <md-field>
+                  <label for="category">Categoria</label>
+                  <md-select v-model="categorySelected" id="category">
+                    <md-option v-for="category in categoryList" :value="category.value">
+                      {{ category.text }}
+                    </md-option>
+                  </md-select>
+                </md-field>
+              </div>-->
+              <!--<div class="col" style="padding-top:10px;text-align:center">
+                <button @click="updateRadius(-5)" class="button_plus">-</button> <vue-slider style="float:left;width:70%;padding-top:13px" ref="slider" v-model="radius"></vue-slider><button @click="updateRadius(5)" class="button_plus">+</button>
+              </div>-->
+              <div class="col">
+                <md-button @click="findAgent()" class="md-success btn btn-success btn-lg btn-block">
+                  <i class="md-icon md-icon-font material-icons md-theme-default">search</i>
+                  Cerca
+                </md-button>
+              </div>
+            </div>
             <!-- <button type="button" class="btn btn-light float-right btn-advanced" data-toggle="collapse" data-target="#filterPlayer" v-if="profileSelected === 0">
-                Più filtri
-           </button> -->
+       Più filtri
+  </button> -->
             <div class="row collapse filter-panel show" id="filterPlayer" v-if="profileSelected === 0">
               <div class="col">
                 <md-field>
@@ -95,7 +115,7 @@
                 <md-field>
                   <label for="category">Categoria</label>
                   <md-select v-model="categorySelected" id="category">
-                    <md-option v-for="category in categoryList"  v-bind:value="category.value">
+                    <md-option v-for="category in categoryList" v-bind:value="category.value">
                       {{ category.text }}
                     </md-option>
                   </md-select>
@@ -110,7 +130,7 @@
                     <md-option v-for="country in countriesList" v-bind:value="country.value">
                       {{ country.text }}
                     </md-option>
-                </md-select>
+                  </md-select>
 
                 </md-field>
               </div>
@@ -121,44 +141,44 @@
                 </md-button>
                 <!-- <button @click="findPlayer()" class="btn btn-success btn-lg btn-block"><i class="fa fa-search"></i> Cerca</button> -->
               </div>
-          </div>
-
-              <div class="row">
-                <div class="col-md-4 mt-4 col-xs-6 d-flex align-items-stretch" v-for="item in items" :key="item.id">
-                  <div class="card profile-card-5 col">
-                    <div  @click="showProfile(item)">
-                      <div class="card-img-block">
-                        <picture-box :picUrl="item.fullpath" :picType="item.profile"></picture-box>
-                        <!--<img class="card-img-top" :src="getImagePathForItem(item)" alt="Card image cap">-->
-                      </div>
-                      <div class="card-body pt-0">
-                        <h3 class="card-title">
-                          {{item.name }}
-                        </h3>
-                        <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
-                        <p class="card-text" v-if="item.profile === 0">
-                          {{ item.role }} | {{ item.age }}
-                        </p>
-                        <p class="card-text" v-if="item.profile === 1">
-                          {{ item.fulladdress }}
-                        </p>
-                        <p class="card-text level">
-                          <i class="fas fa-trophy"></i> {{ item.level }}
-                        </p>
-                      </div>
-                    </div>
-                    <!-- <i class="material-icons" @click.prevent="sendMessage(item)">mail_outline</i> -->
-                  </div>
-
-                </div>
-              </div>
-
-              <back-to-top bottom="50px" right="50px">
-                <button type="button" class="btn btn-success btn-to-top"><i class="fas fa-chevron-up"></i></button>
-              </back-to-top>
-
-
             </div>
+
+            <div class="row">
+              <div class="col-md-4 mt-4 col-xs-6 d-flex align-items-stretch" v-for="item in items" :key="item.id">
+                <div class="card profile-card-5 col">
+                  <div @click="showProfile(item)">
+                    <div class="card-img-block">
+                      <picture-box :picUrl="item.fullpath" :picType="item.profile"></picture-box>
+                      <!--<img class="card-img-top" :src="getImagePathForItem(item)" alt="Card image cap">-->
+                    </div>
+                    <div class="card-body pt-0">
+                      <h3 class="card-title">
+                        {{item.name }}
+                      </h3>
+                      <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+                      <p class="card-text" v-if="item.profile === 0">
+                        {{ item.role }} | {{ item.age }}
+                      </p>
+                      <p class="card-text" v-if="item.profile === 1">
+                        {{ item.fulladdress }}
+                      </p>
+                      <p class="card-text level">
+                        <i class="fas fa-trophy"></i> {{ item.level }}
+                      </p>
+                    </div>
+                  </div>
+                  <!-- <i class="material-icons" @click.prevent="sendMessage(item)">mail_outline</i> -->
+                </div>
+
+              </div>
+            </div>
+
+            <back-to-top bottom="50px" right="50px">
+              <button type="button" class="btn btn-success btn-to-top"><i class="fas fa-chevron-up"></i></button>
+            </back-to-top>
+
+
+          </div>
           </div>
       </section>
 </div>
@@ -277,7 +297,11 @@ export default {
         category: this.categorySelected
       };
       this.findUsers(this.profileSelected, this.placeSelected, this.radius, null, findTeamDetails);
-    }
+    },
+    findAgent: function () {
+
+      this.findUsers(this.profileSelected, this.placeSelected, this.radius, null, null);
+    },
   },
   computed: {
     selectedAddressString: {

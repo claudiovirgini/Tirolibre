@@ -16,7 +16,7 @@
         <!-- <h5 class="card-title mb-0">{{ name+' '+surname }}</h5> -->
       </div>
       <div class="card-footer text-muted" v-html="message"></div>
-      <avatar-cropper @uploading="handleUploading" @uploaded="handleUploaded" @completed="handleCompleted" @error="handlerError" trigger="#pick-avatar" :labels="{submit: 'OK', cancel: 'Cancel'}" upload-url="https://demo.overtrue.me/upload.php" />
+      <avatar-cropper @uploading="handleUploading" @uploaded="handleUploaded" @completed="handleCompleted" @error="handlerError" trigger="#pick-avatar" :labels="{submit: 'OK', cancel: 'Cancel'}" upload-url="http://newsite.tirolibre.it/TEMP/upload.php" />
     </div>
     <md-card-content>
       <h4 class="card-title">{{ name+' '+surname }}</h4>
@@ -119,14 +119,17 @@ export default {
         console.log("-->: " + this.imageBaseUrl)
         // Maybe you need call vuex action to
         // update user avatar, for example:
+        alert(JSON.stringify(response))
         this.$store.$dispatch('updateUser', {
           avatar: response.url
+          
         })
         this.message = "user avatar updated."
       }
     },
     handleCompleted(response, form, xhr) {
       this.message = "upload completed.";
+      
     },
     handlerError(message, type, xhr) {
       this.message = "Oops! Something went wrong...";

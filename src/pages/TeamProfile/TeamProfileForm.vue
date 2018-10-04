@@ -15,7 +15,7 @@
         </div>
         <div class="md-layout-item md-small-size-100 md-size-50">
           <md-field>
-            <map-autocomplete place-holder="Dove ti Trovi" :initial-address="city" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress"></map-autocomplete>
+            <map-autocomplete input-component-name="gmap2ss23" place-holder="Dove ti Trovi" :initial-address="city" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress"></map-autocomplete>
           </md-field>
         </div>
         <div class="md-layout-item md-small-size-100 md-size-50">

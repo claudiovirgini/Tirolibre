@@ -17,7 +17,6 @@
           <i class="material-icons">mail_outline</i>
           <!-- <span class="notification">5</span> -->
           <!--v-if="showMessageSection==true"-->
-          {{numMessages>0}}
           <i v-if="showMessageNumber" class="notification">{{numMessages}}</i>
         </li>
       </router-link>
