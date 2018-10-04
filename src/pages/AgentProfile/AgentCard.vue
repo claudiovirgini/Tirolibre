@@ -6,7 +6,7 @@
       <!--<img class="img" :src="imagefile">-->
     </div>
     <md-card-content>
-      <h4 class="card-title">{{ name+' '+surname }}</h4>
+      <h4 class="card-title">{{ name}}</h4>
       <h6 class="category text-gray">{{ profile }}</h6>
     </md-card-content>
 
@@ -41,11 +41,11 @@ export default {
         return this.agentdata != null ? this.agentdata.Name : '';
       }
     },
-    surname: {
-      get() {
-        return this.agentdata != null ? this.agentdata.Surname : '';
-      }
-    },
+    //surname: {
+    //  get() {
+    //    return this.agentdata != null ? this.agentdata.Surname : '';
+    //  }
+    //},
     imagefile: {
       get() {
         return this.agentdata != null && this.agentdata.FileAgentImage != null ?

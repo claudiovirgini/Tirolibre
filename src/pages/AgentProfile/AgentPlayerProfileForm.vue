@@ -183,14 +183,14 @@
           this.playerdata.Name = value;
         }
       },
-      surname: {
-        get() {
-          return (this.playerdata != null) ? this.playerdata.Surname : '';
-        },
-        set(value) {
-          this.playerdata.Surname = value;
-        }
-      },
+      //surname: {
+      //  get() {
+      //    return (this.playerdata != null) ? this.playerdata.Surname : '';
+      //  },
+      //  set(value) {
+      //    this.playerdata.Surname = value;
+      //  }
+      //},
       weigth: {
         get() {
           return (this.playerdata != null) ? this.playerdata.Weigth : '';

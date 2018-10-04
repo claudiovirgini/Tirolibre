@@ -57,7 +57,7 @@
         <md-card md-with-hover>
           <md-card-header>
             <md-card-header-text>
-              <div class="md-title">{{ card.Name }} {{ card.Surname }}</div>
+              <div class="md-title">{{ card.Name }} </div>
               <div class="md-subhead">{{ card.Role != null  ? card.Role : 'No Role' }}</div>
             </md-card-header-text>
             <md-card-media md-medium>

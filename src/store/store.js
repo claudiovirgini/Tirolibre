@@ -20,7 +20,8 @@ export const store = new Vuex.Store({
       //serviceBaseUrl: 'http://localhost:61610/',
       //serviceBaseUrl: 'http://localhost/',
       serviceBaseUrl: 'http://www.testservice.tirolibre.it',
-      imageRootUrl: 'http://tirolibre.it/CDN/',
+      environment: 0,
+      imageRootUrl: 'http://old.tirolibre.it/CDN/',
       //serviceBaseUrl: 'http://testservice.tirolibre.it',
       loginUrl: '/auth/login',
       signupUrl: '/api/Account/Register',
@@ -52,7 +53,6 @@ export const store = new Vuex.Store({
       getThreadMessageUrl: '/api/Messages/GetThreadMessage',
       deleteMessageUrl: '/api/Messages/DeleteMessage',
 
-      environment: 1
 
     },
     authentication: {

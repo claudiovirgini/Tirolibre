@@ -11,12 +11,12 @@
           <md-input v-model="name" type="text"></md-input>
         </md-field>
       </div>
-      <div class="md-layout-item md-small-size-100 md-size-50">
+      <!--<div class="md-layout-item md-small-size-100 md-size-50">
         <md-field>
           <label>Cognome</label>
           <md-input v-model="surname" type="text"></md-input>
         </md-field>
-      </div>
+      </div>-->
       <div class="md-layout-item md-small-size-100 md-size-33">
         <md-field>
           <label for="ruolo">Class</label>
@@ -212,14 +212,14 @@ export default {
         this.playerdata.Name = value;
       }
     },
-    surname: {
-      get() {
-        return (this.playerdata != null) ? this.playerdata.Surname : '';
-      },
-      set(value) {
-        this.playerdata.Surname = value;
-      }
-    },
+    //surname: {
+    //  get() {
+    //    return (this.playerdata != null) ? this.playerdata.Surname : '';
+    //  },
+    //  set(value) {
+    //    this.playerdata.Surname = value;
+    //  }
+    //},
     weigth: {
       get() {
         return (this.playerdata != null) ? this.playerdata.Weigth : '';

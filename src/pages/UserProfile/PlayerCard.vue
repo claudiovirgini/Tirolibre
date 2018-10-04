@@ -13,13 +13,13 @@
         <div class="card-img-overlay">
           <button class="btn btn-primary btn-sm" id="pick-avatar">Seleziona una nuova immagine</button>
         </div>
-        <!-- <h5 class="card-title mb-0">{{ name+' '+surname }}</h5> -->
+        <!-- <h5 class="card-title mb-0">{{ name}}</h5> -->
       </div>
       <div class="card-footer text-muted" v-html="message"></div>
       <avatar-cropper @uploading="handleUploading" @uploaded="handleUploaded" @completed="handleCompleted" @error="handlerError" trigger="#pick-avatar" :labels="{submit: 'OK', cancel: 'Cancel'}" upload-url="http://newsite.tirolibre.it/TEMP/upload.php" />
     </div>
     <md-card-content>
-      <h4 class="card-title">{{ name+' '+surname }}</h4>
+      <h4 class="card-title">{{name}}</h4>
       <h6 class="category text-gray">Profile</h6>
       <hr>
       <div class="text-center">
@@ -80,11 +80,7 @@ export default {
         return this.playerdata != null ? this.playerdata.Name : '';
       }
     },
-    surname: {
-      get() {
-        return this.playerdata != null ? this.playerdata.Surname : '';
-      }
-    },
+
     imagefile: {
       get() {
         var returned = this.playerdata != null ? this.playerdata.FilePlayerImage : null;

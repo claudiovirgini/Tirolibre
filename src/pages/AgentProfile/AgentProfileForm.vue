@@ -14,12 +14,12 @@
             <md-input v-model="name" type="text"></md-input>
           </md-field>
         </div>
-        <div class="md-layout-item md-small-size-100 md-size-50">
+        <!--<div class="md-layout-item md-small-size-100 md-size-50">
           <md-field>
             <label>Cognome</label>
             <md-input v-model="surname" type="text"></md-input>
           </md-field>
-        </div>
+        </div>-->
         <div class="md-layout-item md-small-size-100 md-size-33">
           <md-field>
             <label>Classe</label>
@@ -155,14 +155,14 @@ export default {
         this.agentdata.Name = value;
       }
     },
-    surname: {
-      get() {
-        return (this.agentdata != null) ? this.agentdata.Surname : '';
-      },
-      set(value) {
-        this.agentdata.Surname = value;
-      }
-    },
+    //surname: {
+    //  get() {
+    //    return (this.agentdata != null) ? this.agentdata.Surname : '';
+    //  },
+    //  set(value) {
+    //    this.agentdata.Surname = value;
+    //  }
+    //},
 
     biografy: {
       get() {

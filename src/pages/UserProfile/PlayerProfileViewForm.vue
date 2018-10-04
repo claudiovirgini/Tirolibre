@@ -135,14 +135,14 @@ export default {
         this.playerdata.Name = value;
       }
     },
-    surname: {
-      get() {
-        return (this.playerdata != null) ? this.playerdata.Surname : '';
-      },
-      set(value) {
-        this.playerdata.SurName = value;
-      }
-    },
+    //surname: {
+    //  get() {
+    //    return (this.playerdata != null) ? this.playerdata.Surname : '';
+    //  },
+    //  set(value) {
+    //    this.playerdata.SurName = value;
+    //  }
+    //},
     weigth: {
       get() {
         return (this.playerdata != null) ? this.playerdata.Weigth : '';

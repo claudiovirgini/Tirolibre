@@ -45,10 +45,10 @@
     <md-icon>notifications</md-icon>
     <p>Notifications</p>
   </sidebar-link> -->
-    <sidebar-link to="/upgrade" class="" v-if="false">
+    <!--<sidebar-link to="/upgrade" class="" v-if="false">
       <md-icon>unarchive</md-icon>
       <p>Upgrade to PRO</p>
-    </sidebar-link>
+    </sidebar-link>-->
     <sidebar-link to="/" class="active-pro">
       <!-- <li class="nav-item logout active-pro"> -->
       <md-icon>power_settings_new</md-icon>

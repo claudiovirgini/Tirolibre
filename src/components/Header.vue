@@ -209,6 +209,7 @@ export default {
 
     serverBus.$on('loggedIn', () => {
       this.showLogin = false;
+      this.intervalCheckMessage();
       self.goToProfile();
     });
     serverBus.$on('sendMessage', (userId) => {
@@ -222,7 +223,7 @@ export default {
 
       //self.showMessageNumber = true;
     });
-    this.intervalCheckMessage();
+   
   },
   methods: {
     intervalCheckMessage: function() {
