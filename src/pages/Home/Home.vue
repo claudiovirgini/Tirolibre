@@ -465,7 +465,7 @@ export default {
     .switch-field {
         label {
             background-color: #FFF;
-            color: #1057a0;
+            color: #212121;
             text-transform: uppercase;
             min-width: 120px;
         }

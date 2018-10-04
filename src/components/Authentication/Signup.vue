@@ -1,57 +1,56 @@
 <template>
 <div class="cd-form">
-  <p class="fieldset">
+  <div class="fieldset">
     <label class="image-replace cd-username" for="signup-username">Nome</label>
     <input class="full-width has-padding has-border" id="signup-username" v-model="name" type="text" placeholder="Nome">
     <span class="cd-error-message">Error message here!</span>
-  </p>
-  <p class="fieldset" v-if="profile == 0 || profile == 2">
+  </div>
+  <div class="fieldset" v-if="profile == 0 || profile == 2">
     <label class="image-replace cd-username" for="signup-username">Cognome</label>
     <input class="full-width has-padding has-border" id="signup-username" v-model="surname" type="text" placeholder="Cognome">
     <span class="cd-error-message">Error message here!</span>
-  </p>
-  <p class="fieldset">
+  </div>
+  <div class="fieldset">
     <label class="image-replace cd-email" for="signup-email">E-mail</label>
     <input class="full-width has-padding has-border" id="signup-email" type="email" v-model="email" placeholder="E-mail">
     <span class="cd-error-message">Error message here!</span>
-  </p>
+  </div>
 
-  <p class="fieldset">
+  <div class="fieldset">
     <label class="image-replace cd-password" for="signup-password">Password</label>
     <input class="full-width has-padding has-border" id="signup-password" :type="passwordFieldType" v-model="password" placeholder="Password">
     <a href="#0" class="hide-password" @click="switchVisibility"><i class="fas" :class="[passwordIcon]" @click="hidePassword = !hidePassword"></i></a>
     <!-- <button type="password" @click="switchVisibility">show / hide</button> -->
     <span class="cd-error-message">Error message here!</span>
-  </p>
+  </div>
 
-  <p class="fieldset">
-
-    <div class="type">
-      <div class="buttons">
-        <div class="switch-field">
-          <div class="switch-content player form-check form-check-inline">
-            <input type="radio" id="switch_3_left" name="who" value="0" v-model="profile" class="form-check-input" checked />
-            <label for="switch_3_left" class="calciatore form-check-label">calciatore</label>
-          </div>
-          <div class="switch-content club form-check form-check-inline">
-            <input type="radio" id="switch_3_center" name="who" value="1" v-model="profile" class="form-check-input" />
-            <label for="switch_3_center" class="calciatore form-check-label">team</label>
-          </div>
-          <div class="switch-content agent form-check form-check-inline">
-            <input type="radio" id="switch_3_right" name="who" value="2" v-model="profile" class="form-check-input" />
-            <label for="switch_3_right" class="calciatore form-check-label">agente</label>
-          </div>
+  <div class="type text-center">
+    <div class="buttons">
+      <div class="switch-field">
+        <div class="switch-content player form-check form-check-inline">
+          <input type="radio" id="switch_3_left" name="who" value="0" v-model="profile" class="form-check-input" checked />
+          <label for="switch_3_left" class="calciatore form-check-label">calciatore</label>
+        </div>
+        <div class="switch-content club form-check form-check-inline">
+          <input type="radio" id="switch_3_center" name="who" value="1" v-model="profile" class="form-check-input" />
+          <label for="switch_3_center" class="team form-check-label">club</label>
+        </div>
+        <div class="switch-content agent form-check form-check-inline">
+          <input type="radio" id="switch_3_right" name="who" value="2" v-model="profile" class="form-check-input" />
+          <label for="switch_3_right" class="agent form-check-label">agente</label>
         </div>
       </div>
     </div>
-  </p>
-  <p class="fieldset terms">
-    <md-checkbox v-model="terms">Accetto i </md-checkbox><a href="https://app.termly.io/document/terms-of-use-for-saas/a53abb66-f8fa-4c05-bac5-528c8dac29ce" target="_self">Termini e Condizioni</a>
-  </p>
+  </div>
 
-  <p class="fieldset">
-    <input class="full-width has-padding" type="submit" value="Crea account" :disabled="!terms" @click="signup()">
-  </p>
+  <div class="fieldset terms">
+    <md-checkbox v-model="terms">Accetto i </md-checkbox><a href="https://app.termly.io/document/terms-of-use-for-saas/a53abb66-f8fa-4c05-bac5-528c8dac29ce" target="_self">Termini e Condizioni</a>
+  </div>
+
+  <div class="">
+    <md-button :disabled="!terms" @click="signup" type="submit" class="md-success btn btn-success btn-lg btn-block">Crea Account</md-button>
+    <!-- <input class="full-width has-padding" type="submit" value="Crea account" :disabled="!terms" @click="signup()"> -->
+  </div>
 </div>
 
 <!-- <a href="#0" class="cd-close-form">Close</a> -->
@@ -112,6 +111,7 @@ export default {
     label {
         &:before {
             background-image: url("../../assets/images/player.png");
+            border: 2px solid #178501;
         }
 
     }
@@ -121,6 +121,7 @@ export default {
     label {
         &:before {
             background-image: url("../../assets/images/club.png");
+            border: 2px solid #1057a0;
         }
 
     }
@@ -130,11 +131,13 @@ export default {
     label {
         &:before {
             background-image: url("../../assets/images/agent.png");
+            border: 2px solid #ffa000;
         }
 
     }
 }
 .terms {
+    margin: 0 !important;
     .md-checkbox {
         margin-right: 5px;
     }
@@ -181,10 +184,6 @@ header[role=banner] {
         clear: both;
     }
 
-}
-
-.switch-field {
-    padding: 30px 0 !important;
 }
 
 @media only screen and (min-width: 768px) {
@@ -680,8 +679,8 @@ header[role=banner] {
 
 .switch-field,
 .switch-field-input {
-    padding: 10px 0;
-    overflow: hidden;
+    padding: 20px 0 0;
+    // overflow: hidden;
     label {
         margin: 15px 30px;
     }
@@ -716,13 +715,12 @@ header[role=banner] {
 
 .type {
     .switch-content {
-        background: #c0d6bb;
+        background: transparent;
         label {
             &:before {
                 background-color: #FFF;
                 padding: 5px;
                 border-radius: 10px;
-                border: 2px solid #178501;
             }
 
         }
@@ -735,9 +733,9 @@ header[role=banner] {
     .switch-field {
         label {
             background-color: #FFF;
-            color: #168600;
+            color: #212121;
             text-transform: uppercase;
-            min-width: 90px;
+            min-width: 120px;
         }
 
     }
@@ -780,13 +778,26 @@ header[role=banner] {
     cursor: pointer;
 }
 
-.switch-field input:checked + label {
-    background-color: #168600;
-    color: #FFF;
-    -webkit-box-shadow: none;
-    box-shadow: none;
+.switch-field {
+    .player input:checked + label {
+        background-color: #168600;
+        color: #FFF;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
+    .club input:checked + label {
+        background-color: #1057a0;
+        color: #FFF;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
+    .agent input:checked + label {
+        background-color: #ffa000;
+        color: #FFF;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
 }
-
 .switch-field label:first-of-type {
     border-radius: 4px 0 0 4px;
 }

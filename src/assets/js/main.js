@@ -73,7 +73,7 @@ jQuery(document).ready(function($){
 		$forgot_password_link = $form_login.find('.cd-form-bottom-message a'),
 		$back_to_login_link = $form_forgot_password.find('.cd-form-bottom-message a'),
 		$main_nav = $('.isNotAuthenticated');
-		// $main_nav = $('.main-nav');
+		$main_nav = $('.main-nav');
 
 	//open modal
 	$main_nav.on('click', function(event){
@@ -90,6 +90,11 @@ jQuery(document).ready(function($){
 		}
 
 	});
+
+	if (!$(event.target).closest(".cd-user-modal,.main-nav").length) {
+		alert("ao");
+		$("body").find(".md-dialog").removeClass("is-visible");
+	}
 
 	//close modal
 	$('.cd-user-modal').on('click', function(event){
@@ -108,17 +113,6 @@ jQuery(document).ready(function($){
 	$form_modal_tab.on('click', function(event) {
 		event.preventDefault();
 		( $(event.target).is( $tab_login ) ) ? login_selected() : signup_selected();
-	});
-
-	//hide or show password
-	$('.hide-password').on('click', function(){
-		var $this= $(this),
-			$password_field = $this.prev('input');
-
-		( 'password' == $password_field.attr('type') ) ? $password_field.attr('type', 'text') : $password_field.attr('type', 'password');
-		( 'Hide' == $this.text() ) ? $this.text('Show') : $this.text('Hide');
-		//focus and move cursor to the end of input field
-		$password_field.putCursorAtEnd();
 	});
 
 	//show forgot-password form

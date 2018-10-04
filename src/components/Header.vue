@@ -31,14 +31,14 @@
       <div style="float:left">
         {{showLogin==true ? 'ACCEDI' : 'REGISTRATI'}}
       </div>
-      <div style="float:right">
+      <div style="float:right" class="close-btn">
         <md-button @click="showLogin=showSignup=false;">
           <i class="fa fa-times fa-2x" aria-hidden="true"></i>
         </md-button>
       </div>
     </md-dialog-title>
     <md-dialog-content>
-      <md-tabs md-dynamic-height>
+      <md-tabs class="md-primary tabs-auth" md-alignment="fixed">
         <md-tab md-label="Accedi" @click="showLogin=true;showSignup=false">
           <div id="cd-login">
             <Login />
@@ -216,14 +216,14 @@ export default {
       this.$router.push('/messages?playerId=' + userId)
 
     });
-    serverBus.$on('fetchMessage', function (numMessages) {
+    serverBus.$on('fetchMessage', function(numMessages) {
       self.showMessageNumber = numMessages.NumberUnreadMessages > 0;
       self.numMessages = numMessages.NumberUnreadMessages;
       //alert(this.numMessages)
 
       //self.showMessageNumber = true;
     });
-   
+
   },
   methods: {
     intervalCheckMessage: function() {
@@ -243,7 +243,7 @@ export default {
       this.$router.push('/')
     },
 
-    getMyMessages: function (itemToUpdate) {
+    getMyMessages: function(itemToUpdate) {
       var self = this;
       this.$store.dispatch('getCountMessageToNotify', {
           baseUserId: this.$store.state.authentication.user.Id,
@@ -275,8 +275,36 @@ export default {
 }
 </script>
 
+<style lang="scss">
+.tabs-auth {
+    .md-tabs-navigation {
+        background-color: #212121 !important;
+        .md-active {
+            border-bottom: 2px solid #f8fe1e !important;
+            color: #FFF !important;
+            &:focus {
+                color: #FFF !important;
+            }
+        }
+        button {
+            color: rgba(255, 255, 255, 0.5) !important;
+            &:hover {
+                color: #FFF !important;
+            }
+        }
+    }
+}
+</style>
  <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+.close-btn {
+    button {
+        background-color: transparent !important;
+        box-shadow: none;
+        margin-top: -10px;
+        margin-right: -30px;
+    }
+}
 /***LOADER **********/
 #md-content {
     overflow-y: scroll;
@@ -454,6 +482,7 @@ header[role=banner] {
     margin-right: 5%;
     width: 44px;
     height: 44px;
+    z-index: 99999;
     background: url("../assets/images/cd-icon-menu.svg") no-repeat center center;
     cursor: pointer;
 
@@ -467,7 +496,7 @@ header[role=banner] {
         -ms-transform: translateY(-100%);
         -o-transform: translateY(-100%);
         transform: translateY(-100%);
-        z-index: 999;
+        z-index: 99999;
     }
 
     ul.is-visible {
