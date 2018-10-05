@@ -91,11 +91,6 @@ jQuery(document).ready(function($){
 
 	});
 
-	if (!$(event.target).closest(".cd-user-modal,.main-nav").length) {
-		alert("ao");
-		$("body").find(".md-dialog").removeClass("is-visible");
-	}
-
 	//close modal
 	$('.cd-user-modal').on('click', function(event){
 		if( $(event.target).is($form_modal) || $(event.target).is('.cd-close-form') ) {

@@ -298,7 +298,7 @@ export default {
       };
       this.findUsers(this.profileSelected, this.placeSelected, this.radius, null, findTeamDetails);
     },
-    findAgent: function () {
+    findAgent: function() {
 
       this.findUsers(this.profileSelected, this.placeSelected, this.radius, null, null);
     },
@@ -343,6 +343,13 @@ export default {
 }
 </script>
 
+<style lang="scss">
+.filter-panel {
+    .md-menu.md-select input {
+        -webkit-text-fill-color: #f5ff00 !important;
+    }
+}
+</style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style scoped lang="scss">

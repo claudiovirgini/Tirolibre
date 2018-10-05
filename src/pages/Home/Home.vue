@@ -10,14 +10,6 @@
               <div class="what" >
                 <div class="buttons">
                   <div class="switch-field"  v-bind:class="[hasErrorWhat ? 'hasErrorWhat' : '']">
-                    <!-- <div class="switch-title">
-                      <p>
-                        Ciao, Benvenuto su TiroLibre!
-                      </p>
-                        <p>
-                          Seleziona le tue preferenze
-                        </p>
-                    </div> -->
                       <div class="switch-title">Sono alla ricerca di un ...</div>
 
                       <div id="example">
@@ -64,7 +56,6 @@
               <div class="where">
                 <div class="">
                   <md-field class="col-md-6 mx-auto" v-bind:class="[hasErrorWhere ? 'hasErrorWhat' : '']">
-                    <!--<md-icon style="float:left">location_on</md-icon>-->
                      <label for="where" class="label-autocomplete">In che zona cerchi?</label>
                     <map-autocomplete id="where" input-component-name="gmap2" class="col-12" place-holder="Dove stai cercando" startactualpos="true" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress"></map-autocomplete>
                   </md-field>
