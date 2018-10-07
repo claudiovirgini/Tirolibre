@@ -4,9 +4,21 @@
 
     <div class="md-layout-item md-medium-size-100 md-size-33">
       <user-card :playerdata="playerdata" />
+      <!-- v-if="isAuthenticated" -->
       <md-button @click="sendMessage" class="md-success btn btn-success btn-lg btn-radius" v-if="isAuthenticated"><i class="material-icons">mail_outline</i> Invia Messaggio</md-button>
       <!-- <button @click="sendMessage()">SEND MESSAGE</button> -->
     </div>
+
+
+    <!-- <md-dialog v-if="isAuthenticated">
+      <md-dialog-title>
+        title
+      </md-dialog-title>
+      <md-dialog-content>
+        content
+      </md-dialog-content>
+    </md-dialog> -->
+
     <div class="md-layout-item md-medium-size-100 md-size-66">
       <user-info data-background-color="yellow" :playerdata="playerdata" />
     </div>
@@ -39,7 +51,8 @@ export default {
         type: '',
         title: 'About me',
         description: '',
-        image: null
+        image: null,
+        modalAuth: false
       }
     }
   },
@@ -55,7 +68,14 @@ export default {
       this.userProfile = true
     },
     sendMessage: function() {
-      serverBus.$emit('sendMessage', this.playerdata.Id);
+      let isAuth = this.$store.state.authentication.isAuth
+      console.log("auth: " + isAuth)
+      if (isAuth === true) {
+        serverBus.$emit('sendMessage', this.playerdata.Id)
+      } else {
+        this.modalAuth = true
+        // alert("non autenticato")
+      }
     }
   },
   computed: {

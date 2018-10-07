@@ -3,9 +3,9 @@
   <!--<button  @click="getMyMessages()">REFRESH</button>-->
   <div id="frame">
     <div id="sidepanel">
-      <div id="profile" v-if="showResult" >
-        <div class="wrap" v-for="sender in userSenderList" :key="sender.Id" >
-          <div @click="selectThread(sender.Sender.Id)" >
+      <div id="profile" v-if="showResult">
+        <div class="wrap" v-for="sender in userSenderList" :key="sender.Id">
+          <div @click="selectThread(sender.Sender.Id)">
             <img :src="sender.Sender.UserImageUrl" class="online" alt="" />
             <p>{{sender.Sender.Name}}</p>
             <p v-if="sender.NumMessages>0">{{sender.NumMessages}}</p>
@@ -25,26 +25,27 @@
           </li>
         </ul>
       </div>-->
-        <div class="messages">
+      <div class="messages">
         <ul>
           <div v-for="message in threadMessageList" v-chat-scroll>
             <li :class="{'sent': message.SenderBaseUser.Id == myUserId,'replies': message.ReceiverBaseUser.Id == myUserId}">
               <div>
                 <img :src="getImageUrlFromMessage(message)" alt="" />
-                <p>{{message.SendDate | moment("MM-DD-YYYY")}}{{' : '+message.BodyMessage}}</p>
+                <!-- <p>{{message.SendDate | moment("MM-DD-YYYY")}}{{' : '+message.BodyMessage}}</p> -->
+                <p>{{message.BodyMessage}}</p>
               </div>
             </li>
           </div>
         </ul>
+      </div>
+      <div class="message-input">
+        <div class="wrap">
+          <input type="text" placeholder="Write your message..." v-model="messageText" />
+          <button class="submit" @click="sendMessage(messageText)"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
         </div>
-        <div class="message-input">
-          <div class="wrap">
-            <input type="text" placeholder="Write your message..." v-model="messageText" />
-            <button class="submit" @click="sendMessage(messageText)"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
-          </div>
-        </div>
+      </div>
     </div>
-    </div>
+  </div>
 </div>
 </template>
 
@@ -71,7 +72,7 @@ export default {
       threadMessageList: [],
       selectedThreadUser: null,
       messageText: '',
-      selectedUserId : 0
+      selectedUserId: 0
     }
   },
   components: {
@@ -81,7 +82,7 @@ export default {
     StatsCard
   },
   computed: {
-    myUserId : {
+    myUserId: {
       get() {
         return this.$store.state.authentication.user.Id
       }
@@ -91,17 +92,19 @@ export default {
   mounted() {
     serverBus.$on('newMessage', this.newMessageListner);
     this.getMyMessages();
+  },
+  beforeDestroy() {
+    serverBus.$off('newMessage', this.newMessageListner)
+  },
+  methods: {
+    newMessageListner: function(messageList) {
+      this.getMyMessages();
     },
-    beforeDestroy() {
-      serverBus.$off('newMessage', this.newMessageListner)
-    },
-    methods: {
-      newMessageListner: function (messageList) {
-        this.getMyMessages();
-      },
-    selectThread: function (userId) {
+    selectThread: function(userId) {
       var self = this;
-      this.selectedThreadUser = this.userSenderList.filter(function (x) { return x.Sender.Id == userId })[0].Sender;
+      this.selectedThreadUser = this.userSenderList.filter(function(x) {
+        return x.Sender.Id == userId
+      })[0].Sender;
       this.$store.dispatch('getThreadMessage', {
           senderId: this.$store.state.authentication.user.Id,
           receiverId: userId,
@@ -114,7 +117,9 @@ export default {
           for (var i = 0; i < self.threadMessageList.length; i++) {
             self.threadMessageList[i].SenderBaseUser.UserImageUrl = self.$store.state.configurations.imageRootUrl + self.threadMessageList[i].SenderBaseUser.UserImageUrl;
           }
-          var tempList = self.userSenderList.filter(function (x) { return x.Sender.Id == userId });
+          var tempList = self.userSenderList.filter(function(x) {
+            return x.Sender.Id == userId
+          });
           if (tempList.length > 0) tempList[0].NumMessages = 0;
           self.showResultThread = true;
 
@@ -126,17 +131,20 @@ export default {
     },
     getMyMessages: function() {
       var self = this;
-      this.$store.dispatch('getMyMessagesSender', {baseUserId: this.$store.state.authentication.user.Id, top: 100})
+      this.$store.dispatch('getMyMessagesSender', {
+          baseUserId: this.$store.state.authentication.user.Id,
+          top: 100
+        })
         .then(res => {
           self.showResult = false;
           self.userSenderList = res.data;
-          for (var i = 0; i < self.userSenderList.length; i++) 
-            self.userSenderList[i].Sender.UserImageUrl = self.$store.state.configurations.imageRootUrl + self.userSenderList[i].Sender.UserImageUrl;          
+          for (var i = 0; i < self.userSenderList.length; i++)
+            self.userSenderList[i].Sender.UserImageUrl = self.$store.state.configurations.imageRootUrl + self.userSenderList[i].Sender.UserImageUrl;
           if (self.$route.query.playerId != null)
-            this.createThreadForNewMessage(self.$route.query.playerId).then(function (resp) {
-              self.showResult = true;
-            },
-              function (err) {
+            this.createThreadForNewMessage(self.$route.query.playerId).then(function(resp) {
+                self.showResult = true;
+              },
+              function(err) {
                 self.showResult = true;
               });
           else {
@@ -152,35 +160,39 @@ export default {
           serverBus.$emit('showLoading', false);
         })
     },
-    createThreadForNewMessage : function(userId) {
+    createThreadForNewMessage: function(userId) {
       //this.showResultThread = false;
       this.showResult = false;
-      var senderList = this.userSenderList.filter(function (x) { return x.Sender.Id == userId });
-    
+      var senderList = this.userSenderList.filter(function(x) {
+        return x.Sender.Id == userId
+      });
+
       if (senderList.length > 0) {
         var sender = senderList[0];
         this.selectThread(sender.Sender.Id);
         return new Promise((resolve, reject) => {
-            resolve(response)
+          resolve(response)
         })
-      }
-      else {
+      } else {
         var self = this;
         return new Promise((resolve, reject) => {
           this.$store.dispatch('chatGetUserInfo', {
-            userId: userId
-          })
+              userId: userId
+            })
             .then(res => {
               if (res.data != null) {
                 res.data.UserImageUrl = self.$store.state.configurations.imageRootUrl + res.data.UserImageUrl;
-                var newConversation = { Sender: res.data, NumMessages: 0, LastTime: new Date() };
+                var newConversation = {
+                  Sender: res.data,
+                  NumMessages: 0,
+                  LastTime: new Date()
+                };
                 self.userSenderList.unshift(newConversation);
                 self.selectedThreadUser = res.data;
                 self.showResultThread = true;
                 self.showResult = true;
                 resolve(true)
-              }
-              else {
+              } else {
                 alert('Error retrieving info for userid : ' + userId)
                 reject
               }
@@ -192,14 +204,14 @@ export default {
             })
         })
       }
-      },
-    getImageUrlFromMessage: function (message) {
-      return message != null && message.SenderBaseUser != null ?  message.SenderBaseUser.UserImageUrl : '';
     },
-    getUserIdFromMessage: function (message) {
+    getImageUrlFromMessage: function(message) {
+      return message != null && message.SenderBaseUser != null ? message.SenderBaseUser.UserImageUrl : '';
+    },
+    getUserIdFromMessage: function(message) {
       return message != null && message.SenderBaseUser != null ? message.SenderBaseUser.Id : 0;
     },
-    sendMessage: function (messageText) {
+    sendMessage: function(messageText) {
       var self = this;
       let selectedId = this.selectedThreadUser.Id
       //this.showResultThread = false;
@@ -262,83 +274,6 @@ export default {
     overflow: auto;
 }
 
-#map {
-    max-height: 550px;
-}
-
-.search-form {
-    border-radius: 2px;
-    box-sizing: border-box;
-    min-width: auto;
-    padding: 10px 32px 48px;
-    position: relative;
-    z-index: initial;
-    margin: 0 -15px;
-    border: 1px solid darken(#f5ff00, 10%);
-    border-radius: 15px;
-}
-
-.gws-flights-form__search-button-wrapper {
-    align-items: center;
-    bottom: calc(-40px/2);
-    display: flex;
-    flex-direction: column;
-    left: 0;
-    margin: 0 auto;
-    pointer-events: none;
-    position: absolute;
-    right: 0;
-    .gws-flights-fab__mini {
-        border-radius: 20px;
-        height: 40px;
-        min-width: 40px;
-    }
-
-    .gws-flights-form__search-button {
-        background-color: #f5ff00;
-        pointer-events: auto;
-        align-items: center;
-        border: none;
-        border-radius: 28px;
-        box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2), 0 6px 10px 0 rgba(0,0,0,0.14), 0 1px 18px 0 rgba(0,0,0,0.12);
-        box-sizing: border-box;
-        color: #212121;
-        cursor: pointer;
-        display: flex;
-        height: 56px;
-        min-width: 56px;
-        outline: none;
-        padding: 0 8px;
-        position: relative;
-        user-select: none;
-        &::before {
-            border-radius: inherit;
-            content: '';
-            display: block;
-            height: 100%;
-            left: 0;
-            position: absolute;
-            top: 0;
-            width: 100%;
-        }
-
-        &:hover {
-            box-shadow: 0 5px 5px -3px rgba(0,0,0,0.2), 0 8px 10px 1px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12);
-            outline: none;
-        }
-
-        span {
-            padding: 0 16px 0 8px;
-            font-size: 14px;
-            font-weight: 500;
-            padding: 0 26px 0 24px;
-            text-transform: uppercase;
-            -webkit-user-select: none;
-        }
-
-    }
-}
-
 .button_plus {
     float: left;
     background-color: #f1ff00;
@@ -371,17 +306,6 @@ export default {
     color: #FFF !important;
 }
 
-@media only screen and (min-width: 767px) {
-    .search-form {
-        min-width: 852px;
-        margin: 0 76px;
-        div {
-            margin-top: 0;
-        }
-
-    }
-}
-
 .container {
     max-width: 1170px;
     margin: auto;
@@ -394,7 +318,7 @@ img {
 #frame {
     width: 100%;
     min-width: 360px;
-    height: 92vh;
+    height: 82vh;
     min-height: 300px;
     max-height: 720px;
 }
@@ -422,8 +346,8 @@ img {
     }
 }
 #frame #sidepanel #profile {
-    width: 80%;
-    margin: 25px auto;
+    width: 100%;
+    padding: 20px;
 }
 @media screen and (max-width: 735px) {
     #frame #sidepanel #profile {
@@ -447,13 +371,18 @@ img {
     transform: scaleY(-1);
 }
 #frame #sidepanel #profile .wrap {
-    height: 60px;
-    line-height: 60px;
+    height: auto;
+    min-height: 70px;
     overflow: hidden;
     -moz-transition: 0.3s height ease;
     -o-transition: 0.3s height ease;
     -webkit-transition: 0.3s height ease;
     transition: 0.3s height ease;
+
+    &:hover {
+        background-color: #f5ff00;
+        cursor: pointer;
+    }
 }
 @media screen and (max-width: 735px) {
     #frame #sidepanel #profile .wrap {
@@ -461,11 +390,12 @@ img {
     }
 }
 #frame #sidepanel #profile .wrap img {
-    width: 50px;
+    width: 56px;
+    height: 56px;
+    background-clip: content-box;
     border-radius: 50%;
     padding: 3px;
-    border: 2px solid #e74c3c;
-    height: auto;
+    border: 1px solid #FFF;
     float: left;
     cursor: pointer;
     -moz-transition: 0.3s border ease;
@@ -480,7 +410,7 @@ img {
     }
 }
 #frame #sidepanel #profile .wrap img.online {
-    border: 2px solid #2ecc71;
+    // border: 2px solid #f5ff00;
 }
 #frame #sidepanel #profile .wrap img.away {
     border: 2px solid #f1c40f;
@@ -494,6 +424,7 @@ img {
 #frame #sidepanel #profile .wrap p {
     float: left;
     margin-left: 15px;
+    line-height: 56px;
 }
 @media screen and (max-width: 735px) {
     #frame #sidepanel #profile .wrap p {
@@ -872,7 +803,8 @@ img {
 #frame .content {
     float: right;
     width: 60%;
-    height: 461px;
+    // height: 461px;
+    height: 100%;
     overflow: hidden;
     position: relative;
 }
@@ -945,6 +877,9 @@ img {
 #frame .content .messages ul li:nth-last-child(1) {
     margin-bottom: 20px;
 }
+#frame .content .messages ul li.sent {
+    text-align: left;
+}
 #frame .content .messages ul li.sent img {
     margin: 6px 8px 0 0;
 }
@@ -960,7 +895,7 @@ img {
 #frame .content .messages ul li.replies p {
     background: #f5f5f5;
     float: right;
-    text-align:right;
+    text-align: right;
 }
 #frame .content .messages ul li img {
     width: 22px;

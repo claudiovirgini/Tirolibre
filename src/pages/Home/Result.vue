@@ -144,7 +144,7 @@
             </div>
 
             <div class="row">
-              <div class="col-md-4 mt-4 col-xs-6 d-flex align-items-stretch" v-for="item in items" :key="item.id">
+              <div class="col-md-3 mt-4 col-xs-6 d-flex align-items-stretch" v-for="item in items" :key="item.id">
                 <div class="card profile-card-5 col">
                   <div @click="showProfile(item)">
                     <div class="card-img-block">
@@ -162,9 +162,9 @@
                       <p class="card-text" v-if="item.profile === 1">
                         {{ item.fulladdress }}
                       </p>
-                      <p class="card-text level">
+                      <!-- <p class="card-text level">
                         <i class="fas fa-trophy"></i> {{ item.level }}
-                      </p>
+                      </p> -->
                     </div>
                   </div>
                   <!-- <i class="material-icons" @click.prevent="sendMessage(item)">mail_outline</i> -->
@@ -604,7 +604,11 @@ h1 {
     }
 }
 .profile-card-5 {
-    margin-top: 20px;
+    // background-size: 50%;
+    // background-position: bottom;
+    // background-repeat: no-repeat;
+    // margin-top: 20px;
+    // background-image: url("http://www.padovasport.tv/wp-content/uploads/sites/39/2016/08/seried.jpg");
 
     &:hover {
         box-shadow: 0 16px 24px 2px rgba(0,0,0,0.14), 0 6px 30px 5px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(0,0,0,0.3);
@@ -625,8 +629,15 @@ h1 {
         position: relative;
         top: -20px;
         img {
-            border-radius: 5px;
+            // border-radius: 5px;
             box-shadow: 0 0 10px rgba(0,0,0,0.63);
+
+            width: 104px;
+            height: 104px;
+            box-sizing: border-box;
+            background-clip: content-box;
+            border: 0 solid transparent;
+            border-radius: 49.9%;
         }
     }
     h3 {
