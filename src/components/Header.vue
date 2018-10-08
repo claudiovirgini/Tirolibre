@@ -4,7 +4,7 @@
       <img src="../assets/images/TiroLibreLogo_white.png" class="d-inline-block align-top" alt="TiroLibre" width="150px">
     </a>
   <nav class="main-nav isNotAuthenticated" v-if="!isAuthenticated">
-    <ul>
+    <ul class="is-visible">
       <li><a class="cd-signin" href="#" @click="showLogin=true;showSignup=false">Accedi</a></li>
       <li><a class="cd-signup" href="#" @click="showLogin=false;showSignup=true">Registrati</a></li>
     </ul>

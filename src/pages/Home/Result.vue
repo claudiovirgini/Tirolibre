@@ -144,7 +144,7 @@
             </div>
 
             <div class="row">
-              <div class="col-md-3 mt-4 col-xs-6 d-flex align-items-stretch" v-for="item in items" :key="item.id">
+              <div class="col-md-3 mt-4 mb-5 col-xs-6 d-flex align-items-stretch" v-for="item in items" :key="item.id">
                 <div class="card profile-card-5 col">
                   <div @click="showProfile(item)">
                     <div class="card-img-block">
