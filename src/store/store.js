@@ -18,7 +18,7 @@ export const store = new Vuex.Store({
     playerSelected: '',
     configurations: {
       //serviceBaseUrl: 'http://localhost:61610/',
-      //serviceBaseUrl: 'http://localhost/',
+      //serviceBaseUrl: 'http://localhost/TirolibreWebApi/',
       serviceBaseUrl: 'http://www.testservice.tirolibre.it',
       environment: 0,
       imageRootUrl: 'http://old.tirolibre.it/CDN/',
@@ -497,6 +497,8 @@ export const store = new Vuex.Store({
     },
     saveTeamProfile({ commit, state }, team) {
       const data = { Team: team }
+      console.log(JSON.stringify(data));
+      //data.Team.Address = null; 
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.saveTeamProfileUrl, data);
     },
 

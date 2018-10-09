@@ -16,7 +16,13 @@
         <!-- <h5 class="card-title mb-0">{{ name}}</h5> -->
       </div>
       <div class="card-footer text-muted" v-html="message"></div>
-      <avatar-cropper @uploading="handleUploading" @uploaded="handleUploaded" @completed="handleCompleted" @error="handlerError" trigger="#pick-avatar" :labels="{submit: 'OK', cancel: 'Cancel'}" upload-url="http://newsite.tirolibre.it/TEMP/upload.php" />
+      <avatar-cropper @uploading="handleUploading"
+                      @uploaded="handleUploaded"
+                      @completed="handleCompleted"
+                      @error="handlerError"
+                      trigger="#pick-avatar"
+                      :labels="{submit: 'OK', cancel: 'Cancel'}"
+                      upload-url="http://tirolibrecdn.tirolibre.it/" />
     </div>
     <md-card-content>
       <h4 class="card-title">{{name}}</h4>
@@ -62,6 +68,7 @@ export default {
   //},
   data() {
     return {
+      header: { 'Content-Type': 'application/octet-stream'},
       imageBaseUrl: this.$store.state.configurations.imageRootUrl,
       message: "ready",
       user: {

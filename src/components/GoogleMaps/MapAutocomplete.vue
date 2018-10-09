@@ -44,7 +44,7 @@ export default {
         if (value.length > 0) {
           this.hasError = false,
             this._placeSelected = value[0]
-          this.$emit('setCorrectAddress', value[0]);
+            this.$emit('setCorrectAddress', value[0]);
         }
       }
 

@@ -161,12 +161,13 @@ export default {
     });
   },
   methods: {
-    setCorrectAddress: function(address) {
-      this.city = address;
+    setCorrectAddress: function (address) {
+      //FullAddressJson: address
+      this.teamdata.Address = { FullAddress: address.formatted_address, FullAddressJson: JSON.stringify(address) }
     },
     setInvalidAddress: function() {},
     setCorrectAddressStadium: function(address) {
-      this.stadiumAddress = address;
+      //this.stadiumAddress = address;
     },
     setInvalidAddressStadium: function() {},
     saveProfile: function() {
