@@ -14,11 +14,11 @@
       </div>
     </div>
     <div class="content" v-if="showResultThread">
-      <!--<div class="contact-profile">
+      <div class="contact-profile">
         <img :src="selectedThreadUser.UserImageUrl" alt="" />
         <p>{{selectedThreadUser.Name}}</p>
       </div>
-      <div class="messages">
+      <!--<div class="messages">
         <ul class="messages" v-chat-scroll>
           <li v-bind:class="{'sent message': message.SenderBaseUser.Id == myUserId,'replies message': message.ReceiverBaseUser.Id == myUserId}" v-for="message in threadMessageList">
             <p>{{message.SendDate | moment("MM-DD-YYYY")}}{{' : '+message.BodyMessage}}</p>
@@ -40,7 +40,7 @@
       </div>
       <div class="message-input">
         <div class="wrap">
-          <input type="text" placeholder="Write your message..." v-model="messageText" />
+          <input type="text" placeholder="Write your message..." v-model="messageText" v-on:keyup.enter="sendMessage(messageText)" />
           <button class="submit" @click="sendMessage(messageText)"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
         </div>
       </div>
@@ -221,6 +221,7 @@ export default {
         senderBaseUserId: this.$store.state.authentication.user.Id,
         receiverBaseUserId: selectedId
       }
+      this.messageText = ''
       this.$store.dispatch('sendMessage', messageToSend)
         .then(res => {
           //alert('Message Correctly Sent')
@@ -406,6 +407,7 @@ img {
 @media screen and (max-width: 735px) {
     #frame #sidepanel #profile .wrap img {
         width: 40px;
+        height: 40px;
         margin-left: 4px;
     }
 }
@@ -823,16 +825,19 @@ img {
     width: 100%;
     height: 60px;
     line-height: 60px;
-    background: #f5f5f5;
+    background: #181a1a;
 }
 #frame .content .contact-profile img {
     width: 40px;
+    height: 40px;
     border-radius: 50%;
     float: left;
     margin: 9px 12px 0 9px;
 }
 #frame .content .contact-profile p {
     float: left;
+    line-height: 50px;
+    text-transform: uppercase;
 }
 #frame .content .contact-profile .social-media {
     float: right;
