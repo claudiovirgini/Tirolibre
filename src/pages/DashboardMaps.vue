@@ -3,7 +3,7 @@
   <div class="row search-form">
 
     <div class="col-md-6 col-sm-12">
-      <map-autocomplete  input-component-name="gmap3" class="col-12" place-holder="Luogo di ricerca" :initial-address="city" startactualpos="true" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress"></map-autocomplete>
+      <map-autocomplete input-component-name="gmap3" class="col-12" place-holder="Luogo di ricerca" :initial-address="city" startactualpos="true" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress"></map-autocomplete>
     </div>
     <div class="col-md-6 col-sm-12" style="padding-top:10px;text-align:center">
       <button @click="decreaseAmount()" class="button_plus">-</button>
@@ -101,14 +101,14 @@
         <div class="col-12" v-for="player in players" :key="player.Id">
 
           <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
-            <stats-card data-background-color="yellow" @click.native="showInfoWindowById(player.Id)">
+            <stats-card data-background-color="black" @click.native="showInfoWindowById(player.Id)">
               <template slot="header">
                 <!-- <md-icon >store</md-icon> -->
                 <picture-box :picUrl="player.PlayerImage" :picType="0"></picture-box>
               </template>
 
               <template slot="content">
-                    <p class="category">{{ player.Role }} Attaccante</p>
+                    <p class="category">{{ player.Role }} </p>
                     <h3 class="title">{{ player.Name }} </h3>
                 </template>
 
@@ -244,13 +244,13 @@ export default {
       }
     }
   },
-    mounted() {
-      var self = this;
-      this.profile = this.$store.state.authentication.user.Profile;
-      setTimeout(function() {
-        if (self.profile == 0) self.findTeams()
-        else self.findPlayers()
-      }, 500);
+  mounted() {
+    var self = this;
+    this.profile = this.$store.state.authentication.user.Profile;
+    setTimeout(function() {
+      if (self.profile == 0) self.findTeams()
+      else self.findPlayers()
+    }, 500);
 
   },
   methods: {
@@ -273,8 +273,8 @@ export default {
       if (this.amount > 0)
         this.amount = this.amount - 5;
     },
-    findPlayers: function () {
-      
+    findPlayers: function() {
+
       var self = this;
       if ((this.actualPos != null) && (this.amount != null)) {
         serverBus.$emit('showLoading', true);
@@ -298,16 +298,16 @@ export default {
                 lat: player.Latitudine,
                 lng: player.Longitudine
               };
-              let contentString = '<div class="card" style="width: 18rem;">' +
+              let contentString = '<div class="card no-border profile-card-5" style="width: 18rem;">' +
                 //'<picture-box :picUrl="'+player.PlayerImage+'" :picType="0"></picture-box>'+
-                '<img class="card-img-top" style="max-width: 150px; margin: 0 auto;" src="' + (player.PlayerImage != null && player.PlayerImage != '' ? self.$store.state.configurations.imageRootUrl + player.PlayerImage :
-                  '../../assets/img/defaultFace.png') + '" alt="' + player.Name + '">' +
+                '<div class="card-img-block"><img class="card-img-top" style="max-width: 150px; margin: 0 auto;" src="' + (player.PlayerImage != null && player.PlayerImage != '' ? self.$store.state.configurations.imageRootUrl + player.PlayerImage :
+                  '../../assets/img/defaultFace.png') + '" alt="' + player.Name + '"></div>' +
                 '<div class="card-body">' +
-                '<h5 class="card-title">' + player.Name + '</h5>' +
+                '<h3 class="card-title">' + player.Name + '</h3>' +
                 '<p class="card-text">' +
                 player.Catogory +
                 '</p>' +
-                '<a href="/#/playerProfile?playerId=' + player.Id + '" class="btn btn-primary" style="color: #FFF;"> Visita il Profilo </a>' +
+                '<div class="card-footer"><a href="/#/playerProfile?playerId=' + player.Id + '" class="btn btn-map"> Visita il Profilo </a></div>' +
                 '</div>' +
                 '</div>';
               let infowindow = new google.maps.InfoWindow({
@@ -419,7 +419,7 @@ export default {
       }
     },
 
-    setCorrectAddress: function (value) {
+    setCorrectAddress: function(value) {
       let newPos = {
         lat: value.geometry.location.lat(),
         lng: value.geometry.location.lng()
@@ -509,6 +509,75 @@ export default {
 }
 </script>
 
+<style lang="scss">
+.btn-map {
+    color: #212121 !important;
+    border: 1px solid #212121;
+    background-color: #f5ff00;
+    border-radius: 15px !important;
+    &:hover {
+        box-shadow: 0 14px 26px -12px rgba(248, 254, 30, 0.42), 0 4px 23px 0 rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(248, 254, 30, 0.2);
+        background-color: #f8fe0f;
+        color: #212121 !important;
+    }
+}
+.no-border {
+    border: none;
+}
+
+/*Profile Card 5*/
+.md-button-content {
+    a {
+        color: #FFF !important;
+    }
+}
+.profile-card-5 {
+
+    &:hover {
+        box-shadow: 0 16px 24px 2px rgba(0,0,0,0.14), 0 6px 30px 5px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(0,0,0,0.3);
+    }
+    .btn {
+        border-radius: 2px;
+        text-transform: uppercase;
+        font-size: 12px;
+        padding: 7px 20px;
+    }
+    .btn-primary {
+        background-color: #4E5E30;
+        border-color: #4E5E30;
+    }
+    .card-img-block {
+        width: 91%;
+        margin: 0 auto;
+        position: relative;
+        img {
+            // border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.63);
+
+            width: 104px;
+            height: 104px;
+            box-sizing: border-box;
+            background-clip: content-box;
+            border: 0 solid transparent;
+            border-radius: 49.9%;
+        }
+    }
+    h3 {
+        color: #4E5E30;
+        font-weight: 700;
+        margin-top: 0;
+    }
+    p {
+        font-size: 14px;
+        font-weight: 300;
+    }
+    .card-text.level {
+        font-weight: 700;
+        color: #00842d;
+        text-transform: uppercase;
+    }
+}
+</style>
 <style scoped lang="scss">
 .md-card {
     cursor: pointer;
