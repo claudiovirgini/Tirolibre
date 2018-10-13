@@ -68,7 +68,7 @@ const routes = [
       },
       {
         path: 'maps',
-        name: 'Maps',
+        name: 'Cerca nella mappa',
         meta: {
           hideFooter: true
         },

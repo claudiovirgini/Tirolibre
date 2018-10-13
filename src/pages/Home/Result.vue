@@ -151,6 +151,7 @@
                       <picture-box :picUrl="item.fullpath" :picType="item.profile"></picture-box>
                       <!--<img class="card-img-top" :src="getImagePathForItem(item)" alt="Card image cap">-->
                     </div>
+
                     <div class="card-body pt-0">
                       <h3 class="card-title">
                         {{item.name }}
@@ -166,6 +167,23 @@
                         <i class="fas fa-trophy"></i> {{ item.level }}
                       </p> -->
                     </div>
+
+                    <div class="card-footer" v-if="item.level === null"  v-bind:style="{ 'background-image': 'url(../../assets/images/loghi-categorie/cat.png)' }"></div>
+                    <div class="card-footer" v-if="item.level === ''"  v-bind:style="{ 'background-image': 'url(../../assets/images/loghi-categorie/cat.png)' }"></div>
+                    <div class="card-footer" v-if="item.level === 'Primavera'"  v-bind:style="{ 'background-image': 'url(../../assets/images/loghi-categorie/primavera.png)' }"></div>
+                    <div class="card-footer" v-if="item.level === 'Juniores'"  v-bind:style="{ 'background-image': 'url(../../assets/images/loghi-categorie/juniores.png)' }"></div>
+                    <div class="card-footer" v-if="item.level === 'Scuola calcio'"  v-bind:style="{ 'background-image': 'url(../../assets/images/loghi-categorie/scuola-calcio.png)' }"></div>
+                    <div class="card-footer" v-if="item.level === 'Allievi Nazionali'"  v-bind:style="{ 'background-image': 'url(../../assets/images/loghi-categorie/allievi-nazionali.png)' }"></div>
+                    <div class="card-footer" v-if="item.level === 'Promozione'"  v-bind:style="{ 'background-image': 'url(../../assets/images/loghi-categorie/promozione.png)' }"></div>
+                    <div class="card-footer" v-if="item.level === 'Eccellenza'"  v-bind:style="{ 'background-image': 'url(../../assets/images/loghi-categorie/eccellenza.png)' }"></div>
+                    <div class="card-footer" v-if="item.level === '1° Categoria'"  v-bind:style="{ 'background-image': 'url(../../assets/images/loghi-categorie/prima-categoria.png)' }"></div>
+                    <div class="card-footer" v-if="item.level === '2° Categoria'"  v-bind:style="{ 'background-image': 'url(../../assets/images/loghi-categorie/seconda-categoria.png)' }"></div>
+                    <div class="card-footer" v-if="item.level === '3° Categoria'"  v-bind:style="{ 'background-image': 'url(../../assets/images/loghi-categorie/terza-categoria.png)' }"></div>
+                    <div class="card-footer" v-if="item.level === 'Serie  D'"  v-bind:style="{ 'background-image': 'url(../../assets/images/loghi-categorie/serie-d.png)' }"></div>
+                    <div class="card-footer" v-if="item.level === 'Serie  C'"  v-bind:style="{ 'background-image': 'url(../../assets/images/loghi-categorie/lega-pro.png)' }"></div>
+                    <div class="card-footer" v-if="item.level === 'Serie  B'"  v-bind:style="{ 'background-image': 'url(../../assets/images/loghi-categorie/serie-b.png)' }"></div>
+                    <div class="card-footer" v-if="item.level === 'Serie  A'"  v-bind:style="{ 'background-image': 'url(../../assets/images/loghi-categorie/serie-a.png)' }"></div>
+                    <!-- <div class="card-footer" v-bind:style="{ 'background-image': 'url(../../assets/images/loghi-categorie/' + item.level + '.jpg)' }"></div> -->
                   </div>
                   <!-- <i class="material-icons" @click.prevent="sendMessage(item)">mail_outline</i> -->
                 </div>
@@ -179,7 +197,7 @@
 
 
           </div>
-          </div>
+        </div>
       </section>
 </div>
 </template>
@@ -283,7 +301,7 @@ export default {
       })
     },
     findPlayer: function() {
-      //        alert('status : ' + this.statusSelected + ' - class : ' + this.classeSelected + ' - Role : ' + this.roleSelected + ' - ProfileSelected : ' + this.profileSelected + ' - categorySelected : ' + this.categorySelected)
+      // alert('status : ' + this.statusSelected + ' - class : ' + this.classeSelected + ' - Role : ' + this.roleSelected + ' - ProfileSelected : ' + this.profileSelected + ' - categorySelected : ' + this.categorySelected)
       let findPlayerDetails = {
         status: this.statusSelected,
         role: this.roleSelected,
@@ -309,7 +327,7 @@ export default {
         if (this.placeSelected != null) return this.placeSelected.formatted_address;
         else return null;
       }
-    },
+    }
   },
 
   created() {
@@ -477,6 +495,17 @@ h1 {
         // color: #088039;
         color: #FFF;
     }
+}
+.card-title {
+    font-size: 1.3em;
+}
+.card-footer {
+    background-image: url("../../assets/images/cat.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    width: auto;
+    height: 100px;
 }
 .pusher {
     form {

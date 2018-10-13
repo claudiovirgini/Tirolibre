@@ -22,7 +22,7 @@
     </sidebar-link>
     <sidebar-link to="/maps" v-if="isPlayerProfile || isAgentProfile || isTeamProfile">
       <md-icon>location_on</md-icon>
-      <p>Maps</p>
+      <p>Mappa</p>
     </sidebar-link>
     <sidebar-link to="/messages" v-if="isPlayerProfile || isAgentProfile || isTeamProfile">
       <md-icon>mail_outline</md-icon>
@@ -95,7 +95,7 @@ export default {
     if (profile == 0) this.isPlayerProfile = true;
     if (profile == 1) this.isTeamProfile = true;
     if (profile == 2) this.isAgentProfile = true;
-    serverBus.$on('fetchMessage', function (numMessages) {
+    serverBus.$on('fetchMessage', function(numMessages) {
       self.showMessageNumber = numMessages.NumberUnreadMessages > 0;
       self.numMessages = numMessages.NumberUnreadMessages;
       //alert(this.numMessages)
