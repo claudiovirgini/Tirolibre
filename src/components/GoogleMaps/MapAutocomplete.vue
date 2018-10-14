@@ -44,7 +44,7 @@ export default {
         if (value.length > 0) {
           this.hasError = false,
             this._placeSelected = value[0]
-            this.$emit('setCorrectAddress', value[0]);
+          this.$emit('setCorrectAddress', value[0]);
         }
       }
 
@@ -127,7 +127,7 @@ export default {
           };
           this.checkAddressValidity(res.data.city);
         })
-        .catch(error => alert('Request failed.  Returned status of', status));
+      // .catch(error => alert('Request failed.  Returned status of', status));
     },
   }
 }

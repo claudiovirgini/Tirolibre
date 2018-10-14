@@ -338,6 +338,7 @@ img {
     background: #181a1a;
     color: #f5f5f5;
     overflow: hidden;
+    overflow-y: scroll;
     position: relative;
 }
 @media screen and (max-width: 735px) {
