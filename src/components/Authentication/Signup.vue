@@ -1,30 +1,8 @@
 <template>
 <div class="cd-form">
-  <div class="fieldset">
-    <label class="image-replace cd-username" for="signup-username">Nome</label>
-    <input class="full-width has-padding has-border" id="signup-username" v-model="name" type="text" placeholder="Nome">
-    <span class="cd-error-message">Error message here!</span>
-  </div>
-  <div class="fieldset" v-if="profile == 0 || profile == 2">
-    <label class="image-replace cd-username" for="signup-username">Cognome</label>
-    <input class="full-width has-padding has-border" id="signup-username" v-model="surname" type="text" placeholder="Cognome">
-    <span class="cd-error-message">Error message here!</span>
-  </div>
-  <div class="fieldset">
-    <label class="image-replace cd-email" for="signup-email">E-mail</label>
-    <input class="full-width has-padding has-border" id="signup-email" type="email" v-model="email" placeholder="E-mail">
-    <span class="cd-error-message">Error message here!</span>
-  </div>
-
-  <div class="fieldset">
-    <label class="image-replace cd-password" for="signup-password">Password</label>
-    <input class="full-width has-padding has-border" id="signup-password" :type="passwordFieldType" v-model="password" placeholder="Password">
-    <a href="#0" class="hide-password" @click="switchVisibility"><i class="fas" :class="[passwordIcon]" @click="hidePassword = !hidePassword"></i></a>
-    <!-- <button type="password" @click="switchVisibility">show / hide</button> -->
-    <span class="cd-error-message">Error message here!</span>
-  </div>
 
   <div class="type text-center">
+    <h3>Io sono un ...</h3>
     <div class="buttons">
       <div class="switch-field">
         <div class="switch-content player form-check form-check-inline">
@@ -41,6 +19,29 @@
         </div>
       </div>
     </div>
+  </div>
+  <div class="fieldset">
+    <label class="image-replace cd-username" for="signup-name">Nome</label>
+    <input class="full-width has-padding has-border" id="signup-name" v-model="name" type="text" placeholder="Nome">
+    <span class="cd-error-message">Error message here!</span>
+  </div>
+  <div class="fieldset" v-if="profile == 0 || profile == 2">
+    <label class="image-replace cd-username" for="signup-surname">Cognome</label>
+    <input class="full-width has-padding has-border" id="signup-surname" v-model="surname" type="text" placeholder="Cognome">
+    <span class="cd-error-message">Error message here!</span>
+  </div>
+  <div class="fieldset">
+    <label class="image-replace cd-email" for="signup-email">E-mail</label>
+    <input class="full-width has-padding has-border" id="signup-email" type="email" v-model="email" placeholder="E-mail">
+    <span class="cd-error-message">Error message here!</span>
+  </div>
+
+  <div class="fieldset">
+    <label class="image-replace cd-password" for="signup-password">Password</label>
+    <input class="full-width has-padding has-border" id="signup-password" :type="passwordFieldType" v-model="password" placeholder="Password">
+    <a href="#0" class="hide-password" @click="switchVisibility"><i class="fas" :class="[passwordIcon]" @click="hidePassword = !hidePassword"></i></a>
+    <!-- <button type="password" @click="switchVisibility">show / hide</button> -->
+    <span class="cd-error-message">Error message here!</span>
   </div>
 
   <div class="fieldset terms">
@@ -714,6 +715,10 @@ header[role=banner] {
 }
 
 .type {
+    h3 {
+        color: #212121;
+        margin-top: 0;
+    }
     .switch-content {
         background: transparent;
         label {
