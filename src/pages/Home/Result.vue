@@ -148,7 +148,7 @@
                 <div class="card profile-card-5 col">
                   <div @click="showProfile(item)">
                     <div class="card-img-block">
-                      <picture-box :picUrl="item.fullpath" :picType="item.profile"></picture-box>
+                      <picture-box :picUrl="item.fullpath"  :picType="item.profile"></picture-box>
                       <!--<img class="card-img-top" :src="getImagePathForItem(item)" alt="Card image cap">-->
                     </div>
 

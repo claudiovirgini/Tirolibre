@@ -98,16 +98,19 @@
     </div>
     <div class="md-layout-item md-medium-size-100 md-size-33">
       <md-card class="md-card-profile">
-        <div class="md-card-avatar">
-          <picture-box :picUrl="imagefile" :picType="1"></picture-box>
-          <!--<img class="img" :src="imagefile">-->
-        </div>
-        <md-card-content>
-          <h4 class="card-title">{{name}}</h4>
-          <h6 class="category text-gray">{{catName}}</h6>
-        </md-card-content>
-
-      </md-card>
+        <!--<div class="md-card-avatar">-->
+          <div class="card vue-avatar-cropper-demo text-center">
+            <div class="card-body" v-if="profileLoaded == true">
+              <picture-box isEditable="true" v-model="teamdata.UserImageUrl" v-on:changeSource="manageImageChanged" :picType="profile"></picture-box>
+              </div>
+            </div>
+              <!--<img class="img" :src="imagefile">-->
+            <!--</div>-->
+            <md-card-content>
+              <h4 class="card-title">{{name}}</h4>
+              <h6 class="category text-gray">{{catName}}</h6>
+            </md-card-content>
+</md-card>
     </div>
   </div>
 </div>
@@ -129,6 +132,7 @@ export default {
   },
   data() {
     return {
+      profileLoaded: true,
       yearList: [],
       categoryList: [],
       teamdata: {},
@@ -147,6 +151,7 @@ export default {
     for (var i = 0; i < 200; i++) {
       this.yearList.push(currentYear - i)
     }
+    this.profileLoaded = false;
     serverBus.$emit('showLoading', true);
     this.$store.dispatch('getCategories', {}).then(listCategories => {
       self.categoryList = listCategories;
@@ -160,7 +165,10 @@ export default {
       serverBus.$emit('showLoading', false)
     });
   },
-  methods: {
+    methods: {
+      manageImageChanged: function (img) {
+        this.teamdata.UserImageUrl = img;
+      },
     setCorrectAddress: function (address) {
       //FullAddressJson: address
       this.teamdata.Address = { FullAddress: address.formatted_address, FullAddressJson: JSON.stringify(address) }

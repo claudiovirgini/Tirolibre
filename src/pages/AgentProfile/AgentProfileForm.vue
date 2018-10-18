@@ -155,15 +155,6 @@ export default {
         this.agentdata.Name = value;
       }
     },
-    //surname: {
-    //  get() {
-    //    return (this.agentdata != null) ? this.agentdata.Surname : '';
-    //  },
-    //  set(value) {
-    //    this.agentdata.Surname = value;
-    //  }
-    //},
-
     biografy: {
       get() {
         return (this.agentdata != null) ? this.agentdata.Biografy : '';
@@ -200,140 +191,8 @@ export default {
         this.agentdata.PhoneNumber = value;
       }
     },
-    //weigth: {
-    //  get() {
-    //    return (this.playerdata != null) ? this.playerdata.Weigth : '';
-    //  },
-    //  set(value) {
-    //    this.playerdata.Weigth = value;
-    //  }
-    //},
-    //heigth: {
-    //  get() {
-    //    return (this.playerdata != null) ? this.playerdata.Heigth : '';
-    //  },
-    //  set(value) {
-    //    this.playerdata.Heigth = value;
-    //  }
-    //},
-    //nationality: {
-    //  get() {
-    //    return (this.playerdata != null) ? this.playerdata.Nationality : '';
-    //  },
-    //  set(value) {
-    //    this.playerdata.Nationality = value;
-    //  }
-    //},
 
-    //yearClass : {
-    //  get() {
-    //    var returned = 'not available'
-    //    if (this.playerdata != null && this.playerdata.BornDate) {
-    //      var temp = new Date(this.playerdata.BornDate);
-    //      returned = temp.getFullYear()
-    //    }
-    //    return returned;
-    //  },
-    //  set(value) {
-    //    if (this.playerdata.BornDate != null) {
-    //      this.playerdata.BornDate = new Date(this.playerdata.BornDate);
-    //    }
-    //    else {
-    //      this.playerdata.BornDate = new Date('01/01/2000');
-    //    }
-    //    this.playerdata.BornDate.setFullYear(value)
-    //  }
-    //},
-    //roleSelected: {
-    //  get() {
-    //    if ((this.playerdata != null) && (this.playerdata.Roles != null) && (this.playerdata.Roles.length > 0))
-    //      return this.playerdata.Roles[0].RoleName
-    //    else return 'not available';
-    //  },
-    //  set(value) {
-    //    if ((this.playerdata != null) && (this.playerdata.Roles != null) && (this.playerdata.Roles.length > 0))
-    //      return this.playerdata.Roles[0].RoleName = value;
-    //    else {
-    //      this.playerdata.Roles = [];
-    //      this.playerdata.Roles.push({ Id: 0, RoleName: value })
-    //    }
-    //  }
-    //},
-    //  researchPlace: {
-    //    get() {
-    //      if ((this.playerdata != null) && (this.playerdata.ResearchPlaces != null) && (this.playerdata.ResearchPlaces.length > 0))
-    //        return this.playerdata.ResearchPlaces[0].Value
-    //      else return 'not available';
-    //    },
-    //    set(value) {
-    //      if ((this.playerdata != null) && (this.playerdata.ResearchPlaces != null) && (this.playerdata.ResearchPlaces.length > 0))
-    //        return this.playerdata.ResearchPlaces[0].Value = value;
-    //      else {
-    //        this.playerdata.ResearchPlaces = [];
-    //        this.playerdata.ResearchPlaces.push({ Id: 0, Value: value })
-    //      }
-    //    }
-    //  },
-    //  experience1: {
-    //    get() {
-    //      if ((this.playerdata != null) && (this.playerdata.Experiences != null) && (this.playerdata.Experiences.length > 0))
-    //        return this.playerdata.Experiences[0].TeamName
-    //      else   return 'not available';
-    //    },
-    //    set(value) {
-    //      if ((this.playerdata != null) && (this.playerdata.Experiences != null) && (this.playerdata.Experiences.length > 0))
-    //        return this.playerdata.Experiences[0].TeamName = value;
-    //      else {
-    //        this.playerdata.Experiences = [];
-    //        this.playerdata.Experiences.push({ Id: 0, TeamName: value })
-    //      }
-    //    }
-    //  },
-    //  experience2: {
-    //    get() {
-    //      if ((this.playerdata != null) && (this.playerdata.Experiences != null) && (this.playerdata.Experiences.length > 1))
-    //        return this.playerdata.Experiences[1].TeamName
-    //      else
-    //        return 'not available';
-    //    },
-    //    set(value) {
-    //      if ((this.playerdata != null) && (this.playerdata.Experiences != null) && (this.playerdata.Experiences.length > 1))
-    //        return this.playerdata.Experiences[1].TeamName = value;
-    //      else {
-    //        if ((this.playerdata.Experiences != null) && (this.playerdata.Experiences.length == 1)) {
-    //          this.playerdata.Experiences.push({ Id: 0, TeamName: value })
-    //        }
-    //      }
-    //    }
-    //  },
-    //  experience3: {
-    //    get() {
-    //      if ((this.playerdata != null) && (this.playerdata.Experiences != null) && (this.playerdata.Experiences.length > 2))
-    //        return this.playerdata.Experiences[2].TeamName
-    //      else return 'not available';
-    //    },
-    //    set(value) {
-    //      if ((this.playerdata != null) &&(this.playerdata.Experiences != null) && (this.playerdata.Experiences.length > 2))
-    //        return this.playerdata.Experiences[2].TeamName = value;
-    //      else {
-    //        if ((this.playerdata.Experiences != null) && (this.playerdata.Experiences.length == 2)) {
-    //          this.playerdata.Experiences.push({ Id: 0, TeamName: value })
-    //        }
-    //      }
-    //    }
-    //  },
-    //what: {
-    //  get() {
-    //    return this.$store.state.what;
-    //  },
-    //  set(value) {
-    //    this.$store.commit("SET_WHAT", value);
-    //  }
-    //}
-  },
-  //  mounted() {
-  //    alert(this.playerdata.Name)
-  //},
+  }
 
 }
 </script>
