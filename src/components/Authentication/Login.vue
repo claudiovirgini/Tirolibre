@@ -9,7 +9,7 @@
 
     <p class="fieldset">
       <label class="image-replace cd-password" for="signin-password">Password</label>
-      <input class="full-width has-padding has-border" id="signin-password" :type="passwordFieldType" v-model="userLoginPWD" placeholder="Password">
+      <input class="full-width has-padding has-border" id="signin-password" :type="passwordFieldType" v-model="userLoginPWD" placeholder="Password" v-on:keyup.enter="login(userLoginEmail,userLoginPWD)">
       <a href="#0" class="hide-password" @click="switchVisibility"><i class="fas" :class="[passwordIcon]" @click="hidePassword = !hidePassword"></i></a>
       <!-- <a href="#0" class="hide-password">Hide</a> -->
       <span class="cd-error-message">Error message here!</span>

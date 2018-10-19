@@ -388,8 +388,8 @@ export default {
     padding: 10px 32px 48px;
     position: relative;
     z-index: initial;
-    margin: 0 -15px;
-    border: 1px solid darken(#f5ff00, 10%);
+    margin: 0;
+    // border: 1px solid darken(#f5ff00, 10%);
     border-radius: 15px;
 }
 .gws-flights-form__search-button-wrapper {
@@ -617,15 +617,6 @@ h1 {
     transform: rotate(0deg);
 }
 
-/*------------------
-	Responsive
----------------------*/
-@media (min-width: 1200px) {
-    .container {
-        max-width: 1170px;
-    }
-}
-
 /*Profile Card 5*/
 .md-button-content {
     a {
@@ -682,6 +673,21 @@ h1 {
         font-weight: 700;
         color: #00842d;
         text-transform: uppercase;
+    }
+}
+
+/*------------------
+	Responsive
+---------------------*/
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1170px;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .search-form {
+        border: 1px solid darken(#f5ff00, 10%);
     }
 }
 </style>

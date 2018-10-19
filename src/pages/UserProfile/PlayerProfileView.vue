@@ -9,16 +9,6 @@
       <!-- <button @click="sendMessage()">SEND MESSAGE</button> -->
     </div>
 
-
-    <!-- <md-dialog v-if="isAuthenticated">
-      <md-dialog-title>
-        title
-      </md-dialog-title>
-      <md-dialog-content>
-        content
-      </md-dialog-content>
-    </md-dialog> -->
-
     <div class="md-layout-item md-medium-size-100 md-size-66">
       <user-info data-background-color="yellow" :playerdata="playerdata" />
     </div>

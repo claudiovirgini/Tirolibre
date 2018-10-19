@@ -32,75 +32,78 @@
 </template>
 
 <script>
-  import Vue from 'vue'
-  import PictureBox from '@/components/PictureBox/PictureBox'
-  import VueYouTubeEmbed from 'vue-youtube-embed'
-  import { getIdFromURL, getTimeFromURL } from 'vue-youtube-embed'
-  Vue.use(VueYouTubeEmbed)
+import Vue from 'vue'
+import PictureBox from '@/components/PictureBox/PictureBox'
+import VueYouTubeEmbed from 'vue-youtube-embed'
+import {
+  getIdFromURL,
+  getTimeFromURL
+} from 'vue-youtube-embed'
+Vue.use(VueYouTubeEmbed)
 
-  export default {
-    name: 'userCard',
-    //props: {
-    //  cardUserImage: {
-    //    type: String,
-    //    default: require('@/assets/img/faces/marc.jpg')
-    //  }
-    //},
-    props: {
-      playerdata: {
-        type: Object
+export default {
+  name: 'userCard',
+  //props: {
+  //  cardUserImage: {
+  //    type: String,
+  //    default: require('@/assets/img/faces/marc.jpg')
+  //  }
+  //},
+  props: {
+    playerdata: {
+      type: Object
+    }
+  },
+  components: {
+    PictureBox
+  },
+  computed: {
+    videoId: {
+      get() {
+        return this.playerdata != null && this.playerdata.Videos != null && this.playerdata.Videos.length > 0 ? getIdFromURL(this.playerdata.Videos[0].VideoUrl) : '';
       }
     },
-    components: {
-      PictureBox
-    },
-    computed: {
-      videoId: {
-        get() {
-          return this.playerdata != null && this.playerdata.Videos != null && this.playerdata.Videos.length > 0 ?  getIdFromURL(this.playerdata.Videos[0].VideoUrl) : '';
-        }
-      },
-      videoUrl: {
-        get() {
-          return this.playerdata != null && this.playerdata.Videos != null && this.playerdata.Videos.length > 0 ?
-            this.playerdata.Videos[0].VideoUrl :
-            '';
-        }
-      },
-      profile: {
-        get() {
-          return (this.playerdata != null) ? this.playerdata.Profile : 0;
-        }
-      },
-      imagefile: {
-        get() {
-          return this.playerdata != null ? this.playerdata.FilePlayerImage  : null
-        }
-      },
-      name: {
-        get() {
-          return (this.playerdata != null) ? this.playerdata.Name : '';
-        },
-      },
-      yearClass: {
-        get() {
-          var returned = 'not available'
-          if (this.playerdata != null && this.playerdata.BornDate) {
-            var temp = new Date(this.playerdata.BornDate);
-            returned = temp.getFullYear()
-          }
-          return returned;
-        }
-      },
-      roleSelected: {
-        get() {
-          if ((this.playerdata != null) && (this.playerdata.Roles != null) && (this.playerdata.Roles.length > 0))
-            return this.playerdata.Roles[0].RoleName
-          else return 'not available';
-        }
+    videoUrl: {
+      get() {
+        return this.playerdata != null && this.playerdata.Videos != null && this.playerdata.Videos.length > 0 ?
+          this.playerdata.Videos[0].VideoUrl :
+          '';
       }
     },
-  }
+    profile: {
+      get() {
+        return (this.playerdata != null) ? this.playerdata.Profile : 0;
+      }
+    },
+    imagefile: {
+      get() {
+        return this.playerdata != null ? this.playerdata.FilePlayerImage : null
+      }
+    },
+    name: {
+      get() {
+        return (this.playerdata != null) ? this.playerdata.Name : '';
+      },
+    },
+    yearClass: {
+      get() {
+        var returned = 'not available'
+        if (this.playerdata != null && this.playerdata.BornDate) {
+          var temp = new Date(this.playerdata.BornDate);
+          returned = temp.getFullYear()
+        }
+        return returned;
+      }
+    },
+    roleSelected: {
+      get() {
+        if ((this.playerdata != null) && (this.playerdata.Roles != null) && (this.playerdata.Roles.length > 0))
+          return this.playerdata.Roles[0].RoleName
+        else return 'not available';
+      }
+    }
+  },
+}
 </script>
 
 <style>

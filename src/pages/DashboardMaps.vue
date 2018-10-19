@@ -115,7 +115,7 @@
               <template slot="footer">
                 <div class="stats">
                   <md-icon>date_range</md-icon>
-                  {{ player.Class }} 1999
+                  {{ player.Class }} 
                 </div>
               </template>
             </stats-card>
