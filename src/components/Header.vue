@@ -144,7 +144,7 @@ export default {
       showDialog: false,
       showLogin: false,
       showSignup: false,
-      numMessages: 0,
+      _numMessages: 0,
       selectedUserForMessage: {
         userId: -1,
         imageUrl: ''
