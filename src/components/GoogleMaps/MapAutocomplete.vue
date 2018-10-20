@@ -136,35 +136,13 @@ export default {
 #map {
     height: auto !important;
 }
-.inputError {
-    /*border : 1px solid red;
-    background-color:pink*/
-    /*box-shadow:2px 2px red ;*/
-}
 
-/*.form-control {
-    background-color: #FFF;
-    background-image: none;
-}*/
 input[type=text] {
     width: 100%;
-    /*border: 2px solid #aaa;
-    border-radius: 4px;*/
-    /*margin: 8px 0;*/
     outline: none;
     padding: 8px 0 8px 30px;
-    /*box-sizing: border-box;*/
     transition: 0.3s;
 }
-
-/*input[type=text]:focus {
-    border-color: dodgerBlue;
-    box-shadow: 0 0 8px 0 dodgerBlue;
-}
-
-.inputWithIcon input[type=text] {
-    padding-left: 40px;
-}*/
 
 .inputWithIcon {
     position: relative;
@@ -174,24 +152,7 @@ input[type=text] {
     position: absolute;
     left: -10px;
     top: 10px;
-    /*padding: 9px 8px;*/
     color: #aaa;
     transition: 0.3s;
 }
-
-/*.inputWithIcon input[type=text]:focus + i {
-    color: dodgerBlue;
-}
-
-.inputWithIcon.inputIconBg i {
-    background-color: #aaa;
-    color: #fff;
-    padding: 9px 4px;
-    border-radius: 4px 0 0 4px;
-}*/
-
-/*.inputWithIcon.inputIconBg input[type=text]:focus + i {
-    color: #fff;
-    background-color: dodgerBlue;
-}*/
 </style>

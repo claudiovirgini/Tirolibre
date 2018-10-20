@@ -82,7 +82,7 @@ export default {
       this.playerdata = res.data
       serverBus.$emit('showLoading', false);
     }).catch(error => {
-      alert('Si è verificato un errore');
+      // alert('Si è verificato un errore');
       serverBus.$emit('showLoading', false);
     })
   }

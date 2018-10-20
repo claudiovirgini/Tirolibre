@@ -194,7 +194,7 @@ export default {
   },
   methods: {
     manageImageChanged: function(img) {
-      alert(JSON.stringify(img))
+      // alert(JSON.stringify(img))
       this.playerdata.UserImageUrl = img;
     },
     setCorrectAddress: function(address) {
@@ -206,7 +206,7 @@ export default {
       this.$store.dispatch('savePlayerProfile', this.playerdata).then(res => {
         serverBus.$emit('showLoading', false);
       }).catch(error => {
-        alert('Si è verificato un errore');
+        // alert('Si è verificato un errore');
         serverBus.$emit('showLoading', false);
       })
     },
@@ -503,7 +503,7 @@ export default {
       this.profileLoaded = true;
       serverBus.$emit('showLoading', false);
     }).catch(error => {
-      alert('Si è verificato un errore');
+      // alert('Si è verificato un errore');
       serverBus.$emit('showLoading', false)
     });
 

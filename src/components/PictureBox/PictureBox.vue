@@ -2,7 +2,7 @@
 <div>
   <!--<button v-if="true" @click="test()">test</button>-->
   <div v-if="editMode != true">
-   
+
     <img :src="fullPath" class="img-thumbnail" v-bind:class="{ 'imgDefaultPlayer': isDefaultPlayer,'imgDefaultTeam':isDefaulTeam,'imgDefaultAgent':isDefaultAgent,'imgDefaultCardPlayer':isDefaulCardPlayer  }" @error="imageLoadError" />
     <!--<md-button @click="clickUpload()" v-if="isEditable=='true'" class="md-success btn btn-success btn-lg btn-block btn-radius">
       CHANGE
@@ -26,24 +26,8 @@
         </md-button>
       </div>
       <div class="col-md-8">
-        <croppa v-model="croppa"
-                :width="180"
-                :height="200"
-                placeholder="Clicca qui"
-                placeholder-color="#000"
-                :placeholder-font-size="12"
-                canvas-color="transparent"
-                :show-remove-button="true"
-                remove-button-color="black"
-                :remove-button-size="30"
-                :show-loading="true"
-                :zoom-speed="20"
-                initial-size="contain"
-                @file-choose="handleCroppaFileChoose"
-                @file-size-exceed="handleCroppaFileSizeExceed"
-                @file-type-mismatch="handleCroppaFileTypeMismatch"
-                @image-remove="handleImageRemove"
-                :loading-size="50">
+        <croppa v-model="croppa" :width="180" :height="200" placeholder="Clicca qui" placeholder-color="#000" :placeholder-font-size="12" canvas-color="transparent" :show-remove-button="true" remove-button-color="black" :remove-button-size="30" :show-loading="true"
+          :zoom-speed="20" initial-size="contain" @file-choose="handleCroppaFileChoose" @file-size-exceed="handleCroppaFileSizeExceed" @file-type-mismatch="handleCroppaFileTypeMismatch" @image-remove="handleImageRemove" :loading-size="50">
         </croppa>
       </div>
       <div class="col-md-2" style="padding-top:20%">
@@ -51,13 +35,13 @@
           <md-icon>add</md-icon>
         </md-button>
       </div>
-      <div class="col-md-12" >
+      <div class="col-md-12">
         <md-button class="md-icon-button md-dense md-raised md-primary" @click="cropImage()" style="width:80px" v-if="fileIsSelected">
           <md-icon>check_circle_outline</md-icon>OK
         </md-button>
       </div>
-      </div>
     </div>
+  </div>
 </div>
 </template>
 
@@ -112,31 +96,31 @@ export default {
   created: function() {
     this.internalPicUrl = this.picUrl;
     this.rootUrl = this.$store.state.configurations.imageRootUrl;
+  },
+
+  methods: {
+    handleImageRemove() {
+      //alert('file handleImageRemove')
+      this.fileIsSelected = false;
     },
-  
-    methods: {
-      handleImageRemove() {
-        //alert('file handleImageRemove')
-        this.fileIsSelected = false;
-      },
-      handleCroppaFileTypeMismatch() {
-        alert('file handleCroppaFileTypeMismatch')
-      },
-      handleCroppaFileSizeExceed() {
-        alert('file handleCroppaFileSizeExceed')
-      },
-      handleCroppaFileChoose() {
-        //alert('file choosed')
-        this.fileIsSelected = true;
-      },
-      cropImage() {
-        var image64 = this.croppa.generateDataUrl('image/jpeg', 0.8);
-        this.rootUrl = '';
-        this.fullPath = image64;
-        this.editMode = false;
+    handleCroppaFileTypeMismatch() {
+      // alert('file handleCroppaFileTypeMismatch')
+    },
+    handleCroppaFileSizeExceed() {
+      // alert('file handleCroppaFileSizeExceed')
+    },
+    handleCroppaFileChoose() {
+      //alert('file choosed')
+      this.fileIsSelected = true;
+    },
+    cropImage() {
+      var image64 = this.croppa.generateDataUrl('image/jpeg', 0.8);
+      this.rootUrl = '';
+      this.fullPath = image64;
+      this.editMode = false;
     },
     test: function() {
-      alert('test')
+      // alert('test')
       this.internalPicUrl = this.picUrl;
     },
     finish(type) {
@@ -156,20 +140,27 @@ export default {
 
 }
 </script>
-<style>
+<style scoped>
+.card.vue-avatar-cropper-demo.text-center {
+  max-width: 400px;
+  margin-left: 0 auto;
+}
 
-  .croppa-container {
-    background-color: white;
-    border: 2px solid grey;
-    border-radius: 8px;
-  }
+.croppa-container {
+  background-color: white;
+  border: 2px solid grey;
+  border-radius: 8px;
+}
 
-    .croppa-container:hover {
-      opacity: 1;
-      background-color: yellow;
-    }
+.croppa-container:hover {
+  opacity: 1;
+  background-color: yellow;
+}
+
 .img-thumbnail {
-  max-width: 50%;
+  /* max-width: 50%; */
+  max-width: 100%;
+  /* min-width: 100%; */
 }
 
 .imgDefaultPlayer {
