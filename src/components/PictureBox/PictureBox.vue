@@ -2,42 +2,72 @@
 <div>
   <!--<button v-if="true" @click="test()">test</button>-->
   <div v-if="editMode != true">
+   
     <img :src="fullPath" class="img-thumbnail" v-bind:class="{ 'imgDefaultPlayer': isDefaultPlayer,'imgDefaultTeam':isDefaulTeam,'imgDefaultAgent':isDefaultAgent,'imgDefaultCardPlayer':isDefaulCardPlayer  }" @error="imageLoadError" />
-    <md-button @click="clickUpload()" v-if="isEditable=='true'" class="md-success btn btn-success btn-lg btn-block btn-radius">
+    <!--<md-button @click="clickUpload()" v-if="isEditable=='true'" class="md-success btn btn-success btn-lg btn-block btn-radius">
       CHANGE
+      <i class="md-icon md-icon-font material-icons md-theme-default">arrow_forward_ios</i>
+    </md-button>-->
+    <md-button @click="editMode=true;" v-if="isEditable=='true'" class="md-success btn btn-success btn-lg btn-block btn-radius">
+      Cambia
       <i class="md-icon md-icon-font material-icons md-theme-default">arrow_forward_ios</i>
     </md-button>
     <input type="file" id="uploads" style="visibility:hidden; clip:rect(0 0 0 0);" accept="image/png, image/jpeg, image/gif, image/jpg" @change="uploadImg($event, 1)">
   </div>
   <div v-if="editMode == true" style="height:200px">
-    <vue-cropper ref="cropper" :img="option.img" :auto-crop="option.autoCrop" :size="option.size" :full="option.full" :info="option.info" :can-scale="option.canScale" :can-move="option.canMove" :can-move-box="option.canMoveBox" :original="option.original"
-      :fixed-number="option.fixedNumber" :fixed-box="option.fixedBox" :fixed="option.fixed" :center-box="option.centerBox" :auto-crop-width="option.autoCropWidth" :auto-crop-heigth="option.autoCropHeigth" @img-load="imgLoad">
-    </vue-cropper>
-    <div>
-      <button @click="changeScale(3)" class="btn">+</button>ZOOM <button @click="changeScale(-3)" class="btn">-</button>
+    <!--<vue-cropper ref="cropper" :img="option.img" :auto-crop="option.autoCrop" :size="option.size" :full="option.full" :info="option.info" :can-scale="option.canScale" :can-move="option.canMove" :can-move-box="option.canMoveBox" :original="option.original"
+    :fixed-number="option.fixedNumber" :fixed-box="option.fixedBox" :fixed="option.fixed" :center-box="option.centerBox" :auto-crop-width="option.autoCropWidth" :auto-crop-heigth="option.autoCropHeigth" @img-load="imgLoad">
+  </vue-cropper>-->
+    <!--<img :src="imgDataUrl">-->
+    <div class="row">
+      <div class="col-md-2" style="padding-top:20%">
+        <md-button class="md-icon-button md-dense md-raised md-primary" @click="croppa.zoomOut()" v-if="fileIsSelected">
+          <md-icon>remove</md-icon>
+        </md-button>
+      </div>
+      <div class="col-md-8">
+        <croppa v-model="croppa"
+                :width="180"
+                :height="200"
+                placeholder="Clicca qui"
+                placeholder-color="#000"
+                :placeholder-font-size="12"
+                canvas-color="transparent"
+                :show-remove-button="true"
+                remove-button-color="black"
+                :remove-button-size="30"
+                :show-loading="true"
+                :zoom-speed="20"
+                initial-size="contain"
+                @file-choose="handleCroppaFileChoose"
+                @file-size-exceed="handleCroppaFileSizeExceed"
+                @file-type-mismatch="handleCroppaFileTypeMismatch"
+                @image-remove="handleImageRemove"
+                :loading-size="50">
+        </croppa>
+      </div>
+      <div class="col-md-2" style="padding-top:20%">
+        <md-button class="md-icon-button md-dense md-raised md-primary" @click="croppa.zoomIn()" v-if="fileIsSelected">
+          <md-icon>add</md-icon>
+        </md-button>
+      </div>
+      <div class="col-md-12" >
+        <md-button class="md-icon-button md-dense md-raised md-primary" @click="cropImage()" style="width:80px" v-if="fileIsSelected">
+          <md-icon>check_circle_outline</md-icon>OK
+        </md-button>
+      </div>
+      </div>
     </div>
-    <div>
-      <input type="button" value="OK" @click="finish('base64');editMode=false" />
-    </div>
-    <!--<div class="card-footer text-muted" v-html="message">
-
-       </div>-->
-
-  </div>
 </div>
 </template>
 
 <script>
+import 'vue-croppa/dist/vue-croppa.css'
 import VueCropper from 'vue-cropper'
-import {
-  fail
-} from 'assert';
 
 export default {
   name: 'PictureBox',
-  components: {
-    VueCropper
-  },
+
   model: {
     prop: 'picUrl',
     event: 'change'
@@ -50,33 +80,16 @@ export default {
 
   data() {
     return {
+      croppa: {},
       internalPicUrl: null,
+      fileIsSelected: false,
       editMode: false,
-      //crap: false,
       isDefaultAgent: false,
       isDefaultPlayer: false,
       isDefaulCardPlayer: false,
       isDefaulTeam: false,
       rootUrl: null,
-      option: {
-        img: '',
-        size: 1,
-        full: true,
-        outputType: 'png',
-        info: false,
-        canScale: true,
-        canMoveBox: false,
-        canMove: true,
-        fixed: true,
-        fixedBox: true,
-        original: false,
-        autoCrop: true,
-        //autoCropWidth: 450,
-        //autoCropHeight: 150,
-        centerBox: false,
-        fixedNumber: [3, 4],
-        high: true
-      },
+
     }
 
   },
@@ -99,8 +112,29 @@ export default {
   created: function() {
     this.internalPicUrl = this.picUrl;
     this.rootUrl = this.$store.state.configurations.imageRootUrl;
-  },
-  methods: {
+    },
+  
+    methods: {
+      handleImageRemove() {
+        //alert('file handleImageRemove')
+        this.fileIsSelected = false;
+      },
+      handleCroppaFileTypeMismatch() {
+        alert('file handleCroppaFileTypeMismatch')
+      },
+      handleCroppaFileSizeExceed() {
+        alert('file handleCroppaFileSizeExceed')
+      },
+      handleCroppaFileChoose() {
+        //alert('file choosed')
+        this.fileIsSelected = true;
+      },
+      cropImage() {
+        var image64 = this.croppa.generateDataUrl('image/jpeg', 0.8);
+        this.rootUrl = '';
+        this.fullPath = image64;
+        this.editMode = false;
+    },
     test: function() {
       alert('test')
       this.internalPicUrl = this.picUrl;
@@ -117,116 +151,23 @@ export default {
         //this.$emit('changeSource', data)
       })
     },
-    clickUpload: function() {
-      $("#uploads").click()
-    },
-    imageLoadError: function() {
 
-    },
-    changeImg() {
-      this.option.img = this.lists[~~(Math.random() * this.lists.length)].img
-    },
-    startCrop() {
-      // start
-      this.crap = true
-      this.$refs.cropper.startCrop()
-    },
-    stopCrop() {
-      //  stop
-      this.crap = false
-      this.$refs.cropper.stopCrop()
-    },
-    clearCrop() {
-      // clear
-      this.$refs.cropper.clearCrop()
-    },
-    refreshCrop() {
-      // clear
-      this.$refs.cropper.refresh()
-    },
-    changeScale(num) {
-      num = num || 1
-      this.$refs.cropper.changeScale(num)
-    },
-    rotateLeft() {
-      this.$refs.cropper.rotateLeft()
-    },
-    rotateRight() {
-      this.$refs.cropper.rotateRight()
-    },
-
-    realTime(data) {
-      this.previews = data
-      console.log(data)
-    },
-
-    finish2(type) {
-      this.$refs.cropper2.getCropData((data) => {
-        this.model = true
-        this.modelSrc = data
-      })
-    },
-    finish3(type) {
-      this.$refs.cropper3.getCropData((data) => {
-        this.model = true
-        this.modelSrc = data
-      })
-    },
-    down(type) {
-      // event.preventDefault()
-      var aLink = document.createElement('a')
-      aLink.download = 'demo'
-      if (type === 'blob') {
-        this.$refs.cropper.getCropBlob((data) => {
-          this.downImg = window.URL.createObjectURL(data)
-          aLink.href = window.URL.createObjectURL(data)
-          aLink.click()
-        })
-      } else {
-        this.$refs.cropper.getCropData((data) => {
-          this.downImg = data
-          aLink.href = data
-          aLink.click()
-        })
-      }
-    },
-
-    uploadImg(e, num) {
-      this.editMode = true;
-      // this.option.img
-      var file = e.target.files[0]
-      if (!/\.(gif|jpg|jpeg|png|bmp|GIF|JPG|PNG)$/.test(e.target.value)) {
-        alert('error .gif,jpeg,jpg,png,bmp')
-        return false
-      }
-      var reader = new FileReader()
-      reader.onload = (e) => {
-        let data
-        if (typeof e.target.result === 'object') {
-          // 把Array Buffer转化为blob 如果是base64不需要
-          data = window.URL.createObjectURL(new Blob([e.target.result]))
-        } else {
-          data = e.target.result
-        }
-        if (num === 1) {
-          this.option.img = data
-        } else if (num === 2) {
-          this.example2.img = data
-        }
-      }
-      // 转化为base64
-      // reader.readAsDataURL(file)
-      // 转化为blob
-      reader.readAsArrayBuffer(file)
-    },
-    imgLoad(msg) {
-      console.log(msg)
-    }
   }
 
 }
 </script>
 <style>
+
+  .croppa-container {
+    background-color: white;
+    border: 2px solid grey;
+    border-radius: 8px;
+  }
+
+    .croppa-container:hover {
+      opacity: 1;
+      background-color: yellow;
+    }
 .img-thumbnail {
   max-width: 50%;
 }

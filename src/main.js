@@ -19,6 +19,9 @@ import BackToTop from 'vue-backtotop'
 import Carousel3d from 'vue-carousel-3d'
 import moment from 'vue-moment'
 import VueChatScroll from 'vue-chat-scroll'
+import Croppa from 'vue-croppa'
+
+
 
 
 // MaterialDashboard plugin
@@ -42,6 +45,7 @@ Vue.use(BackToTop)
 Vue.use(Carousel3d)
 Vue.use(moment);
 Vue.use(VueChatScroll);
+Vue.use(Croppa);
 
 // global library setup
 Object.defineProperty(Vue.prototype, '$Chartist', {
