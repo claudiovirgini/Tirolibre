@@ -45,7 +45,7 @@
               </md-field>
             </div>
             <div class="md-layout-item md-small-size-100 md-size-33" style="padding-top:10px">
-              <map-autocomplete v-if="showAddressComponent" input-component-name="gmapsdsf2" place-holder="Località attuale" :initial-address="city" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress"></map-autocomplete>
+              <map-autocomplete  input-component-name="gmapsdsf2" place-holder="Località attuale" :initial-address="city" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress"></map-autocomplete>
             </div>
             <div class="md-layout-item md-small-size-100 md-size-33">
               <md-field>

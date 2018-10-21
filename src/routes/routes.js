@@ -6,6 +6,8 @@ import DashboardMaps from '@/pages/DashboardMaps.vue'
 import MessageManager from '@/pages/MessageManager.vue'
 import PlayerMarket from '@/pages/UserProfile/PlayerMarket.vue'
 import PlayerProfileView from '@/pages/UserProfile/PlayerProfileView.vue'
+import TeamProfileView from '@/pages/TeamProfile/TeamProfileView.vue'
+
 import UpgradeToPRO from '@/pages/UserProfile/UpgradeToPRO.vue'
 //                       END Player Profile                                       //
 
@@ -45,6 +47,11 @@ const routes = [
     path: '/playerProfile',
     name: 'PlayerProfile',
     component: PlayerProfileView
+  },
+  {
+    path: '/teamProfile',
+    name: 'TeamProfile',
+    component: TeamProfileView
   },
   {
     path: '/',

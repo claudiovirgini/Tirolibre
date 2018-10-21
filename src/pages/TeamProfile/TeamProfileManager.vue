@@ -1,6 +1,6 @@
 <template>
 <div class="content">
-  <div class="md-layout" v-if="profileIsLoaded">
+  <div class="md-layout" v-if="profileloaded">
     <div class="md-layout-item md-medium-size-100 md-size-66">
       <!--<form>-->
       <md-card>
@@ -85,6 +85,7 @@
             </div>
             <div class="md-layout-item md-small-size-100 md-size-50">
               <md-field>
+                <label for="casftegory">Indirizzo Stadio</label>
                 <map-autocomplete place-holder="Indirizzo Stadio" input-component-name="gmap2" :initial-address="stadiumAddress" v-on:setCorrectAddress="setCorrectAddressStadium" v-on:setInvalidAddress="setInvalidAddressStadium"></map-autocomplete>
               </md-field>
             </div>
@@ -98,19 +99,16 @@
     </div>
     <div class="md-layout-item md-medium-size-100 md-size-33">
       <md-card class="md-card-profile">
-        <!--<div class="md-card-avatar">-->
           <div class="card vue-avatar-cropper-demo text-center">
-            <div class="card-body" v-if="profileLoaded == true">
-              <picture-box isEditable="true" v-model="teamdata.UserImageUrl" v-on:changeSource="manageImageChanged" :picType="profile"></picture-box>
+            <div class="card-body" >
+              <picture-box isEditable="true" v-model="teamdata.UserImageUrl" v-on:changeSource="manageImageChanged" :picType="teamdata.Profile"></picture-box>
               </div>
             </div>
-              <!--<img class="img" :src="imagefile">-->
-            <!--</div>-->
             <md-card-content>
               <h4 class="card-title">{{name}}</h4>
               <h6 class="category text-gray">{{catName}}</h6>
             </md-card-content>
-</md-card>
+       </md-card>
     </div>
   </div>
 </div>
@@ -132,11 +130,10 @@ export default {
   },
   data() {
     return {
-      profileLoaded: true,
+      profileloaded: true,
       yearList: [],
       categoryList: [],
       teamdata: {},
-      profileIsLoaded: false
     }
   },
   props: {
@@ -151,13 +148,14 @@ export default {
     for (var i = 0; i < 200; i++) {
       this.yearList.push(currentYear - i)
     }
-    this.profileLoaded = false;
+    this.profileloaded = false;
     serverBus.$emit('showLoading', true);
     this.$store.dispatch('getCategories', {}).then(listCategories => {
       self.categoryList = listCategories;
       this.$store.dispatch('getTeamProfile', this.$store.state.authentication.user.Id).then(res => {
         self.teamdata = res.data;
-        self.profileIsLoaded = true;
+       
+        self.profileloaded = true;
         serverBus.$emit('showLoading', false);
       })
     }).catch(error => {
@@ -174,7 +172,10 @@ export default {
       this.teamdata.Address = { FullAddress: address.formatted_address, FullAddressJson: JSON.stringify(address) }
     },
     setInvalidAddress: function() {},
-    setCorrectAddressStadium: function(address) {
+      setCorrectAddressStadium: function (address) {
+        if (this.teamdata.StadiumInfos == null) this.teamdata.StadiumInfos = { StadiumName: '', StadiumAddress: { FullAddress: address.formatted_address, FullAddressJson: JSON.stringify(address) } };
+        else  this.teamdata.StadiumInfos.StadiumAddress = { FullAddress: address.formatted_address, FullAddressJson: JSON.stringify(address) }
+
       //this.stadiumAddress = address;
     },
     setInvalidAddressStadium: function() {},

@@ -54,7 +54,7 @@
         <md-button class="md-icon-button md-dense md-raised md-primary" @click="cropImage()" style="width:80px" v-if="fileIsSelected">
           <md-icon>check_circle_outline</md-icon>OK
         </md-button>
-        <md-button class="md-icon-button md-dense md-raised md-primary" @click="annullaCrop()" style="width:95px;margin-left:20px" >
+        <md-button class="md-icon-button md-dense md-raised md-primary"  @click="annullaCrop()" style="width:95px;margin-left:20px;" >
           <md-icon>settings_backup_restore</md-icon>Annulla
         </md-button>
       </div>
@@ -122,7 +122,7 @@ export default {
         this.editMode = false;
       },
       imageLoadError() {
-
+        this.isDefaultPlayer = true;
       },
     handleImageRemove() {
       //alert('file handleImageRemove')
