@@ -17,11 +17,11 @@ export const store = new Vuex.Store({
     where: '',
     playerSelected: '',
     configurations: {
-      //serviceBaseUrl: 'http://localhost/TirolibreWebApi/',
-      //imageRootUrl: 'http://www.tirolibre.it:121/',
+      serviceBaseUrl: 'http://tirolibre.it/WebApi/',
+      imageRootUrl:   'http://tirolibre.it/WebApi/',
 
-      serviceBaseUrl: 'http://www.testservice.tirolibre.it/',
-      imageRootUrl: 'http://www.testservice.tirolibre.it/',
+      //serviceBaseUrl: 'http://localhost/TirolibreWebApi/',
+      //imageRootUrl: 'http://www.testservice.tirolibre.it/',
 
       environment: 0,
 

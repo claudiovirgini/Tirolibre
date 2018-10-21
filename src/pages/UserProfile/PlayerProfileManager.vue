@@ -7,7 +7,7 @@
           <div class="md-layout-item md-size-100 text-right">
             <md-button class="md-raised md-success" v-on:click="saveProfile()">Salva Profilo</md-button>
           </div>
-          <div class="md-layout">
+          <div class="md-layout" v-if="profileLoaded == true">
             <div class="md-layout-item md-small-size-100 md-size-50">
               <md-field>
                 <label>Nome</label>
@@ -44,9 +44,7 @@
                 </md-select>
               </md-field>
             </div>
-            <div class="md-layout-item md-small-size-100 md-size-33" style="padding-top:10px">
-              <map-autocomplete  input-component-name="gmapsdsf2" place-holder="Località attuale" :initial-address="city" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress"></map-autocomplete>
-            </div>
+
             <div class="md-layout-item md-small-size-100 md-size-33">
               <md-field>
                 <label for="status">Status</label>
@@ -84,48 +82,53 @@
                     {{ category.text }}
                   </md-option>
                 </md-select>
+              </md-field>
 
-              </md-field>
             </div>
-            <div class="md-layout-item md-small-size-100 md-size-50">
-              <md-field>
-                <label>Transfer Market Link</label>
-                <md-input v-model="externalLink" type="text"></md-input>
-              </md-field>
-            </div>
-            <div class="md-layout-item md-small-size-100 md-size-50">
-              <md-field>
-                <label>Link video</label>
-                <md-input v-model="videoLink" type="text"></md-input>
-              </md-field>
-            </div>
-            <div class="md-layout-item md-small-size-100 md-size-33">
-              <md-field>
-                <label>Nome Squadra ultimo campionato</label>
-                <md-input v-model="experience1" type="text"></md-input>
-              </md-field>
-            </div>
-            <div class="md-layout-item md-small-size-100 md-size-33">
-              <md-field>
-                <label>Nome Squadra altre esperienze</label>
-                <md-input v-model="experience2" type="text" :disabled="(playerdata != null && playerdata.Experiences != null) && (playerdata.Experiences>0)"></md-input>
-              </md-field>
-            </div>
-            <div class="md-layout-item md-small-size-100 md-size-33">
-              <md-field>
-                <label>Nome Squadra altre esperienze</label>
-                <md-input v-model="experience3" type="text"></md-input>
-              </md-field>
-            </div>
-            <div class="md-layout-item md-size-100">
-              <md-field maxlength="5">
-                <label>About Me</label>
-                <md-textarea v-model="aboutMe"></md-textarea>
-              </md-field>
-            </div>
+            <!--<div class="md-layout-item md-small-size-10 md-size-10" style="padding-top:20px;padding-left:20px">
+             </div>-->
+              <div class="md-layout-item md-small-size-65 md-size-65" style="padding-top:18px;padding-left:18px;text-align:right">
+                <map-autocomplete input-component-name="gmapsdsf2" place-holder="Località attuale" :initial-address="city" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress" style="border-bottom:1px solid lightgrey"></map-autocomplete>
+              </div>
+              <div class="md-layout-item md-small-size-100 md-size-50">
+                <md-field>
+                  <label>Transfer Market Link</label>
+                  <md-input v-model="externalLink" type="text"></md-input>
+                </md-field>
+              </div>
+              <div class="md-layout-item md-small-size-100 md-size-50">
+                <md-field>
+                  <label>Link video</label>
+                  <md-input v-model="videoLink" type="text"></md-input>
+                </md-field>
+              </div>
+              <div class="md-layout-item md-small-size-100 md-size-33">
+                <md-field>
+                  <label>Nome Squadra ultimo campionato</label>
+                  <md-input v-model="experience1" type="text"></md-input>
+                </md-field>
+              </div>
+              <div class="md-layout-item md-small-size-100 md-size-33">
+                <md-field>
+                  <label>Nome Squadra altre esperienze</label>
+                  <md-input v-model="experience2" type="text" :disabled="(playerdata != null && playerdata.Experiences != null) && (playerdata.Experiences>0)"></md-input>
+                </md-field>
+              </div>
+              <div class="md-layout-item md-small-size-100 md-size-33">
+                <md-field>
+                  <label>Nome Squadra altre esperienze</label>
+                  <md-input v-model="experience3" type="text"></md-input>
+                </md-field>
+              </div>
+              <div class="md-layout-item md-size-100">
+                <md-field maxlength="5">
+                  <label>About Me</label>
+                  <md-textarea v-model="aboutMe"></md-textarea>
+                </md-field>
+              </div>
 
-          </div>
-        </md-card-content>
+            </div>
+</md-card-content>
       </md-card>
     </div>
     <div class="md-layout-item md-medium-size-100 md-size-33">

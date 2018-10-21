@@ -149,23 +149,18 @@
                   <div @click="showProfile(item)">
                     <div class="card-img-block">
                       <picture-box :picUrl="item.fullpath"  :picType="item.profile"></picture-box>
-                      <!--<img class="card-img-top" :src="getImagePathForItem(item)" alt="Card image cap">-->
                     </div>
 
                     <div class="card-body pt-0">
                       <h3 class="card-title">
                         {{item.name }}
                       </h3>
-                      <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
                       <p class="card-text" v-if="item.profile === 0">
                         {{ item.role }} | {{ item.age }}
                       </p>
                       <p class="card-text" v-if="item.profile === 1">
                         {{ item.fulladdress }}
                       </p>
-                      <!-- <p class="card-text level">
-                        <i class="fas fa-trophy"></i> {{ item.level }}
-                      </p> -->
                     </div>
 
                     <div class="card-footer" v-if="item.level === null"  v-bind:style="{ 'background-image': 'url(../../assets/images/loghi-categorie/cat.png)' }"></div>
@@ -183,9 +178,7 @@
                     <div class="card-footer" v-if="item.level === 'Serie  C'"  v-bind:style="{ 'background-image': 'url(../../assets/images/loghi-categorie/lega-pro.png)' }"></div>
                     <div class="card-footer" v-if="item.level === 'Serie  B'"  v-bind:style="{ 'background-image': 'url(../../assets/images/loghi-categorie/serie-b.png)' }"></div>
                     <div class="card-footer" v-if="item.level === 'Serie  A'"  v-bind:style="{ 'background-image': 'url(../../assets/images/loghi-categorie/serie-a.png)' }"></div>
-                    <!-- <div class="card-footer" v-bind:style="{ 'background-image': 'url(../../assets/images/loghi-categorie/' + item.level + '.jpg)' }"></div> -->
                   </div>
-                  <!-- <i class="material-icons" @click.prevent="sendMessage(item)">mail_outline</i> -->
                 </div>
 
               </div>
@@ -279,8 +272,9 @@ export default {
     setInvalidAddress: function() {
 
     },
-    showProfile: function(item) {
-      this.$router.push('playerProfile?playerId=' + item.id)
+    showProfile: function (item) {
+      if (item.profile == 0) this.$router.push('playerProfile?playerId=' + item.id)
+      if (item.profile == 1) this.$router.push('teamProfile?teamId=' + item.id)
     },
 
 

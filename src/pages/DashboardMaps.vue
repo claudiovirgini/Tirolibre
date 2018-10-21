@@ -370,13 +370,14 @@ export default {
               };
 
               let contentString = '<div class="card" style="width: 18rem;">' +
-                '<img class="card-img-top" style="max-width: 250px; margin: 0 auto;" src="' + self.$store.state.configurations.imageRootUrl + team.Logo + '" alt="' + team.TeamName + '">' +
+                '<img class="card-img-top" style="max-width: 170px; margin: 0 auto;" src="' + self.$store.state.configurations.imageRootUrl + team.Logo + '" alt="' + team.TeamName + '">' +
                 '<div class="card-body">' +
                 '<h5 class="card-title">' + team.TeamName + '</h5>' +
                 '<p class="card-text">' +
                 team.Catogory +
                 '</p>' +
-                '<a href="/#/messages?playerId=' + team.Id + '" class="btn btn-primary" style="color: #FFF;"><i class="fa fa-paper-plane" aria-hidden="true"></i> Invia un messaggio </a>' +
+                '<div class="card-footer"><a href="/#/teamProfile?teamId=' + team.Id + '" class="btn btn-map"> Visita il Profilo </a></div>' +
+                //'<a href="/#/messages?playerId=' + team.Id + '" class="btn btn-primary" style="color: #FFF;"><i class="fa fa-paper-plane" aria-hidden="true"></i> Invia un messaggio </a>' +
                 '</div>' +
                 '</div>';
               let infowindow = new google.maps.InfoWindow({
