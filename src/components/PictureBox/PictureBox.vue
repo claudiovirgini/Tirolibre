@@ -28,6 +28,7 @@
       <div class="col-md-8">
         <croppa v-model="croppa"
                 :width="250"
+                :height="300"
                 placeholder="Clicca qui"
                 placeholder-color="#000"
                 :placeholder-font-size="12"
