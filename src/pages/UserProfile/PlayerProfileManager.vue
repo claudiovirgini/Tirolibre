@@ -14,12 +14,14 @@
             <div class="md-layout-item md-small-size-100 md-size-50" >
               <md-field>
                 <label>Nome</label>
+                <label>Nome e Cognome</label>
                 <md-input v-model="name" type="text"></md-input>
               </md-field>
             </div>
             <div class="md-layout-item md-small-size-100 md-size-33">
               <md-field>
                 <label for="ruolo">Class</label>
+                <label for="ruolo">Anno di nascita</label>
                 <md-select v-model="yearClass" id="ruolo">
                   <md-option v-for="cla in classList" v-bind:value="cla.value">
                     {{ cla.text }}
@@ -51,6 +53,7 @@
             <div class="md-layout-item md-small-size-100 md-size-33">
               <md-field>
                 <label for="status">Status</label>
+                <label for="status">Status contrattuale</label>
                 <md-select v-model="actualStatus" id="status">
                   <md-option v-for="status in statusList" v-bind:value="status.text">
                     {{ status.text }}
@@ -89,6 +92,7 @@
 
             </div>
             <!--<div class="md-layout-item md-small-size-10 md-size-10" style="padding-top:20px;padding-left:20px">
+<<<<<<< HEAD
      </div>-->
             <div class="md-layout-item md-small-size-65 md-size-65" style="padding-top:18px;padding-left:18px;text-align:right">
               <map-autocomplete input-component-name="gmapsdsf2" place-holder="Località attuale" :initial-address="city" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress" style="border-bottom:1px solid lightgrey"></map-autocomplete>
@@ -145,6 +149,7 @@
         <md-card-content>
           <h4 class="card-title">{{name}}</h4>
           <h6 class="category text-gray">Profile</h6>
+          <!-- <h6 class="category text-gray">Profile</h6> -->
           <hr>
           <div class="text-center">
             <div class="row">

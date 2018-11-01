@@ -17,6 +17,7 @@ export const store = new Vuex.Store({
     where: '',
     playerSelected: '',
     configurations: {
+<<<<<<< HEAD
       //serviceBaseUrl: 'https://tirolibre.it/WebApi/',
       //imageRootUrl:   'https://cdn.tirolibre.it/',
 
@@ -26,6 +27,13 @@ export const store = new Vuex.Store({
 
       //serviceBaseUrl: 'http://localhost/TirolibreWebApi/',
       //imageRootUrl: 'http://localhost/CDN/',
+=======
+      serviceBaseUrl: 'https://tirolibre.it/WebApi/',
+      imageRootUrl:   'https://tirolibre.it/WebApi/',
+
+      //serviceBaseUrl: 'http://localhost/TirolibreWebApi/',
+      // imageRootUrl: 'http://www.testservice.tirolibre.it/',
+>>>>>>> b51420064a2a6d48d85e518f317c384b88f38afd
 
       environment: 0,
 
@@ -44,6 +52,7 @@ export const store = new Vuex.Store({
 
       getTeamAroundPointUrl: '/api/Player/GetTeamsAroundPoint',
       getPlayerAroundPointUrl: '/api/Player/GetPlayersAroundPoint',
+      getAgentAroundPointUrl: '/api/Player/GetAgentsAroundPoint',
 
       FindUserUrl: '/api/Player/FindUser',
 
@@ -479,6 +488,7 @@ export const store = new Vuex.Store({
         })
         .catch(error => {
           
+
           serverBus.$emit('showError', 'Login Failed');
           serverBus.$emit('showLoading', false);
         })
@@ -508,6 +518,7 @@ export const store = new Vuex.Store({
       const data = { Team: team }
       console.log(JSON.stringify(data));
       //data.Team.Address = null; 
+      //data.Team.Address = null;
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.saveTeamProfileUrl, data);
     },
 
@@ -535,6 +546,10 @@ export const store = new Vuex.Store({
     getPlayerAroundPoint({ commit, state }, params) {
       const data = { Latitudine: params.lat, Longitudine: params.lng, Radius: params.rad, Top: params.top, Role: params.role, Category: params.category, Class: params.class, Status: params.status }
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getPlayerAroundPointUrl, data);
+    },
+    getAgentAroundPoint({ commit, state }, params) {
+      const data = { Latitudine: params.lat, Longitudine: params.lng, Radius: params.rad, Top: params.top, Role: params.role, Category: params.category, Class: params.class, Status: params.status }
+      return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getAgentAroundPointUrl, data);
     },
     getPlayerAgentProfile({ commit, state }, playerId) {
       const data = { PlayerId: playerId }
@@ -593,6 +608,7 @@ export const store = new Vuex.Store({
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.chatGetUserInfoUrl, data);
     },
     
+
     deleteMessage({ commit, state }, messageId) {
       const data = { MessageId: messageId }
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.deleteMessageUrl, data);

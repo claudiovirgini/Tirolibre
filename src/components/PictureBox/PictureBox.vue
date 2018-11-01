@@ -10,11 +10,14 @@
     </md-button>-->
     <md-button @click="editMode=true;" v-if="isEditable=='true'" class="md-success btn btn-success btn-lg btn-block btn-radius">
       Cambia
+      Foto Profilo <br />
+      <span class="text-muted">(mentre sei in azione di gioco)</span>
       <i class="md-icon md-icon-font material-icons md-theme-default">arrow_forward_ios</i>
     </md-button>
     <input type="file" id="uploads" style="visibility:hidden; clip:rect(0 0 0 0);" accept="image/png, image/jpeg, image/gif, image/jpg" @change="uploadImg($event, 1)">
   </div>
   <div v-if="editMode == true" >
+  <div v-if="editMode == true">
     <!--<vue-cropper ref="cropper" :img="option.img" :auto-crop="option.autoCrop" :size="option.size" :full="option.full" :info="option.info" :can-scale="option.canScale" :can-move="option.canMove" :can-move-box="option.canMoveBox" :original="option.original"
     :fixed-number="option.fixedNumber" :fixed-box="option.fixedBox" :fixed="option.fixed" :center-box="option.centerBox" :auto-crop-width="option.autoCropWidth" :auto-crop-heigth="option.autoCropHeigth" @img-load="imgLoad">
   </vue-cropper>-->
@@ -22,10 +25,12 @@
     <div class="row">
       <div class="col-md-2" style="padding-top:20%">
         <md-button class="md-icon-button md-dense md-raised md-primary" @click="croppa.zoomOut()" v-if="fileIsSelected" >
+        <md-button class="md-icon-button md-dense md-raised md-primary" @click="croppa.zoomOut()" v-if="fileIsSelected">
           <md-icon>remove</md-icon>
         </md-button>
       </div>
       <div class="col-md-8">
+<<<<<<< .merge_file_a19176
         <croppa v-model="croppa"
                 :width="165"
                 :height="280"
@@ -44,6 +49,10 @@
                 @file-type-mismatch="handleCroppaFileTypeMismatch"
                 @image-remove="handleImageRemove"
                 :loading-size="50">
+=======
+        <croppa v-model="croppa" :width="250" :height="300" placeholder="Clicca qui" placeholder-color="#000" :placeholder-font-size="12" canvas-color="transparent" :show-remove-button="true" remove-button-color="black" :remove-button-size="30" :show-loading="true"
+          :zoom-speed="20" initial-size="contain" @file-choose="handleCroppaFileChoose" @file-size-exceed="handleCroppaFileSizeExceed" @file-type-mismatch="handleCroppaFileTypeMismatch" @image-remove="handleImageRemove" :loading-size="50">
+>>>>>>> .merge_file_a13560
         </croppa>
       </div>
       <div class="col-md-2" style="padding-top:20%">
@@ -56,6 +65,7 @@
           <md-icon>check_circle_outline</md-icon>OK
         </md-button>
         <md-button class="md-icon-button md-dense md-raised md-primary"  @click="annullaCrop()" style="width:95px;margin-left:20px;" >
+        <md-button class="md-icon-button md-dense md-raised md-primary" @click="annullaCrop()" style="width:95px;margin-left:20px;">
           <md-icon>settings_backup_restore</md-icon>Annulla
         </md-button>
       </div>
@@ -125,6 +135,14 @@ export default {
       imageLoadError() {
         this.isDefaultPlayer = true;
       },
+  methods: {
+    annullaCrop() {
+      this.fileIsSelected = false;
+      this.editMode = false;
+    },
+    imageLoadError() {
+      this.isDefaultPlayer = true;
+    },
     handleImageRemove() {
       //alert('file handleImageRemove')
       this.fileIsSelected = false;
@@ -192,6 +210,7 @@ export default {
 
 .imgDefaultPlayer {
   content: url("../../assets/img/defaultFace.png");
+  content: url("../../assets/img/defaultFace.jpg");
 }
 
 .imgDefaultCardPlayer {
@@ -204,5 +223,11 @@ export default {
 
 .imgDefaultAgent {
   content: url("../../assets/img/defaultFace.png");
+  content: url("../../assets/img/defaultFace.jpg");
+}
+
+.btn span {
+  font-size: 12px;
+  text-transform: none;
 }
 </style>
