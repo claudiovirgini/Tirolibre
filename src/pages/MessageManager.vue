@@ -176,9 +176,7 @@ export default {
       } else {
         var self = this;
         return new Promise((resolve, reject) => {
-          this.$store.dispatch('chatGetUserInfo', {
-              userId: userId
-            })
+          this.$store.dispatch('chatGetUserInfo', {userId: userId})
             .then(res => {
               if (res.data != null) {
                 res.data.UserImageUrl = self.$store.state.configurations.imageRootUrl + res.data.UserImageUrl;
