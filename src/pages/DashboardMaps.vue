@@ -84,6 +84,7 @@
                 <picture-box :picUrl="team.Logo" :picType="0"></picture-box>
               </template>
               <template slot="content">
+                <a v-bind:href="'/#/teamProfile?teamId='+ team.Id" class="total-link"></a>
                 <p class="category">{{ team.Catogory }} </p>
                 <h3 class="title">{{ team.TeamName }} </h3>
               </template>
@@ -108,14 +109,15 @@
               </template>
 
               <template slot="content">
-                    <p class="category">{{ player.Role }} </p>
-                    <h3 class="title">{{ player.Name }} </h3>
+                <a v-bind:href="'/#/playerProfile?playerId='+ player.Id" class="total-link"></a>
+                <p class="category">{{ player.Role }} </p>
+                <h3 class="title">{{ player.Name }} </h3>
                 </template>
 
               <template slot="footer">
                 <div class="stats">
                   <md-icon>date_range</md-icon>
-                  {{ player.Class }} 
+                  {{ player.Class }}
                 </div>
               </template>
             </stats-card>
@@ -198,7 +200,6 @@ export default {
     StatsCard
   },
   computed: {
-
     amount: {
       get() {
         return this.radius;
@@ -264,7 +265,6 @@ export default {
       for (var i = 0; i < this.infoWindows.length; i++) this.infoWindows[i].info.close()
       infoWindowToOpen.info.open(this.map, markerToOpen.marker);
     },
-
     increaseAmount: function() {
       if (this.amount < 100)
         this.amount = this.amount + 5;
@@ -274,7 +274,6 @@ export default {
         this.amount = this.amount - 5;
     },
     findPlayers: function() {
-
       var self = this;
       if ((this.actualPos != null) && (this.amount != null)) {
         serverBus.$emit('showLoading', true);
@@ -301,7 +300,7 @@ export default {
               let contentString = '<div class="card no-border profile-card-5" style="width: 18rem;">' +
                 //'<picture-box :picUrl="'+player.PlayerImage+'" :picType="0"></picture-box>'+
                 '<div class="card-img-block"><img class="card-img-top" style="max-width: 150px; margin: 0 auto;" src="' + (player.PlayerImage != null && player.PlayerImage != '' ? self.$store.state.configurations.imageRootUrl + player.PlayerImage :
-                  '../../assets/img/defaultFace.png') + '" alt="' + player.Name + '"></div>' +
+                  '../../assets/img/defaultFace.jpg') + '" alt="' + player.Name + '"></div>' +
                 '<div class="card-body">' +
                 '<h3 class="card-title">' + player.Name + '</h3>' +
                 '<p class="card-text">' +
@@ -419,7 +418,6 @@ export default {
           })
       }
     },
-
     setCorrectAddress: function(value) {
       let newPos = {
         lat: value.geometry.location.lat(),
@@ -475,7 +473,6 @@ export default {
       }
       this._mapCircle = this.getCircle(this.map, this.amount, this.actualPos)
     }
-
   },
   created() {
     if (this.place != null) this.placeSelected = this.place;
@@ -511,6 +508,14 @@ export default {
 </script>
 
 <style lang="scss">
+.total-link {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    cursor: pointer;
+}
 .btn-map {
     color: #212121 !important;
     border: 1px solid #212121;
@@ -707,6 +712,9 @@ export default {
 }
 
 @media only screen and (min-width: 767px) {
+    .total-link {
+        display: none;
+    }
     .search-form {
         min-width: 852px;
         margin: 0 76px;
