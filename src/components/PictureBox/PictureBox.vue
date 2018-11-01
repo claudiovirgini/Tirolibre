@@ -3,7 +3,7 @@
   <!--<button v-if="true" @click="test()">test</button>-->
   <div v-if="editMode != true">
 
-    <img :src="fullPath" class="img-thumbnail" v-bind:class="{ 'imgDefaultPlayer': isDefaultPlayer,'imgDefaultTeam':isDefaulTeam,'imgDefaultAgent':isDefaultAgent,'imgDefaultCardPlayer':isDefaulCardPlayer  }" @error="imageLoadError" />
+    <img :src="fullPath" style="width:165px;height:280px" class="img-thumbnail" v-bind:class="{ 'imgDefaultPlayer': isDefaultPlayer,'imgDefaultTeam':isDefaulTeam,'imgDefaultAgent':isDefaultAgent,'imgDefaultCardPlayer':isDefaulCardPlayer  }" @error="imageLoadError" />
     <!--<md-button @click="clickUpload()" v-if="isEditable=='true'" class="md-success btn btn-success btn-lg btn-block btn-radius">
       CHANGE
       <i class="md-icon md-icon-font material-icons md-theme-default">arrow_forward_ios</i>
@@ -27,8 +27,8 @@
       </div>
       <div class="col-md-8">
         <croppa v-model="croppa"
-                :width="250"
-                :height="300"
+                :width="165"
+                :height="280"
                 placeholder="Clicca qui"
                 placeholder-color="#000"
                 :placeholder-font-size="12"

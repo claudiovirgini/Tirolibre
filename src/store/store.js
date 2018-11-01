@@ -17,17 +17,24 @@ export const store = new Vuex.Store({
     where: '',
     playerSelected: '',
     configurations: {
-      serviceBaseUrl: 'http://tirolibre.it/WebApi/',
-      imageRootUrl:   'http://tirolibre.it/WebApi/',
+      //serviceBaseUrl: 'https://tirolibre.it/WebApi/',
+      //imageRootUrl:   'https://cdn.tirolibre.it/',
+
+
+      serviceBaseUrl: 'https://test.tirolibre.it/WebApi/',
+      imageRootUrl:   'https://test.cdn.tirolibre.it/',
 
       //serviceBaseUrl: 'http://localhost/TirolibreWebApi/',
-      //imageRootUrl: 'http://www.testservice.tirolibre.it/',
+      //imageRootUrl: 'http://localhost/CDN/',
 
       environment: 0,
 
       loginUrl: '/auth/login',
       signupUrl: '/api/Account/Register',
       confirmEmailUrl: '/api/Account/ConfirmEmail',
+
+      getBase64ImageUrl: '/api/Player/GetBase64Image',
+
 
       getPlayerInfoUrl: '/api/Player/GetPlayerInfo',
       savePlayerInfoUrl: '/api/Player/SavePlayerInfo',
@@ -502,6 +509,11 @@ export const store = new Vuex.Store({
       console.log(JSON.stringify(data));
       //data.Team.Address = null; 
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.saveTeamProfileUrl, data);
+    },
+
+    getBase64Image({ commit, state }, imageUrl) {
+      const data = { ImageUrl: imageUrl }
+      return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getBase64ImageUrl, data);
     },
 
     getPlayerProfile({ commit, state }, playerId) {
