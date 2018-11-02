@@ -132,7 +132,9 @@
 import Vue from 'vue'
 
 import PictureBox from '@/components/PictureBox/PictureBox'
-import VueYouTubeEmbed from 'vue-youtube-embed'
+  import VueYouTubeEmbed from 'vue-youtube-embed'
+  import playerService from '@/services/playerService'
+
 //import {
 //  getIdFromURL,
 //  getTimeFromURL
@@ -405,7 +407,7 @@ export default {
     serverBus.$emit('showLoading', true);
     this.playerId = this.$route.query.playerId
     this.profileIsLoaded = false;
-    this.$store.dispatch('getPlayerProfile', this.playerId).then(res => {
+    playerService.getPlayerProfile(this.$store.state.configurations.serviceBaseUrl,this.playerId).then(res => {
       this.playerdata = res.data
       this.profileIsLoaded = true;
       serverBus.$emit('showLoading', false);

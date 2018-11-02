@@ -21,11 +21,11 @@ export const store = new Vuex.Store({
       //imageRootUrl:   'https://cdn.tirolibre.it/',
 
 
-      //serviceBaseUrl: 'http://test.tirolibre.it/WebApi/',
-      //imageRootUrl:   'http://test.cdn.tirolibre.it/',
+      serviceBaseUrl: 'http://test.tirolibre.it/WebApi/',
+      imageRootUrl:   'http://test.cdn.tirolibre.it/',
 
-      serviceBaseUrl: 'http://localhost/TirolibreWebApi/',
-      imageRootUrl: 'http://localhost/CDN/',
+      //serviceBaseUrl: 'http://localhost/TirolibreWebApi/',
+      //imageRootUrl: 'http://localhost/CDN/',
 
 
 
@@ -521,18 +521,18 @@ export const store = new Vuex.Store({
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getBase64ImageUrl, data);
     },
 
-    getPlayerProfile({ commit, state }, playerId) {
-      const data = { PlayerId: playerId }
-      return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getPlayerInfoUrl, data);
-    },
+    //getPlayerProfile({ commit, state }, playerId) {
+    //  const data = { PlayerId: playerId }
+    //  return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getPlayerInfoUrl, data);
+    //},
     getTeamAroundPoint({ commit, state }, params) {
       const data = { Latitudine: params.lat, Longitudine: params.lng, Radius: params.rad, Top: params.top  }
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getTeamAroundPointUrl,data);
     },
-    savePlayerProfile({ commit, state }, player) {
-      const data = { Player: player }
-      return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.savePlayerInfoUrl, data);
-    },
+    //savePlayerProfile({ commit, state }, player) {
+    //  const data = { Player: player }
+    //  return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.savePlayerInfoUrl, data);
+    //},
     getAgentProfile({ commit, state }, agentId) {
       const data = { AgentId: agentId }
       return axios.post(this.state.configurations.serviceBaseUrl + this.state.configurations.getAgentInfoUrl, data);

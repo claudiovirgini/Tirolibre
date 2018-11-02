@@ -9,16 +9,12 @@
       <button @click="decreaseAmount()" class="button_plus">-</button>
       <vue-slider style="float:left;width:70%;padding-top:13px" ref="slider" v-model="amount"></vue-slider><button @click="increaseAmount()" class="button_plus">+</button>
     </div>
-    <!-- <div class="col-lg-4 col-md-12 col-sm-12" style="padding-top:10px;text-align:center">
-      <button @click="findTeams()" class="btn"><i class="fa fa-search" ></i> Cerca</button>
-    </div> -->
     <div class="gws-flights-form__search-button-wrapper">
       <button @click="findPlayers()" class="gws-flights-form__search-button gws-flights-fab__mini" role="button" tabindex="0">
         <i class="md-icon md-icon-font material-icons">search</i>
         <span class="gws-flights-fab__text">Cerca</span>
       </button>
     </div>
-
   </div>
   <div class="row" v-if="profile==0">
     <div style="height:30px">
@@ -68,83 +64,53 @@
 
       </md-field>
     </div>
-    <!-- <div class="col">
-        <md-button @click="findPlayers()" class="md-success btn btn-success btn-block">
-          <i class="md-icon md-icon-font material-icons md-theme-default">search</i> Cerca
-        </md-button>
-      </div> -->
   </div>
   <div class="row">
     <div class="col-md-4">
-      <div class="row row-eq-height user-list" v-if="profile==0">
-        <div class="col-12" v-for="team in teams" :key="team.Id">
-          <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
-            <stats-card data-background-color="yellow" @click.native="showInfoWindowById(team.Id)">
-              <template slot="header">
-                <picture-box :picUrl="team.Logo" :picType="0"></picture-box>
-              </template>
-              <template slot="content">
-                <a v-bind:href="'/#/teamProfile?teamId='+ team.Id" class="total-link"></a>
-                <p class="category">{{ team.Catogory }} </p>
-                <h3 class="title">{{ team.TeamName }} </h3>
-              </template>
-              <template slot="footer">
-                <div class="stats">
-                  <md-icon>place</md-icon>
-                  {{ team.FullAddress }}
-                </div>
-              </template>
-            </stats-card>
-          </div>
-        </div>
-      </div>
       <div class="row row-eq-height user-list">
-        <div class="col-12" v-for="player in players" :key="player.Id">
-
+        <div class="col-12" v-for="item in searchResult" :key="item.Id">
           <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
-            <stats-card data-background-color="black" @click.native="showInfoWindowById(player.Id)">
+            <stats-card data-background-color="black" @click.native="showInfoWindowById(item.Id)">
               <template slot="header">
-                <!-- <md-icon >store</md-icon> -->
-                <picture-box :picUrl="player.PlayerImage" :picType="0"></picture-box>
+                <picture-box :picUrl="item.ImageUrl" :picType="item.Profile"></picture-box>
               </template>
-
-              <template slot="content">
-                <a v-bind:href="'/#/playerProfile?playerId='+ player.Id" class="total-link"></a>
-                <p class="category">{{ player.Role }} </p>
-                <h3 class="title">{{ player.Name }} </h3>
-                </template>
-
-              <template slot="footer">
+              <template slot="content" v-if="item.Profile == 0">
+                <a v-bind:href="'/#/playerProfile?playerId='+ item.Id" class="total-link"></a>
+                <p class="category">{{item.PlayerInfos.Role }} </p>
+                <h3 class="title">{{item.Name}} </h3>
+              </template>
+              <template slot="footer" v-if="item.Profile == 1">
                 <div class="stats">
                   <md-icon>date_range</md-icon>
-                  {{ player.Class }}
+                  {{ item.Class }}
                 </div>
               </template>
+              <template slot="content" v-if="item.Profile == 1">
+                <a v-bind:href="'/#/teamProfile?teamId='+ item.Id" class="total-link"></a>
+                <p class="category">{{ item.TeamInfos.Catogory }} </p>
+                <h3 class="title">{{ item.Name }} </h3>
+              </template>
+              <template slot="footer" v-if="item.Profile == 1">
+                <div class="stats">
+                  <md-icon>place</md-icon>
+                  {{ item.AddressInfos.FullAddress }}
+                </div>
+              </template>
+              <div class="card-body pt-0" v-if="item.Profile == 2">
+                <h3 class="card-title">
+                  {{item.Name }}
+                </h3>
+              </div>
             </stats-card>
           </div>
-          <!-- <md-card md-with-hover>
-              <md-card-header>
-                <md-card-header-text>
-                  <div class="md-title">{{ player.Name }} </div>
-                </md-card-header-text>
-                <md-card-media md-medium>
-                  <picture-box :picUrl="player.PlayerImage" :picType="0"></picture-box>
-                </md-card-media>
-              </md-card-header>
-              <md-card-actions>
-                <md-button class="md-success tiro" @click="showInfoWindowById(player.Id)">
-                  <i class="md-icon md-icon-font material-icons md-theme-default">touch_app</i> Mostra
-                </md-button>
-              </md-card-actions>
-            </md-card> -->
         </div>
       </div>
 
     </div>
-    <div class="col-md-8 d-none d-sm-block">
-      <div id="map"></div>
+      <div class="col-md-8 d-none d-sm-block">
+        <div id="map"></div>
+      </div>
     </div>
-  </div>
 
 </div>
 </template>
@@ -161,6 +127,7 @@ import {
 import {
   serverBus
 } from '@/main';
+  import commonService from '@/services/commonService'
 
 export default {
   name: 'DashboardMaps',
@@ -172,6 +139,7 @@ export default {
       _amount: 0,
       _map: null,
       teams: [],
+      searchResult:[],
       players: [],
       radius: 10,
       actualPos: null,
@@ -273,150 +241,253 @@ export default {
       if (this.amount > 0)
         this.amount = this.amount - 5;
     },
-    findPlayers: function() {
+    findUser: function (profile) {
+      serverBus.$emit('showLoading', true);
       var self = this;
-      if ((this.actualPos != null) && (this.amount != null)) {
-        serverBus.$emit('showLoading', true);
-        this.$store.dispatch('getPlayerAroundPoint', {
-            lat: this.actualPos.lat,
-            lng: this.actualPos.lng,
-            rad: this.amount * 4,
-            role: this.roleSelected,
-            category: this.categorySelected,
-            class: this.classeSelected,
-            status: this.statusSelected,
-            top: 100
-          })
-          .then(res => {
-            self.players = res.data
-            for (var i = 0; i < self.markers.length; i++) {
-              self.markers[i].marker.setMap(null);
-            }
-            res.data.forEach(function(player) {
-              let point = {
-                lat: player.Latitudine,
-                lng: player.Longitudine
-              };
-              let contentString = '<div class="card no-border profile-card-5" style="width: 18rem;">' +
-                //'<picture-box :picUrl="'+player.PlayerImage+'" :picType="0"></picture-box>'+
-                '<div class="card-img-block"><img class="card-img-top" style="max-width: 150px; margin: 0 auto;" src="' + (player.PlayerImage != null && player.PlayerImage != '' ? self.$store.state.configurations.imageRootUrl + player.PlayerImage :
-                  '../../assets/img/defaultFace.jpg') + '" alt="' + player.Name + '"></div>' +
-                '<div class="card-body">' +
-                '<h3 class="card-title">' + player.Name + '</h3>' +
-                '<p class="card-text">' +
-                player.Catogory +
-                '</p>' +
-                '<div class="card-footer"><a href="/#/playerProfile?playerId=' + player.Id + '" class="btn btn-map"> Visita il Profilo </a></div>' +
-                '</div>' +
-                '</div>';
-              let infowindow = new google.maps.InfoWindow({
-                content: contentString
-              });
-              let markerMap = new google.maps.Marker({
-                position: point,
-                map: self.map,
-                animation: google.maps.Animation.DROP,
-                title: player.Name
-              });
-              google.maps.event.addListener(markerMap, 'click', function() {
-                for (var i = 0; i < self.infoWindows.length; i++) self.infoWindows[i].info.close()
-                infowindow.open(map, markerMap);
-              });
-              // Event that closes the Info Window with a click on the map
-              google.maps.event.addListener(map, 'click', function() {
-                infowindow.close();
-              });
-              markerMap.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
-              self.markers.push({
-                marker: markerMap,
-                id: player.Id
-              });
-              self.infoWindows.push({
-                info: infowindow,
-                id: player.Id
-              })
-
-            });
-            serverBus.$emit('showLoading', false);
-
-          })
-          .catch(error => {
-            serverBus.$emit('showError', 'Si è verificato un errore');
-            serverBus.$emit('showLoading', false);
-          })
+      let addressInfo = { lat: this.actualPos.lat, lng: this.actualPos.lng, Radius: this.amount * 4 };
+      let playerInfo = null;
+      let teamInfo = null;
+      let agentInfo = null;
+      if (profile == 0) {
+        playerInfo = { Role: this.roleSelected, Category: this.categorySelected, Class: this.classeSelected, Status: this.statusSelected }
       }
+      if (profile == 1) {
+        teamInfo = { Category: this.categorySelected }
+      }
+      if (profile == 2) {
+        agentInfo = {}
+      }
+      commonService.searchUser(this.$store.state.configurations.serviceBaseUrl, profile, addressInfo, playerInfo, teamInfo, agentInfo).then(res => {
+        function resetMarkersOnMap() {
+          for (let i = 0; i < self.markers.length; i++) {
+            self.markers[i].marker.setMap(null);
+          }
+        }
+        function createInfoWindowForTeam(team) {
+          let contentString = '<div class="card" style="width: 18rem;">' +
+            '<img class="card-img-top" style="max-width: 170px; margin: 0 auto;" src="' + self.$store.state.configurations.imageRootUrl + team.ImageUrl + '" alt="' + team.Name + '">' +
+            '<div class="card-body">' +
+            '<h5 class="card-title">' + team.Name + '</h5>' +
+            '<p class="card-text">' +
+            team.TeamInfos.Catogory +
+            '</p>' +
+            '<div class="card-footer"><a href="/#/teamProfile?teamId=' + team.Id + '" class="btn btn-map"> Visita il Profilo </a></div>' +
+            '</div>' +
+            '</div>';
+          return contentString;
+        }
+        function createInfoWindowForPlayer(player) {
+          let contentString = '<div class="card no-border profile-card-5" style="width: 18rem;">' +
+            '<div class="card-img-block"><img class="card-img-top" style="max-width: 150px; margin: 0 auto;" src="' + (player.ImageUrl != null && player.ImageUrl != '' ? self.$store.state.configurations.imageRootUrl + player.ImageUrl :
+              '../../assets/img/defaultFace.jpg') + '" alt="' + player.Name + '"></div>' +
+            '<div class="card-body">' +
+            '<h3 class="card-title">' + player.Name + '</h3>' +
+            '<p class="card-text">' +
+            player.Catogory +
+            '</p>' +
+            '<div class="card-footer"><a href="/#/playerProfile?playerId=' + player.Id + '" class="btn btn-map"> Visita il Profilo </a></div>' +
+            '</div>' +
+            '</div>';
+          return contentString;
+        }
+        function createInfoWindowForAgent(agent) {
+          let contentString = '<div class="card" style="width: 18rem;">' +
+            '<img class="card-img-top" style="max-width: 170px; margin: 0 auto;" src="' + self.$store.state.configurations.imageRootUrl + agent.ImageUrl + '" alt="' + agent.Name + '">' +
+            '<div class="card-body">' +
+            '<h5 class="card-title">' + agent.Name + '</h5>' +
+            //'<p class="card-text">' +
+            //team.TeamInfos.Catogory +
+            //'</p>' +
+            '<div class="card-footer"><a href="/#/agentProfile?agentId=' + agent.Id + '" class="btn btn-map"> Visita il Profilo </a></div>' +
+            '</div>' +
+            '</div>';
+          return contentString;
+        }
+        self.searchResult = res.data;
+        resetMarkersOnMap();
+        self.infoWindows = [];
+        res.data.forEach(function (item) {
+          if (item.AddressInfos != null) {
+            let point = { lat: item.AddressInfos.Latitudine, lng: item.AddressInfos.Longitudine };
+            let contentWindowHtml = '';
+            if (profile == 0) contentWindowHtml = createInfoWindowForPlayer(item);
+            if (profile == 1) contentWindowHtml = createInfoWindowForTeam(item);
+            if (profile == 2) contentWindowHtml = createInfoWindowForAgent(item);
+            let infowindow = new google.maps.InfoWindow({ content: contentWindowHtml });
+            let markerMap = new google.maps.Marker({
+              position: point,
+              map: self.map,
+              animation: google.maps.Animation.DROP,
+              title: item.Name
+            });
+            google.maps.event.addListener(markerMap, 'click', function () {
+              for (var i = 0; i < self.infoWindows.length; i++) self.infoWindows[i].info.close()
+              infowindow.open(map, markerMap);
+            });
+            google.maps.event.addListener(map, 'click', function () {
+              infowindow.close();
+            });
+            markerMap.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
+            self.markers.push({
+              marker: markerMap,
+              id: item.Id
+            });
+            self.infoWindows.push({
+              info: infowindow,
+              id: item.Id
+            })
+          }
+        })
+        serverBus.$emit('showLoading', false);
+      })
     },
-    findTeams: function() {
-      var self = this;
-      if ((this.actualPos != null) && (this.amount != null)) {
-        serverBus.$emit('showLoading', true);
-        this.$store.dispatch('getTeamAroundPoint', {
-            lat: this.actualPos.lat,
-            lng: this.actualPos.lng,
-            rad: this.amount * 4,
-            top: 100
-          })
-          .then(res => {
-            self.teams = res.data
-            for (var i = 0; i < self.markers.length; i++) {
-              self.markers[i].marker.setMap(null);
-            }
-            self.infoWindows = [];
-            res.data.forEach(function(team) {
-              let point = {
-                lat: team.Latitudine,
-                lng: team.Longitudine
-              };
 
-              let contentString = '<div class="card" style="width: 18rem;">' +
-                '<img class="card-img-top" style="max-width: 170px; margin: 0 auto;" src="' + self.$store.state.configurations.imageRootUrl + team.Logo + '" alt="' + team.TeamName + '">' +
-                '<div class="card-body">' +
-                '<h5 class="card-title">' + team.TeamName + '</h5>' +
-                '<p class="card-text">' +
-                team.Catogory +
-                '</p>' +
-                '<div class="card-footer"><a href="/#/teamProfile?teamId=' + team.Id + '" class="btn btn-map"> Visita il Profilo </a></div>' +
-                //'<a href="/#/messages?playerId=' + team.Id + '" class="btn btn-primary" style="color: #FFF;"><i class="fa fa-paper-plane" aria-hidden="true"></i> Invia un messaggio </a>' +
-                '</div>' +
-                '</div>';
-              let infowindow = new google.maps.InfoWindow({
-                content: contentString
-              });
-              let markerMap = new google.maps.Marker({
-                position: point,
-                map: self.map,
-                animation: google.maps.Animation.DROP,
-                title: team.TeamName
-              });
+    findPlayers: function () {
+      this.findUser(0);
+      //var self = this;
+      //if ((this.actualPos != null) && (this.amount != null)) {
+      //  serverBus.$emit('showLoading', true);
+      //  this.$store.dispatch('getPlayerAroundPoint', {
+      //      lat: this.actualPos.lat,
+      //      lng: this.actualPos.lng,
+      //      rad: this.amount * 4,
+      //      role: this.roleSelected,
+      //      category: this.categorySelected,
+      //      class: this.classeSelected,
+      //      status: this.statusSelected,
+      //      top: 100
+      //    })
+      //    .then(res => {
+      //      self.players = res.data
+      //      for (var i = 0; i < self.markers.length; i++) {
+      //        self.markers[i].marker.setMap(null);
+      //      }
+      //      res.data.forEach(function(player) {
+      //        let point = {
+      //          lat: player.Latitudine,
+      //          lng: player.Longitudine
+      //        };
+      //        let contentString = '<div class="card no-border profile-card-5" style="width: 18rem;">' +
+      //          //'<picture-box :picUrl="'+player.PlayerImage+'" :picType="0"></picture-box>'+
+      //          '<div class="card-img-block"><img class="card-img-top" style="max-width: 150px; margin: 0 auto;" src="' + (player.PlayerImage != null && player.PlayerImage != '' ? self.$store.state.configurations.imageRootUrl + player.PlayerImage :
+      //            '../../assets/img/defaultFace.jpg') + '" alt="' + player.Name + '"></div>' +
+      //          '<div class="card-body">' +
+      //          '<h3 class="card-title">' + player.Name + '</h3>' +
+      //          '<p class="card-text">' +
+      //          player.Catogory +
+      //          '</p>' +
+      //          '<div class="card-footer"><a href="/#/playerProfile?playerId=' + player.Id + '" class="btn btn-map"> Visita il Profilo </a></div>' +
+      //          '</div>' +
+      //          '</div>';
+      //        let infowindow = new google.maps.InfoWindow({
+      //          content: contentString
+      //        });
+      //        let markerMap = new google.maps.Marker({
+      //          position: point,
+      //          map: self.map,
+      //          animation: google.maps.Animation.DROP,
+      //          title: player.Name
+      //        });
+      //        google.maps.event.addListener(markerMap, 'click', function() {
+      //          for (var i = 0; i < self.infoWindows.length; i++) self.infoWindows[i].info.close()
+      //          infowindow.open(map, markerMap);
+      //        });
+      //        // Event that closes the Info Window with a click on the map
+      //        google.maps.event.addListener(map, 'click', function() {
+      //          infowindow.close();
+      //        });
+      //        markerMap.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
+      //        self.markers.push({
+      //          marker: markerMap,
+      //          id: player.Id
+      //        });
+      //        self.infoWindows.push({
+      //          info: infowindow,
+      //          id: player.Id
+      //        })
 
-              google.maps.event.addListener(markerMap, 'click', function() {
-                for (var i = 0; i < self.infoWindows.length; i++) self.infoWindows[i].info.close()
-                infowindow.open(map, markerMap);
-              });
-              // Event that closes the Info Window with a click on the map
-              google.maps.event.addListener(map, 'click', function() {
-                infowindow.close();
-              });
-              markerMap.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
+      //      });
+      //      serverBus.$emit('showLoading', false);
 
-              self.markers.push({
-                marker: markerMap,
-                id: team.Id
-              });
+      //    })
+      //    .catch(error => {
+      //      serverBus.$emit('showError', 'Si è verificato un errore');
+      //      serverBus.$emit('showLoading', false);
+      //    })
+      //}
+    },
+    findTeams: function () {
+      this.findUser(1)
+      //var self = this;
+      //if ((this.actualPos != null) && (this.amount != null)) {
+      //  serverBus.$emit('showLoading', true);
+      //  this.$store.dispatch('getTeamAroundPoint', {
+      //      lat: this.actualPos.lat,
+      //      lng: this.actualPos.lng,
+      //      rad: this.amount * 4,
+      //      top: 100
+      //    })
+      //    .then(res => {
+      //      self.teams = res.data
+      //      for (var i = 0; i < self.markers.length; i++) {
+      //        self.markers[i].marker.setMap(null);
+      //      }
+      //      self.infoWindows = [];
+      //      res.data.forEach(function(team) {
+      //        let point = {
+      //          lat: team.Latitudine,
+      //          lng: team.Longitudine
+      //        };
 
-              self.infoWindows.push({
-                info: infowindow,
-                id: team.Id
-              })
+      //        let contentString = '<div class="card" style="width: 18rem;">' +
+      //          '<img class="card-img-top" style="max-width: 170px; margin: 0 auto;" src="' + self.$store.state.configurations.imageRootUrl + team.Logo + '" alt="' + team.TeamName + '">' +
+      //          '<div class="card-body">' +
+      //          '<h5 class="card-title">' + team.TeamName + '</h5>' +
+      //          '<p class="card-text">' +
+      //          team.Catogory +
+      //          '</p>' +
+      //          '<div class="card-footer"><a href="/#/teamProfile?teamId=' + team.Id + '" class="btn btn-map"> Visita il Profilo </a></div>' +
+      //          //'<a href="/#/messages?playerId=' + team.Id + '" class="btn btn-primary" style="color: #FFF;"><i class="fa fa-paper-plane" aria-hidden="true"></i> Invia un messaggio </a>' +
+      //          '</div>' +
+      //          '</div>';
+      //        let infowindow = new google.maps.InfoWindow({
+      //          content: contentString
+      //        });
+      //        let markerMap = new google.maps.Marker({
+      //          position: point,
+      //          map: self.map,
+      //          animation: google.maps.Animation.DROP,
+      //          title: team.TeamName
+      //        });
 
-            });
-            serverBus.$emit('showLoading', false);
-          })
-          .catch(error => {
-            // alert('Si è verificato un errore');
-            serverBus.$emit('showLoading', false);
-          })
-      }
+      //        google.maps.event.addListener(markerMap, 'click', function() {
+      //          for (var i = 0; i < self.infoWindows.length; i++) self.infoWindows[i].info.close()
+      //          infowindow.open(map, markerMap);
+      //        });
+      //        // Event that closes the Info Window with a click on the map
+      //        google.maps.event.addListener(map, 'click', function() {
+      //          infowindow.close();
+      //        });
+      //        markerMap.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
+
+      //        self.markers.push({
+      //          marker: markerMap,
+      //          id: team.Id
+      //        });
+
+      //        self.infoWindows.push({
+      //          info: infowindow,
+      //          id: team.Id
+      //        })
+
+      //      });
+      //      serverBus.$emit('showLoading', false);
+      //    })
+      //    .catch(error => {
+      //      // alert('Si è verificato un errore');
+      //      serverBus.$emit('showLoading', false);
+      //    })
+      //}
     },
     setCorrectAddress: function(value) {
       let newPos = {

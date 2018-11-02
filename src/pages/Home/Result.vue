@@ -1,10 +1,8 @@
 <template>
 <div>
-  <section class="pusher" v-if="cardResult">
+  <section class="pusher" >
     <div class="main-header">
       <div class="container">
-        <!-- <Logo /> -->
-        <!-- <h1>chi??{{ profileSelected }}</h1> -->
         <div class="col-md-12 search-form">
           <form class="">
             <div class="type text-center">
@@ -26,7 +24,6 @@
                 </div>
               </div>
             </div>
-
             <div class="col-md-6 col-sm-12 map-label">
               <map-autocomplete class="col-12" place-holder="Dove cerchi?" input-component-name="gmap12" :initialAddress="selectedAddressString" startactualpos="false" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress"></map-autocomplete>
             </div>
@@ -37,8 +34,7 @@
 
             <!-- filtro -->
             <div class="container">
-
-              <div class="row justify-content-center" id="filterPlayer" v-if="profileSelected==0">
+              <div class="row justify-content-center" id="filterPlayer" v-show="profileSelected==0">
                 <div class="col-6 col-sm-2">
                   <md-field>
                     <label for="ruolo">Ruolo</label>
@@ -67,7 +63,6 @@
                         {{ status.text }}
                       </md-option>
                     </md-select>
-
                   </md-field>
                 </div>
                 <div class="col-6 col-sm-2">
@@ -81,7 +76,7 @@
 
                   </md-field>
                 </div>
-                <div class="col">
+                <!--<div class="col">
                   <md-field>
                     <label for="country">Nazionalità</label>
                     <md-select v-model="countrySelected" id="country">
@@ -91,10 +86,10 @@
                     </md-select>
 
                   </md-field>
-                </div>
+                </div>-->
               </div>
 
-              <div class="row" id="filterTeam" v-if="profileSelected==1">
+              <div class="row" id="filterTeam" v-show="profileSelected==1">
                 <div class="col">
                   <md-field>
                     <label for="category">Categoria</label>
@@ -107,9 +102,8 @@
                 </div>
               </div>
 
-              <div class="row" id="filterTeam" v-if="profileSelected==2">
+              <div class="row" id="filterTeam" v-show="profileSelected==2">
                 <div style="height:30px">
-
                 </div>
               </div>
 
@@ -138,121 +132,44 @@
 
 
         <!-- mappa -->
-        <div class="row">
-          <div class="col-md-4" v-if="profileSelected!=2">
-
-            <div class="row row-eq-height user-list" v-if="profileSelected==0">
-              <div class="col-12" v-for="player in players" :key="player.Id">
+        <div class="row" style="    border: 1px solid #c4cc00;border-radius:15px;padding-top:15px;padding-bottom:15px">
+          <div class="col-md-4" >
+            <div class="row row-eq-height user-list" >
+              <div class="col-12" v-for="item in searchResult" :key="item.Id">
                 <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
-                  <stats-card data-background-color="black" @click.native="showInfoWindowById(player.Id)">
+                  <stats-card data-background-color="black" @click.native="showInfoWindowById(item.Id)">
                     <template slot="header">
-                        <!-- <md-icon >store</md-icon> -->
-                    <picture-box :picUrl="player.PlayerImage" :picType="0"></picture-box>
-                  </template>
-
-                    <template slot="content">
-                      <a v-bind:href="'/#/playerProfile?playerId='+ player.Id" class="total-link"></a>
-                      <p class="category">{{ player.Role }} </p>
-                      <h3 class="title">{{ player.Name }} </h3>
-                  </template>
-
-                    <template slot="footer">
+                      <picture-box :picUrl="item.ImageUrl" :picType="item.Profile"></picture-box>
+                    </template>
+                    <template slot="content" v-if="item.Profile == 0">
+                      <a v-bind:href="'/#/playerProfile?playerId='+ item.Id" class="total-link"></a>
+                      <p class="category">{{item.PlayerInfos.Role }} </p>
+                      <h3 class="title">{{item.Name}} </h3>
+                    </template>
+                    <template slot="footer"  v-if="item.Profile == 1">
                       <div class="stats">
                         <md-icon>date_range</md-icon>
-                        {{ player.Class }}
+                        {{ item.Class }}
                       </div>
                     </template>
-                  </stats-card>
-                </div>
-                <!-- <md-card md-with-hover>
-              <md-card-header>
-                <md-card-header-text>
-                  <div class="md-title">{{ player.Name }} </div>
-                </md-card-header-text>
-                <md-card-media md-medium>
-                  <picture-box :picUrl="player.PlayerImage" :picType="0"></picture-box>
-                </md-card-media>
-              </md-card-header>
-              <md-card-actions>
-                <md-button class="md-success tiro" @click="showInfoWindowById(player.Id)">
-                  <i class="md-icon md-icon-font material-icons md-theme-default">touch_app</i> Mostra
-                </md-button>
-              </md-card-actions>
-            </md-card> -->
-              </div>
-            </div>
-            <div class="row row-eq-height user-list" v-if="profileSelected==1">
-              <div class="col-12" v-for="team in teams" :key="team.Id">
-                <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
-                  <stats-card data-background-color="yellow" @click.native="showInfoWindowById(team.Id)">
-                    <template slot="header">
-                      <picture-box :picUrl="team.Logo" :picType="0"></picture-box>
-                    </template>
-                    <template slot="content">
-                      <a v-bind:href="'/#/teamProfile?teamId='+ team.Id" class="total-link"></a>
-                      <p class="category">{{ team.Catogory }} </p>
-                      <h3 class="title">{{ team.TeamName }} </h3>
-                    </template>
-                    <template slot="footer">
-                      <div class="stats">
-                        <md-icon>place</md-icon>
-                        {{ team.FullAddress }}
-                      </div>
-                    </template>
-                  </stats-card>
-                </div>
-              </div>
-            </div>
-
-            <!-- <div class="row row-eq-height user-list" v-if="profileSelected==2">
-              <div class="col-12" v-for="agent in agents" :key="agent.Id">
-                <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
-                  <stats-card data-background-color="black" @click.native="showInfoWindowById(agent.Id)">
-                    <template slot="header">
-                    <picture-box :picUrl="agent.PlayerImage" :picType="0"></picture-box>
-                  </template>
-
-                    <template slot="content">
-                      <a v-bind:href="'/#/playerProfile?playerId='+ agent.Id" class="total-link"></a>
-                      <p class="category">{{ agent.Role }} </p>
-                      <h3 class="title">{{ agent.Name }} </h3>
-                  </template>
-                  </stats-card>
-                </div>
-              </div>
-            </div> -->
-            <div class="row" v-if="profileSelected==2">
-              <div class="col-md-3 mt-4 mb-5 col-xs-6 d-flex align-items-stretch" v-for="item in items" :key="item.id">
-                <div class="card profile-card-5 col">
-                  <div @click="showProfile(item)">
-                    <div class="card-img-block">
-                      <picture-box :picUrl="item.fullpath" :picType="item.profile"></picture-box>
-                    </div>
-
-                    <div class="card-body pt-0">
+                      <template slot="content" v-if="item.Profile == 1">
+                        <a v-bind:href="'/#/teamProfile?teamId='+ item.Id" class="total-link"></a>
+                        <p class="category">{{ item.TeamInfos.Catogory }} </p>
+                        <h3 class="title">{{ item.Name }} </h3>
+                      </template>
+                      <template slot="footer" v-if="item.Profile == 1">
+                        <div class="stats">
+                          <md-icon>place</md-icon>
+                          {{ item.AddressInfos.FullAddress }}
+                        </div>
+                      </template>
+                    <div class="card-body pt-0" v-if="item.Profile == 2">
                       <h3 class="card-title">
-                        {{item.name }}
+                        {{item.Name }}
                       </h3>
                     </div>
-
-                    <div class="card-footer" v-if="item.level === null" v-bind:style="{ 'background-image': 'url(../../assets/images/loghi-categorie/cat.png)' }"></div>
-                    <div class="card-footer" v-if="item.level === ''" v-bind:style="{ 'background-image': 'url(../../assets/images/loghi-categorie/cat.png)' }"></div>
-                    <div class="card-footer" v-if="item.level === 'Primavera'" v-bind:style="{ 'background-image': 'url(../../assets/images/loghi-categorie/primavera.png)' }"></div>
-                    <div class="card-footer" v-if="item.level === 'Juniores'" v-bind:style="{ 'background-image': 'url(../../assets/images/loghi-categorie/juniores.png)' }"></div>
-                    <div class="card-footer" v-if="item.level === 'Scuola calcio'" v-bind:style="{ 'background-image': 'url(../../assets/images/loghi-categorie/scuola-calcio.png)' }"></div>
-                    <div class="card-footer" v-if="item.level === 'Allievi Nazionali'" v-bind:style="{ 'background-image': 'url(../../assets/images/loghi-categorie/allievi-nazionali.png)' }"></div>
-                    <div class="card-footer" v-if="item.level === 'Promozione'" v-bind:style="{ 'background-image': 'url(../../assets/images/loghi-categorie/promozione.png)' }"></div>
-                    <div class="card-footer" v-if="item.level === 'Eccellenza'" v-bind:style="{ 'background-image': 'url(../../assets/images/loghi-categorie/eccellenza.png)' }"></div>
-                    <div class="card-footer" v-if="item.level === '1° Categoria'" v-bind:style="{ 'background-image': 'url(../../assets/images/loghi-categorie/prima-categoria.png)' }"></div>
-                    <div class="card-footer" v-if="item.level === '2° Categoria'" v-bind:style="{ 'background-image': 'url(../../assets/images/loghi-categorie/seconda-categoria.png)' }"></div>
-                    <div class="card-footer" v-if="item.level === '3° Categoria'" v-bind:style="{ 'background-image': 'url(../../assets/images/loghi-categorie/terza-categoria.png)' }"></div>
-                    <div class="card-footer" v-if="item.level === 'Serie  D'" v-bind:style="{ 'background-image': 'url(../../assets/images/loghi-categorie/serie-d.png)' }"></div>
-                    <div class="card-footer" v-if="item.level === 'Serie  C'" v-bind:style="{ 'background-image': 'url(../../assets/images/loghi-categorie/lega-pro.png)' }"></div>
-                    <div class="card-footer" v-if="item.level === 'Serie  B'" v-bind:style="{ 'background-image': 'url(../../assets/images/loghi-categorie/serie-b.png)' }"></div>
-                    <div class="card-footer" v-if="item.level === 'Serie  A'" v-bind:style="{ 'background-image': 'url(../../assets/images/loghi-categorie/serie-a.png)' }"></div>
-                  </div>
+                  </stats-card>
                 </div>
-
               </div>
             </div>
 
@@ -277,7 +194,7 @@ import {
   StatsCard
 } from '@/components'
 
-//import axios from 'axios'
+import commonService from '@/services/commonService'
 import {
   serverBus
 } from '@/main';
@@ -292,9 +209,7 @@ export default {
       _mapCircle: null,
       _amount: 0,
       _map: null,
-      teams: [],
-      players: [],
-      agents: [],
+      searchResult:[],
       radius: 10,
       actualPos: null,
       actualTimer: null,
@@ -308,14 +223,11 @@ export default {
       countriesList: [],
       profileList: [],
       items: [],
-      profileSelected: null,
-      _profileSelected: null,
       placeSelected: null,
       _roleSelected: null,
       classeSelected: null,
       categorySelected: null,
       statusSelected: null,
-      cardResult: true
     }
   },
   components: {
@@ -390,30 +302,129 @@ export default {
   },
   mounted() {
     var self = this;
-    // this.profile = this.$store.state.authentication.user.Profile;
-    // setTimeout(function() {
-    //   if (self.profile == 0) self.findTeams()
-    //   else self.findPlayers()
-    // }, 500);
     setTimeout(function() {
-      if (self.profileSelected == 0) self.findPlayers()
-      else self.findTeams()
-    }, 1500);
+      if (self.profileSelected == 0) self.findPlayers();
+      if (self.profileSelected == 1) self.findTeams();
+      if (self.profileSelected == 2) self.findAgents();
+    }, 500);
 
 
   },
-  methods: {
-    mdSelected: function(val) {
-      //if ((this.profileSelected != null) && (this.placeSelected != null))
-      //  this.findUsers(this.profileSelected, this.placeSelected, 100);
-    },
+    methods: {
+      findUser: function (profile) {
+        serverBus.$emit('showLoading', true);
+        var self = this;
+        let addressInfo = { lat: this.actualPos.lat, lng: this.actualPos.lng, Radius: this.amount * 4 };
+        let playerInfo = null;
+        let teamInfo = null;
+        let agentInfo = null;
+        if (profile == 0) {
+          playerInfo = { Role: this.roleSelected, Category: this.categorySelected, Class: this.classeSelected, Status: this.statusSelected }
+        }
+        if (profile == 1) {
+          teamInfo = { Category: this.categorySelected }
+        }
+        if (profile == 2) {
+          agentInfo = {}
+        }
+        commonService.searchUser(this.$store.state.configurations.serviceBaseUrl, profile, addressInfo, playerInfo, teamInfo, agentInfo).then(res => {
+          function resetMarkersOnMap() {
+            for (let i = 0; i < self.markers.length; i++) {
+              self.markers[i].marker.setMap(null);
+            }
+          }
+          function createInfoWindowForTeam(team) {
+            let contentString = '<div class="card" style="width: 18rem;">' +
+              '<img class="card-img-top" style="max-width: 170px; margin: 0 auto;" src="' + self.$store.state.configurations.imageRootUrl + team.ImageUrl + '" alt="' + team.Name + '">' +
+              '<div class="card-body">' +
+              '<h5 class="card-title">' + team.Name + '</h5>' +
+              '<p class="card-text">' +
+              team.TeamInfos.Catogory +
+              '</p>' +
+              '<div class="card-footer"><a href="/#/teamProfile?teamId=' + team.Id + '" class="btn btn-map"> Visita il Profilo </a></div>' +
+              '</div>' +
+              '</div>';
+            return contentString;
+          }
+          function createInfoWindowForPlayer(player) {
+              let contentString = '<div class="card no-border profile-card-5" style="width: 18rem;">' +
+                '<div class="card-img-block"><img class="card-img-top" style="max-width: 150px; margin: 0 auto;" src="' + (player.ImageUrl != null && player.ImageUrl != '' ? self.$store.state.configurations.imageRootUrl + player.ImageUrl :
+                  '../../assets/img/defaultFace.jpg') + '" alt="' + player.Name + '"></div>' +
+                '<div class="card-body">' +
+                '<h3 class="card-title">' + player.Name + '</h3>' +
+                '<p class="card-text">' +
+                player.Catogory +
+                '</p>' +
+                '<div class="card-footer"><a href="/#/playerProfile?playerId=' + player.Id + '" class="btn btn-map"> Visita il Profilo </a></div>' +
+                '</div>' +
+                '</div>';
+            return contentString;
+          }
+          function createInfoWindowForAgent(agent) {
+            let contentString = '<div class="card" style="width: 18rem;">' +
+              '<img class="card-img-top" style="max-width: 170px; margin: 0 auto;" src="' + self.$store.state.configurations.imageRootUrl + agent.ImageUrl + '" alt="' + agent.Name + '">' +
+              '<div class="card-body">' +
+              '<h5 class="card-title">' + agent.Name + '</h5>' +
+              //'<p class="card-text">' +
+              //team.TeamInfos.Catogory +
+              //'</p>' +
+              '<div class="card-footer"><a href="/#/agentProfile?agentId=' + agent.Id + '" class="btn btn-map"> Visita il Profilo </a></div>' +
+              '</div>' +
+              '</div>';
+            return contentString;
+          }
+          self.searchResult = res.data;
+          resetMarkersOnMap();
+          self.infoWindows = [];
+          res.data.forEach(function (item) {
+            if (item.AddressInfos != null) {
+              let point = { lat: item.AddressInfos.Latitudine, lng: item.AddressInfos.Longitudine };
+              let contentWindowHtml = '';
+              if (profile == 0) contentWindowHtml = createInfoWindowForPlayer(item);
+              if (profile == 1) contentWindowHtml = createInfoWindowForTeam(item);
+              if (profile == 2) contentWindowHtml = createInfoWindowForAgent(item);
+              let infowindow = new google.maps.InfoWindow({ content: contentWindowHtml });
+              let markerMap = new google.maps.Marker({
+                position: point,
+                map: self.map,
+                animation: google.maps.Animation.DROP,
+                title: item.Name
+              });
+              google.maps.event.addListener(markerMap, 'click', function () {
+                for (var i = 0; i < self.infoWindows.length; i++) self.infoWindows[i].info.close()
+                infowindow.open(map, markerMap);
+              });
+              google.maps.event.addListener(map, 'click', function () {
+                infowindow.close();
+              });
+              markerMap.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
+              self.markers.push({
+                marker: markerMap,
+                id: item.Id
+              });
+              self.infoWindows.push({
+                info: infowindow,
+                id: item.Id
+              })
+            }
+          })
+          serverBus.$emit('showLoading', false);
+        })
+      },
+      showProfile: function (item) {
+        if (item.profile == 0) this.$router.push('playerProfile?playerId=' + item.id)
+        if (item.profile == 1) this.$router.push('teamProfile?teamId=' + item.id)
+      },
+      findPlayers: function () {
+        this.findUser(0);
+      },
+      findTeams: function () {
+        this.findUser(1);},
+      findAgents: function () {
+        this.findUser(2);},
     showInfoWindowById: function(Id) {
-      var markerToOpen = this.markers.filter(function(x) {
-        return x.id == Id
-      })[0];
-      var infoWindowToOpen = this.infoWindows.filter(function(x) {
-        return x.id == Id
-      })[0];
+      var markerToOpen = this.markers.filter(function(x) {return x.id == Id })[0];
+      var infoWindowToOpen = this.infoWindows.filter(function(x) {return x.id == Id })[0];
       for (var i = 0; i < this.infoWindows.length; i++) this.infoWindows[i].info.close()
       infoWindowToOpen.info.open(this.map, markerToOpen.marker);
     },
@@ -425,247 +436,7 @@ export default {
       if (this.amount > 0)
         this.amount = this.amount - 5;
     },
-    findPlayers: function() {
-      var self = this;
-      if ((this.actualPos != null) && (this.amount != null)) {
-        serverBus.$emit('showLoading', true);
-        this.$store.dispatch('getPlayerAroundPoint', {
-            lat: this.actualPos.lat,
-            lng: this.actualPos.lng,
-            rad: this.amount * 4,
-            role: this.roleSelected,
-            category: this.categorySelected,
-            class: this.classeSelected,
-            status: this.statusSelected,
-            top: 100
-          })
-          .then(res => {
-            self.players = res.data
-            for (var i = 0; i < self.markers.length; i++) {
-              self.markers[i].marker.setMap(null);
-            }
-            res.data.forEach(function(player) {
-              let point = {
-                lat: player.Latitudine,
-                lng: player.Longitudine
-              };
-              let contentString = '<div class="card no-border profile-card-5" style="width: 18rem;">' +
-                //'<picture-box :picUrl="'+player.PlayerImage+'" :picType="0"></picture-box>'+
-                '<div class="card-img-block"><img class="card-img-top" style="max-width: 150px; margin: 0 auto;" src="' + (player.PlayerImage != null && player.PlayerImage != '' ? self.$store.state.configurations.imageRootUrl + player.PlayerImage :
-                  '../../assets/img/defaultFace.jpg') + '" alt="' + player.Name + '"></div>' +
-                '<div class="card-body">' +
-                '<h3 class="card-title">' + player.Name + '</h3>' +
-                '<p class="card-text">' +
-                player.Catogory +
-                '</p>' +
-                '<div class="card-footer"><a href="/#/playerProfile?playerId=' + player.Id + '" class="btn btn-map"> Visita il Profilo </a></div>' +
-                '</div>' +
-                '</div>';
-              let infowindow = new google.maps.InfoWindow({
-                content: contentString
-              });
-              let markerMap = new google.maps.Marker({
-                position: point,
-                map: self.map,
-                animation: google.maps.Animation.DROP,
-                title: player.Name
-              });
-              google.maps.event.addListener(markerMap, 'click', function() {
-                for (var i = 0; i < self.infoWindows.length; i++) self.infoWindows[i].info.close()
-                infowindow.open(map, markerMap);
-              });
-              // Event that closes the Info Window with a click on the map
-              google.maps.event.addListener(map, 'click', function() {
-                infowindow.close();
-              });
-              markerMap.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
-              self.markers.push({
-                marker: markerMap,
-                id: player.Id
-              });
-              self.infoWindows.push({
-                info: infowindow,
-                id: player.Id
-              })
-
-            });
-            serverBus.$emit('showLoading', false);
-
-          })
-          .catch(error => {
-            serverBus.$emit('showError', 'Si è verificato un errore');
-            serverBus.$emit('showLoading', false);
-          })
-      }
-    },
-    findTeams: function() {
-      var self = this;
-      if ((this.actualPos != null) && (this.amount != null)) {
-        serverBus.$emit('showLoading', true);
-        this.$store.dispatch('getTeamAroundPoint', {
-            lat: this.actualPos.lat,
-            lng: this.actualPos.lng,
-            rad: this.amount * 4,
-            top: 100
-          })
-          .then(res => {
-            self.teams = res.data
-            for (var i = 0; i < self.markers.length; i++) {
-              self.markers[i].marker.setMap(null);
-            }
-            self.infoWindows = [];
-            res.data.forEach(function(team) {
-              let point = {
-                lat: team.Latitudine,
-                lng: team.Longitudine
-              };
-
-              let contentString = '<div class="card" style="width: 18rem;">' +
-                '<img class="card-img-top" style="max-width: 170px; margin: 0 auto;" src="' + self.$store.state.configurations.imageRootUrl + team.Logo + '" alt="' + team.TeamName + '">' +
-                '<div class="card-body">' +
-                '<h5 class="card-title">' + team.TeamName + '</h5>' +
-                '<p class="card-text">' +
-                team.Catogory +
-                '</p>' +
-                '<div class="card-footer"><a href="/#/teamProfile?teamId=' + team.Id + '" class="btn btn-map"> Visita il Profilo </a></div>' +
-                //'<a href="/#/messages?playerId=' + team.Id + '" class="btn btn-primary" style="color: #FFF;"><i class="fa fa-paper-plane" aria-hidden="true"></i> Invia un messaggio </a>' +
-                '</div>' +
-                '</div>';
-              let infowindow = new google.maps.InfoWindow({
-                content: contentString
-              });
-              let markerMap = new google.maps.Marker({
-                position: point,
-                map: self.map,
-                animation: google.maps.Animation.DROP,
-                title: team.TeamName
-              });
-
-              google.maps.event.addListener(markerMap, 'click', function() {
-                for (var i = 0; i < self.infoWindows.length; i++) self.infoWindows[i].info.close()
-                infowindow.open(map, markerMap);
-              });
-              // Event that closes the Info Window with a click on the map
-              google.maps.event.addListener(map, 'click', function() {
-                infowindow.close();
-              });
-              markerMap.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
-
-              self.markers.push({
-                marker: markerMap,
-                id: team.Id
-              });
-
-              self.infoWindows.push({
-                info: infowindow,
-                id: team.Id
-              })
-
-            });
-            serverBus.$emit('showLoading', false);
-          })
-          .catch(error => {
-            // alert('Si è verificato un errore');
-            serverBus.$emit('showLoading', false);
-          })
-      }
-    },
-    showProfile: function(item) {
-      if (item.profile == 0) this.$router.push('playerProfile?playerId=' + item.id)
-      if (item.profile == 1) this.$router.push('teamProfile?teamId=' + item.id)
-    },
-    findUsers: function(profile, address, radiusP, filterPlayer, filterTeam) {
-      serverBus.$emit('showLoading', true);
-      this.$store.dispatch('findUser', {
-        profile: profile,
-        radius: radiusP,
-        place: JSON.stringify(address),
-        playerFilter: filterPlayer,
-        teamFilter: filterTeam
-      }).then(res => {
-        this.items = res.data
-        serverBus.$emit('showLoading', false);
-      }).catch(error => {
-        alert('Si è verificato un errore nella chiamata API : ' + JSON.stringify(error));
-        serverBus.$emit('showLoading', false);
-      })
-    },
-    findAgent: function() {
-      this.findUsers(this.profileSelected, this.placeSelected, this.radius, null, null);
-    },
-    findAgents: function() {
-      var self = this;
-      if ((this.actualPos != null) && (this.amount != null)) {
-        serverBus.$emit('showLoading', true);
-        this.$store.dispatch('getAgentAroundPoint', {
-            lat: this.actualPos.lat,
-            lng: this.actualPos.lng,
-            rad: this.amount * 4,
-            role: this.roleSelected,
-            category: this.categorySelected,
-            class: this.classeSelected,
-            status: this.statusSelected,
-            top: 100
-          })
-          .then(res => {
-            self.agents = res.data
-            for (var i = 0; i < self.markers.length; i++) {
-              self.markers[i].marker.setMap(null);
-            }
-            res.data.forEach(function(player) {
-              let point = {
-                lat: agent.Latitudine,
-                lng: agent.Longitudine
-              };
-              let contentString = '<div class="card no-border profile-card-5" style="width: 18rem;">' +
-                '<div class="card-img-block"><img class="card-img-top" style="max-width: 150px; margin: 0 auto;" src="' + (agent.Image != null && agent.Image != '' ? self.$store.state.configurations.imageRootUrl + agent.Image :
-                  '../../assets/img/defaultFace.jpg') + '" alt="' + agent.AgentName + '"></div>' +
-                '<div class="card-body">' +
-                '<h3 class="card-title">' + agent.AgentName + '</h3>' +
-                //'<p class="card-text">' +
-                //agent.Catogory +
-                //'</p>' +
-                '<div class="card-footer"><a href="/#/playerProfile?playerId=' + agent.Id + '" class="btn btn-map"> Visita il Profilo </a></div>' +
-                '</div>' +
-                '</div>';
-              let infowindow = new google.maps.InfoWindow({
-                content: contentString
-              });
-              let markerMap = new google.maps.Marker({
-                position: point,
-                map: self.map,
-                animation: google.maps.Animation.DROP,
-                title: agent.Name
-              });
-              google.maps.event.addListener(markerMap, 'click', function() {
-                for (var i = 0; i < self.infoWindows.length; i++) self.infoWindows[i].info.close()
-                infowindow.open(map, markerMap);
-              });
-              // Event that closes the Info Window with a click on the map
-              google.maps.event.addListener(map, 'click', function() {
-                infowindow.close();
-              });
-              markerMap.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
-              self.markers.push({
-                marker: markerMap,
-                id: agent.Id
-              });
-              self.infoWindows.push({
-                info: infowindow,
-                id: agent.Id
-              })
-
-            });
-            serverBus.$emit('showLoading', false);
-
-          })
-          .catch(error => {
-            serverBus.$emit('showError', 'Si è verificato un errore');
-            serverBus.$emit('showLoading', false);
-          })
-      }
-    },
-    setCorrectAddress: function(value) {
+    setCorrectAddress: function (value) {
       let newPos = {
         lat: value.geometry.location.lat(),
         lng: value.geometry.location.lng()
@@ -673,15 +444,9 @@ export default {
       if (this.actualPos == null) {
         this.actualPos = newPos;
         this.setNewPointOnMap(value, this.map, this.radius)
-        var profileUserLogged = this.$store.state.authentication.user.Profile;
-        if (profileUserLogged == 0) this.findTeams();
-        if (profileUserLogged == 2) this.findPlayers();
       } else if ((newPos.lat != this.actualPos.lat) || (newPos.lng != this.actualPos.lng)) {
         this.actualPos = newPos;
         this.setNewPointOnMap(value, this.map, this.radius)
-        var profileUserLogged = this.$store.state.authentication.user.Profile;
-        if (profileUserLogged == 0) this.findTeams();
-        if (profileUserLogged == 2) this.findPlayers();
       }
     },
     setInvalidAddress: function() {
@@ -721,16 +486,7 @@ export default {
       this._mapCircle = this.getCircle(this.map, this.amount, this.actualPos)
     }
   },
-  // updated: function() {
-  //   this.$nextTick(function() {
-  //     setTimeout(function() {
-  //       this.findPlayers()
-  //     }, 100);
-  //   });
-  // },
-  // beforeUpdate() {
-  //   this.findPlayers()
-  // },
+
   created() {
     if (this.place != null) this.placeSelected = this.place;
     var self = this;
@@ -754,8 +510,9 @@ export default {
       setTimeout(function() {
         let temp = self.profileList.filter(d => d.text === self.what);
         self.profileSelected = temp[0].value;
-        self.findTeam();
-      }, 500);
+        //alert(self.profileSelected)
+        self.findUser(self.profileSelected);
+      }, 100);
     })
   }
 }

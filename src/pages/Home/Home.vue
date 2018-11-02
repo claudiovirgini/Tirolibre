@@ -37,19 +37,6 @@
                          </slide>
                         </carousel-3d>
                       </div>
-<!--
-                    <div class="switch-content player form-check form-check-inline">
-                      <input type="radio" id="switch_4_left" name="what" value="calciatore" class="form-check-input" @click="selectItem" v-model="what" checked />
-                      <label class="player" for="switch_4_left">calciatore</label>
-                    </div>
-                    <div class="switch-content club form-check form-check-inline">
-                      <input type="radio" id="switch_4_center" name="what" value="CLUB" class="form-check-input" @click="selectItem" v-model="what" />
-                      <label class="club" for="switch_4_center">club</label>
-                    </div>
-                    <div class="switch-content agent form-check form-check-inline">
-                      <input type="radio" id="switch_4_right" name="what" value="agente" class="form-check-input" @click="selectItem" v-model="what" />
-                      <label class="agent" for="switch_4_right">agente</label>
-                    </div> -->
                   </div>
                 </div>
               </div>
@@ -81,13 +68,6 @@
 
     <Footer />
   </div>
-
-  <!--<span>Picked: {{ who }} // {{ what }} // {{ where }}</span>
-  <hr>
-  Vuex store value: {{ $store.state.who }} // {{ $store.state.what }} // {{ $store.state.where }}
-  <br>
-  Computed property value: {{ who }} // {{ what }} // {{ where }}-->
-
 </template>
 
 <script>
