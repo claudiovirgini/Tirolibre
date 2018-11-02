@@ -10,7 +10,7 @@
       <i class="md-icon md-icon-font material-icons md-theme-default">arrow_forward_ios</i>
     </md-button>-->
     <md-button @click="editMode=true;" v-if="isEditable=='true'" class="md-success btn btn-success btn-lg btn-block btn-radius">
-      Cambia Foto Profilo <br />
+      Carica Foto Profilo <br />
       <span class="text-muted">(mentre sei in azione di gioco)</span>
       <i class="md-icon md-icon-font material-icons md-theme-default">arrow_forward_ios</i>
     </md-button>
