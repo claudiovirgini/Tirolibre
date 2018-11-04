@@ -147,15 +147,15 @@
           </div>
           <div class="md-layout-item md-size-100 text-right">
             <md-button class="md-raised md-success" style="float:right" v-on:click="saveProfile()">Salva Profilo</md-button>
-            <md-button class="md-raised md-success" style="float:left"  v-on:click="createCard()">Crea la tua CARD</md-button>
+            <md-button class="md-raised md-success" style="float:left" v-on:click="createCard()">Crea la tua CARD</md-button>
 
           </div>
         </md-card-content>
       </md-card>
     </div>
     <div class="md-layout-item md-medium-size-100 md-size-33">
-      <md-card class="md-card-profile">
-        <div class="card vue-avatar-cropper-demo text-center">
+      <md-card class="md-card-profile transparent-theme">
+        <div class="card dark-theme vue-avatar-cropper-demo text-center">
           <div class="card-body" v-if="profileLoaded == true">
             <picture-box isEditable="true" v-model="playerdata.UserImageUrl" v-on:changeSource="manageImageChanged" :picType="profile"></picture-box>
           </div>
@@ -194,8 +194,8 @@
 <script>
 import MapAutocomplete from '@/components/GoogleMaps/MapAutocomplete'
 import PictureBox from '@/components/PictureBox/PictureBox'
-  import playerService from '@/services/playerService'
-  import commonService from '@/services/commonService'
+import playerService from '@/services/playerService'
+import commonService from '@/services/commonService'
 
 import {
   serverBus
@@ -243,16 +243,16 @@ export default {
         serverBus.$emit('showLoading', false);
       })
     },
-    createCard: function () {
+    createCard: function() {
       var self = this;
-      commonService.renderCardImage(self.$store.state.configurations.serviceBaseUrl, self.playerdata, 950, 63).then(function (canvas) {
+      commonService.renderCardImage(self.$store.state.configurations.serviceBaseUrl, self.playerdata, 950, 63).then(function(canvas) {
         self.previewImage = canvas.toDataURL('image/jpeg', 0.8);
-        }, function (err) {
-          alert(JSON.stringify(err));
-        })
+      }, function(err) {
+        alert(JSON.stringify(err));
+      })
     },
-    
-   
+
+
   },
 
   computed: {
@@ -363,10 +363,11 @@ export default {
     categorySearch1: {
       get() {
         var self = this;
-        var returned = (this.playerdata != null) && (this.playerdata.Divisions != null) && (this.playerdata.Divisions.length > 0)
-          ? this.playerdata.Divisions[0].Name
+        var returned = (this.playerdata != null) && (this.playerdata.Divisions != null) && (this.playerdata.Divisions.length > 0) ?
+          this.playerdata.Divisions[0].Name
           //? this.categoryList.filter(function (x) { return x.Value == self.playerdata.Divisions[0].Name })[0]
-          : '';
+          :
+          '';
 
         //alert(JSON.stringify(returned))
         return returned
@@ -374,7 +375,10 @@ export default {
       set(value) {
         alert(JSON.stringify(value))
         if ((this.playerdata.Divisions == null) || (this.playerdata.Divisions.length == 0))
-          this.playerdata.Divisions = [{ Id: 0, Name: value }]
+          this.playerdata.Divisions = [{
+            Id: 0,
+            Name: value
+          }]
         //else this.playerdata.Divisions[0].Name = value;
       }
     },
@@ -384,7 +388,10 @@ export default {
       },
       set(value) {
         if ((this.playerdata.Divisions != null) && (this.playerdata.Divisions.length == 2)) this.playerdata.Divisions[1].Name = value;
-        else if ((this.playerdata.Divisions != null) && (this.playerdata.Divisions.length == 1)) this.playerdata.Divisions.push({ Id: 0, Name: value });
+        else if ((this.playerdata.Divisions != null) && (this.playerdata.Divisions.length == 1)) this.playerdata.Divisions.push({
+          Id: 0,
+          Name: value
+        });
       }
     },
     yearClass: {
@@ -523,7 +530,7 @@ export default {
   created() {
     var self = this;
     this.showAddressComponent = false;
-    
+
     this.$store.dispatch('getStatus', {}).then(res => {
       self.statusList = res;
 
@@ -544,8 +551,8 @@ export default {
     });
     this.profileLoaded = false;
     serverBus.$emit('showLoading', true);
-    playerService.getPlayerProfile(this.$store.state.configurations.serviceBaseUrl,this.$store.state.authentication.user.Id).then(res => {
-    //this.$store.dispatch('getPlayerProfile', ).then(res => {
+    playerService.getPlayerProfile(this.$store.state.configurations.serviceBaseUrl, this.$store.state.authentication.user.Id).then(res => {
+      //this.$store.dispatch('getPlayerProfile', ).then(res => {
       this.playerdata = res.data;
       this.createCard();
       this.profileLoaded = true;
@@ -569,6 +576,10 @@ export default {
   font-weight: normal;
   font-style: normal;
 }*/
+
+.transparent-theme {
+  background-color: transparent !important;
+}
 
 .dark-theme {
   background-color: rgba(255, 255, 255, .1) !important;

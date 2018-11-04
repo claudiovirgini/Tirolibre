@@ -110,7 +110,7 @@ const routes = [
       },
       {
         path: 'upgrade',
-        name: 'Upgrade to PRO',
+        name: 'Procura',
         component: UpgradeToPRO
       }
     ]
