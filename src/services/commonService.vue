@@ -97,6 +97,8 @@
           ctx.fillText('PESO : ' + player.Weigth + ' KG', startWidth, startHeigth + yOffset);
           ctx.fillText('ALTEZZA : ' + player.Heigth + ' cm', startWidth, startHeigth + (2 * yOffset));
           ctx.fillText('STATUS : ' + player.ActualStatus, startWidth, startHeigth + (3 * yOffset));
+          ctx.fillText('STATUS : ' + player.ActualStatus, startWidth, startHeigth + (3 * yOffset));
+
           if (player.ResearchPlaces[0]) ctx.fillText('AREA DI RICERCA : ' + player.ResearchPlaces[0].Value, startWidth, startHeigth + (4 * yOffset));
 
           ctx.fillText('ESPERIENZE:', startWidth, startHeigth + (5 * yOffset + 15));
@@ -154,32 +156,31 @@
               writeRole(role[i].RoleName, "#00a2e8");
               ctx.globalAlpha = 0.7;
               ctx.fillStyle = "#00a2e8"
-              roleImgWidth = 0.26 * imgWidth;
-              roleImgHeigth = imgHeigth / 2;
-              ctx.fillRect(initialX, initialY + roleImgHeigth, roleImgWidth+2, roleImgHeigth);
+
+              ctx.fillRect(initialX, initialY + roleImgHeigth, 0.26 * imgWidth + 2, imgHeigth / 2);
             }
             if ((role[i].RoleName == 'Terzino Destro')) {
               writeRole(role[i].RoleName, "#00a2e8");
               ctx.globalAlpha = 0.7;
               ctx.fillStyle = "#00a2e8"
-              roleImgWidth = 0.26 * imgWidth;
-              roleImgHeigth = imgHeigth / 2;
+              let roleImgWidth = 0.26 * imgWidth;
+              let roleImgHeigth = imgHeigth / 2;
               ctx.fillRect(initialX + imgWidth - roleImgWidth, initialY + roleImgHeigth, roleImgWidth, roleImgHeigth);
             }
             if ((role[i].RoleName == 'Ala Destra')) {
               writeRole(role[i].RoleName, "#f3be1b");
               ctx.globalAlpha = 0.7;
               ctx.fillStyle = "#f3be1b"
-              roleImgWidth = 0.26 * imgWidth;
-              roleImgHeigth = imgHeigth;
+              let roleImgWidth = 0.26 * imgWidth;
+              let roleImgHeigth = imgHeigth;
               ctx.fillRect(initialX + imgWidth - roleImgWidth, initialY, roleImgWidth, roleImgHeigth);
             }
             if ((role[i].RoleName == 'Ala Sinistra')) {
               writeRole(role[i].RoleName, "#f3be1b");
               ctx.globalAlpha = 0.7;
               ctx.fillStyle = "#f3be1b"
-              roleImgWidth = 0.26 * imgWidth;
-              roleImgHeigth = imgHeigth;
+              let roleImgWidth = 0.26 * imgWidth;
+              let roleImgHeigth = imgHeigth;
               ctx.fillRect(initialX, initialY, roleImgWidth+2, roleImgHeigth);
             }
             if ((role[i].RoleName == 'Centrocampista') || (role[i].RoleName == 'Mediano')) {

@@ -21,11 +21,11 @@ export const store = new Vuex.Store({
       //imageRootUrl:   'https://cdn.tirolibre.it/',
 
 
-      //serviceBaseUrl: 'http://test.tirolibre.it/WebApi/',
-      //imageRootUrl:   'http://test.cdn.tirolibre.it/',
+      serviceBaseUrl: 'http://test.tirolibre.it/WebApi/',
+      imageRootUrl:   'http://test.cdn.tirolibre.it/',
 
-      serviceBaseUrl: 'http://localhost/TirolibreWebApi/',
-      imageRootUrl: 'http://localhost/CDN/',
+      //serviceBaseUrl: 'http://localhost/TirolibreWebApi/',
+      //imageRootUrl: 'http://localhost/CDN/',
 
 
 

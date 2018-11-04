@@ -180,10 +180,16 @@
       </div>
     </div>
   </md-card-content>-->
-        <a :href="previewImage" download>
+        <a :href="previewImage" download  id="lnk_photo">
 
           <img :src="previewImage" />
           </a>
+        <md-button class="md-primary" @click="downloadImage()">
+          <md-icon>
+            save_alt
+          </md-icon>
+          download
+        </md-button>
       </md-card>
 
     </div>
@@ -223,7 +229,11 @@ export default {
       cropImg: '',
     }
   },
-  methods: {
+    methods: {
+      downloadImage: function () {
+        alert($("#lnk_photo"))
+        $("#lnk_photo").click()
+      },
     manageImageChanged: function(img) {
       this.playerdata.UserImageUrl = img;
       this.saveProfile();
