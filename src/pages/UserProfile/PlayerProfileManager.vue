@@ -75,17 +75,18 @@
               <md-field>
                 <label for="categoria">Categoria Attuale</label>
                 <md-select v-model="lastCategory" id="categoria">
-                  <md-option v-for="category in categoryList" v-bind:value="category.text">
-                    {{ category.text }}
+                  <md-option v-for="category in categoryList" v-bind:value="category.Value">
+                    {{ category.Value }}
                   </md-option>
                 </md-select>
               </md-field>
 
             </div>
             <!--<div class="md-layout-item md-small-size-10 md-size-10" style="padding-top:20px;padding-left:20px">
-    </div>-->
+  </div>-->
             <div class="md-layout-item md-small-size-65 md-size-65" style="padding-top:18px;padding-left:18px;text-align:right">
               <map-autocomplete input-component-name="gmapsdsf2" place-holder="Località attuale" startactualpos="true" :initial-address="city" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress" style="border-bottom:1px solid lightgrey"></map-autocomplete>
+
             </div>
             <div class="md-layout-item md-small-size-100 md-size-50">
               <md-field>
@@ -99,39 +100,55 @@
                 <md-input v-model="videoLink" type="text"></md-input>
               </md-field>
             </div>
-            <div class="md-layout-item md-small-size-100 md-size-33">
+            <div class="md-layout-item md-small-size-100 md-size-50">
               <md-field>
-                <label>Nome Squadra ultimo campionato</label>
+                <label>Ultimo campionato disputato (es: nome squadra - livello)</label>
                 <md-input v-model="experience1" type="text"></md-input>
               </md-field>
-            </div>
-            <div class="md-layout-item md-small-size-100 md-size-33">
               <md-field>
-                <label>Nome Squadra altre esperienze</label>
-                <md-input v-model="experience2" type="text" :disabled="(playerdata != null && playerdata.Experiences != null) && (playerdata.Experiences>0)"></md-input>
+                <label>Penultimo campionato disputato (es: nome squadra - livello)</label>
+                <md-input v-model="experience2" type="text"></md-input>
               </md-field>
-            </div>
-            <div class="md-layout-item md-small-size-100 md-size-33">
               <md-field>
-                <label>Nome Squadra altre esperienze</label>
+                <label>Terzultimo campionato disputato (es: nome squadra - livello)</label>
                 <md-input v-model="experience3" type="text"></md-input>
               </md-field>
+
             </div>
-            <div class="md-layout-item md-size-100">
+            <div class="md-layout-item md-small-size-100 md-size-50">
+              <md-field>
+                <label for="categoria">Categoria Ricerca 1</label>
+                <md-select v-model="categorySearch1" id="categoria">
+                  <md-option v-for="category in categoryList" v-bind:value="category.Value">
+                    <div style="width:100%">
+                      <div style="float:left;width:40px;"><img :src="category.imgPath" style="width:30px;" /></div>
+                      <div style="float:left;width:55%;font-size:14px;padding-top:5px"> {{ category.Value }} </div>
+                    </div>
+
+                  </md-option>
+                </md-select>
+              </md-field>
+              <md-field v-show="categorySearch1 != null && categorySearch1 != ''">
+                <label for="categoria">Categoria Ricerca 2</label>
+                <md-select v-model="categorySearch2" id="categoria">
+                  <md-option v-for="category in categoryList" v-bind:value="category.Value">
+                    {{ category.Value }}
+                  </md-option>
+                </md-select>
+              </md-field>
+            </div>
+            <div class="md-layout-item md-small-size-100 md-size-100">
               <md-field maxlength="5">
                 <label>About Me</label>
                 <md-textarea v-model="aboutMe"></md-textarea>
               </md-field>
             </div>
           </div>
-          <div class="md-layout-item md-size-50 text-right">
-            <md-button class="md-raised md-success" style="float:left" v-on:click="saveProfile()">Crea la tua CARD</md-button>
-            <md-button class="md-raised md-success" style="float:right" v-on:click="createCard()">Salva Profilo</md-button>
+          <div class="md-layout-item md-size-100 text-right">
+            <md-button class="md-raised md-success" style="float:right" v-on:click="saveProfile()">Salva Profilo</md-button>
+            <md-button class="md-raised md-success" style="float:left"  v-on:click="createCard()">Crea la tua CARD</md-button>
 
           </div>
-          <!--<div class="md-layout-item md-size-100 text-right">
-            <md-button class="md-raised md-success" v-on:click="saveProfile()">Salva Profilo</md-button>
-          </div>-->
         </md-card-content>
       </md-card>
     </div>
@@ -140,32 +157,32 @@
         <div class="card vue-avatar-cropper-demo text-center">
           <div class="card-body" v-if="profileLoaded == true">
             <picture-box isEditable="true" v-model="playerdata.UserImageUrl" v-on:changeSource="manageImageChanged" :picType="profile"></picture-box>
-            <img :src="previewImage" />
           </div>
         </div>
-        <md-card-content>
-          <h4 class="card-title">{{name}}</h4>
-          <!-- <h6 class="category text-gray">Profile</h6> -->
-          <hr>
-          <div class="text-center">
-            <div class="row">
-              <div class="col-lg-6">
-                <h5>
-                    Ruolo
-                    <br><small>{{ role }}</small>
-                  </h5>
-              </div>
-              <div class="col-lg-6">
-                <h5>
-                    Classe
-                    <br><small>{{ yearClass }}</small>
-                  </h5>
-              </div>
-            </div>
-          </div>
-        </md-card-content>
+        <!--<md-card-content>
+    <h4 class="card-title">{{name}}</h4>
+    <hr>
+    <div class="text-center">
+      <div class="row">
+        <div class="col-lg-6">
+          <h5>
+              Ruolo
+              <br><small>{{ role }}</small>
+            </h5>
+        </div>
+        <div class="col-lg-6">
+          <h5>
+              Classe
+              <br><small>{{ yearClass }}</small>
+            </h5>
+        </div>
+      </div>
+    </div>
+  </md-card-content>-->
 
+        <img :src="previewImage" />
       </md-card>
+
     </div>
   </div>
 </div>
@@ -174,7 +191,9 @@
 <script>
 import MapAutocomplete from '@/components/GoogleMaps/MapAutocomplete'
 import PictureBox from '@/components/PictureBox/PictureBox'
-  import  playerService  from '@/services/playerService'
+  import playerService from '@/services/playerService'
+  import commonService from '@/services/commonService'
+
 import {
   serverBus
 } from '@/main';
@@ -212,7 +231,7 @@ export default {
     setInvalidAddress: function() {},
     saveProfile: function() {
       serverBus.$emit('showLoading', true);
-      //this.$store.dispatch('savePlayerProfile', this.playerdata).then(res => {
+      if (this.categorySearch1 != null) this.playerdata.Divisions
       playerService.savePlayerProfile(this.$store.state.configurations.serviceBaseUrl, this.playerdata).then(res => {
         this.createCard();
         serverBus.$emit('showLoading', false);
@@ -223,8 +242,8 @@ export default {
     },
     createCard: function () {
       var self = this;
-        playerService.renderCardImage(self.$store.state.configurations.serviceBaseUrl, self.playerdata, 950, 63).then(function (canvas) {
-          self.previewImage = canvas.toDataURL('image/png');;
+      commonService.renderCardImage(self.$store.state.configurations.serviceBaseUrl, self.playerdata, 950, 63).then(function (canvas) {
+        self.previewImage = canvas.toDataURL('image/jpeg', 0.8);
         }, function (err) {
           alert(JSON.stringify(err));
         })
@@ -336,6 +355,29 @@ export default {
       },
       set(value) {
         this.playerdata.LastCategory = value;
+      }
+    },
+    categorySearch1: {
+      get() {
+        var self = this;
+        return (this.playerdata != null) && (this.playerdata.Divisions != null) && (this.playerdata.Divisions.length > 0)
+          ? this.playerdata.Divisions[0].Name
+          //? this.categoryList.filter(function (x) { return x.Value == self.playerdata.Divisions[0].Name })[0]
+          : '';
+      },
+      set(value) {
+        if ((this.playerdata.Divisions == null) || (this.playerdata.Divisions.length == 0))
+          this.playerdata.Divisions = [{ Id: 0, Name: value }]
+        else this.playerdata.Divisions[0].Name = value;
+      }
+    },
+    categorySearch2: {
+      get() {
+        return (this.playerdata != null) && (this.playerdata.Divisions != null) && (this.playerdata.Divisions.length > 1) ? this.playerdata.Divisions[1].Name : '';
+      },
+      set(value) {
+        if ((this.playerdata.Divisions != null) && (this.playerdata.Divisions.length == 2)) this.playerdata.Divisions[1].Name = value;
+        else if ((this.playerdata.Divisions != null) && (this.playerdata.Divisions.length == 1)) this.playerdata.Divisions.push({ Id: 0, Name: value });
       }
     },
     yearClass: {
@@ -486,9 +528,10 @@ export default {
     self.$store.dispatch('getClassList', {}).then(res2 => {
       self.classList = res2;
     })
-    self.$store.dispatch('getCategories', {}).then(res3 => {
-      self.categoryList = res3;
-    })
+    this.categoryList = commonService.getListaCategorie();
+    //self.$store.dispatch('getCategories', {}).then(res3 => {
+    //  self.categoryList = res3;
+    //})
     this.$store.dispatch('getCountriesList', {}).then(res4 => {
       self.countriesList = res4;
     });
@@ -497,6 +540,7 @@ export default {
     playerService.getPlayerProfile(this.$store.state.configurations.serviceBaseUrl,this.$store.state.authentication.user.Id).then(res => {
     //this.$store.dispatch('getPlayerProfile', ).then(res => {
       this.playerdata = res.data;
+      this.createCard();
       this.profileLoaded = true;
       serverBus.$emit('showLoading', false);
     }).catch(error => {

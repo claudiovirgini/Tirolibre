@@ -1,99 +1,103 @@
 <template>
-<header role="banner" class="masthead mb-auto">
-  <a class="navbar-brand float-left" href="#">
+  <header role="banner" class="masthead mb-auto">
+    <a class="navbar-brand float-left" href="#">
       <img src="../assets/images/TiroLibreLogo_white.png" class="d-inline-block align-top" alt="TiroLibre" width="150px">
     </a>
-  <nav class="main-nav isNotAuthenticated" v-if="!isAuthenticated">
-    <ul class="is-visible">
-      <li><a class="cd-signin" href="#" @click="showLogin=true;showSignup=false">Accedi</a></li>
-      <li><a class="cd-signup" href="#" @click="showLogin=false;showSignup=true">Registrati</a></li>
-    </ul>
-  </nav>
+    <nav class="main-nav isNotAuthenticated" v-if="!isAuthenticated">
+      <ul class="is-visible">
+        <li><a class="cd-signin" href="#" @click="showLogin=true;showSignup=false">Accedi</a></li>
+        <li><a class="cd-signup" href="#" @click="showLogin=false;showSignup=true">Registrati</a></li>
+      </ul>
+    </nav>
 
-  <div class="isAuthenticated" v-if="isAuthenticated">
-    <ul>
-      <router-link to="/messages">
-        <li class="nav-item user goToMessage" @click="getMyMessages()">
-          <i class="material-icons">mail_outline</i>
-          <!-- <span class="notification">5</span> -->
-          <!--v-if="showMessageSection==true"-->
-          <i v-if="showMessageNumber" class="notification">{{numMessages}}</i>
+    <div class="isAuthenticated" v-if="isAuthenticated">
+      <ul>
+        <router-link to="/messages">
+          <li class="nav-item user goToMessage" @click="getMyMessages()">
+            <i class="material-icons">mail_outline</i>
+            <!-- <span class="notification">5</span> -->
+            <!--v-if="showMessageSection==true"-->
+            <i v-if="showMessageNumber" class="notification">{{numMessages}}</i>
+          </li>
+        </router-link>
+        <li class="nav-item user" @click="goToProfile()">
+          <i class="material-icons">person_pin</i>
+          <label>Benvenuto {{name}}</label>
         </li>
-      </router-link>
-      <li class="nav-item user" @click="goToProfile()">
-        <i class="material-icons">person_pin</i>
-        <label>Benvenuto {{name}}</label>
-      </li>
-    </ul>
-  </div>
-  <md-dialog :md-active="showLogin || showSignup">
-    <md-dialog-title>
-      <div style="float:left">
-        {{showLogin==true ? 'ACCEDI' : 'REGISTRATI'}}
-      </div>
-      <div style="float:right" class="close-btn">
-        <md-button @click="showLogin=showSignup=false;">
-          <i class="fa fa-times fa-2x" aria-hidden="true"></i>
-        </md-button>
-      </div>
-    </md-dialog-title>
-    <md-dialog-content>
-      <md-tabs class="md-primary tabs-auth" md-alignment="fixed">
-        <md-tab md-label="Accedi" @click="showLogin=true;showSignup=false">
-          <div id="cd-login">
-            <Login />
-          </div>
-
-        </md-tab>
-
-        <md-tab md-label="Registrati" @click="showLogin=false;showSignup=true">
-
-          <div id="cd-signup">
-            <Signup />
-          </div>
-
-        </md-tab>
-
-      </md-tabs>
-    </md-dialog-content>
-  </md-dialog>
-
-  <md-dialog :md-active="showSendMessage" style="width:50%">
-    <md-dialog-title>
-      <div style="float:left">
-        SEND MESSAGE
-      </div>
-      <div style="float:right">
-        <md-button @click="showSendMessage=false;">
-          <i class="fa fa-times fa-2x" aria-hidden="true"></i>
-        </md-button>
-      </div>
-    </md-dialog-title>
-    <md-dialog-content>
-      <div class="md-card-avatar">
-
-        <picture-box :picUrl="selectedUserForMessage.imageUrl" :picType="0"></picture-box>
-      </div>
-      <div class="md-layout-item md-size-100">
-        <md-field maxlength="5">
-          <label>Messaggio</label>
-          <md-textarea v-model="body" placeholder="messaggio"></md-textarea>
-        </md-field>
-      </div>
-    </md-dialog-content>
-    <md-dialog-footer style="text-align:center">
-      <md-button @click="sendMessage(body)">
-        SEND MESSAGE
-      </md-button>
-    </md-dialog-footer>
-  </md-dialog>
-
-  <div id=preloderH v-if="isLoading">
-    <div class=loaderH>
-      <scale-out></scale-out>
+      </ul>
     </div>
-  </div>
-</header>
+    <md-dialog :md-active="showLogin || showSignup">
+      <md-dialog-title>
+        <div style="float:left">
+          {{showLogin==true ? 'ACCEDI' : 'REGISTRATI'}}
+        </div>
+        <div style="float:right" class="close-btn">
+          <md-button @click="showLogin=showSignup=false;">
+            <i class="fa fa-times fa-2x" aria-hidden="true"></i>
+          </md-button>
+        </div>
+      </md-dialog-title>
+      <md-dialog-content>
+        <md-tabs class="md-primary tabs-auth" md-alignment="fixed">
+          <md-tab md-label="Accedi" @click="showLogin=true;showSignup=false">
+            <div id="cd-login">
+              <Login />
+            </div>
+
+          </md-tab>
+
+          <md-tab md-label="Registrati" @click="showLogin=false;showSignup=true">
+
+            <div id="cd-signup">
+              <Signup />
+            </div>
+
+          </md-tab>
+
+        </md-tabs>
+      </md-dialog-content>
+    </md-dialog>
+
+    <md-dialog :md-active="showSendMessage" style="width:50%">
+      <md-dialog-title>
+        <div style="float:left">
+          SEND MESSAGE
+        </div>
+        <div style="float:right">
+          <md-button @click="showSendMessage=false;">
+            <i class="fa fa-times fa-2x" aria-hidden="true"></i>
+          </md-button>
+        </div>
+      </md-dialog-title>
+      <md-dialog-content>
+        <div class="md-card-avatar">
+
+          <picture-box :picUrl="selectedUserForMessage.imageUrl" :picType="0"></picture-box>
+        </div>
+        <div class="md-layout-item md-size-100">
+          <md-field maxlength="5">
+            <label>Messaggio</label>
+            <md-textarea v-model="body" placeholder="messaggio"></md-textarea>
+          </md-field>
+        </div>
+      </md-dialog-content>
+      <md-dialog-footer style="text-align:center">
+        <md-button @click="sendMessage(body)">
+          SEND MESSAGE
+        </md-button>
+      </md-dialog-footer>
+    </md-dialog>
+
+    <div id=preloderH v-if="isLoading">
+      <div class=loaderH>
+        <scale-out></scale-out>
+      </div>
+    </div>
+    <div class="fb-customerchat"
+         page_id="1741853872759141"
+         ref="">
+    </div>
+  </header>
 </template>
 
 <script>

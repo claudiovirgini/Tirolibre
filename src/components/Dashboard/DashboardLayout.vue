@@ -37,10 +37,10 @@
       <md-icon>supervised_user_circle</md-icon>
       <p>Portfolio</p>
     </sidebar-link>
-    <!-- <sidebar-link to="/premium">
+     <sidebar-link to="/upgrade">
     <md-icon>local_grocery_store</md-icon>
     <p>Passa a Premium</p>
-  </sidebar-link> -->
+  </sidebar-link> 
     <!-- <sidebar-link to="/notifications">
     <md-icon>notifications</md-icon>
     <p>Notifications</p>
