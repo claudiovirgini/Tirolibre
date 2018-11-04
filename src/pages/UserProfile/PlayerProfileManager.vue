@@ -372,24 +372,14 @@ export default {
     },
     categorySearch1: {
       get() {
-        var self = this;
-        var returned = (this.playerdata != null) && (this.playerdata.Divisions != null) && (this.playerdata.Divisions.length > 0) ?
-          this.playerdata.Divisions[0].Name
-          //? this.categoryList.filter(function (x) { return x.Value == self.playerdata.Divisions[0].Name })[0]
-          :
-          '';
-
-        //alert(JSON.stringify(returned))
-        return returned
+        return (this.playerdata != null) && (this.playerdata.Divisions != null) && (this.playerdata.Divisions.length > 0) ? this.playerdata.Divisions[0].Name : '';
       },
       set(value) {
-        alert(JSON.stringify(value))
-        if ((this.playerdata.Divisions == null) || (this.playerdata.Divisions.length == 0))
-          this.playerdata.Divisions = [{
-            Id: 0,
-            Name: value
-          }]
-        //else this.playerdata.Divisions[0].Name = value;
+        if ((this.playerdata.Divisions != null) && (this.playerdata.Divisions.length > 0)) this.playerdata.Divisions[0].Name = value;
+        else if ((this.playerdata.Divisions != null) && (this.playerdata.Divisions.length == 0)) this.playerdata.Divisions.push({
+          Id: 0,
+          Name: value
+        });
       }
     },
     categorySearch2: {

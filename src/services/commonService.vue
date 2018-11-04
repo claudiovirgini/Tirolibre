@@ -99,7 +99,7 @@
           ctx.fillText('STATUS : ' + player.ActualStatus, startWidth, startHeigth + (3 * yOffset));
           ctx.fillText('STATUS : ' + player.ActualStatus, startWidth, startHeigth + (3 * yOffset));
 
-          if (player.ResearchPlaces[0]) ctx.fillText('AREA DI RICERCA : ' + player.ResearchPlaces[0].Value, startWidth, startHeigth + (4 * yOffset));
+          //if (player.ResearchPlaces[0]) ctx.fillText('AREA DI RICERCA : ' + player.ResearchPlaces[0].Value, startWidth, startHeigth + (4 * yOffset));
 
           ctx.fillText('ESPERIENZE:', startWidth, startHeigth + (5 * yOffset + 15));
           writeExperiences(ctx, player, startWidth, startHeigth + (5 * yOffset + 30) + 10, yOffset);
