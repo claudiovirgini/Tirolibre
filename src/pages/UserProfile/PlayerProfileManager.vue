@@ -118,12 +118,13 @@
             <div class="md-layout-item md-small-size-100 md-size-50">
               <md-field>
                 <label for="categoria">Categoria Ricerca 1</label>
+
                 <md-select v-model="categorySearch1" id="categoria">
                   <md-option v-for="category in categoryList" v-bind:value="category.Value">
-                    <div style="width:100%">
-                      <div style="float:left;width:40px;"><img :src="category.imgPath" style="width:30px;" /></div>
-                      <div style="float:left;width:55%;font-size:14px;padding-top:5px"> {{ category.Value }} </div>
-                    </div>
+
+                    <!--<img :src="category.imgPath" style="width:30px;" />-->
+                    {{ category.Value }}
+                    <!--<div style="float:left;width:55%;font-size:14px;padding-top:5px"> {{ category.Value }} </div>-->
 
                   </md-option>
                 </md-select>
@@ -139,7 +140,7 @@
             </div>
             <div class="md-layout-item md-small-size-100 md-size-100">
               <md-field maxlength="5">
-                <label>About Me</label>
+                <label>Descrizione Personale</label>
                 <md-textarea v-model="aboutMe"></md-textarea>
               </md-field>
             </div>
@@ -179,8 +180,10 @@
       </div>
     </div>
   </md-card-content>-->
+        <a :href="previewImage" download>
 
-        <img :src="previewImage" />
+          <img :src="previewImage" />
+          </a>
       </md-card>
 
     </div>
@@ -360,15 +363,19 @@ export default {
     categorySearch1: {
       get() {
         var self = this;
-        return (this.playerdata != null) && (this.playerdata.Divisions != null) && (this.playerdata.Divisions.length > 0)
+        var returned = (this.playerdata != null) && (this.playerdata.Divisions != null) && (this.playerdata.Divisions.length > 0)
           ? this.playerdata.Divisions[0].Name
           //? this.categoryList.filter(function (x) { return x.Value == self.playerdata.Divisions[0].Name })[0]
           : '';
+
+        //alert(JSON.stringify(returned))
+        return returned
       },
       set(value) {
+        alert(JSON.stringify(value))
         if ((this.playerdata.Divisions == null) || (this.playerdata.Divisions.length == 0))
           this.playerdata.Divisions = [{ Id: 0, Name: value }]
-        else this.playerdata.Divisions[0].Name = value;
+        //else this.playerdata.Divisions[0].Name = value;
       }
     },
     categorySearch2: {
