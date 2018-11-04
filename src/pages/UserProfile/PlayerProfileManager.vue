@@ -147,7 +147,7 @@
           </div>
           <div class="md-layout-item md-size-100 text-right">
             <md-button class="md-raised md-success" style="float:right" v-on:click="saveProfile()">Salva Profilo</md-button>
-            <md-button class="md-raised md-success" style="float:left" v-on:click="createCard()">Crea la tua CARD</md-button>
+            <!-- <md-button class="md-raised md-success" style="float:left" v-on:click="createCard()">Crea la tua CARD</md-button> -->
 
           </div>
         </md-card-content>
@@ -180,7 +180,7 @@
       </div>
     </div>
   </md-card-content>-->
-        <a :href="previewImage" download  id="lnk_photo">
+        <a :href="previewImage" download id="lnk_photo">
 
           <img :src="previewImage" />
           </a>
@@ -229,11 +229,10 @@ export default {
       cropImg: '',
     }
   },
-    methods: {
-      downloadImage: function () {
-        alert($("#lnk_photo"))
-        $("#lnk_photo").click()
-      },
+  methods: {
+    downloadImage: function() {
+      $("#lnk_photo").get(0).click()
+    },
     manageImageChanged: function(img) {
       this.playerdata.UserImageUrl = img;
       this.saveProfile();

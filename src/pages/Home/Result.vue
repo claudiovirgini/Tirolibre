@@ -1,6 +1,6 @@
 <template>
 <div>
-  <section class="pusher" >
+  <section class="pusher">
     <div class="main-header">
       <div class="container">
         <div class="col-md-12 search-form">
@@ -133,8 +133,8 @@
 
         <!-- mappa -->
         <div class="row" style="    border: 1px solid #c4cc00;border-radius:15px;padding-top:15px;padding-bottom:15px">
-          <div class="col-md-4" >
-            <div class="row row-eq-height user-list" >
+          <div class="col-md-4">
+            <div class="row row-eq-height user-list">
               <div class="col-12" v-for="item in searchResult" :key="item.Id">
                 <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
                   <stats-card data-background-color="black" @click.native="showInfoWindowById(item.Id)">
@@ -146,18 +146,18 @@
                       <p class="category">{{item.PlayerInfos.Role }} </p>
                       <h3 class="title">{{item.Name}} </h3>
                     </template>
-                    <template slot="footer"  v-if="item.Profile == 1">
+                    <template slot="footer" v-if="item.Profile == 1">
                       <div class="stats">
                         <md-icon>date_range</md-icon>
                         {{ item.Class }}
                       </div>
                     </template>
-                      <template slot="content" v-if="item.Profile == 1">
+                    <template slot="content" v-if="item.Profile == 1">
                         <a v-bind:href="'/#/teamProfile?teamId='+ item.Id" class="total-link"></a>
                         <p class="category">{{ item.TeamInfos.Catogory }} </p>
                         <h3 class="title">{{ item.Name }} </h3>
                       </template>
-                      <template slot="footer" v-if="item.Profile == 1">
+                    <template slot="footer" v-if="item.Profile == 1">
                         <div class="stats">
                           <md-icon>place</md-icon>
                           {{ item.AddressInfos.FullAddress }}
@@ -209,7 +209,7 @@ export default {
       _mapCircle: null,
       _amount: 0,
       _map: null,
-      searchResult:[],
+      searchResult: [],
       radius: 10,
       actualPos: null,
       actualTimer: null,
@@ -310,121 +310,146 @@ export default {
 
 
   },
-    methods: {
-      findUser: function (profile) {
-        serverBus.$emit('showLoading', true);
-        var self = this;
-        let addressInfo = { lat: this.actualPos.lat, lng: this.actualPos.lng, Radius: this.amount * 4 };
-        let playerInfo = null;
-        let teamInfo = null;
-        let agentInfo = null;
-        if (profile == 0) {
-          playerInfo = { Role: this.roleSelected, Category: this.categorySelected, Class: this.classeSelected, Status: this.statusSelected }
+  methods: {
+    findUser: function(profile) {
+      serverBus.$emit('showLoading', true);
+      var self = this;
+      let addressInfo = {
+        lat: this.actualPos.lat,
+        lng: this.actualPos.lng,
+        Radius: this.amount * 4
+      };
+      let playerInfo = null;
+      let teamInfo = null;
+      let agentInfo = null;
+      if (profile == 0) {
+        playerInfo = {
+          Role: this.roleSelected,
+          Category: this.categorySelected,
+          Class: this.classeSelected,
+          Status: this.statusSelected
         }
-        if (profile == 1) {
-          teamInfo = { Category: this.categorySelected }
+      }
+      if (profile == 1) {
+        teamInfo = {
+          Category: this.categorySelected
         }
-        if (profile == 2) {
-          agentInfo = {}
+      }
+      if (profile == 2) {
+        agentInfo = {}
+      }
+      commonService.searchUser(this.$store.state.configurations.serviceBaseUrl, profile, addressInfo, playerInfo, teamInfo, agentInfo).then(res => {
+        function resetMarkersOnMap() {
+          for (let i = 0; i < self.markers.length; i++) {
+            self.markers[i].marker.setMap(null);
+          }
         }
-        commonService.searchUser(this.$store.state.configurations.serviceBaseUrl, profile, addressInfo, playerInfo, teamInfo, agentInfo).then(res => {
-          function resetMarkersOnMap() {
-            for (let i = 0; i < self.markers.length; i++) {
-              self.markers[i].marker.setMap(null);
-            }
+
+        function createInfoWindowForTeam(team) {
+          let contentString = '<div class="card" style="width: 18rem;">' +
+            '<img class="card-img-top" style="max-width: 170px; margin: 0 auto;" src="' + self.$store.state.configurations.imageRootUrl + team.ImageUrl + '" alt="' + team.Name + '">' +
+            '<div class="card-body">' +
+            '<h5 class="card-title">' + team.Name + '</h5>' +
+            '<p class="card-text">' +
+            team.TeamInfos.Catogory +
+            '</p>' +
+            '<div class="card-footer"><a href="/#/teamProfile?teamId=' + team.Id + '" class="btn btn-map"> Visita il Profilo </a></div>' +
+            '</div>' +
+            '</div>';
+          return contentString;
+        }
+
+        function createInfoWindowForPlayer(player) {
+          let contentString = '<div class="card no-border profile-card-5" style="width: 18rem;">' +
+            '<div class="card-img-block"><img class="card-img-top" style="max-width: 150px; margin: 0 auto;" src="' + (player.ImageUrl != null && player.ImageUrl != '' ? self.$store.state.configurations.imageRootUrl + player.ImageUrl :
+              '../../assets/img/defaultFace.jpg') + '" alt="' + player.Name + '"></div>' +
+            '<div class="card-body">' +
+            '<h3 class="card-title">' + player.Name + '</h3>' +
+            '<p class="card-text">' +
+            player.Catogory +
+            '</p>' +
+            '<div class="card-footer"><a href="/#/playerProfile?playerId=' + player.Id + '" class="btn btn-map"> Visita il Profilo </a></div>' +
+            '</div>' +
+            '</div>';
+          return contentString;
+        }
+
+        function createInfoWindowForAgent(agent) {
+          let contentString = '<div class="card" style="width: 18rem;">' +
+            '<img class="card-img-top" style="max-width: 170px; margin: 0 auto;" src="' + self.$store.state.configurations.imageRootUrl + agent.ImageUrl + '" alt="' + agent.Name + '">' +
+            '<div class="card-body">' +
+            '<h5 class="card-title">' + agent.Name + '</h5>' +
+            //'<p class="card-text">' +
+            //team.TeamInfos.Catogory +
+            //'</p>' +
+            '<div class="card-footer"><a href="/#/agentProfile?agentId=' + agent.Id + '" class="btn btn-map"> Visita il Profilo </a></div>' +
+            '</div>' +
+            '</div>';
+          return contentString;
+        }
+        self.searchResult = res.data;
+        resetMarkersOnMap();
+        self.infoWindows = [];
+        res.data.forEach(function(item) {
+          if (item.AddressInfos != null) {
+            let point = {
+              lat: item.AddressInfos.Latitudine,
+              lng: item.AddressInfos.Longitudine
+            };
+            let contentWindowHtml = '';
+            if (profile == 0) contentWindowHtml = createInfoWindowForPlayer(item);
+            if (profile == 1) contentWindowHtml = createInfoWindowForTeam(item);
+            if (profile == 2) contentWindowHtml = createInfoWindowForAgent(item);
+            let infowindow = new google.maps.InfoWindow({
+              content: contentWindowHtml
+            });
+            let markerMap = new google.maps.Marker({
+              position: point,
+              map: self.map,
+              animation: google.maps.Animation.DROP,
+              title: item.Name
+            });
+            google.maps.event.addListener(markerMap, 'click', function() {
+              for (var i = 0; i < self.infoWindows.length; i++) self.infoWindows[i].info.close()
+              infowindow.open(map, markerMap);
+            });
+            google.maps.event.addListener(map, 'click', function() {
+              infowindow.close();
+            });
+            markerMap.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
+            self.markers.push({
+              marker: markerMap,
+              id: item.Id
+            });
+            self.infoWindows.push({
+              info: infowindow,
+              id: item.Id
+            })
           }
-          function createInfoWindowForTeam(team) {
-            let contentString = '<div class="card" style="width: 18rem;">' +
-              '<img class="card-img-top" style="max-width: 170px; margin: 0 auto;" src="' + self.$store.state.configurations.imageRootUrl + team.ImageUrl + '" alt="' + team.Name + '">' +
-              '<div class="card-body">' +
-              '<h5 class="card-title">' + team.Name + '</h5>' +
-              '<p class="card-text">' +
-              team.TeamInfos.Catogory +
-              '</p>' +
-              '<div class="card-footer"><a href="/#/teamProfile?teamId=' + team.Id + '" class="btn btn-map"> Visita il Profilo </a></div>' +
-              '</div>' +
-              '</div>';
-            return contentString;
-          }
-          function createInfoWindowForPlayer(player) {
-              let contentString = '<div class="card no-border profile-card-5" style="width: 18rem;">' +
-                '<div class="card-img-block"><img class="card-img-top" style="max-width: 150px; margin: 0 auto;" src="' + (player.ImageUrl != null && player.ImageUrl != '' ? self.$store.state.configurations.imageRootUrl + player.ImageUrl :
-                  '../../assets/img/defaultFace.jpg') + '" alt="' + player.Name + '"></div>' +
-                '<div class="card-body">' +
-                '<h3 class="card-title">' + player.Name + '</h3>' +
-                '<p class="card-text">' +
-                player.Catogory +
-                '</p>' +
-                '<div class="card-footer"><a href="/#/playerProfile?playerId=' + player.Id + '" class="btn btn-map"> Visita il Profilo </a></div>' +
-                '</div>' +
-                '</div>';
-            return contentString;
-          }
-          function createInfoWindowForAgent(agent) {
-            let contentString = '<div class="card" style="width: 18rem;">' +
-              '<img class="card-img-top" style="max-width: 170px; margin: 0 auto;" src="' + self.$store.state.configurations.imageRootUrl + agent.ImageUrl + '" alt="' + agent.Name + '">' +
-              '<div class="card-body">' +
-              '<h5 class="card-title">' + agent.Name + '</h5>' +
-              //'<p class="card-text">' +
-              //team.TeamInfos.Catogory +
-              //'</p>' +
-              '<div class="card-footer"><a href="/#/agentProfile?agentId=' + agent.Id + '" class="btn btn-map"> Visita il Profilo </a></div>' +
-              '</div>' +
-              '</div>';
-            return contentString;
-          }
-          self.searchResult = res.data;
-          resetMarkersOnMap();
-          self.infoWindows = [];
-          res.data.forEach(function (item) {
-            if (item.AddressInfos != null) {
-              let point = { lat: item.AddressInfos.Latitudine, lng: item.AddressInfos.Longitudine };
-              let contentWindowHtml = '';
-              if (profile == 0) contentWindowHtml = createInfoWindowForPlayer(item);
-              if (profile == 1) contentWindowHtml = createInfoWindowForTeam(item);
-              if (profile == 2) contentWindowHtml = createInfoWindowForAgent(item);
-              let infowindow = new google.maps.InfoWindow({ content: contentWindowHtml });
-              let markerMap = new google.maps.Marker({
-                position: point,
-                map: self.map,
-                animation: google.maps.Animation.DROP,
-                title: item.Name
-              });
-              google.maps.event.addListener(markerMap, 'click', function () {
-                for (var i = 0; i < self.infoWindows.length; i++) self.infoWindows[i].info.close()
-                infowindow.open(map, markerMap);
-              });
-              google.maps.event.addListener(map, 'click', function () {
-                infowindow.close();
-              });
-              markerMap.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
-              self.markers.push({
-                marker: markerMap,
-                id: item.Id
-              });
-              self.infoWindows.push({
-                info: infowindow,
-                id: item.Id
-              })
-            }
-          })
-          serverBus.$emit('showLoading', false);
         })
-      },
-      showProfile: function (item) {
-        if (item.profile == 0) this.$router.push('playerProfile?playerId=' + item.id)
-        if (item.profile == 1) this.$router.push('teamProfile?teamId=' + item.id)
-      },
-      findPlayers: function () {
-        this.findUser(0);
-      },
-      findTeams: function () {
-        this.findUser(1);},
-      findAgents: function () {
-        this.findUser(2);},
+        serverBus.$emit('showLoading', false);
+      })
+    },
+    showProfile: function(item) {
+      if (item.profile == 0) this.$router.push('playerProfile?playerId=' + item.id)
+      if (item.profile == 1) this.$router.push('teamProfile?teamId=' + item.id)
+    },
+    findPlayers: function() {
+      this.findUser(0);
+    },
+    findTeams: function() {
+      this.findUser(1);
+    },
+    findAgents: function() {
+      this.findUser(2);
+    },
     showInfoWindowById: function(Id) {
-      var markerToOpen = this.markers.filter(function(x) {return x.id == Id })[0];
-      var infoWindowToOpen = this.infoWindows.filter(function(x) {return x.id == Id })[0];
+      var markerToOpen = this.markers.filter(function(x) {
+        return x.id == Id
+      })[0];
+      var infoWindowToOpen = this.infoWindows.filter(function(x) {
+        return x.id == Id
+      })[0];
       for (var i = 0; i < this.infoWindows.length; i++) this.infoWindows[i].info.close()
       infoWindowToOpen.info.open(this.map, markerToOpen.marker);
     },
@@ -436,7 +461,7 @@ export default {
       if (this.amount > 0)
         this.amount = this.amount - 5;
     },
-    setCorrectAddress: function (value) {
+    setCorrectAddress: function(value) {
       let newPos = {
         lat: value.geometry.location.lat(),
         lng: value.geometry.location.lng()

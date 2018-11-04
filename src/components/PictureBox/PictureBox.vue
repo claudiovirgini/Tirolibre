@@ -3,9 +3,10 @@
   <!--<button v-if="true" @click="test()">test</button>-->
   <div v-if="editMode != true">
 
-    <img :src="fullPath" style="max-width:220px;height:auto;" class="img-thumbnail" v-bind:class="{ 'imgDefaultPlayer': isDefaultPlayer,'imgDefaultTeam':isDefaulTeam,'imgDefaultAgent':isDefaultAgent,'imgDefaultCardPlayer':isDefaulCardPlayer  }" @error="imageLoadError"  />
+    <img :src="fullPath" style="max-width:220px;height:auto;" class="img-thumbnail" v-bind:class="{ 'imgDefaultPlayer': isDefaultPlayer,'imgDefaultTeam':isDefaulTeam,'imgDefaultAgent':isDefaultAgent,'imgDefaultCardPlayer':isDefaulCardPlayer  }" @error="imageLoadError"
+    />
     <md-button @click="editMode=true;" v-if="isEditable=='true'" class="md-success btn btn-success btn-lg btn-block btn-radius">
-      Carica Foto   <br />
+      Carica Foto <br />
       <span class="text-muted">(in azione di gioco)</span>
       <i class="md-icon md-icon-font material-icons md-theme-default">arrow_forward_ios</i>
     </md-button>
@@ -161,6 +162,7 @@ export default {
 }
 
 .imgDefaultPlayer {
+  max-width: 100% !important;
   content: url("../../assets/img/defaultFace.png");
   content: url("../../assets/img/defaultFace.jpg");
 }

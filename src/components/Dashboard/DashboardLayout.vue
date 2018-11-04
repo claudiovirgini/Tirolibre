@@ -39,7 +39,7 @@
     </sidebar-link>
     <sidebar-link to="/upgrade">
       <md-icon>swap_vert</md-icon>
-      <p>Passa a Premium</p>
+      <p>Procura Sportiva</p>
     </sidebar-link>
     <!-- <sidebar-link to="/notifications">
     <md-icon>notifications</md-icon>
