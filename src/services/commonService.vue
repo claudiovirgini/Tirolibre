@@ -59,7 +59,24 @@ export default {
       //{ Value: "Scuola calcio", imgPath: "", isSelected: false },
     ];
     return listaCategorieCerca;
+    },
+  getRoleList: function () {
+    let roleRilst = [];
+    roleRilst.push({ text: 'Tutti i ruoli', value: -1 });
+    roleRilst.push({ text: 'Portiere', value: 1 });
+    roleRilst.push({ text: 'Centrale Destro', value: 2 });
+    roleRilst.push({ text: 'Centrale Sinistro', value: 3 });
+    roleRilst.push({ text: 'Terzino Destro', value: 4 });
+    roleRilst.push({ text: 'Terzino Sinistro', value: 5 });
+    roleRilst.push({ text: 'Ala Destra', value: 6 });
+    roleRilst.push({ text: 'Ala Sinistra', value: 7 });
+    roleRilst.push({ text: 'Mediano', value: 8 });
+    roleRilst.push({ text: 'Centrocampista', value: 9 });
+    roleRilst.push({ text: 'Seconda Punta', value: 10 });
+    roleRilst.push({ text: 'Prima Punta', value: 11 });
+    return roleRilst;
   },
+
   searchUser(rootApiUrl, profile, addressInfo, playerInfo, teamInfo, agentInfo) {
     const findUserUrl = '/api/Player/FindUserNew';
     //addressInfo = { double? lat,double? lng,int? Radius}
@@ -174,7 +191,7 @@ export default {
       ctx.lineWidth = 6.5;
       ctx.textAlign = "center";
       ctx.globalAlpha = 1;
-      for (var i = 0; i < role.length; i++) {
+      for (var i = 0; i < 1; i++) {
         if (role[i].RoleName == 'Portiere') {
           writeRole(role[i].RoleName, "#00a2e8");
           ctx.globalAlpha = 0.7;

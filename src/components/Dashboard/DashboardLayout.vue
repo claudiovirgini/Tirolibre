@@ -37,7 +37,7 @@
       <md-icon>supervised_user_circle</md-icon>
       <p>Portfolio</p>
     </sidebar-link>
-    <sidebar-link to="/upgrade">
+    <sidebar-link to="/upgrade" v-if="isPlayerProfile">
       <md-icon>swap_vert</md-icon>
       <p>Procura Sportiva</p>
     </sidebar-link>

@@ -39,7 +39,7 @@
                   <md-field>
                     <label for="ruolo">Ruolo</label>
                     <md-select v-model="roleSelected" id="ruolo">
-                      <md-option v-for="role in roleList" v-bind:value="role.value">
+                      <md-option v-for="role in roleList" :value="role.value">
                         {{ role.text }}
                       </md-option>
                     </md-select>
@@ -224,7 +224,7 @@ export default {
       profileList: [],
       items: [],
       placeSelected: null,
-      _roleSelected: null,
+      roleSelected: null,
       classeSelected: null,
       categorySelected: null,
       statusSelected: null,
@@ -285,14 +285,14 @@ export default {
         this._map = value;
       }
     },
-    roleSelected: {
-      get() {
-        return this._roleSelected;
-      },
-      set(value) {
-        this._roleSelected = value;
-      }
-    },
+    //roleSelected: {
+    //  get() {
+    //    return this._roleSelected;
+    //  },
+    //  set(value) {
+    //    this._roleSelected = value;
+    //  }
+    //},
     selectedAddressString: {
       get() {
         if (this.placeSelected != null) return this.placeSelected.formatted_address;
@@ -311,7 +311,8 @@ export default {
 
   },
   methods: {
-    findUser: function(profile) {
+    findUser: function (profile) {
+      //alert(this.categorySelected)
       serverBus.$emit('showLoading', true);
       var self = this;
       let addressInfo = {
@@ -513,14 +514,19 @@ export default {
   },
 
   created() {
-    if (this.place != null) this.placeSelected = this.place;
+    if (this.place != null) {
+      this.placeSelected = this.place;
+      //this.actualPos = {
+      //  lat: this.placeSelected.geometry.location.lat(),
+      //  lng: this.placeSelected.geometry.location.lng()
+      //};
+    }
     var self = this;
     this.$store.dispatch('getCategories', {}).then(res => {
       self.categoryList = res
     })
-    this.$store.dispatch('getRoleList', {}).then(res => {
-      this.roleList = res
-    })
+    this.roleList = commonService.getRoleList();
+
     this.$store.dispatch('getStatus', {}).then(res => {
       this.statusList = res;
     })

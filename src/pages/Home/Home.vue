@@ -104,45 +104,15 @@ export default {
       filter: true,
       isValidAddress: null,
       hasErrorWhere: false,
-      hasErrorWhat: false,
-      _placeSelected: null,
+      hasErrorWhat  : false,
+      placeSelected : null,
+      newPos        : null,
       slides: 3
     }
   },
   computed: {
-    placeSelected: {
-      get() {
-        return this._placeSelected;
-      },
-      set(value) {
-        this._placeSelected = value;
-      }
-    },
-    //who: {
-    //  get() {
-    //    return this.$store.state.who;
-    //  },
-    //  set(value) {
-    //    this.$store.commit("SET_WHO", value);
-    //  }
-    //},
-    //what: {
-    //  get() {
-    //    return this.$store.state.what;
-    //  },
-    //  set(value) {
 
-    //    this.$store.commit("SET_WHAT", value);
-    //  }
-    //},
-    //where: {
-    //  get() {
-    //    return this.$store.state.where;
-    //  },
-    //  set(value) {
-    //    this.$store.commit("SET_WHERE", value);
-    //  }
-    //},
+
   },
   mounted() {
     //this.$refs.address.focus();
@@ -154,8 +124,7 @@ export default {
     setCorrectAddress: function(place) {
       this.isValidAddress = true;
       this.hasErrorWhere = false;
-      this._placeSelected = place
-      //alert('New Place : ' + place.formatted_address)
+      this.placeSelected = place
     },
     setInvalidAddress: function() {
       this.isValidAddress = false;
@@ -172,6 +141,10 @@ export default {
       } else {
         this.error = null
         this.filter = false
+        //this.newPos = {
+        //  lat: value.geometry.location.lat(),
+        //  lng: value.geometry.location.lng()
+        //};
         this.cardResult = true
       }
 

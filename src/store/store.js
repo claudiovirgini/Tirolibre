@@ -17,12 +17,12 @@ export const store = new Vuex.Store({
     where: '',
     playerSelected: '',
     configurations: {
-      //serviceBaseUrl: 'https://tirolibre.it/WebApi/',
-      //imageRootUrl:   'https://cdn.tirolibre.it/',
+      serviceBaseUrl: 'https://tirolibre.it/WebApi/',
+      imageRootUrl:   'http://cdn.tirolibre.it/',
 
 
-      serviceBaseUrl: 'http://test.tirolibre.it/WebApi/',
-      imageRootUrl:   'http://test.cdn.tirolibre.it/',
+      //serviceBaseUrl: 'http://test.tirolibre.it/WebApi/',
+      //imageRootUrl:   'http://test.cdn.tirolibre.it/',
 
       //serviceBaseUrl: 'http://localhost/TirolibreWebApi/',
       //imageRootUrl: 'http://localhost/CDN/',
@@ -120,10 +120,7 @@ export const store = new Vuex.Store({
       let statusLlst = [];
       statusLlst.push({ text: 'Tutto', value: -1 });
       statusLlst.push({ text: 'Svincolato', value: 0 });
-      statusLlst.push({ text: 'Contratto a 1 anno', value: 1 });
-      statusLlst.push({ text: 'Contratto a 2 anni', value: 2 });
-      statusLlst.push({ text: 'Contratto a 3 anni', value: 3 });
-      statusLlst.push({ text: 'Contratto a 4 anni', value: 4 });
+      statusLlst.push({ text: 'Vincolato', value: 1 });
       return statusLlst;
     },
     getCategories: function() {
