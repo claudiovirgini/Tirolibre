@@ -15,15 +15,14 @@
         <div class="col-12 col-sm-4">
           <div class="border">
             <span>2</span>
-            <p>Prenderemo in carico il tuo profilo. Entreremo in contatto con te, ti chiederemo informazioni sulla carriera fatta sin qui e le aspettative future, dettagli tecnici e caratteristiche personali. Il tutto servirà per preparare il tuo profilo
-              da presentare ai club.</p>
+            <p>Presentarsi bene ad un club è fondamentale. Dopo aver identificato il tuo profilo e le tue esigenze/preferenze, procederemo con una presentazione personalizzata del tuo profilo ai club e ai contatti della nostra rete.</p>
           </div>
         </div>
         <div class="col-12 col-sm-4">
           <div class="border">
             <span>3</span>
-            <p>Prenderemo in carico il tuo profilo. Entreremo in contatto con te, ti chiederemo informazioni sulla carriera fatta sin qui e le aspettative future, dettagli tecnici e caratteristiche personali. Il tutto servirà per preparare il tuo profilo
-              da presentare ai club.</p>
+            <p>Analizzeremo gli interessi dei club a cui è stato presentato il tuo profilo, li discuteremo assieme e decideremo con te quali prove effettuare o quali trattative intraprendere. L'eventuale successo della trattativa non comporterà alcun costo
+              per il calciatore, e di conseguenza nessuna commissione verrà corrisposta a TiroLibre</p>
           </div>
         </div>
       </div>
