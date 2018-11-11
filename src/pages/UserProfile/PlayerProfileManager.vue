@@ -85,7 +85,7 @@
             <!--<div class="md-layout-item md-small-size-10 md-size-10" style="padding-top:20px;padding-left:20px">
   </div>-->
             <div class="md-layout-item md-small-size-65 md-size-65" style="padding-top:18px;padding-left:18px;text-align:right">
-              <map-autocomplete input-component-name="gmapsdsf2" place-holder="Località attuale" startactualpos="true" :initial-address="city" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress" style="border-bottom:1px solid lightgrey"></map-autocomplete>
+              <map-autocomplete input-component-name="gmapsdsf2" place-holder="Località attuale" startactualpos="false" :initial-address="city" v-on:setCorrectAddress="setCorrectAddress" v-on:setInvalidAddress="setInvalidAddress" style="border-bottom:1px solid lightgrey"></map-autocomplete>
 
             </div>
             <div class="md-layout-item md-small-size-100 md-size-50">
@@ -103,15 +103,15 @@
             <div class="md-layout-item md-small-size-100 md-size-50">
               <md-field>
                 <label>Ultimo campionato disputato (es: nome squadra - livello)</label>
-                <md-input v-model="experience1" type="text"></md-input>
+                <md-input v-model="experience1" maxlength="26" type="text"></md-input>
               </md-field>
               <md-field>
                 <label>Penultimo campionato disputato (es: nome squadra - livello)</label>
-                <md-input v-model="experience2" type="text"></md-input>
+                <md-input v-model="experience2"  maxlength="26" type="text"></md-input>
               </md-field>
               <md-field>
                 <label>Terzultimo campionato disputato (es: nome squadra - livello)</label>
-                <md-input v-model="experience3" type="text"></md-input>
+                <md-input v-model="experience3"  maxlength="26" type="text"></md-input>
               </md-field>
 
             </div>
@@ -371,7 +371,7 @@ export default {
     },
     categorySearch1: {
       get() {
-        return (this.playerdata != null) && (this.playerdata.Divisions != null) && (this.playerdata.Divisions.length > 0) ? this.playerdata.Divisions[0].Name : '';
+        return (this.playerdata != null) && (this.playerdata.Divisions != null) && (this.playerdata.Divisions.length > 0) ? this.playerdata.Divisions[0].Name : this.playerdata.LastCategory
       },
       set(value) {
         if ((this.playerdata.Divisions != null) && (this.playerdata.Divisions.length > 0)) this.playerdata.Divisions[0].Name = value;
@@ -405,9 +405,7 @@ export default {
       set(value) {
         if (this.playerdata.BornDate != null) {
           this.playerdata.BornDate = new Date('01/06/' + value);
-        } else {
-          this.playerdata.BornDate = new Date('01/01/2000');
-        }
+        } 
       }
     },
     roleSelected: {
@@ -554,6 +552,11 @@ export default {
       //this.$store.dispatch('getPlayerProfile', ).then(res => {
       this.playerdata = res.data;
       this.createCard();
+     
+      if ((self.playerdata.Divisions != null) && (self.playerdata.Divisions.length == 0)) self.playerdata.Divisions.push({
+        Id: 0,
+        Name: 'Eccellenza'
+      });
       this.profileLoaded = true;
       serverBus.$emit('showLoading', false);
     }).catch(error => {
