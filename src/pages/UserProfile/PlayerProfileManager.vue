@@ -270,16 +270,24 @@ export default {
         return this.playerdata != null && this.playerdata.Roles != null && this.playerdata.Roles.length > 0 ? this.playerdata.Roles[0].RoleName : '';
       }
     },
-    yearClass: {
-      get() {
-        var returned = 'not available'
-        if (this.playerdata != null && this.playerdata.BornDate) {
-          var temp = new Date(this.playerdata.BornDate);
-          returned = temp.getFullYear()
-        }
-        return returned;
-      }
-    },
+    //yearClass: {
+    //  get() {
+    //    var returned = 'not available'
+    //    if (this.playerdata != null && this.playerdata.BornDate) {
+    //      var temp = new Date(this.playerdata.BornDate);
+    //      returned = temp.getFullYear()
+    //    }
+    //    return returned;
+    //  },
+    //  set(value) {
+    //    alert('mike')
+    //    if (this.playerdata != null) {
+    //      var myDate = new Date(value, 1, 1, 0, 0, 0);
+    //      this.playerdata.BornDate = myDate;
+    //      alert('Data : '+this.playerdata.BornDate)
+    //    }
+    //  }
+    //},
     profile: {
       get() {
         return (this.playerdata != null) ? this.playerdata.Profile : '';
@@ -403,7 +411,8 @@ export default {
         return returned;
       },
       set(value) {
-        if (this.playerdata.BornDate != null) {
+      
+        if (this.playerdata != null) {
           this.playerdata.BornDate = new Date('01/06/' + value);
         } 
       }
@@ -529,6 +538,7 @@ export default {
     this.showAddressComponent = false;
 
     this.$store.dispatch('getStatus', {}).then(res => {
+      res[0].text = '';
       self.statusList = res;
 
     });
@@ -537,6 +547,7 @@ export default {
       self.roleList = res1;
     })
     self.$store.dispatch('getClassList', {}).then(res2 => {
+      res2.splice(0, 1);
       self.classList = res2;
     })
     this.categoryList = commonService.getListaCategorie();
@@ -553,10 +564,10 @@ export default {
       this.playerdata = res.data;
       this.createCard();
      
-      if ((self.playerdata.Divisions != null) && (self.playerdata.Divisions.length == 0)) self.playerdata.Divisions.push({
-        Id: 0,
-        Name: 'Eccellenza'
-      });
+      //if ((self.playerdata.Divisions != null) && (self.playerdata.Divisions.length == 0)) self.playerdata.Divisions.push({
+      //  Id: 0,
+      //  Name: 'Eccellenza'
+      //});
       this.profileLoaded = true;
       serverBus.$emit('showLoading', false);
     }).catch(error => {

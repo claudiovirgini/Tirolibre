@@ -116,8 +116,8 @@ import axios from 'axios'
       }
 
       function writeExperiences(ctx, player, startXOffset, startYOffset, yOffset) {
-        ctx.font = "26px " + fontName;
 
+        ctx.font = "26px " + fontName;
         startYOffset = startYOffset + 25
         ctx.strokeStyle = "#2fb903";
         ctx.lineWidth = 4.5;
@@ -157,15 +157,15 @@ import axios from 'axios'
         ctx.shadowOffsetY = 5;
         ctx.shadowBlur = 7;
         ctx.fillStyle = "white";
-        ctx.fillText('CLASSE : ' + (new Date(player.BornDate)).getFullYear(), startWidth, startHeigth);
-        ctx.fillText('PESO : ' + player.Weigth + ' KG', startWidth, startHeigth + yOffset);
-        ctx.fillText('ALTEZZA : ' + player.Heigth + ' cm', startWidth, startHeigth + (2 * yOffset));
-        ctx.fillText('STATUS : ' + player.ActualStatus, startWidth, startHeigth + (3 * yOffset));
-        ctx.fillText('STATUS : ' + player.ActualStatus, startWidth, startHeigth + (3 * yOffset));
+        if (player.BornDate != null)  ctx.fillText('CLASSE : ' + (new Date(player.BornDate)).getFullYear(), startWidth, startHeigth) ;
+        if (player.Weigth > 0) ctx.fillText('PESO : ' + player.Weigth + ' KG', startWidth, startHeigth + yOffset);
+        if (player.Heigth > 0) ctx.fillText('ALTEZZA : ' + player.Heigth + ' cm', startWidth, startHeigth + (2 * yOffset));
+        if (player.ActualStatus != null && player.ActualStatus != '') ctx.fillText('STATUS : ' + player.ActualStatus, startWidth, startHeigth + (3 * yOffset));
 
         //if (player.ResearchPlaces[0]) ctx.fillText('AREA DI RICERCA : ' + player.ResearchPlaces[0].Value, startWidth, startHeigth + (4 * yOffset));
 
-        ctx.fillText('ESPERIENZE:', startWidth, startHeigth + (5 * yOffset + 15));
+        if ((player.Experiences[0]) || (player.Experiences[1]) || (player.Experiences[2]))
+          ctx.fillText('ESPERIENZE:', startWidth, startHeigth + (5 * yOffset + 15));
         writeExperiences(ctx, player, startWidth, startHeigth + (5 * yOffset + 30) + 10, yOffset);
         ctx.textAlign = "center";
         //ctx.fillText('CERCA IN : ', 420, 400);
