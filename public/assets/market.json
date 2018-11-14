@@ -1,0 +1,26 @@
+[
+  {
+    "userId": 1,
+    "id": 1,
+    "name": "Alessio Gagliardi",
+    "role": "Centrocampista",
+    "tel": "xxx-xxxxxxx",
+    "img": "https://scontent.ffco3-1.fna.fbcdn.net/v/t1.0-9/45874231_559746111117300_3002994313924706304_n.jpg?_nc_cat=109&_nc_ht=scontent.ffco3-1.fna&oh=7d724204611a1eeac0eb9f976b75d3c3&oe=5C400366"
+  },
+  {
+    "userId": 1,
+    "id": 2,
+    "name": "Giuosuè Addonisio",
+    "role": "Centrale Destro",
+    "tel": "xxx-xxxxxxx",
+    "img": "https://scontent.ffco3-1.fna.fbcdn.net/v/t1.0-9/45795645_559746117783966_2467984308174848000_n.jpg?_nc_cat=107&_nc_ht=scontent.ffco3-1.fna&oh=8f095344f8d84a53b926086d7acf2392&oe=5C88E7A5"
+  },
+  {
+    "userId": 1,
+    "id": 3,
+    "name": "Stefano Miozzi",
+    "role": "Centrale Sinistro",
+    "tel": "xxx-xxxxxxx",
+    "img": "https://scontent.ffco3-1.fna.fbcdn.net/v/t1.0-9/45857242_559746114450633_5287294252512968704_n.jpg?_nc_cat=108&_nc_ht=scontent.ffco3-1.fna&oh=191b6cd1e1e24b2388c19b6ab517f823&oe=5C70B28D"
+  }
+]
